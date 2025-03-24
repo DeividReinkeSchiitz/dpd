@@ -27,6 +27,8 @@
 #include "parameters_dpd.h"
 #include "probdata_dpd.h"
 
+//teste
+
 //#define DEBUG_ROUNDING 1
 /* configuracao da heuristica */
 #define HEUR_NAME "myrounding"
