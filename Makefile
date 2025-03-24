@@ -26,6 +26,9 @@ bin/heur_problem.o: src/heur_problem.c src/heur_problem.h
 
 .PHONY: clean
 
+format:
+	clang-format -i src/*.c src/*.h
+
 clean:
 	rm -f bin/*.o bin/dpd
 
