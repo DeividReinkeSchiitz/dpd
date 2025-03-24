@@ -1,0 +1,334 @@
+100;20;4;
+codigo;semestre;numero;nome;curso;CH;area
+1;1;T1;Introdução à Computação;CC;68;0001
+2;2;T1;Introdução à Computação;CC;68;0001
+3;1;T1;Estruturas de Dados;CC+ES;68;0001
+4;2;T1;Estruturas de Dados;CC+ES;68;0001
+5;1;T1;Algoritmos e Programação I;CC;102;0001
+6;2;T1;Algoritmos e Programação I;CC;102;0001
+7;1;T1;Banco de Dados;SI+ES;68;0001
+8;2;T1;Banco de Dados;SI+ES;68;0001
+9;1;T1;Redes de Computadores;CC+ES;68;0010
+10;2;T1;Redes de Computadores;CC+ES;68;0010
+11;2;T1;Sistemas Operacionais;CC+EC;68;0100
+12;1;T1;Sistemas Operacionais;CC+EC;68;0100
+13;2;T1;Inteligência Artificial;CC+SI;68;0100
+14;1;T1;Inteligência Artificial;CC+SI;68;0100
+15;2;T1;Engenharia de Software;CC+ES;102;1000
+16;1;T1;Engenharia de Software;CC+ES;102;1000
+17;2;T1;Computação Gráfica;CC+EC;68;0100
+18;1;T1;Computação Gráfica;CC+EC;68;0100
+19;2;T1;Compiladores;CC;68;0100
+20;1;T1;Compiladores;CC;68;0100
+21;1;T1;Teoria da Computação;CC+ES;68;0010
+22;2;T1;Teoria da Computação;CC+ES;68;0010
+23;1;T1;Sistemas Distribuídos;SI;102;0100
+24;2;T1;Sistemas Distribuídos;SI;102;0100
+25;1;T1;Desenvolvimento Web;CC+EC;68;1000
+26;2;T1;Desenvolvimento Web;CC+EC;68;1000
+27;2;T1;Interação Humano-Computador;CC+ES;68;0010
+28;1;T1;Interação Humano-Computador;CC+ES;68;0010
+29;2;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+30;1;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+31;1;T1;Redes Avançadas;CC+ES;68;0001
+32;2;T1;Redes Avançadas;CC+ES;68;0001
+33;1;T1;Segurança de Sistemas;SI;102;0100
+34;2;T1;Segurança de Sistemas;SI;102;0100
+35;1;T1;Computação em Nuvem;CC+ES;68;1000
+36;2;T1;Computação em Nuvem;CC+ES;68;1000
+37;1;T1;Empreendedorismo em TI;CC+EC;68;1000
+38;2;T1;Empreendedorismo em TI;CC+EC;68;1000
+39;1;T1;Bioinformática;CC+ES;68;0010
+40;2;T1;Bioinformática;CC+ES;68;0010
+41;1;T1;Computação em Nuvem;CC+ES;68;1000
+42;1;T2;Computação em Nuvem;CC+ES;68;1000
+43;1;T1;Inteligência Artificial;CC+SI;68;0100
+44;1;T1;Engenharia de Software;CC+ES;102;1000
+45;1;T1;Segurança de Sistemas;SI;102;0100
+46;1;T1;Interação Humano-Computador;CC+ES;68;0010
+47;1;T2;Interação Humano-Computador;CC+ES;68;0010
+48;1;T1;Computação Gráfica;CC+EC;68;0100
+49;1;T1;Desenvolvimento Web;CC+EC;68;1000
+50;1;T2;Inteligência Artificial;CC+SI;68;0100
+51;1;T3;Computação em Nuvem;CC+ES;68;1000
+52;1;T1;Bioinformática;CC+ES;68;0010
+53;1;T3;Interação Humano-Computador;CC+ES;68;0010
+54;1;T1;Banco de Dados;SI+ES;68;0001
+55;1;T2;Engenharia de Software;CC+ES;102;1000
+56;1;T1;Sistemas Distribuídos;SI;102;0100
+57;1;T1;Redes Avançadas;CC+ES;68;0001
+58;1;T1;Compiladores;CC;68;0100
+59;1;T1;Redes de Computadores;CC+ES;68;0010
+60;1;T3;Engenharia de Software;CC+ES;102;1000
+61;2;T1;Sistemas Operacionais;CC+EC;68;0100
+62;2;T2;Segurança de Sistemas;SI;102;0100
+63;2;T1;Algoritmos e Programação I;CC;102;0001
+64;2;T3;Inteligência Artificial;CC+SI;68;0100
+65;2;T4;Interação Humano-Computador;CC+ES;68;0010
+66;2;T5;Interação Humano-Computador;CC+ES;68;0010
+67;2;T2;Sistemas Operacionais;CC+EC;68;0100
+68;2;T1;Empreendedorismo em TI;CC+EC;68;1000
+69;2;T4;Computação em Nuvem;CC+ES;68;1000
+70;2;T1;Teoria da Computação;CC+ES;68;0010
+71;2;T2;Computação Gráfica;CC+EC;68;0100
+72;2;T1;Estruturas de Dados;CC+ES;68;0001
+73;2;T2;Compiladores;CC;68;0100
+74;2;T5;Computação em Nuvem;CC+ES;68;1000
+75;2;T3;Segurança de Sistemas;SI;102;0100
+76;2;T3;Sistemas Operacionais;CC+EC;68;0100
+77;2;T4;Engenharia de Software;CC+ES;102;1000
+78;2;T2;Sistemas Distribuídos;SI;102;0100
+79;2;T5;Engenharia de Software;CC+ES;102;1000
+80;2;T2;Bioinformática;CC+ES;68;0010
+81;1;T2;Desenvolvimento Web;CC+EC;68;1000
+82;2;T4;Segurança de Sistemas;SI;102;0100
+83;2;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+84;1;T2;Inteligência Artificial Avançada;CC+ES;102;1000
+85;1;T3;Computação Gráfica;CC+EC;68;0100
+86;2;T2;Algoritmos e Programação I;CC;102;0001
+87;2;T4;Inteligência Artificial;CC+SI;68;0100
+88;1;T4;Sistemas Operacionais;CC+EC;68;0100
+89;2;T5;Sistemas Operacionais;CC+EC;68;0100
+90;1;T3;Inteligência Artificial Avançada;CC+ES;102;1000
+91;2;T3;Desenvolvimento Web;CC+EC;68;1000
+92;1;T2;Redes Avançadas;CC+ES;68;0001
+93;2;T3;Bioinformática;CC+ES;68;0010
+94;2;T1;Introdução à Computação;CC;68;0001
+95;2;T4;Desenvolvimento Web;CC+EC;68;1000
+96;1;T6;Interação Humano-Computador;CC+ES;68;0010
+97;2;T2;Empreendedorismo em TI;CC+EC;68;1000
+98;1;T5;Desenvolvimento Web;CC+EC;68;1000
+99;2;T2;Estruturas de Dados;CC+ES;68;0001
+100;1;T2;Banco de Dados;SI+ES;68;0001
+
+nome;CHmin1;CHmax1;CHmin2;CHmax2;preferencias;areas
+Antonio Silva;80;260;70;250;11;0011;
+5;4;
+25;2;
+30;7;
+39;5;
+41;5;
+42;8;
+69;1;
+77;6;
+95;8;
+99;10;
+100;1;
+Maria Oliveira;50;230;40;220;12;0101;
+6;6;
+15;7;
+41;1;
+49;7;
+50;1;
+61;7;
+62;10;
+69;9;
+85;4;
+88;3;
+98;2;
+100;10;
+Carlos Ferreira;50;210;45;200;9;1100;
+12;10;
+27;2;
+33;10;
+37;1;
+52;9;
+84;4;
+88;8;
+89;2;
+97;7;
+Laura Mendes;80;250;75;240;14;1001;
+1;1;
+7;5;
+39;4;
+41;7;
+42;1;
+45;6;
+49;7;
+50;10;
+64;1;
+65;10;
+66;3;
+82;9;
+94;2;
+97;7;
+André Santos;50;220;60;210;9;0010;
+22;6;
+29;7;
+38;6;
+69;6;
+70;7;
+83;4;
+93;7;
+95;5;
+98;3;
+Ana Rodrigues;50;270;55;260;12;0111;
+3;7;
+5;8;
+23;4;
+27;3;
+29;9;
+46;3;
+48;2;
+50;5;
+52;3;
+78;2;
+84;4;
+99;4;
+Pedro Almeida;50;290;65;280;14;1011;
+4;3;
+5;9;
+6;5;
+14;7;
+15;9;
+16;3;
+18;6;
+29;9;
+49;10;
+50;6;
+66;3;
+68;6;
+85;4;
+91;4;
+Fernanda Pereira;50;240;45;230;10;0101;
+2;1;
+37;8;
+48;1;
+63;10;
+69;1;
+73;5;
+76;6;
+79;10;
+81;4;
+89;3;
+Ricardo Gomes;50;310;60;300;13;1010;
+12;8;
+22;3;
+29;9;
+50;3;
+59;7;
+61;3;
+73;4;
+74;9;
+82;3;
+84;10;
+85;10;
+89;3;
+90;8;
+Carla Lima;50;450;40;440;14;0100;
+19;2;
+23;2;
+38;10;
+41;8;
+44;8;
+64;8;
+69;6;
+75;2;
+76;1;
+81;5;
+82;5;
+85;4;
+89;9;
+91;6;
+João Silva;80;260;70;250;9;0011;
+8;8;
+21;5;
+29;5;
+40;5;
+66;1;
+72;6;
+94;10;
+96;7;
+97;1;
+Mariana Oliveira;50;230;40;220;7;0101;
+17;1;
+44;10;
+48;8;
+87;2;
+90;4;
+91;9;
+98;9;
+Carlos Souza;50;210;45;200;8;1100;
+15;1;
+20;9;
+47;4;
+51;4;
+67;2;
+76;8;
+84;6;
+95;6;
+Luiza Mendes;80;250;75;240;11;1001;
+1;1;
+4;7;
+29;3;
+32;10;
+34;3;
+35;7;
+43;6;
+66;2;
+73;2;
+79;3;
+83;3;
+André Lima;50;220;60;210;5;0010;
+21;5;
+46;9;
+47;5;
+53;7;
+80;9;
+Antonia Silva;80;260;70;250;8;0011;
+9;3;
+29;9;
+46;9;
+53;4;
+90;7;
+93;4;
+95;7;
+99;2;
+Mario Oliveira;50;230;40;220;11;0101;
+25;1;
+43;7;
+51;2;
+62;3;
+64;8;
+67;7;
+73;5;
+75;2;
+79;9;
+83;4;
+98;7;
+Carla Ferreira;50;210;45;200;13;1100;
+10;3;
+13;5;
+29;2;
+36;8;
+39;6;
+41;4;
+48;10;
+55;1;
+56;9;
+64;5;
+73;1;
+78;5;
+79;7;
+Lara Mendes;80;250;75;240;15;1001;
+15;10;
+17;3;
+22;9;
+31;6;
+32;7;
+39;10;
+43;1;
+46;10;
+48;2;
+69;10;
+72;2;
+75;6;
+82;8;
+86;7;
+100;2;
+Andreia Santos;50;220;60;210;5;0010;
+26;4;
+29;8;
+39;9;
+40;10;
+81;8;

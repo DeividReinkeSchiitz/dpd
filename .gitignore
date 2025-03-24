@@ -1,0 +1,23 @@
+#files and extentions to ignore
+
+#ignora all inside bin
+bin/*
+
+#ignore all .lp
+*.lp
+
+
+#ignore output folder
+code/output/*.log
+code/output/*.out
+code/output/*.sol
+code/output/*.gr
+
+#ignore temp files
+src/*~
+
+#ignore .vscode folder
+.vscode/*
+
+#ignore .vs folder
+.vs/*

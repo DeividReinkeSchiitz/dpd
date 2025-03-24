@@ -1,0 +1,577 @@
+100;20;4;
+codigo;semestre;numero;nome;curso;CH;area
+1;1;T1;Introdução à Computação;CC;68;0001
+2;2;T1;Introdução à Computação;CC;68;0001
+3;1;T1;Estruturas de Dados;CC+ES;68;0001
+4;2;T1;Estruturas de Dados;CC+ES;68;0001
+5;1;T1;Algoritmos e Programação I;CC;102;0001
+6;2;T1;Algoritmos e Programação I;CC;102;0001
+7;1;T1;Banco de Dados;SI+ES;68;0001
+8;2;T1;Banco de Dados;SI+ES;68;0001
+9;1;T1;Redes de Computadores;CC+ES;68;0010
+10;2;T1;Redes de Computadores;CC+ES;68;0010
+11;2;T1;Sistemas Operacionais;CC+EC;68;0100
+12;1;T1;Sistemas Operacionais;CC+EC;68;0100
+13;2;T1;Inteligência Artificial;CC+SI;68;0100
+14;1;T1;Inteligência Artificial;CC+SI;68;0100
+15;2;T1;Engenharia de Software;CC+ES;102;1000
+16;1;T1;Engenharia de Software;CC+ES;102;1000
+17;2;T1;Computação Gráfica;CC+EC;68;0100
+18;1;T1;Computação Gráfica;CC+EC;68;0100
+19;2;T1;Compiladores;CC;68;0100
+20;1;T1;Compiladores;CC;68;0100
+21;1;T1;Teoria da Computação;CC+ES;68;0010
+22;2;T1;Teoria da Computação;CC+ES;68;0010
+23;1;T1;Sistemas Distribuídos;SI;102;0100
+24;2;T1;Sistemas Distribuídos;SI;102;0100
+25;1;T1;Desenvolvimento Web;CC+EC;68;1000
+26;2;T1;Desenvolvimento Web;CC+EC;68;1000
+27;2;T1;Interação Humano-Computador;CC+ES;68;0010
+28;1;T1;Interação Humano-Computador;CC+ES;68;0010
+29;2;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+30;1;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+31;1;T1;Redes Avançadas;CC+ES;68;0001
+32;2;T1;Redes Avançadas;CC+ES;68;0001
+33;1;T1;Segurança de Sistemas;SI;102;0100
+34;2;T1;Segurança de Sistemas;SI;102;0100
+35;1;T1;Computação em Nuvem;CC+ES;68;1000
+36;2;T1;Computação em Nuvem;CC+ES;68;1000
+37;1;T1;Empreendedorismo em TI;CC+EC;68;1000
+38;2;T1;Empreendedorismo em TI;CC+EC;68;1000
+39;1;T1;Bioinformática;CC+ES;68;0010
+40;2;T1;Bioinformática;CC+ES;68;0010
+41;1;T1;Compiladores;CC;68;0100
+42;1;T1;Computação Gráfica;CC+EC;68;0100
+43;1;T1;Bioinformática;CC+ES;68;0010
+44;1;T2;Compiladores;CC;68;0100
+45;1;T1;Engenharia de Software;CC+ES;102;1000
+46;1;T1;Segurança de Sistemas;SI;102;0100
+47;1;T1;Sistemas Operacionais;CC+EC;68;0100
+48;1;T2;Engenharia de Software;CC+ES;102;1000
+49;1;T1;Estruturas de Dados;CC+ES;68;0001
+50;1;T1;Empreendedorismo em TI;CC+EC;68;1000
+51;1;T1;Introdução à Computação;CC;68;0001
+52;1;T2;Sistemas Operacionais;CC+EC;68;0100
+53;1;T1;Banco de Dados;SI+ES;68;0001
+54;1;T2;Segurança de Sistemas;SI;102;0100
+55;1;T1;Redes de Computadores;CC+ES;68;0010
+56;1;T2;Computação Gráfica;CC+EC;68;0100
+57;1;T3;Computação Gráfica;CC+EC;68;0100
+58;1;T3;Engenharia de Software;CC+ES;102;1000
+59;1;T1;Desenvolvimento Web;CC+EC;68;1000
+60;1;T2;Banco de Dados;SI+ES;68;0001
+61;2;T1;Inteligência Artificial;CC+SI;68;0100
+62;2;T3;Segurança de Sistemas;SI;102;0100
+63;2;T2;Bioinformática;CC+ES;68;0010
+64;2;T4;Computação Gráfica;CC+EC;68;0100
+65;2;T1;Computação em Nuvem;CC+ES;68;1000
+66;2;T3;Sistemas Operacionais;CC+EC;68;0100
+67;2;T3;Compiladores;CC;68;0100
+68;2;T1;Sistemas Distribuídos;SI;102;0100
+69;2;T2;Computação em Nuvem;CC+ES;68;1000
+70;2;T4;Sistemas Operacionais;CC+EC;68;0100
+71;2;T2;Redes de Computadores;CC+ES;68;0010
+72;2;T3;Bioinformática;CC+ES;68;0010
+73;2;T3;Banco de Dados;SI+ES;68;0001
+74;2;T2;Introdução à Computação;CC;68;0001
+75;2;T2;Sistemas Distribuídos;SI;102;0100
+76;2;T1;Teoria da Computação;CC+ES;68;0010
+77;2;T1;Redes Avançadas;CC+ES;68;0001
+78;2;T4;Banco de Dados;SI+ES;68;0001
+79;2;T2;Estruturas de Dados;CC+ES;68;0001
+80;2;T3;Estruturas de Dados;CC+ES;68;0001
+81;1;T2;Redes Avançadas;CC+ES;68;0001
+82;1;T1;Algoritmos e Programação I;CC;102;0001
+83;2;T2;Empreendedorismo em TI;CC+EC;68;1000
+84;1;T1;Inteligência Artificial Avançada;CC+ES;102;1000
+85;1;T5;Computação Gráfica;CC+EC;68;0100
+86;1;T3;Empreendedorismo em TI;CC+EC;68;1000
+87;2;T2;Teoria da Computação;CC+ES;68;0010
+88;2;T5;Sistemas Operacionais;CC+EC;68;0100
+89;2;T4;Empreendedorismo em TI;CC+EC;68;1000
+90;2;T3;Sistemas Distribuídos;SI;102;0100
+91;1;T2;Desenvolvimento Web;CC+EC;68;1000
+92;2;T3;Computação em Nuvem;CC+ES;68;1000
+93;2;T1;Interação Humano-Computador;CC+ES;68;0010
+94;1;T4;Bioinformática;CC+ES;68;0010
+95;1;T6;Sistemas Operacionais;CC+EC;68;0100
+96;2;T5;Empreendedorismo em TI;CC+EC;68;1000
+97;2;T4;Computação em Nuvem;CC+ES;68;1000
+98;1;T5;Computação em Nuvem;CC+ES;68;1000
+99;1;T4;Sistemas Distribuídos;SI;102;0100
+100;1;T4;Compiladores;CC;68;0100
+
+nome;CHmin1;CHmax1;CHmin2;CHmax2;preferencias;areas
+Antonio Silva;80;260;70;250;18;0011;
+1;4;
+5;4;
+9;4;
+25;4;
+30;2;
+31;7;
+36;5;
+39;5;
+43;8;
+45;1;
+48;6;
+58;8;
+60;10;
+72;1;
+76;2;
+80;2;
+94;8;
+96;1;
+Maria Oliveira;50;230;40;220;27;0101;
+1;10;
+2;9;
+3;4;
+6;3;
+11;2;
+16;10;
+23;7;
+29;6;
+32;8;
+35;7;
+36;6;
+37;7;
+44;1;
+45;7;
+52;3;
+53;9;
+54;6;
+60;4;
+65;5;
+78;4;
+81;5;
+85;6;
+90;3;
+92;2;
+96;3;
+99;10;
+100;8;
+Carlos Ferreira;50;210;45;200;23;1100;
+10;3;
+14;6;
+29;7;
+34;7;
+38;9;
+42;8;
+48;2;
+58;5;
+59;6;
+63;5;
+64;1;
+66;2;
+67;9;
+69;2;
+75;6;
+85;9;
+86;2;
+87;4;
+91;4;
+92;1;
+93;7;
+94;10;
+98;8;
+Laura Mendes;80;250;75;240;34;1001;
+3;9;
+4;2;
+7;1;
+9;1;
+10;9;
+11;7;
+13;10;
+16;9;
+17;8;
+18;4;
+19;9;
+25;1;
+26;10;
+30;2;
+32;8;
+33;7;
+34;6;
+39;9;
+45;8;
+50;3;
+62;1;
+65;2;
+67;10;
+69;5;
+71;9;
+75;2;
+76;6;
+77;2;
+85;6;
+88;4;
+92;6;
+93;6;
+96;7;
+98;6;
+André Santos;50;220;60;210;14;0010;
+10;9;
+26;8;
+27;9;
+29;6;
+36;5;
+43;4;
+71;4;
+84;2;
+87;7;
+91;2;
+93;2;
+94;3;
+96;2;
+97;7;
+Ana Rodrigues;50;270;55;260;27;0111;
+1;1;
+5;8;
+8;2;
+13;1;
+22;2;
+27;3;
+30;10;
+33;9;
+35;1;
+37;5;
+38;9;
+41;7;
+46;6;
+48;2;
+57;6;
+59;8;
+65;9;
+66;9;
+67;3;
+71;8;
+75;3;
+76;4;
+77;2;
+79;7;
+90;5;
+99;10;
+100;9;
+Pedro Almeida;50;290;65;280;27;1011;
+2;2;
+3;10;
+8;4;
+11;5;
+12;6;
+13;8;
+14;9;
+17;8;
+19;6;
+24;9;
+25;2;
+26;1;
+35;2;
+39;5;
+46;4;
+47;3;
+50;3;
+51;3;
+59;1;
+67;4;
+76;10;
+79;10;
+82;4;
+86;4;
+94;9;
+98;9;
+100;6;
+Fernanda Pereira;50;240;45;230;24;0101;
+5;8;
+18;8;
+19;10;
+32;4;
+38;5;
+41;9;
+49;10;
+50;3;
+53;1;
+57;4;
+59;8;
+62;3;
+65;9;
+70;3;
+73;7;
+74;3;
+78;4;
+80;9;
+85;3;
+86;10;
+90;10;
+97;3;
+99;8;
+100;9;
+Ricardo Gomes;50;310;60;300;26;1010;
+16;10;
+18;3;
+19;1;
+25;1;
+29;5;
+30;6;
+35;1;
+46;9;
+47;10;
+48;8;
+52;8;
+54;3;
+57;3;
+58;10;
+62;6;
+63;6;
+64;1;
+66;3;
+67;3;
+68;8;
+70;10;
+72;5;
+84;9;
+88;6;
+89;1;
+100;4;
+Carla Lima;50;450;40;440;12;0100;
+18;4;
+24;6;
+29;5;
+30;2;
+36;1;
+38;5;
+46;2;
+56;7;
+58;10;
+59;9;
+64;3;
+85;6;
+João Silva;80;260;70;250;22;0011;
+3;10;
+4;5;
+8;2;
+9;6;
+15;4;
+21;6;
+28;6;
+31;1;
+35;7;
+37;9;
+58;5;
+65;8;
+71;8;
+72;1;
+73;7;
+76;2;
+77;4;
+78;10;
+83;9;
+89;5;
+96;8;
+97;10;
+Mariana Oliveira;50;230;40;220;28;0101;
+3;4;
+6;8;
+13;7;
+14;10;
+15;5;
+19;7;
+25;8;
+26;10;
+31;2;
+36;1;
+44;9;
+45;8;
+47;6;
+56;3;
+61;9;
+62;5;
+65;2;
+73;8;
+80;7;
+82;6;
+83;7;
+84;1;
+88;3;
+89;3;
+90;10;
+92;8;
+97;10;
+99;1;
+Carlos Souza;50;210;45;200;14;1100;
+18;6;
+26;5;
+28;6;
+37;1;
+39;3;
+43;5;
+47;6;
+54;6;
+66;3;
+71;1;
+72;5;
+92;5;
+98;7;
+100;3;
+Luiza Mendes;80;250;75;240;28;1001;
+6;4;
+8;7;
+9;2;
+10;7;
+12;5;
+18;8;
+29;5;
+33;10;
+34;5;
+36;1;
+41;7;
+46;10;
+49;7;
+51;7;
+59;2;
+60;6;
+64;8;
+67;9;
+68;5;
+78;10;
+84;2;
+85;9;
+88;2;
+90;6;
+91;9;
+94;1;
+98;8;
+100;9;
+André Lima;50;220;60;210;18;0010;
+16;3;
+26;1;
+28;1;
+29;8;
+38;1;
+39;7;
+40;1;
+50;8;
+58;9;
+63;8;
+65;9;
+83;5;
+86;5;
+87;1;
+92;7;
+93;2;
+96;3;
+98;8;
+Antonia Silva;80;260;70;250;20;0011;
+5;6;
+8;1;
+10;5;
+15;1;
+16;9;
+35;2;
+37;6;
+39;2;
+40;3;
+43;10;
+49;8;
+53;8;
+58;5;
+71;3;
+72;1;
+79;7;
+80;9;
+83;9;
+87;5;
+98;3;
+Mario Oliveira;50;230;40;220;23;0101;
+4;6;
+5;4;
+16;1;
+19;7;
+32;5;
+33;5;
+36;2;
+38;4;
+42;2;
+46;2;
+50;10;
+52;2;
+53;3;
+56;9;
+57;4;
+65;5;
+69;4;
+74;4;
+77;6;
+81;7;
+83;10;
+85;4;
+88;2;
+Carla Ferreira;50;210;45;200;19;1100;
+9;3;
+11;8;
+17;9;
+19;1;
+20;2;
+23;7;
+24;6;
+34;10;
+35;10;
+40;9;
+42;3;
+45;4;
+54;5;
+55;8;
+69;1;
+72;8;
+86;1;
+92;6;
+98;7;
+Lara Mendes;80;250;75;240;41;1001;
+1;8;
+5;9;
+9;2;
+11;5;
+14;1;
+16;6;
+23;8;
+29;1;
+32;3;
+33;1;
+36;9;
+39;2;
+41;9;
+42;5;
+45;5;
+46;5;
+47;1;
+48;7;
+52;8;
+53;1;
+54;6;
+58;7;
+62;7;
+63;9;
+67;1;
+68;4;
+69;8;
+72;4;
+74;8;
+75;2;
+77;9;
+81;8;
+83;2;
+84;1;
+87;2;
+89;4;
+91;8;
+92;2;
+94;5;
+95;10;
+100;4;
+Andreia Santos;50;220;60;210;8;0010;
+21;9;
+28;10;
+37;8;
+58;2;
+59;8;
+72;6;
+91;5;
+97;7;
