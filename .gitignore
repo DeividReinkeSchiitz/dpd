@@ -6,6 +6,8 @@ bin/*
 #ignore all .lp
 *.lp
 
+#ignore output folder
+output/*
 
 #ignore output folder
 code/output/*.log

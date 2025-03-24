@@ -334,14 +334,14 @@ int setParameters(int argc, char **argv, parametersT *pparam)
     }
     else
     {
-      // // define the parameters stamp file using stamp default = date-time
-      // struct tm *ct;
-      // const time_t t        = time(NULL);
-      // param.parameter_stamp = (char *) malloc(sizeof(char) * 100);
-      // ct                    = localtime(&t);
-      // snprintf(param.parameter_stamp, 100, "d%d%.2d%.2dh%.2d%.2d%.2d", ct->tm_year + 1900, ct->tm_mon, ct->tm_mday, ct->tm_hour, ct->tm_min, ct->tm_sec);
+      // define the parameters stamp file using stamp default = date-time
+      struct tm *ct;
+      const time_t t        = time(NULL);
+      param.parameter_stamp = (char *) malloc(sizeof(char) * 100);
+      ct                    = localtime(&t);
+      snprintf(param.parameter_stamp, 100, "d%d%.2d%.2dh%.2d%.2d%.2d", ct->tm_year + 1900, ct->tm_mon, ct->tm_mday, ct->tm_hour, ct->tm_min, ct->tm_sec);
 
-      // sprintf(foutname, "%s/%s", output_path, param.parameter_stamp);
+      sprintf(foutname, "%s/%s", output_path, param.parameter_stamp);
     }
     // check if the stamp already exists
     fout = fopen(foutname, "r");
