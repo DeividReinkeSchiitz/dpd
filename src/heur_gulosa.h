@@ -32,6 +32,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct
+{
+  int *codigo_turma, *peso_atribuido;
+}Auxiliar;
+
   
 int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur);
 
