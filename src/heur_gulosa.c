@@ -226,9 +226,9 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
       quickSort(&profs_auxiliar[i], 0, quant_pref-1);
 
-      //printf("\nDEPOIS DA ORDENACAO:\n");
-      //printf("PROFESSOR: %s\n", I->professores[i].nome);
-      //imprimir(&profs_auxiliar[i], quant_pref);
+      // printf("\nDEPOIS DA ORDENACAO:\n");
+      // printf("PROFESSOR: %s\n", I->professores[i].nome);
+      // imprimir(&profs_auxiliar[i], quant_pref);
    }
 
    
@@ -271,14 +271,15 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
       carga_s1 = 0, carga_s2 = 0;
       
       j = 0, flag = 0;
-      printf("\nCARGA HORARIA ANUAL DO PROFESSOR %s: %d\n", I->professores[i].nome, I->professores[i].CHmin);
-      printf("CARGA HORARIA MAXIMA DO 1° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax1);
-      printf("CARGA HORARIA MAXIMA DO 2° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax2);
-      printf("\n NUMERO DE TURMAS COBERTAS: %d\n", nCovered);
+      // printf("\nCARGA HORARIA ANUAL DO PROFESSOR %s: %d\n", I->professores[i].nome, I->professores[i].CHmin);
+      // printf("CARGA HORARIA MAXIMA DO 1° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax1);
+      // printf("CARGA HORARIA MAXIMA DO 2° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax2);
+      // printf("\n NUMERO DE TURMAS COBERTAS: %d\n", nCovered);
             // enquanto a carga horaria for menor que o minimo que ele deve cumprir anualmente
       while((carga_s1+carga_s2) < I->professores[i].CHmin && flag < I->professores[i].numeroPreferencias){
-         posicao_turma = profs_auxiliar[i].codigo_turma[j-1];  // selecionando a turma
+         posicao_turma = profs_auxiliar[i].codigo_turma[j]-1;  // selecionando a turma
 
+         //printf("\nPOSICAO DA TURMA: %d\n", posicao_turma);
          //printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %d (SEMESTRE: %d)\n", I->professores[i].nome, posicao_turma, I->turmas[posicao_turma].semestre);
          
          if(I->turmas[posicao_turma].semestre == 1 && carga_s1 < I->professores[i].CHmax1 && !covered[posicao_turma]){
@@ -288,6 +289,7 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             nCovered++;
             printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %s (CODIGO: %d) (SEMESTRE: %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, 
                                                                                                 posicao_turma+1, I->turmas[posicao_turma].semestre);
+
          }
 
          if(I->turmas[posicao_turma].semestre == 2 && carga_s2 < I->professores[i].CHmax2 && !covered[posicao_turma]){
@@ -298,6 +300,7 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             nCovered++;
             printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %s (CODIGO: %d) (SEMESTRE: %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, 
                                                                                                    posicao_turma+1, I->turmas[posicao_turma].semestre);
+
          }
 
          j++;
@@ -307,13 +310,20 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    }
 
 
-   
-
-   if(nCovered < I->m){
-      printf("\nEXISTEM TURMAS QUE FICARAM SEM PROFESSORES ALOCADOS!\n");
+   printf("NUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", I->m, nCovered, I->m-nCovered);
+   for(i = 0; i < I->m; i++){
+      printf("%d\n", covered[i]);
+      if(covered[i] == 0){
+         printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
+      }
    }
 
-   printf("\n NUMERO DE TURMAS COBERTAS: %d\n", nCovered);
+
+   // if(nCovered < I->m){
+   //    printf("\nEXISTEM TURMAS QUE FICARAM SEM PROFESSORES ALOCADOS!\n");
+   // }
+
+  // printf("\n NUMERO DE TURMAS COBERTAS: %d\n", nCovered);
 
 
    
