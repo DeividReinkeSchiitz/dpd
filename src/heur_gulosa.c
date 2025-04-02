@@ -252,62 +252,62 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         }
       }
    }
-
-   /*IDEIA DE ALGORITMO: faz um laço que percorre todos os professores, e dentro desse laço vc atribui as turmas para o professor corrente de modo que:
-   para o prof corrente: restricao 1 -> ele tenha uma carga horaria minima anual; restricao2 -> ele tenha uma carga horaria no 1° semestre que nao ultrapasse a sua
-   carga horaria maxima 1; restricao 3 -> mesma da 2, mas para a carga horaria maxima fornecida para o 2° semestre
-   
-   ============================================================================================================================================================
-
-   depois desse laço, certemante havera turmas que ficaram sem professores. para corrigir isso eu faço um outro laço que anda em todas as turmas, e toda vez que eu encontrar
-   uma turma que esta sem prof, eu percorro nos professores ate encontrar um que possa ministrar ela. nesse caso, eu faço uma troca das disciplinas desse prof encontrado
-   OBS: essa troca pode vir a quebrar uma das restriçoes do professor escolhido (restricoes essas que foram atendidas no primeiro laço)
-   */
-
    // percorrendo os professores
    int carga_s1, carga_s2;
    int j, flag;
-   for(i = 0; i < n; i++){
+   for (i = 0; i < n; i++) {
       carga_s1 = 0, carga_s2 = 0;
+      j = 0;
       
-      j = 0, flag = 0;
-      // printf("\nCARGA HORARIA ANUAL DO PROFESSOR %s: %d\n", I->professores[i].nome, I->professores[i].CHmin);
-      // printf("CARGA HORARIA MAXIMA DO 1° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax1);
-      // printf("CARGA HORARIA MAXIMA DO 2° SEMESTRE DO PROF %s: %d\n", I->professores[i].nome, I->professores[i].CHmax2);
-      // printf("\n NUMERO DE TURMAS COBERTAS: %d\n", nCovered);
-            // enquanto a carga horaria for menor que o minimo que ele deve cumprir anualmente
-      while((carga_s1+carga_s2) < I->professores[i].CHmin && flag < I->professores[i].numeroPreferencias){
-         posicao_turma = profs_auxiliar[i].codigo_turma[j]-1;  // selecionando a turma
-
-         //printf("\nPOSICAO DA TURMA: %d\n", posicao_turma);
-         //printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %d (SEMESTRE: %d)\n", I->professores[i].nome, posicao_turma, I->turmas[posicao_turma].semestre);
-         
-         if(I->turmas[posicao_turma].semestre == 1 && carga_s1 < I->professores[i].CHmax1 && !covered[posicao_turma]){
-            carga_s1 += I->turmas[posicao_turma].CH;  // descontando a carga horaria da turma selecionada na carga do 1° semestre
-            // selecionar a variavel, colocar essa variavel na solucao e marcar a turma como coberta
-            covered[posicao_turma] = 1;
-            nCovered++;
-            printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %s (CODIGO: %d) (SEMESTRE: %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, 
-                                                                                                posicao_turma+1, I->turmas[posicao_turma].semestre);
-
-         }
-
-         if(I->turmas[posicao_turma].semestre == 2 && carga_s2 < I->professores[i].CHmax2 && !covered[posicao_turma]){
-            carga_s2 += I->turmas[posicao_turma].CH;  // descontando a carga horaria da turma selecionada na carga do 2° semestre
-
-            // selecionar a variavel, colocar essa variavel na solucao e marcar a turma como coberta
-            covered[posicao_turma] = 1;
-            nCovered++;
-            printf("\nTURMA SELECIONADA PARA O PROFESSOR %s: %s (CODIGO: %d) (SEMESTRE: %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, 
-                                                                                                   posicao_turma+1, I->turmas[posicao_turma].semestre);
-
-         }
-
-         j++;
-         flag++;
-
+      while ((carga_s1 + carga_s2) < I->professores[i].CHmin && j < I->professores[i].numeroPreferencias) {
+          posicao_turma = profs_auxiliar[i].codigo_turma[j] - 1;
+          
+          if (covered[posicao_turma]) {
+              j++;
+              continue; // turma ja alocada. pula para a proxima
+          }
+          
+          int semestre = I->turmas[posicao_turma].semestre;
+          if (semestre == 1 && (carga_s1 + I->turmas[posicao_turma].CH) <= I->professores[i].CHmax1) {
+              carga_s1 += I->turmas[posicao_turma].CH;
+               // falta selecionar a variavel e colocar ela na solucao
+              covered[posicao_turma] = 1;
+              nCovered++;
+             printf("\nALOCACAO PRIORITARIA: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, semestre);
+          } 
+          else if (semestre == 2 && (carga_s2 + I->turmas[posicao_turma].CH) <= I->professores[i].CHmax2) {
+              carga_s2 += I->turmas[posicao_turma].CH;
+              // falta selecionar a variavel e colocar ela na solucao
+              covered[posicao_turma] = 1;
+              nCovered++;
+             printf("\nALOCACAO PRIORITARIA: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, semestre);
+          }
+          
+          j++;
       }
-   }
+      
+      // tentando alocar a turmas que ficaram sem prof
+      if ((carga_s1 + carga_s2) < I->professores[i].CHmin) {
+          for (int k = 0; k < m; k++) {
+            // se ela ainda nao for coberta
+              if (!covered[k]) {
+                  int semestre = I->turmas[k].semestre;
+                  if (semestre == 1 && (carga_s1 + I->turmas[k].CH) <= I->professores[i].CHmax1) {
+                      carga_s1 += I->turmas[k].CH;
+                      covered[k] = 1;
+                      nCovered++;
+                     printf("\nALOCACAO RESIDUAL: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[k].disciplina.nome, semestre);
+                  } 
+                  else if (semestre == 2 && (carga_s2 + I->turmas[k].CH) <= I->professores[i].CHmax2) {
+                      carga_s2 += I->turmas[k].CH;
+                      covered[k] = 1;
+                      nCovered++;
+                      printf("\nALOCACAO RESIDUAL: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[k].disciplina.nome, semestre);
+                  }
+              }
+          }
+      }
+  }
 
 
    printf("NUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", I->m, nCovered, I->m-nCovered);
