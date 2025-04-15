@@ -19,6 +19,7 @@ typedef struct{
    int area_penalty;
 
    int heur_gulosa;
+   int heur_grasp;
 } parametersT;
 
 int setParameters(int argc, char** argv, parametersT* Param);

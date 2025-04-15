@@ -30,6 +30,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "heur_grasp.h"
 #include "heur_gulosa.h"
 #include "heur_myrounding.h"
 #include "parameters_dpd.h"
@@ -141,6 +142,8 @@ SCIP_RETCODE configScip(
     SCIP_CALL(SCIPincludeHeurMyRounding(scip));
   if (param.heur_gulosa)
     SCIP_CALL(SCIPincludeHeurGulosa(scip));
+  if (param.heur_grasp)
+  SCIP_CALL(SCIPincludeHeurGrasp(scip));
 
   *pscip = scip;
   return SCIP_OKAY;
@@ -181,6 +184,7 @@ int setParameters(int argc, char **argv, parametersT *pparam)
     heur_round_depth,
     heur_round_freqofs,
     heur_gulosa,
+    heur_grasp,
     area_penalty
   };
 
@@ -195,6 +199,7 @@ int setParameters(int argc, char **argv, parametersT *pparam)
           {"heur round maxdepth", "--heur_round_depth", &(param.heur_round_maxdepth), INT, -1, MAXINT, 0, 0, -1, 0},
           {"heur round freqofs", "--heur_round_freqofs", &(param.heur_round_freqofs), INT, 0, MAXINT, 0, 0, 0, 0},
           {"heur gulosa", "--heur_gulosa", &(param.heur_gulosa), INT, 0, 1, 0, 0, 0, 0},
+          {"heur gulosa", "--heur_grasp", &(param.heur_grasp), INT, 0, 1, 0, 0, 0, 0},
           {"area penalty", "--penalty", &(param.area_penalty), INT, 0, MAXINT, 0, 0, 0, 0}};
   int i, j, ivalue, error;
   double dvalue;

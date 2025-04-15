@@ -13,24 +13,25 @@
 /*                                                                           */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**@file   heur_gulosa.c
- * @brief  gulosa primal heuristic
+/**@file   heur_grasp.c
+ * @brief  grasp primal heuristic
  * @author Edna Hoshino (based on template provided by Tobias Achterberg)
  */
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
 #include <assert.h>
+#include <time.h>
 
 #include "probdata_dpd.h"
 #include "parameters_dpd.h"
-#include "heur_gulosa.h"
+#include "heur_grasp.h"
 #include "heur_problem.h"
 
-//#define DEBUG_GULOSA 1
+//#define DEBUG_GRASP 1
 /* configuracao da heuristica */
-#define HEUR_NAME             "gulosa"
-#define HEUR_DESC             "gulosa primal heuristic template"
+#define HEUR_NAME             "grasp"
+#define HEUR_DESC             "grasp primal heuristic template"
 #define HEUR_DISPCHAR         'g'
 #define HEUR_PRIORITY         2 /**< heuristics of high priorities are called first */
 #define HEUR_FREQ             1 /**< heuristic call frequency. 1 = in all levels of the B&B tree */
@@ -71,7 +72,7 @@
 
 /** copy method for primal heuristic plugins (called when SCIP copies plugins) */
 static
-SCIP_DECL_HEURCOPY(heurCopyGulosa)
+SCIP_DECL_HEURCOPY(heurCopyGrasp)
 {  /*lint --e{715}*/
 
    return SCIP_OKAY;
@@ -79,7 +80,7 @@ SCIP_DECL_HEURCOPY(heurCopyGulosa)
 
 /** destructor of primal heuristic to free user data (called when SCIP is exiting) */
 static
-SCIP_DECL_HEURFREE(heurFreeGulosa)
+SCIP_DECL_HEURFREE(heurFreeGrasp)
 {  /*lint --e{715}*/
 
    return SCIP_OKAY;
@@ -88,7 +89,7 @@ SCIP_DECL_HEURFREE(heurFreeGulosa)
 
 /** initialization method of primal heuristic (called after problem was transformed) */
 static
-SCIP_DECL_HEURINIT(heurInitGulosa)
+SCIP_DECL_HEURINIT(heurInitGrasp)
 {  /*lint --e{715}*/
 
 
@@ -98,7 +99,7 @@ SCIP_DECL_HEURINIT(heurInitGulosa)
 
 /** deinitialization method of primal heuristic (called before transformed problem is freed) */
 static
-SCIP_DECL_HEUREXIT(heurExitGulosa)
+SCIP_DECL_HEUREXIT(heurExitGrasp)
 {  /*lint --e{715}*/
 
    return SCIP_OKAY;
@@ -107,7 +108,7 @@ SCIP_DECL_HEUREXIT(heurExitGulosa)
 
 /** solving process initialization method of primal heuristic (called when branch and bound process is about to begin) */
 static
-SCIP_DECL_HEURINITSOL(heurInitsolGulosa)
+SCIP_DECL_HEURINITSOL(heurInitsolGrasp)
 {  /*lint --e{715}*/
 
    return SCIP_OKAY;
@@ -116,62 +117,100 @@ SCIP_DECL_HEURINITSOL(heurInitsolGulosa)
 
 /** solving process deinitialization method of primal heuristic (called before branch and bound process data is freed) */
 static
-SCIP_DECL_HEUREXITSOL(heurExitsolGulosa)
+SCIP_DECL_HEUREXITSOL(heurExitsolGrasp)
 {  /*lint --e{715}*/
 
    return SCIP_OKAY;
 }
 
-void trocar(int *a, int *b) {
-   int temp = *a;
-   *a = *b;
-   *b = temp;
-}
+void maxmin(Candidatos *C, int *max, int *min, int n) {
+   if (n == 0) return; // vetor vazio, nada a fazer
 
-int particionar(Auxiliar *dados, int baixo, int alto) {
-   int pivo = dados->peso_atribuido[alto];  // pivo sera o ultimo elemento
-   int i = baixo - 1;
+   // caso base: apenas um candidato
+   if (n == 1) {
+       *min = C[0].peso_atribuido;
+       *max = C[0].peso_atribuido;
+       return;
+   }
 
-   for (int j = baixo; j < alto; j++) {
-       if (dados->peso_atribuido[j] >= pivo) {  // ordenando de forma decrescente
-           i++;
-           trocar(&dados->peso_atribuido[i], &dados->peso_atribuido[j]);
-           trocar(&dados->codigo_turma[i], &dados->codigo_turma[j]);
+   // inicializa min e max com os dois primeiros candidatos
+   if (C[0].peso_atribuido < C[1].peso_atribuido) {
+       *min = C[0].peso_atribuido;
+       *max = C[1].peso_atribuido;
+   } else {
+       *min = C[1].peso_atribuido;
+       *max = C[0].peso_atribuido;
+   }
+
+   // percorre em pares a partir do terceiro elemento
+   for (int i = 2; i < n - 1; i += 2) {
+       int menor, maior;
+       if (C[i].peso_atribuido < C[i + 1].peso_atribuido) {
+           menor = C[i].peso_atribuido;
+           maior = C[i + 1].peso_atribuido;
+       } else {
+           menor = C[i + 1].peso_atribuido;
+           maior = C[i].peso_atribuido;
        }
+
+       if (menor < *min) *min = menor;
+       if (maior > *max) *max = maior;
    }
-   
-   trocar(&dados->peso_atribuido[i + 1], &dados->peso_atribuido[alto]);
-   trocar(&dados->codigo_turma[i + 1], &dados->codigo_turma[alto]);
-   
-   return i + 1;
-}
 
-void quickSort(Auxiliar *dados, int baixo, int alto) {
-   if (baixo < alto) {
-       int pi = particionar(dados, baixo, alto);
-
-       quickSort(dados, baixo, pi - 1);
-       quickSort(dados, pi + 1, alto);
+   // se o numero de candidatos for impar, verifica o ultimo
+   if (n % 2 != 0) {
+       if (C[n - 1].peso_atribuido < *min) *min = C[n - 1].peso_atribuido;
+       if (C[n - 1].peso_atribuido > *max) *max = C[n - 1].peso_atribuido;
    }
 }
 
-void imprimir(Auxiliar *dados, int n) {
-   printf("codigo_turma; peso_atribuido;\n");
-   for (int i = 0; i < n; i++) {
-       printf("%d;%d;\n", dados->codigo_turma[i], dados->peso_atribuido[i]);
+void cria_candidatos(Candidatos *candidatos, int *codigo_turmas, int *pesos_atribuidos, int n){
+   int posicao;
+   for(int i = 0; i < n; i++){
+      posicao = codigo_turmas[i] -1;
+      candidatos[i].codigo_turma = codigo_turmas[i];
+      candidatos[i].peso_atribuido = pesos_atribuidos[posicao];
+   }
+}
+
+void cria_RCL(Candidatos *candidatos, Candidatos *RCL, int alpha, int max, int min, int n, int *n_RCL){
+   for(int i = 0; i < n; i++){
+      if(candidatos[i].peso_atribuido >= min * alpha*(max - min)){
+         RCL[*n_RCL].codigo_turma = candidatos[i].codigo_turma;
+         RCL[*n_RCL].peso_atribuido = candidatos[i].peso_atribuido;
+         *n_RCL += 1;
+      }
+   }
+}
+
+Candidatos escolherAleatorio(Candidatos *vetor, int n) {
+   if (n == 0) {
+       Candidatos vazio = {-1, -1};
+       return vazio;
+   }
+
+   int indice = rand() % n;
+   return vetor[indice];
+}
+
+void atualiza_candidatos(Candidatos *candidatos, Candidatos removido, int n){
+   for(int i = 0; i < n; i++){
+      if(candidatos[i].codigo_turma == removido.codigo_turma){
+         candidatos[i] = removido;
+      }
    }
 }
 
 
 /**
- * @brief Core of the gulosa heuristic: it builds one solution for the problem by gulosa procedure.
+ * @brief Core of the grasp heuristic: it builds one solution for the problem by grasp procedure.
  *
  * @param scip problem
  * @param sol pointer to the solution structure where the solution wil be saved
- * @param heur pointer to the gulosa heuristic handle (to contabilize statistics)
+ * @param heur pointer to the grasp heuristic handle (to contabilize statistics)
  * @return int 1 if solutions is found, 0 otherwise.
  */
-int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
+int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 {
    int found, infeasible, nInSolution;
    unsigned int stored;
@@ -181,15 +220,15 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    //  SCIP* scip_cp;
    SCIP_Real valor, bestUb;
    SCIP_PROBDATA* probdata;
-   int i, posicao_turma;
+   int i, posicao_turma, max_i = 10, max, min, carga_s1, carga_s2, n_RCL;
    instanceT* I;
-   Auxiliar* profs_auxiliar;
+   // Auxiliar* profs_auxiliar;
 
    found = 0;
    infeasible = 0;
    
-#ifdef DEBUG_GULOSA
-   printf("\n============== New gulosa heur at node: %lld\n", SCIPnodeGetNumber(SCIPgetCurrentNode(scip)));
+#ifdef DEBUG_GRASP
+   printf("\n============== New grasp heur at node: %lld\n", SCIPnodeGetNumber(SCIPgetCurrentNode(scip)));
 #endif
 
    /* recover the problem data*/
@@ -207,29 +246,6 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    nInSolution = 0;
    nCovered = 0;
 
-   profs_auxiliar = (Auxiliar*) malloc(sizeof(Auxiliar) * n);  // aloco para a quant de professores
-
-   // pegando, para cada prof, o cod da turma e o peso atribuido
-   int quant_pref;
-   for(i = 0; i < n; i++){
-      quant_pref = I->professores[i].numeroPreferencias;
-      profs_auxiliar[i].codigo_turma = (int*) malloc(sizeof(int) * quant_pref);
-      profs_auxiliar[i].peso_atribuido = (int*) malloc(sizeof(int) * quant_pref);
-      //printf("\nQUANT DE PREF DO PROFESSOR %d: %d", i, quant_pref);
-      for(int j = 0; j < quant_pref; j++){
-         posicao_turma = I->professores[i].codigo_turmas[j]-1;
-         profs_auxiliar[i].codigo_turma[j] = I->professores[i].codigo_turmas[j];
-         profs_auxiliar[i].peso_atribuido[j] = I->professores[i].preferencias[posicao_turma];
-
-        //printf("\n PROFESSOR %d: CODIGO DA TURMA: %d: PESO ASSOCIADO: %d\n",i, profs_auxiliar[i].codigo_turma[j], profs_auxiliar[i].peso_atribuido[j]);
-      }
-
-      quickSort(&profs_auxiliar[i], 0, quant_pref-1);
-
-      // printf("\nDEPOIS DA ORDENACAO:\n");
-      // printf("PROFESSOR: %s\n", I->professores[i].nome);
-      // imprimir(&profs_auxiliar[i], quant_pref);
-   }
 
 
    // first, select all variables already fixed in 1.0
@@ -239,7 +255,7 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         solution[nInSolution++]=var;        
         covered[i%m] = 1;
         nCovered++;
-#ifdef DEBUG_GULOSA
+#ifdef DEBUG_GRASP
         printf("\nSelected fixed var= %s. TotalItems=%d infeasible=%d", SCIPvarGetName(var), nInSolution, infeasible);
 #endif
       }
@@ -250,93 +266,84 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         }
       }
    }
-   // percorrendo os professores
-   int carga_s1, carga_s2;
-   int j, flag;
-   for (i = 0; i < n; i++) {
-      carga_s1 = 0, carga_s2 = 0;
-      j = 0;
-      
-      while ((carga_s1 + carga_s2) < I->professores[i].CHmin && j < I->professores[i].numeroPreferencias) {
-          posicao_turma = profs_auxiliar[i].codigo_turma[j] - 1;
-          
-          if (covered[posicao_turma]) {
-              j++;
-              continue; // turma ja alocada. pula para a proxima
-          }
-          
-          int semestre = I->turmas[posicao_turma].semestre;
-          if (semestre == 1 && (carga_s1 + I->turmas[posicao_turma].CH) <= I->professores[i].CHmax1) {
-              carga_s1 += I->turmas[posicao_turma].CH;
-              covered[posicao_turma] = 1;
-              nCovered++;
-              var = varlist[(i*m)+posicao_turma];
-              solution[nInSolution++] = var;
 
-              printf("PROFESSOR: %d / TURMA: %d\n", i, posicao_turma);
+   Candidatos posicao_escolhida;
+   // int solucao_final = infinito ????
+   for(i = 0; i < max_i; i++){
 
-              printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-              printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+      // fase de construcao da solucao
+      // percorrendo pelos professores
+      for(int j = 0;j < n; j++){
+         int n_candidatos = I->professores[j].numeroPreferencias;
+         carga_s1 = 0,carga_s2 = 0;
+         Candidatos *candidatos = malloc(sizeof(Candidatos) * n_candidatos);
+         Candidatos *RCL = malloc(sizeof(Candidatos) * n_candidatos);
+         // cria a lista de candidatos (todas as turmas)
+         cria_candidatos(candidatos, I->professores[j].codigo_turmas, I->professores[j].preferencias, n_candidatos);
 
-             printf("\nALOCACAO PRIORITARIA: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, semestre);
-          } 
-          else if (semestre == 2 && (carga_s2 + I->turmas[posicao_turma].CH) <= I->professores[i].CHmax2) {
-              carga_s2 += I->turmas[posicao_turma].CH;
-              covered[posicao_turma] = 1;
-              nCovered++;
-              var = varlist[(i*m)+posicao_turma];
-              solution[nInSolution++] = var;
-              
-              printf("PROFESSOR: %d / TURMA: %d\n", i, posicao_turma);
+         printf("\nTESTE\n");
+         while(n_candidatos > 0 && (carga_s1 + carga_s2) <= I->professores[j].CHmin){
+            maxmin(candidatos, &max, &min, n_candidatos);
+            n_RCL = 0;
+            cria_RCL(candidatos, RCL, 0.7, max, min, n_candidatos, &n_RCL);
+            posicao_escolhida = escolherAleatorio(RCL, n_RCL);
 
-              printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-              printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+            // printf("\nLISTA DE CANDIDATOS DO PROFESSOR %d:\n", j);
+            // for(int k = 0; k < n_candidatos; k++){
+            //    printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
+            // }
 
-            printf("\nALOCACAO PRIORITARIA: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[posicao_turma].disciplina.nome, semestre);
-          }
-          
-          j++;
+            printf("\nESCOLHIDA PARA O PROFESSOR %d: CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", j, posicao_escolhida.codigo_turma, posicao_escolhida.peso_atribuido);
+
+            int semestre = I->turmas[posicao_escolhida.codigo_turma].semestre;
+            int posicao_certa = posicao_escolhida.codigo_turma;
+            if(semestre == 1 && (carga_s1 + I->turmas[posicao_certa].CH) <= I->professores[i].CHmax1){
+               carga_s1 += I->turmas[posicao_certa].CH;
+               covered[posicao_certa] = 1;
+               nCovered++;
+               var = varlist[(j*m)+posicao_certa];
+               solution[nInSolution++] = var;
+
+               printf("PROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+
+               printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
+               printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+
+
+            }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa].CH) <= I->professores->CHmax2){
+               carga_s2 += I->turmas[posicao_certa].CH;
+               covered[posicao_certa] = 1;
+               nCovered++;
+               var = varlist[(j*m)+posicao_certa];
+               solution[nInSolution++] = var;
+
+               printf("PROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+
+               printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
+               printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+
+            }
+            // remover da lista de candidatos esse item q foi escolhido (e marcar ele como coberto)
+            atualiza_candidatos(candidatos, posicao_escolhida,n_candidatos);
+            n_candidatos--;
+
+         }
+
+         free(candidatos);
+         free(RCL);
+
       }
-      
-      // tentando alocar a turmas que ficaram sem prof
-      // talvez aqui eu quebra alguma restricao de carga horaria maxima do semestre 1/2 do prof i?
-      //printf("\n\nTENTANNDO ALOCAR AS TURMAS RESIDUAIS:\n\n");
-      if ((carga_s1 + carga_s2) < I->professores[i].CHmin) {
-          for (int k = 0; k < m; k++) {
-            // se ela ainda nao for coberta
-              if (!covered[k]) {
-                  int semestre = I->turmas[k].semestre;
-                  if (semestre == 1 && (carga_s1 + I->turmas[k].CH) <= I->professores[i].CHmax1) {
-                     carga_s1 += I->turmas[k].CH;
-                     covered[k] = 1;
-                     nCovered++;
-                     var = varlist[(i*m)+posicao_turma];
-                     solution[nInSolution++] = var;
 
 
-                     printf("PROFESSOR: %d / TURMA: %d\n", i, k);
+      // fase de busca local
 
-                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-                     printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
-                     printf("\nALOCACAO RESIDUAL: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[k].disciplina.nome, semestre);
-                  } 
-                  else if (semestre == 2 && (carga_s2 + I->turmas[k].CH) <= I->professores[i].CHmax2) {
-                     carga_s2 += I->turmas[k].CH;
-                     covered[k] = 1;
-                     nCovered++;
-                     var = varlist[(i*m)+posicao_turma];
-                     solution[nInSolution++] = var;
+      // if solucao_atual > solucao_final entao solucao_final = solucao_atual
 
-                     printf("PROFESSOR: %d / TURMA: %d\n", i, k);
 
-                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-                     printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
-                     printf("\nALOCACAO RESIDUAL: %s -> %s (Semestre %d)\n", I->professores[i].nome, I->turmas[k].disciplina.nome, semestre);
-                  }
-              }
-          }
-      }
-  }
+
+   }
+
+   
 
 
    printf("NUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", I->m, nCovered, I->m-nCovered);
@@ -365,13 +372,13 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
       }
       //valor = custo;//createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
       bestUb = SCIPgetPrimalbound(scip);
-#ifdef DEBUG_GULOSA
+#ifdef DEBUG_GRASP
       printf("\nFound solution...\n");
       //      SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
       printf("\ninfeasible=%d value = %lf > bestUb = %lf? %d\n\n", infeasible, valor, bestUb, valor > bestUb + EPSILON);
 #endif
       if(!infeasible && valor > bestUb + EPSILON){
-#ifdef DEBUG_GULOSA
+#ifdef DEBUG_GRASP
          printf("\nBest solution found...\n");
          SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
 #endif
@@ -382,20 +389,20 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
          {
 #ifdef DEBUG_PRIMAL
             printf("\nSolution is feasible and was saved! Total of items = %d", nInSolution);
-            SCIPdebugMessage("found feasible gulosa solution:\n");
+            SCIPdebugMessage("found feasible grasp solution:\n");
             SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
 #endif
             //       *result = SCIP_FOUNDSOL;
          }
          else{
             found = 0;
-#ifdef DEBUG_GULOSA
+#ifdef DEBUG_GRASP
             printf("\nCould not found\n. BestUb=%lf", bestUb);
 #endif
          }
       }
    }
-   //#ifdef DEBUG_GULOSA
+   //#ifdef DEBUG_GRASP
    //   getchar();
    //#endif
    free(solution);
@@ -406,7 +413,7 @@ int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
 /** execution method of primal heuristic */
 static
-SCIP_DECL_HEUREXEC(heurExecGulosa)
+SCIP_DECL_HEUREXEC(heurExecGrasp)
 {  /*lint --e{715}*/
    SCIP_SOL*             sol;                /**< solution to round */
    int nlpcands;
@@ -433,14 +440,14 @@ SCIP_DECL_HEUREXEC(heurExecGulosa)
    if ( nlpcands == 0 )
      return SCIP_OKAY;
 
-   /* solve gulosa */
-   if(gulosa(scip, &sol, heur)){
+   /* solve grasp */
+   if(grasp(scip, &sol, heur)){
      *result = SCIP_FOUNDSOL;
    }
    else{
      *result = SCIP_DIDNOTFIND;
 #ifdef DEBUG_PRIMAL
-     printf("\nGulosa could not find feasible solution!");      
+     printf("\nGrasp could not find feasible solution!");      
 #endif
    }
    return SCIP_OKAY;
@@ -451,15 +458,15 @@ SCIP_DECL_HEUREXEC(heurExecGulosa)
  * primal heuristic specific interface methods
  */
 
-/** creates the gulosa_crtp primal heuristic and includes it in SCIP */
-SCIP_RETCODE SCIPincludeHeurGulosa(
+/** creates the grasp_crtp primal heuristic and includes it in SCIP */
+SCIP_RETCODE SCIPincludeHeurGrasp(
    SCIP*                 scip                /**< SCIP data structure */
    )
 {
    SCIP_HEURDATA* heurdata;
    SCIP_HEUR* heur;
 
-   /* create gulosa primal heuristic data */
+   /* create grasp primal heuristic data */
    heurdata = NULL;
 
    heur = NULL;
@@ -471,7 +478,7 @@ SCIP_RETCODE SCIPincludeHeurGulosa(
     */
    SCIP_CALL( SCIPincludeHeur(scip, HEUR_NAME, HEUR_DESC, HEUR_DISPCHAR, HEUR_PRIORITY, param.heur_freq, param.heur_freqofs,
          param.heur_maxdepth, HEUR_TIMING, HEUR_USESSUBSCIP,
-         heurCopyGulosa, heurFreeGulosa, heurInitGulosa, heurExitGulosa, heurInitsolGulosa, heurExitsolGulosa, heurExecGulosa,
+         heurCopyGrasp, heurFreeGrasp, heurInitGrasp, heurExitGrasp, heurInitsolGrasp, heurExitsolGrasp, heurExecGrasp,
          heurdata) );
 #else
    /* use SCIPincludeHeurBasic() plus setter functions if you want to set callbacks one-by-one and your code should
@@ -479,20 +486,20 @@ SCIP_RETCODE SCIPincludeHeurGulosa(
     */
    SCIP_CALL( SCIPincludeHeurBasic(scip, &heur,
          HEUR_NAME, HEUR_DESC, HEUR_DISPCHAR, HEUR_PRIORITY, param.heur_round_freq, param.heur_round_freqofs,
-         param.heur_round_maxdepth, HEUR_TIMING, HEUR_USESSUBSCIP, heurExecGulosa, heurdata) );
+         param.heur_round_maxdepth, HEUR_TIMING, HEUR_USESSUBSCIP, heurExecGrasp, heurdata) );
 
    assert(heur != NULL);
 
    /* set non fundamental callbacks via setter functions */
-   SCIP_CALL( SCIPsetHeurCopy(scip, heur, heurCopyGulosa) );
-   SCIP_CALL( SCIPsetHeurFree(scip, heur, heurFreeGulosa) );
-   SCIP_CALL( SCIPsetHeurInit(scip, heur, heurInitGulosa) );
-   SCIP_CALL( SCIPsetHeurExit(scip, heur, heurExitGulosa) );
-   SCIP_CALL( SCIPsetHeurInitsol(scip, heur, heurInitsolGulosa) );
-   SCIP_CALL( SCIPsetHeurExitsol(scip, heur, heurExitsolGulosa) );
+   SCIP_CALL( SCIPsetHeurCopy(scip, heur, heurCopyGrasp) );
+   SCIP_CALL( SCIPsetHeurFree(scip, heur, heurFreeGrasp) );
+   SCIP_CALL( SCIPsetHeurInit(scip, heur, heurInitGrasp) );
+   SCIP_CALL( SCIPsetHeurExit(scip, heur, heurExitGrasp) );
+   SCIP_CALL( SCIPsetHeurInitsol(scip, heur, heurInitsolGrasp) );
+   SCIP_CALL( SCIPsetHeurExitsol(scip, heur, heurExitsolGrasp) );
 #endif
 
-   /* add gulosa primal heuristic parameters */
+   /* add grasp primal heuristic parameters */
    /* TODO: (optional) add primal heuristic specific parameters with SCIPaddTypeParam() here */
 
    return SCIP_OKAY;
