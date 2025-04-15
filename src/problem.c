@@ -34,7 +34,7 @@ void createInstance(instanceT **I, int n, int m, int numAreas)
   //int pref;
   for (int i = 0; i < n; i++)
   {
-    (*I)->professores[i].preferencias = (int *) calloc(m, sizeof(int));
+    (*I)->professores[i].preferencias = (Preferencias *) calloc(m, sizeof(Preferencias));
     //pref = (*I)->professores[i].numeroPreferencias;  // pegando a quant de turmas que o prof i tem interesse
     //printf("\n\nTESTE: %d\n\n", pref);
   }
@@ -56,11 +56,12 @@ void printInstance(instanceT *I)
   for (int i = 0; i < I->n; i++)
   {
     printf("%s;%d;%d;%d;%d;%d\n", I->professores[i].nome, I->professores[i].CHmin, I->professores[i].CHmax1, I->professores[i].CHmax2, I->professores[i].numeroPreferencias, I->professores[i].areas);
-    for (int j = 0; j < I->m; j++)
+    for (int j = 0; j < I->professores[i].numeroPreferencias; j++)
     {
-      if (I->professores[i].preferencias[j] != 0)
+
+      if (I->professores[i].preferencias[j].peso != 0)
       {
-        printf("%d;%d\n", j + 1, I->professores[i].preferencias[j]);
+        printf("%d;%d\n", j + 1, I->professores[i].preferencias[j].peso);
       }
     }
   }
@@ -89,6 +90,7 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
   {
     fgets(linha, sizeof(linha), f);
     sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%d", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, &(*I)->turmas[i].disciplina.areas);
+    (*I)->turmas[i].label = i;
   }
 
   fgets(linha, sizeof(linha), f);  //linha em branco
@@ -107,10 +109,29 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
       fgets(linha, sizeof(linha), f);
       int indexTurma, peso;
       sscanf(linha, "%d;%d", &indexTurma, &peso);
-      (*I)->professores[i].preferencias[indexTurma - 1] = peso;
+      (*I)->professores[i].preferencias[j].peso  = peso;
+      (*I)->professores[i].preferencias[j].turma = &(*I)->turmas[indexTurma - 1];
       sum += peso;
     }
-    (*I)->professores[i].pesoMedioPreferencias = sum / p;
+
+    // Professores que não possuem preferência por nenhuma turma, recebem um valor de preferência igual a EPSILON
+    for (int j = 0; j < m; j++)
+    {
+      if (checaArea((*I)->professores[i].areas, (*I)->turmas[j].disciplina.areas, (*I)->numAreas) == 1 && (*I)->professores[i].preferencias[j].peso == 0)
+      {
+        (*I)->professores[i].preferencias[j].peso  = EPSILON;
+        (*I)->professores[i].preferencias[j].turma = &(*I)->turmas[j];
+      }
+    }
+
+    if (p > 0)
+    {
+      (*I)->professores[i].pesoMedioPreferencias = (sum / p) + (m / p);
+    }
+    else
+    {
+      (*I)->professores[i].pesoMedioPreferencias = 0;
+    }
   }
   return 1;
 }

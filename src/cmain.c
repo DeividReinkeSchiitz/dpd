@@ -472,14 +472,14 @@ void printSol(SCIP *scip, char *outputname)
     int count = 0;
     int sum   = 0;
     float media;
-    for (int j = 0; j < I->m; j++)
+    for (int j = 0; j < I->professores->numeroPreferencias; j++)
     {
       solval = SCIPgetSolVal(scip, bestSolution, vars[(i * (I->m)) + j]);
       if (solval > EPSILON)
       {
         count++;
-        sum += I->professores[i].preferencias[j];
-        fprintf(file, "%d: %s (%d)\n", j + 1, I->turmas[j].disciplina.nome, I->professores[i].preferencias[j]);
+        sum += I->professores[i].preferencias[j].peso;
+        fprintf(file, "%d: %s (%d)\n", j + 1, I->turmas[j].disciplina.nome, I->professores[i].preferencias[j].peso);
         horas += I->turmas[j].CH;
       }
     }
@@ -497,17 +497,6 @@ void printSol(SCIP *scip, char *outputname)
     fprintf(file, "Peso m�dio atribu�do pelo professor: %.2f\n", I->professores[i].pesoMedioPreferencias);
     fprintf(file, "coeficiente de satisfa��o: %.2f\n\n", media / I->professores[i].pesoMedioPreferencias);
   }
-
-  /*
-   for( v=0; v< nvars; v++ )
-     {
-       solval = SCIPgetSolVal(scip, bestSolution, vars[v]);
-       if( solval > EPSILON )
-	 {
-	   fprintf(file, "%d ", I->item[v].label);
-	 }
-     }
-*/
 
   fprintf(file, "\n");
   //
@@ -570,7 +559,7 @@ int main(int argc, char **argv)
     return 1;
   }
   // print problem
-  SCIP_CALL(SCIPwriteOrigProblem(scip, "knapsack.lp", "lp", FALSE));
+  SCIP_CALL(SCIPwriteOrigProblem(scip, "./output/dpd.lp", "lp", TRUE));
   // solve scip problem
   start = clock();
   SCIP_CALL(SCIPsolve(scip));

@@ -168,7 +168,8 @@ double checaArea(int areaProfessor, int areaTurma, int numAreas)
     areaProfessor = areaProfessor / 10;
     areaTurma     = areaTurma / 10;
   }
-  return 2;
+
+  return 0;
 }
 
 /**@} */
@@ -288,10 +289,13 @@ SCIP_RETCODE SCIPprobdataCreate(
     {
       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d_%d", i, j);
       int CoefAptidao;
-      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas, I->numAreas) == 1) || I->professores[i].preferencias[j] > 0)
+      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas, I->numAreas) == 1))
       {
-        //professor apto
-        CoefAptidao = I->professores[i].preferencias[j];
+        if (I->professores[i].preferencias[j].peso > 0)
+        {
+          //professor apto
+          CoefAptidao = I->professores[i].preferencias[j].peso;
+        }
         //possibilidade de atribuir valor 1 aqui para todas as disciplinas da area
       }
       else

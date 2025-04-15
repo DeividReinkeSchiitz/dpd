@@ -12,6 +12,8 @@ typedef struct
 
 typedef struct
 {
+  int label;
+
   Disciplina disciplina;
   int numero;
   int CH;
@@ -25,8 +27,15 @@ typedef struct
   char cursos[25];
 } Turma;
 
+typedef struct Preferencias
+{
+  Turma *turma;
+  double peso;
+} Preferencias;
+
 typedef struct
 {
+  int label;
   int CHmin;
   int CHmax1;
   int CHmax2;
@@ -37,7 +46,7 @@ typedef struct
   //preferencias é um vetor de inteiros, onde cada valor representa o peso dado a turma de indice correspondente.
   //deve ser alocado dinamicamente de acordo com o numero de turmas
   int numeroPreferencias;
-  int *preferencias;
+  Preferencias *preferencias;
   float pesoMedioPreferencias;
 } Professor;
 

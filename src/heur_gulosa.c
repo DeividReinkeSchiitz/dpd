@@ -39,10 +39,10 @@
 #define HEUR_TIMING SCIP_HEURTIMING_AFTERNODE /**< when the heuristic should be called? SCIP_HEURTIMING_DURINGLPLOOP or SCIP_HEURTIMING_AFTERNODE */
 #define HEUR_USESSUBSCIP FALSE                /**< does the heuristic use a secondary SCIP instance? */
 
-#ifdef DEBUG
-#define PRINTF(...) printf(__VA_ARGS__)
+#if DEBUG_GULOSA
+#define PRINTFD(...) printf("\nGULOSA: " __VA_ARGS__)
 #else
-#define PRINTF(...)
+#define PRINTFD(...)
 #endif
 
 /*
@@ -116,6 +116,33 @@ static SCIP_DECL_HEUREXITSOL(heurExitsolGulosa)
   return SCIP_OKAY;
 }
 
+int mTurmas = 0;
+int comparePreferencias(const void *a, const void *b)
+{
+  Preferencias *prefA = (Preferencias *) a;
+  Preferencias *prefB = (Preferencias *) b;
+
+  if (prefA->peso < prefB->peso)
+    return 1;
+  if (prefA->peso > prefB->peso)
+    return -1;
+  return 0;
+}
+
+int compareProfessores(const void *a, const void *b)
+{
+  Professor *profA = (Professor *) a;
+  Professor *profB = (Professor *) b;
+
+  // sort preferencias in descending order
+  qsort(profA->preferencias, mTurmas, sizeof(Preferencias), comparePreferencias);
+
+  if (profA->pesoMedioPreferencias < profB->pesoMedioPreferencias)
+    return 1;
+  if (profA->pesoMedioPreferencias > profB->pesoMedioPreferencias)
+    return -1;
+  return 0;
+}
 
 /**
  * @brief Core of the gulosa heuristic: it builds one solution for the problem by gulosa procedure.
@@ -127,43 +154,228 @@ static SCIP_DECL_HEUREXITSOL(heurExitsolGulosa)
  */
 int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 {
-  int found, infeasible, nInSolution;
+  // 1. Atribuir os professores a materia de maior preferencia
+  // 2. Quais professores ficaram sem materia?
+  // 3. Quais materias ficaram sem professor?
+  // 4. Quais professores ficaram com carga horaria menor q a minima?
+
+  int found = 0, infeasible, nInSolution;
   unsigned int stored;
   int nvars;
-  int *covered, n, custo, nCovered;
+  int *coveredTurmas, nProfs, custo, nCovered, *coveredProfessors;
   SCIP_VAR *var, **solution, **varlist;
   //  SCIP* scip_cp;
   SCIP_Real valor, bestUb;
   SCIP_PROBDATA *probdata;
   int i, residual;
-  instanceT *I;
+  Turma *TurmasCopy;
+  // // frequencia_turmas é um vetor de inteiros, onde cada valor representa a frequencia de uma turma
+  // // ex: [1, 4, 6, 7] significa que a turma 0 foi escolhida por 1 professor, a turma 1 por 4 professores,
+  // // a turma 2 por 6 professores e a turma 3 por 7 professores
+  // int *frequencia_turmas;
 
+  instanceT *I;
   found      = 0;
   infeasible = 0;
 
 #ifdef DEBUG_GULOSA
-  printf("\n============== New gulosa heur at node: %lld\n", SCIPnodeGetNumber(SCIPgetCurrentNode(scip)));
+  PRINTFD("\n============== New gulosa heur at node: %lld\n", SCIPnodeGetNumber(SCIPgetCurrentNode(scip)));
 #endif
 
   /* recover the problem data*/
   probdata = SCIPgetProbData(scip);
   assert(probdata != NULL);
 
-  nvars       = SCIPprobdataGetNVars(probdata);
-  varlist     = SCIPprobdataGetVars(probdata);
-  I           = SCIPprobdataGetInstance(probdata);
-  n           = I->n;
+  nvars             = SCIPprobdataGetNVars(probdata);
+  varlist           = SCIPprobdataGetVars(probdata);
+  I                 = SCIPprobdataGetInstance(probdata);
+  nProfs            = I->n;  // number of professors
+  mTurmas           = I->m;  // number of turmas
 
-  solution    = (SCIP_VAR **) malloc(sizeof(SCIP_VAR *) * n);
-  covered     = (int *) calloc(n, sizeof(int));
-  nInSolution = 0;
-  nCovered    = 0;
-  custo       = 0;
-  residual    = I->C[0];
+  solution          = (SCIP_VAR **) calloc(nProfs, sizeof(SCIP_VAR *));
+  coveredTurmas     = (int *) calloc(mTurmas, sizeof(int));  // covered turmas
+  coveredProfessors = (int *) calloc(nProfs, sizeof(int));   // covered professors
+  nInSolution       = 0;
+  nCovered          = 0;
+  custo             = 0;
+  residual;
 
 #ifdef DEBUG_GULOSA
-  printf("\nGULOSA: nvars=%d n=%d residual=%d\n", nvars, n, residual);
+  PRINTFD("nvars=%d nprof=%d nturmas=%d\n", nvars, nProfs, mTurmas);
 #endif
+
+  // Order list of professores by pesoMedioPreferencias
+  qsort(I->professores, I->n, sizeof(Professor), compareProfessores);
+  // #ifdef DEBUG_GULOSA
+  //   PRINTFD("----------------------------------------\n");
+  //   // print professors ordered by pesoMedioPreferencias
+  //   for (int i = 0; i < I->n; i++)
+  //   {
+  //     PRINTFD("%s: %f\n", I->professores[i].nome, I->professores[i].pesoMedioPreferencias);
+  //     // print preferencias
+  //     for (int j = 0; j < I->m; j++)
+  //     {
+  //       if (I->professores[i].preferencias[j].peso >= EPSILON)
+  //         printf("\nGULOSA: Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, I->professores[i].preferencias[j].turma->label, I->professores[i].preferencias[j].peso);
+  //     }
+  //   }
+  // #endif
+  // for each professor, remove his prefered turmas from the list of turmas until CHmin is reached and CHmax1 is not exceeded
+  int carga_s1[I->n];
+  int carga_s2[I->n];
+
+  for (int i = 0; i < I->n; i++)
+  {
+    carga_s1[i] = 0;
+    carga_s2[i] = 0;
+  }
+
+  Professor *cur_professor;
+  Preferencias *cur_pref;
+
+  // for each turma
+  // for (int j = 0; j < mTurmas; j++)
+  // {
+  //   PRINTFD("Para turma %d\n", j);
+
+  //   for (int i = 0; i < nProfs; i++)
+  //   {
+  //     cur_professor = &I->professores[i];
+  //     PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, j);
+  //     cur_pref = &cur_professor->preferencias[j];
+
+  //     // if the professor is covered
+  //     if (coveredProfessors[i] == 1)
+  //       continue;
+
+  //     // end loop for peso = 0 (no interest, no area match)
+  //     if (cur_pref->peso == 0)
+  //       continue;
+
+  //     // if turma is already covered
+  //     if (coveredTurmas[cur_pref->turma->label] == 1)
+  //       continue;
+
+  //     // if the professor has reached the minimum CH, stop the loop
+  //     if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
+  //     {
+  //       PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
+  //       // cover the professor
+  //       coveredProfessors[i] = 1;
+  //       continue;
+  //     }
+
+  //     // turma is from semestre 1
+  //     if (cur_pref->turma->semestre == 1)
+  //     {
+  //       // if the professor can take the turma
+  //       if (carga_s1[i] + cur_pref->turma->CH > cur_professor->CHmax1)
+  //         continue;
+
+  //       // update the residual capacity
+  //       carga_s1[i] += cur_pref->turma->CH;
+
+  //       PRINTFD("GULOSA: Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, cur_pref->turma->label, cur_pref->peso);
+  //       // cover the turma
+  //       coveredTurmas[cur_pref->turma->label] = 1;
+
+  //       // stop
+  //       continue;
+  //     }
+
+  //     // turma is from semestre 2
+  //     if (carga_s2[i] + cur_pref->turma->CH > cur_professor->CHmax2)
+  //       continue;
+
+  //     // update the residual capacity
+  //     carga_s2[i] += cur_pref->turma->CH;
+
+  //     // cover the turma
+  //     coveredTurmas[cur_pref->turma->label] = 1;
+
+  //   }  // end for turmas
+  // }  // end for professores
+
+  // for each professor
+  for (int i = 0; i < nProfs; i++)
+  {
+    cur_professor = &I->professores[i];
+
+    // if the professor is covered
+    if (coveredProfessors[i] == 1)
+      continue;
+
+    // for each turma
+    for (int j = 0; j < mTurmas; j++)
+    {
+      cur_pref = &cur_professor->preferencias[j];
+
+      // end loop for peso = 0 (no interest, no area match)
+      if (cur_pref->peso == 0)
+        continue;
+
+      // if turma is already covered
+      if (coveredTurmas[cur_pref->turma->label] == 1)
+        continue;
+
+      // if the professor has reached the minimum CH, stop the loop
+      if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
+      {
+        // PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
+        // cover the professor
+        coveredProfessors[i] = 1;
+        continue;
+      }
+
+      // turma is from semestre 1
+      if (cur_pref->turma->semestre == 1)
+      {
+        // if the professor can take the turma
+        if (carga_s1[i] + cur_pref->turma->CH > cur_professor->CHmax1)
+          continue;
+
+        // update the residual capacity
+        carga_s1[i] += cur_pref->turma->CH;
+
+        PRINTFD("Professor %s apto para turma %d de nome %s  com peso de %f\n", I->professores[i].nome, cur_pref->turma->label, cur_pref->turma->disciplina.nome, cur_pref->peso);
+        // cover the turma
+        coveredTurmas[cur_pref->turma->label] = 1;
+
+        // stop
+        continue;
+      }
+
+      // turma is from semestre 2
+      if (carga_s2[i] + cur_pref->turma->CH > cur_professor->CHmax2)
+        continue;
+
+      // update the residual capacity
+      carga_s2[i] += cur_pref->turma->CH;
+      // cover the turma
+      coveredTurmas[cur_pref->turma->label] = 1;
+    }
+  }
+
+
+  // print all turmas that were not covered
+  PRINTFD("\n\nTurmas que nao foram cobertas:\n");
+  for (int i = 0; i < mTurmas; i++)
+  {
+    if (coveredTurmas[i] == 0)
+    {
+      PRINTFD("Turma %s\n", I->turmas[i].disciplina.nome);
+    }
+  }
+
+  // print all professors that were not covered
+  PRINTFD("\n\nProfessores que nao foram cobertos:\n");
+  for (int i = 0; i < nProfs; i++)
+  {
+    if (coveredProfessors[i] == 0)
+    {
+      PRINTFD("Professor %s\n", I->professores[i].nome);
+    }
+  }
 
   //     // first, select all variables already fixed in 1.0
   //     for (i = 0; i < nvars; i++)
@@ -179,7 +391,7 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //             //custo += I->item[i].value; comented
   //             infeasible = residual < 0 ? 1 : 0;
   // #ifdef DEBUG_GULOSA
-  //             printf("\nSelected fixed var= %s. TotalItems=%d value=%d residual=%d infeasible=%d", SCIPvarGetName(var), nInSolution, custo, residual, infeasible);
+  //             PRINTFD("\nSelected fixed var= %s. TotalItems=%d value=%d residual=%d infeasible=%d", SCIPvarGetName(var), nInSolution, custo, residual, infeasible);
   // #endif
   //         }
   //         else
@@ -192,80 +404,79 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //         }
   //     }
 
+//   // complete solution using items not fixed (not covered)
+//   for (i = 0; i < n && nCovered < n && residual > 0; i++)
+//   {
+//     // only select actived var in scip and whose gulosa up is valid for the problem
+//     if (!covered[i] && I->item[i].weight <= residual)
+//     {
+//       var                     = varlist[i];
+//       // include selected var in the solution
+//       solution[nInSolution++] = var;
+//       // update residual capacity
+//       residual -= I->item[i].weight;
+//       // update vertex covered by the current solution
+//       covered[i] = 1;
+//       nCovered++;
+//       custo += I->item[i].value;
+//       infeasible = residual < 0 ? 1 : 0;
 
-  // complete solution using items not fixed (not covered)
-  for (i = 0; i < n && nCovered < n && residual > 0; i++)
-  {
-    /*
-     // only select actived var in scip and whose gulosa up is valid for the problem
-     if(!covered[i] && I->item[i].weight <= residual){
-       var = varlist[i];
-       // include selected var in the solution
-       solution[nInSolution++]=var;
-        // update residual capacity
-        residual -= I->item[i].weight;
-       // update vertex covered by the current solution
-       covered[i] = 1;
-       nCovered++;
-       custo += I->item[i].value;
-       infeasible = residual<0?1:0;
-       
-#ifdef DEBUG_GULOSA
-       printf("\n\nSelected var= %s. TotalItems=%d value=%d residual=%d infeasible=%d\n", SCIPvarGetName(var), nInSolution, custo, residual, infeasible);
-#endif
-     }
-     comented
-       */
-  }
-  if (!infeasible)
-  {
-    /* create SCIP solution structure sol */
-    SCIP_CALL(SCIPcreateSol(scip, sol, heur));
-    // save found solution in sol
-    for (i = 0; i < nInSolution; i++)
-    {
-      var = solution[i];
-      SCIP_CALL(SCIPsetSolVal(scip, *sol, var, 1.0));
-    }
-    valor  = custo;  //createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
-    bestUb = SCIPgetPrimalbound(scip);
-#ifdef DEBUG_GULOSA
-    printf("\nFound solution...\n");
-    //      SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
-    printf("\ninfeasible=%d value = %lf > bestUb = %lf? %d\n\n", infeasible, valor, bestUb, valor > bestUb + EPSILON);
-#endif
-    if (!infeasible && valor > bestUb + EPSILON)
-    {
-#ifdef DEBUG_GULOSA
-      printf("\nBest solution found...\n");
-      SCIP_CALL(SCIPprintSol(scip, *sol, NULL, FALSE));
-#endif
+// #ifdef DEBUG_GULOSA
+//       PRINTFD("\n\nSelected var= %s. TotalItems=%d value=%d residual=%d infeasible=%d\n", SCIPvarGetName(var), nInSolution, custo, residual, infeasible);
+// #endif
+//     }
+//   }
+//   if (!infeasible)
+//   {
+//     /* create SCIP solution structure sol */
+//     SCIP_CALL(SCIPcreateSol(scip, sol, heur));
+//     // save found solution in sol
+//     for (i = 0; i < nInSolution; i++)
+//     {
+//       var = solution[i];
+//       SCIP_CALL(SCIPsetSolVal(scip, *sol, var, 1.0));
+//     }
+//     valor  = custo;  //createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
+//     bestUb = SCIPgetPrimalbound(scip);
+// #ifdef DEBUG_GULOSA
+//     PRINTFD("\nFound solution...\n");
+//     //      SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
+//     PRINTFD("\ninfeasible=%d value = %lf > bestUb = %lf? %d\n\n", infeasible, valor, bestUb, valor > bestUb + EPSILON);
+// #endif
+//     if (!infeasible && valor > bestUb + EPSILON)
+//     {
+// #ifdef DEBUG_GULOSA
+//       PRINTFD("\nBest solution found...\n");
+//       SCIP_CALL(SCIPprintSol(scip, *sol, NULL, FALSE));
+// #endif
 
-      /* check if the solution is feasible */
-      SCIP_CALL(SCIPtrySolMine(scip, *sol, TRUE, TRUE, FALSE, TRUE, &stored));
-      if (stored)
-      {
-#ifdef DEBUG_PRIMAL
-        printf("\nSolution is feasible and was saved! Total of items = %d", nInSolution);
-        SCIPdebugMessage("found feasible gulosa solution:\n");
-        SCIP_CALL(SCIPprintSol(scip, *sol, NULL, FALSE));
-#endif
-        //       *result = SCIP_FOUNDSOL;
-      }
-      else
-      {
-        found = 0;
+//       /* check if the solution is feasible */
+//       SCIP_CALL(SCIPtrySolMine(scip, *sol, TRUE, TRUE, FALSE, TRUE, &stored));
+//       if (stored)
+//       {
+// #ifdef DEBUG_PRIMAL
+//         PRINTFD("\nSolution is feasible and was saved! Total of items = %d", nInSolution);
+//         SCIPdebugMessage("found feasible gulosa solution:\n");
+//         SCIP_CALL(SCIPprintSol(scip, *sol, NULL, FALSE));
+// #endif
+//         //       *result = SCIP_FOUNDSOL;
+//       }
+//       else
+//       {
+//         found = 0;
+// #ifdef DEBUG_GULOSA
+//         PRINTFD("\nCould not found\n. BestUb=%lf", bestUb);
+// #endif
+//       }
+//     }
+//   }
 #ifdef DEBUG_GULOSA
-        printf("\nCould not found\n. BestUb=%lf", bestUb);
+  getchar();
 #endif
-      }
-    }
-  }
-  //#ifdef DEBUG_GULOSA
-  //   getchar();
-  //#endif
   free(solution);
-  free(covered);
+  free(coveredTurmas);
+  free(coveredProfessors);
+
   return found;
 }
 
@@ -306,7 +517,7 @@ static SCIP_DECL_HEUREXEC(heurExecGulosa)
   {
     *result = SCIP_DIDNOTFIND;
 #ifdef DEBUG_PRIMAL
-    printf("\nGulosa could not find feasible solution!");
+    PRINTFD("\nGulosa could not find feasible solution!");
 #endif
   }
   return SCIP_OKAY;
