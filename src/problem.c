@@ -114,7 +114,8 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
       sum += peso;
     }
 
-    // Professores que não possuem preferência por nenhuma turma, recebem um valor de preferência igual a EPSILON
+    // Professores que não possuem peso por uma turma, mas que possuem a área em comum com a turma
+    // recebem peso EPSILON para que sejam considerados na heurística gulosa
     for (int j = 0; j < m; j++)
     {
       if (checaArea((*I)->professores[i].areas, (*I)->turmas[j].disciplina.areas, (*I)->numAreas) == 1 && (*I)->professores[i].preferencias[j].peso == 0)

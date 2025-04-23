@@ -373,32 +373,6 @@ SCIP_RETCODE SCIPprobdataCreate(
     ncons++;
   }
 
-  /*
-    // create constraint to the capacity of the knapsack
-    SCIP_CALL( SCIPcreateConsBasicLinear (scip, &conss[ncons], "capacity", 0, NULL, NULL, -SCIPinfinity(scip), (double) I->C[0]) );
-    SCIP_CALL( SCIPaddCons(scip, conss[ncons]) );
-    //   SCIP_CALL( SCIPreleaseCons(scip, &conss[0]) );
-    ncons++; // it must be 1
-
-    // create one variable for each item i
-    for( i = 0; i < I->n; nvars++, ++i )
-    {
-       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d", i);
-       // create a basic variable object
-       SCIP_CALL( SCIPcreateVarBasic(scip, &var, name, 0.0, 1.0, (double) I->item[i].value, SCIP_VARTYPE_BINARY) );
-       assert(var != NULL);
-       // save the pointer to the created var
-       vars[nvars]=var;
-
-       // add variable to the problem
-       SCIP_CALL( SCIPaddVar(scip, var) );
-
-       // add variable to the capacity constraint
-       SCIP_CALL( SCIPaddCoefLinear(scip, conss[0], var, (double) I->item[i].weight) );
-    }
-    */
-
-
   // TODO: ... after vars and constraints have been created, nothing more is necessary. Just do exactly as follows:
   /* create problem data */
   SCIP_CALL(probdataCreate(scip, &probdata, probname, vars, conss, nvars, ncons, I));
