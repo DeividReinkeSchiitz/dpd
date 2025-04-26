@@ -385,7 +385,7 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 
 
   // print all turmas that were not covered
-  PRINTFD("Turmas que nao foram cobertas:\n");
+  PRINTFD("Turmas que nao foram cobertas:");
   for (int i = 0; i < mTurmas; i++)
   {
     if (coveredTurmas[i] == 0)
@@ -393,10 +393,9 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
       PRINTFD("Turma %s", I->turmas[i].disciplina.nome);
     }
   }
-  PRINTFD();
-
+  printf("\n");
   // print all professors that were not covered
-  PRINTFD("Professores que nao foram cobertos:\n");
+  PRINTFD("Professores que nao foram cobertos:");
   for (int i = 0; i < nProfs; i++)
   {
     if (coveredProfessors[i] == 0)
@@ -404,7 +403,8 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
       PRINTFD("Professor %s", I->professores[i].nome);
     }
   }
-  PRINTFD();
+  printf("\n");
+
 
   //     // first, select all variables already fixed in 1.0
   //     for (i = 0; i < nvars; i++)

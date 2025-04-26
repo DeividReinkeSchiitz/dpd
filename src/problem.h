@@ -3,11 +3,14 @@
 #include "scip/scip.h"
 #include <stdio.h>
 
+
+typedef uint32_t Area;
+
 typedef struct
 {
   char nome[100];
   char sigla[20];
-  unsigned int areas;  // 32 bits
+  Area areas;  // 32 bits
 } Disciplina;
 
 typedef struct
@@ -41,7 +44,7 @@ typedef struct
   int CHmax2;
   int ativo;  //bool
   char nome[100];
-  unsigned int areas;  // 32 bits
+  Area areas;  // 32 bits
 
   //preferencias é um vetor de inteiros, onde cada valor representa o peso dado a turma de indice correspondente.
   //deve ser alocado dinamicamente de acordo com o numero de turmas

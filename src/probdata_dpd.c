@@ -154,11 +154,29 @@ static SCIP_RETCODE probdataFree(
   return SCIP_OKAY;
 }
 
+// Function to convert unsigned long to binary string representation
+void bin2str(unsigned long num, char *str, int len)
+{
+  // Initialize str with all '0's
+  memset(str, '0', len);
+  str[len] = '\0';
+
+  // Set bits from right to left
+  for (int i = len - 1; i >= 0; i--)
+  {
+    if (num & 1)
+      str[i] = '1';
+    num >>= 1;
+  }
+}
+
+
 // 100000 & 110000 =
 int checaArea(unsigned int areaProfessor, unsigned int areaTurma)
 {
-
-  return (areaProfessor & areaTurma) ? 1 : 0;
+  unsigned int result = areaProfessor & areaTurma;
+  printf("Resultado: %u\n", result);
+  return result > 0 ? 1 : 0;
 }
 
 /** frees user data of original problem (called when the original problem is freed) */
@@ -273,9 +291,17 @@ SCIP_RETCODE SCIPprobdataCreate(
       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d_%d", i, j);
       int CoefAptidao;
       int countAreas = 0;
+
+      printf("\n\n");
+      char professorAreaBin[33];
+      char turmaAreaBin[33];
+      bin2str(I->professores[i].areas, professorAreaBin, 32);
+      bin2str(I->turmas[j].disciplina.areas, turmaAreaBin, 32);
+      printf("PROFESSOR %s com a area %s para a turma %s com a area %s", I->professores[i].nome, professorAreaBin, I->turmas[j].disciplina.nome, turmaAreaBin);
+
       if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas) == 1))
       {
-        printf("PROFESSOR %s com a area %d apto para a turma %d com a area %d\n", I->professores[i].nome, I->professores[i].areas, I->turmas[j].disciplina.areas);
+        printf(" - APTO\n");
         count++;
         if (I->professores[i].preferencias[j].peso > 0)
         {
@@ -286,6 +312,7 @@ SCIP_RETCODE SCIPprobdataCreate(
       }
       else
       {
+        printf(" - NAO APTO\n");
         CoefAptidao = -I->area_penalty;
       }
       SCIP_CALL(SCIPcreateVarBasic(scip, &var, name, 0.0, 1.0, (double) CoefAptidao, SCIP_VARTYPE_BINARY));

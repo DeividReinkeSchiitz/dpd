@@ -67,6 +67,20 @@ void printInstance(instanceT *I)
   }
 }
 
+// Convert binary string to unsigned long
+unsigned long str2bin(char *str)
+{
+  unsigned long result = 0;
+  int len              = strlen(str);
+
+  for (int i = 0; i < len; i++)
+  {
+    result <<= 1;  // Shift left by 1 bit
+    if (str[i] == '1')
+      result |= 1;  // Set the least significant bit to 1
+  }
+  return result;
+}
 int loadInstance(char *filename, instanceT **I, int area_penalty)
 {
   FILE *f;
@@ -81,16 +95,18 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
   fgets(linha, sizeof(linha), f);
   sscanf(linha, "%d;%d;%d", &m, &n, &numareas);
   createInstance(I, n, m, numareas);
-  (*I)->area_penalty = area_penalty;
-
+  (*I)->area_penalty  = area_penalty;
+  char areas_str[100] = {0};  // Buffer to store the areas string
   //lendo cabecalho
   fgets(linha, sizeof(linha), f);
 
   for (int i = 0; i < m; i++)
   {
     fgets(linha, sizeof(linha), f);
-    sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%lu", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, &(*I)->turmas[i].disciplina.areas);
-    (*I)->turmas[i].label = i;
+    (*I)->turmas[i].disciplina.areas = 0;
+    sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%[01]", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, areas_str);
+    (*I)->turmas[i].disciplina.areas = str2bin(areas_str);  // Convert areas_str to binary representation
+    (*I)->turmas[i].label            = i;
   }
 
   fgets(linha, sizeof(linha), f);  //linha em branco
@@ -101,7 +117,8 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
   {
     fgets(linha, sizeof(linha), f);
     int p;
-    sscanf(linha, "%99[^;];%d;%d;%d;%d;%lu", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, &(*I)->professores[i].areas);
+    sscanf(linha, "%99[^;];%d;%d;%d;%d;%s", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, areas_str);
+    (*I)->professores[i].areas              = str2bin(areas_str);
     (*I)->professores[i].numeroPreferencias = p;
     float sum                               = 0;
     for (int j = 0; j < p; j++)
