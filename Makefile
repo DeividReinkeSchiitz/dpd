@@ -33,4 +33,4 @@ clean:
 	rm -f bin/*.o bin/dpd output/*
 
 run:
-	make && xargs -a ./configs/teste.config ./bin/dpd ./input/entrada_real.csv        
+	rm -f output/* && make && xargs -a ./configs/teste.config ./bin/dpd ./input/entrada_real.csv
