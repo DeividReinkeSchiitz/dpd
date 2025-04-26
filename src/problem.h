@@ -7,7 +7,7 @@ typedef struct
 {
   char nome[100];
   char sigla[20];
-  int areas;
+  unsigned int areas;  // 32 bits
 } Disciplina;
 
 typedef struct
@@ -41,7 +41,7 @@ typedef struct
   int CHmax2;
   int ativo;  //bool
   char nome[100];
-  int areas;
+  unsigned int areas;  // 32 bits
 
   //preferencias é um vetor de inteiros, onde cada valor representa o peso dado a turma de indice correspondente.
   //deve ser alocado dinamicamente de acordo com o numero de turmas

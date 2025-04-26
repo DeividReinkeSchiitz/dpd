@@ -154,30 +154,12 @@ static SCIP_RETCODE probdataFree(
   return SCIP_OKAY;
 }
 
-double checaArea(int areaProfessor, int areaTurma, int numAreas)
+// 100000 & 110000 =
+int checaArea(unsigned int areaProfessor, unsigned int areaTurma)
 {
-  for (int i = 0; i < numAreas; i++)
-  {
-    if (areaProfessor % 10 == areaTurma % 10)
-    {
-      if (areaProfessor % 10 == 1)
-      {
-        return 1;
-      }
-    }
-    areaProfessor = areaProfessor / 10;
-    areaTurma     = areaTurma / 10;
-  }
 
-  return 0;
+  return (areaProfessor & areaTurma) ? 1 : 0;
 }
-
-/**@} */
-
-/**@name Callback methods of problem data
- *
- * @{
- */
 
 /** frees user data of original problem (called when the original problem is freed) */
 static SCIP_DECL_PROBDELORIG(probdelorigMochila)
@@ -285,12 +267,16 @@ SCIP_RETCODE SCIPprobdataCreate(
   //cria variaveis e função objetiva
   for (int i = 0; i < I->n; i++)
   {
+    int count = 0;
     for (int j = 0; j < I->m; j++)
     {
       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d_%d", i, j);
       int CoefAptidao;
-      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas, I->numAreas) == 1))
+      int countAreas = 0;
+      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas) == 1))
       {
+        printf("PROFESSOR %s com a area %d apto para a turma %d com a area %d\n", I->professores[i].nome, I->professores[i].areas, I->turmas[j].disciplina.areas);
+        count++;
         if (I->professores[i].preferencias[j].peso > 0)
         {
           //professor apto
@@ -309,6 +295,8 @@ SCIP_RETCODE SCIPprobdataCreate(
       SCIP_CALL(SCIPaddVar(scip, var));
       nvars++;
     }
+    if (count == 0)
+      printf("PROFESSOR %s: %d\n", I->professores[i].nome, count);
   }
 
 

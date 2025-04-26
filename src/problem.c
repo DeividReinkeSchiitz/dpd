@@ -6,7 +6,7 @@
 #include "probdata_dpd.h"
 #include "scip/scip.h"
 #include <math.h>
-#include <stdio.h>
+
 
 void freeInstance(instanceT *I)
 {
@@ -50,12 +50,12 @@ void printInstance(instanceT *I)
   printf("codigo;semestre;numero;nome;curso;CH;area\n");
   for (int i = 0; i < I->m; i++)
   {
-    printf("%d;%d;T%d;%s;%s;%d;%d\n", i + 1, I->turmas[i].semestre, I->turmas[i].numero, I->turmas[i].disciplina.nome, I->turmas[i].cursos, I->turmas[i].CH, I->turmas[i].disciplina.areas);
+    printf("%d;%d;T%d;%s;%s;%d;%lu\n", i + 1, I->turmas[i].semestre, I->turmas[i].numero, I->turmas[i].disciplina.nome, I->turmas[i].cursos, I->turmas[i].CH, I->turmas[i].disciplina.areas);
   }
   printf("\nnome;CHmin;CHmax1;CHmax2;preferencias;areas\n");
   for (int i = 0; i < I->n; i++)
   {
-    printf("%s;%d;%d;%d;%d;%d\n", I->professores[i].nome, I->professores[i].CHmin, I->professores[i].CHmax1, I->professores[i].CHmax2, I->professores[i].numeroPreferencias, I->professores[i].areas);
+    printf("%s;%d;%d;%d;%d;%lu\n", I->professores[i].nome, I->professores[i].CHmin, I->professores[i].CHmax1, I->professores[i].CHmax2, I->professores[i].numeroPreferencias, I->professores[i].areas);
     for (int j = 0; j < I->professores[i].numeroPreferencias; j++)
     {
 
@@ -89,7 +89,7 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
   for (int i = 0; i < m; i++)
   {
     fgets(linha, sizeof(linha), f);
-    sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%d", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, &(*I)->turmas[i].disciplina.areas);
+    sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%lu", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, &(*I)->turmas[i].disciplina.areas);
     (*I)->turmas[i].label = i;
   }
 
@@ -101,7 +101,7 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
   {
     fgets(linha, sizeof(linha), f);
     int p;
-    sscanf(linha, "%99[^;];%d;%d;%d;%d;%d", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, &(*I)->professores[i].areas);
+    sscanf(linha, "%99[^;];%d;%d;%d;%d;%lu", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, &(*I)->professores[i].areas);
     (*I)->professores[i].numeroPreferencias = p;
     float sum                               = 0;
     for (int j = 0; j < p; j++)
@@ -118,7 +118,7 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
     // recebem peso EPSILON para que sejam considerados na heurística gulosa
     for (int j = 0; j < m; j++)
     {
-      if (checaArea((*I)->professores[i].areas, (*I)->turmas[j].disciplina.areas, (*I)->numAreas) == 1 && (*I)->professores[i].preferencias[j].peso == 0)
+      if (checaArea((*I)->professores[i].areas, (*I)->turmas[j].disciplina.areas) == 1 && (*I)->professores[i].preferencias[j].peso == 0)
       {
         (*I)->professores[i].preferencias[j].peso  = EPSILON;
         (*I)->professores[i].preferencias[j].turma = &(*I)->turmas[j];
@@ -128,6 +128,7 @@ int loadInstance(char *filename, instanceT **I, int area_penalty)
     if (p > 0)
     {
       (*I)->professores[i].pesoMedioPreferencias = (sum / p) + (m / p);
+      // (*I)->professores[i].pesoMedioPreferencias = (sum / p);
     }
     else
     {

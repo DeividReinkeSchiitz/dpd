@@ -39,7 +39,7 @@
 #define PRINTF(...)
 #endif
 
-double checaArea(int areaProfessor, int areaTurma, int numAreas);
+int checaArea(unsigned int areaProfessor, unsigned int areaTurma);
 
 /** @brief Problem data which is accessible in all places
  *
