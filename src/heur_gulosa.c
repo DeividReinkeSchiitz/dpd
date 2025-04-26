@@ -144,6 +144,24 @@ int compareProfessores(const void *a, const void *b)
   return 0;
 }
 
+void printOrderedProfessores(instanceT *I)
+{
+#ifdef DEBUG_GULOSA
+  PRINTFD("----------------------------------------\n");
+  // print professors ordered by pesoMedioPreferencias
+  for (int i = 0; i < I->n; i++)
+  {
+    PRINTFD("%s: %f\n", I->professores[i].nome, I->professores[i].pesoMedioPreferencias);
+    // print preferencias
+    for (int j = 0; j < I->m; j++)
+    {
+      if (I->professores[i].preferencias[j].peso >= EPSILON)
+        printf("\nGULOSA: Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, I->professores[i].preferencias[j].turma->label, I->professores[i].preferencias[j].peso);
+    }
+  }
+#endif
+}
+
 /**
  * @brief Core of the gulosa heuristic: it builds one solution for the problem by gulosa procedure.
  *
@@ -154,11 +172,6 @@ int compareProfessores(const void *a, const void *b)
  */
 int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 {
-  // 1. Atribuir os professores a materia de maior preferencia
-  // 2. Quais professores ficaram sem materia?
-  // 3. Quais materias ficaram sem professor?
-  // 4. Quais professores ficaram com carga horaria menor q a minima?
-
   int found = 0, infeasible, nInSolution;
   unsigned int stored;
   int nvars;
@@ -169,10 +182,6 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   SCIP_PROBDATA *probdata;
   int i, residual;
   Turma *TurmasCopy;
-  // // frequencia_turmas é um vetor de inteiros, onde cada valor representa a frequencia de uma turma
-  // // ex: [1, 4, 6, 7] significa que a turma 0 foi escolhida por 1 professor, a turma 1 por 4 professores,
-  // // a turma 2 por 6 professores e a turma 3 por 7 professores
-  // int *frequencia_turmas;
 
   instanceT *I;
   found      = 0;
@@ -206,21 +215,8 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 
   // Order list of professores by pesoMedioPreferencias
   qsort(I->professores, I->n, sizeof(Professor), compareProfessores);
-  // #ifdef DEBUG_GULOSA
-  //   PRINTFD("----------------------------------------\n");
-  //   // print professors ordered by pesoMedioPreferencias
-  //   for (int i = 0; i < I->n; i++)
-  //   {
-  //     PRINTFD("%s: %f\n", I->professores[i].nome, I->professores[i].pesoMedioPreferencias);
-  //     // print preferencias
-  //     for (int j = 0; j < I->m; j++)
-  //     {
-  //       if (I->professores[i].preferencias[j].peso >= EPSILON)
-  //         printf("\nGULOSA: Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, I->professores[i].preferencias[j].turma->label, I->professores[i].preferencias[j].peso);
-  //     }
-  //   }
-  // #endif
-  // for each professor, remove his prefered turmas from the list of turmas until CHmin is reached and CHmax1 is not exceeded
+  printOrderedProfessores(I);
+
   int carga_s1[I->n];
   int carga_s2[I->n];
 
