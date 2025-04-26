@@ -229,100 +229,95 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   Professor *cur_professor;
   Preferencias *cur_pref;
 
-  // for each turma
-  for (int j = 0; j < mTurmas; j++)
-  {
+  // // for each turma
+  // for (int j = 0; j < mTurmas; j++)
+  // {
 
-    for (int i = 0; i < nProfs; i++)
-    {
-      cur_professor = &I->professores[i];
-      cur_pref      = &cur_professor->preferencias[j];
+  //   // for each professor
+  //   for (int i = 0; i < nProfs; i++)
+  //   {
+  //     cur_professor = &I->professores[i];
+  //     cur_pref      = &cur_professor->preferencias[j];
 
-      // if the professor is covered
-      if (coveredProfessors[i] == 1)
-        continue;
+  //     // if the professor has reached the minimum CH, stop the loop
+  //     if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
+  //     {
+  //       PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
+  //       // cover the professor
+  //       coveredProfessors[i] = 1;
+  //     }
 
-      // TODO: end loop for peso = 0 (no interest, no area match) !!!!!!
-      if (cur_pref->peso == 0)
-        continue;
+  //     // if the professor is covered
+  //     if (coveredProfessors[i] == 1)
+  //       continue;
 
-      // if turma is already covered
-      if (coveredTurmas[cur_pref->turma->label] == 1)
-        continue;
+  //     // TODO: end loop for peso = 0 (no interest, no area match) !!!!!!
+  //     if (cur_pref->peso == 0)
+  //       continue;
 
-      // if the professor has reached the minimum CH, stop the loop
-      if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
-      {
-        PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
-        // cover the professor
-        coveredProfessors[i] = 1;
-      }
-
-
-      PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, cur_pref->turma->label);
-
-      // turma is from semestre 1
-      if (cur_pref->turma->semestre == 1)
-      {
-        // if the professor can take the turma
-        if (carga_s1[i] + cur_pref->turma->CH > cur_professor->CHmax1)
-          continue;
-
-        // update the residual capacity
-        carga_s1[i] += cur_pref->turma->CH;
-
-        PRINTFD("Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, cur_pref->turma->label, cur_pref->peso);
-        // cover the turma
-        coveredTurmas[cur_pref->turma->label] = 1;
-
-        // if the professor has reached the minimum CH, stop the loop
-        if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
-        {
-          PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
-          // cover the professor
-          coveredProfessors[i] = 1;
-        }
+  //     // if turma is already covered
+  //     if (coveredTurmas[cur_pref->turma->label] == 1)
+  //       continue;
 
 
-        // stop
-        continue;
-      }
+  //     PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, cur_pref->turma->label);
 
-      // turma is from semestre 2
-      if (carga_s2[i] + cur_pref->turma->CH > cur_professor->CHmax2)
-        continue;
+  //     // turma is from semestre 1
+  //     if (cur_pref->turma->semestre == 1)
+  //     {
+  //       // if the professor can take the turma
+  //       if (carga_s1[i] + cur_pref->turma->CH > cur_professor->CHmax1)
+  //         continue;
 
-      // update the residual capacity
-      carga_s2[i] += cur_pref->turma->CH;
+  //       // update the residual capacity
+  //       carga_s1[i] += cur_pref->turma->CH;
 
-      // cover the turma
-      coveredTurmas[cur_pref->turma->label] = 1;
+  //       PRINTFD("Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, cur_pref->turma->label, cur_pref->peso);
+  //       // cover the turma
+  //       coveredTurmas[cur_pref->turma->label] = 1;
 
-      // if the professor has reached the minimum CH, stop the loop
-      if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
-      {
-        PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
-        // cover the professor
-        coveredProfessors[i] = 1;
-      }
+  //       // stop
+  //       continue;
+  //     }
+
+  //     // turma is from semestre 2
+  //     if (carga_s2[i] + cur_pref->turma->CH > cur_professor->CHmax2)
+  //       continue;
+
+  //     // update the residual capacity
+  //     carga_s2[i] += cur_pref->turma->CH;
+
+  //     // cover the turma
+  //     coveredTurmas[cur_pref->turma->label] = 1;
+  //   }  // end for turmas
+  // }  // end for professores
+
+  ///////////////////////////
 
 
-    }  // end for turmas
-  }  // end for professores
-
-  // for each professor
+  // // for each professor
   // for (int i = 0; i < nProfs; i++)
   // {
   //   cur_professor = &I->professores[i];
+
 
   //   // if the professor is covered
   //   if (coveredProfessors[i] == 1)
   //     continue;
 
+
   //   // for each turma
   //   for (int j = 0; j < mTurmas; j++)
   //   {
   //     cur_pref = &cur_professor->preferencias[j];
+
+  //     // if the professor has reached the minimum CH, stop the loop
+  //     if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
+  //     {
+  //       PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
+  //       // cover the professor
+  //       coveredProfessors[i] = 1;
+  //     }
 
   //     // end loop for peso = 0 (no interest, no area match)
   //     if (cur_pref->peso == 0)
@@ -346,14 +341,6 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //       // cover the turma
   //       coveredTurmas[cur_pref->turma->label] = 1;
 
-  //       // if the professor has reached the minimum CH, stop the loop
-  //       if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
-  //       {
-  //         PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
-  //         // cover the professor
-  //         coveredProfessors[i] = 1;
-  //       }
-
   //       // stop
   //       continue;
   //     }
@@ -368,14 +355,6 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //     carga_s2[i] += cur_pref->turma->CH;
   //     // cover the turma
   //     coveredTurmas[cur_pref->turma->label] = 1;
-
-  //     // if the professor has reached the minimum CH, stop the loop
-  //     if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
-  //     {
-  //       PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
-  //       // cover the professor
-  //       coveredProfessors[i] = 1;
-  //     }
   //   }
   // }
 
@@ -400,7 +379,7 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
     }
   }
   printf("\n");
-
+  getchar();
 
   //     // first, select all variables already fixed in 1.0
   //     for (i = 0; i < nvars; i++)
