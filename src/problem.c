@@ -8,7 +8,7 @@
 #include "scip/scip.h"
 #include "probdata_dpd.h"
 
-void freeInstance(instanceT* I)
+void freeInstance(instanceT* I) 
 {
   if(I){
     for(int i=0; i<I->n; i++){

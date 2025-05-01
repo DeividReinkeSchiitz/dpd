@@ -22,6 +22,7 @@
 
 #include <assert.h>
 #include <time.h>
+#include <string.h>
 
 #include "probdata_dpd.h"
 #include "parameters_dpd.h"
@@ -164,13 +165,27 @@ void maxmin(Candidatos *C, int *max, int *min, int n) {
    }
 }
 
-void cria_candidatos(Candidatos *candidatos, int *codigo_turmas, int *pesos_atribuidos, int n){
-   int posicao;
+
+// para estar na lista de candidatos do prof, a turma nao pode estar coberta
+int cria_candidatos(Candidatos *candidatos, int *codigo_turmas, int *pesos_atribuidos, int n, int *covered){
+   printf("\nCRIANDO A LISTA DE CANDIDATOS:\n");
+   int posicao, j=0;
    for(int i = 0; i < n; i++){
       posicao = codigo_turmas[i] -1;
-      candidatos[i].codigo_turma = codigo_turmas[i];
-      candidatos[i].peso_atribuido = pesos_atribuidos[posicao];
+      if(covered[posicao] == 0){
+
+         printf("\nTURMA NAO COBERTA: %d\n", covered[posicao]);
+         candidatos[j].codigo_turma = codigo_turmas[i];
+         candidatos[j].peso_atribuido = pesos_atribuidos[posicao];
+         j++;
+      }else{
+         printf("\nTURMA COBERTA: %d\n", covered[posicao]);
+      }
+     
    }
+
+   return j;
+  
 }
 
 void cria_RCL(Candidatos *candidatos, Candidatos *RCL, int alpha, int max, int min, int n, int *n_RCL){
@@ -196,9 +211,64 @@ Candidatos escolherAleatorio(Candidatos *vetor, int n) {
 void atualiza_candidatos(Candidatos *candidatos, Candidatos removido, int n){
    for(int i = 0; i < n; i++){
       if(candidatos[i].codigo_turma == removido.codigo_turma){
-         candidatos[i] = removido;
+         candidatos[i] = candidatos[n-1];
       }
    }
+}
+
+void int_para_string_bits(int valor, char *bits) {
+   int i;
+   for (i = 14; i >= 0; i--) {
+       bits[14 - i] = (valor & (1 << i)) ? '1' : '0';
+   }
+   bits[15] = '\0'; // Finaliza a string
+}
+
+int percorre_ate_1(int valor) {
+   char bits[15]; // 14 bits + '\0'
+   int_para_string_bits(valor, bits);
+
+   // printf("Valor: %d\n", valor);
+   // printf("Bits: %s\n", bits);
+
+   for (int i = 0; i < 15; i++) {
+       if (bits[i] == '1') {
+           //printf("Encontrou '1' na posição %d\n", i);
+           return i;
+       }
+   }
+}
+
+// funcao para verificar se a area de uma turma coincide com a area do prof
+// int verifica_area(int area_prof, int area_turma) {
+//    char a[15];
+//    char b[15];
+
+//    int_para_string_bits(area_prof, a);
+//    int_para_string_bits(area_turma, b);
+
+//    for (int i = 0; i < 15; i++) {
+//        if (a[i] == '1' && b[i] == '1') {
+//            return 1;
+//        }
+//    }
+//    return 0; 
+// }
+
+int verifica_areas(int areaProfessor, int areaTurma, int numAreas){
+   for (int i = 0; i < numAreas; i++)
+   {
+     if (areaProfessor % 10 == areaTurma % 10)
+     {
+       if (areaProfessor % 10 == 1)
+       {
+         return 1;
+       }
+     }
+     areaProfessor = areaProfessor / 10;
+     areaTurma     = areaTurma / 10;
+   }
+   return 2;
 }
 
 
@@ -220,7 +290,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    //  SCIP* scip_cp;
    SCIP_Real valor, bestUb;
    SCIP_PROBDATA* probdata;
-   int i, posicao_turma, max_i = 10, max, min, carga_s1, carga_s2, n_RCL;
+   int i, posicao_turma, max_i = 1, max, min, carga_s1, carga_s2, n_RCL;
    instanceT* I;
    // Auxiliar* profs_auxiliar;
 
@@ -246,8 +316,6 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    nInSolution = 0;
    nCovered = 0;
 
-
-
    // first, select all variables already fixed in 1.0
    for(i=0;i<nvars;i++){
       var = varlist[i];
@@ -266,6 +334,37 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         }
       }
    }
+   
+
+   // Areas *areas = malloc(sizeof(Areas) * 15);  // temos 15 areas distintas ao total entre as turmas
+   // int aux_nomeprof = 0;
+   // // andando por todas as turmas
+   // for(int k = 0; k < m; k++){
+      
+   //    int area_turma = I->turmas[k].disciplina.areas;
+   //    //int posicao_area  = percorre_ate_1(area_turma)-1;  // converte para string e retorna posicao do 1 na string (posicao aonde eu vou acessar o vetor areas)
+
+   //    printf("\nNOME: %s AREA %d\n",I->turmas[k].disciplina.nome, area_turma);
+   //    // buscando todos os professores que sao dessa area
+   //    for(int l = 0; l < n; l++){
+   //       if(verifica_areas(I->professores[l].areas, area_turma, I->numAreas) == 1 || I->professores[l].preferencias[k] > 0){
+   //          // o prof l eh dessa area
+
+   //         printf("\nPROF %s EH DA AREA %d\n", I->professores[l].nome, area_turma);
+
+   //          // strcpy(areas[posicao_area].nome[aux_nomeprof], I->professores[l].nome);
+   //          // areas[posicao_area].quant_profs++;
+   //          aux_nomeprof++;
+   //       }
+   //    }
+
+   //    aux_nomeprof = 0;
+   // }
+
+   // for(int m = 0; m < 15; m++){
+   //    printf("\nAREA %d QUANT DE PROF: %d\n", m, areas[m].quant_profs);
+   // }
+
 
    Candidatos posicao_escolhida;
    // int solucao_final = infinito ????
@@ -278,52 +377,55 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
          carga_s1 = 0,carga_s2 = 0;
          Candidatos *candidatos = malloc(sizeof(Candidatos) * n_candidatos);
          Candidatos *RCL = malloc(sizeof(Candidatos) * n_candidatos);
-         // cria a lista de candidatos (todas as turmas)
-         cria_candidatos(candidatos, I->professores[j].codigo_turmas, I->professores[j].preferencias, n_candidatos);
+         n_candidatos = cria_candidatos(candidatos, I->professores[j].codigo_turmas, I->professores[j].preferencias, n_candidatos, covered);
 
-         printf("\nTESTE\n");
+         printf("\nPROFESSOR ATUAL: %d\n", j);
          while(n_candidatos > 0 && (carga_s1 + carga_s2) <= I->professores[j].CHmin){
+            //printf("\n(INICIO) CARGA HORARIA DO PROFESSOR %d: %d e %d\n", j, carga_s1+carga_s2, I->professores[j].CHmin);
             maxmin(candidatos, &max, &min, n_candidatos);
             n_RCL = 0;
             cria_RCL(candidatos, RCL, 0.7, max, min, n_candidatos, &n_RCL);
             posicao_escolhida = escolherAleatorio(RCL, n_RCL);
 
-            // printf("\nLISTA DE CANDIDATOS DO PROFESSOR %d:\n", j);
-            // for(int k = 0; k < n_candidatos; k++){
-            //    printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
-            // }
-
-            printf("\nESCOLHIDA PARA O PROFESSOR %d: CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", j, posicao_escolhida.codigo_turma, posicao_escolhida.peso_atribuido);
-
-            int semestre = I->turmas[posicao_escolhida.codigo_turma].semestre;
+            printf("\nLISTA DE CANDIDATOS DO PROFESSOR %d:\n", j);
+            for(int k = 0; k < n_candidatos; k++){
+               printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
+            }
             int posicao_certa = posicao_escolhida.codigo_turma;
-            if(semestre == 1 && (carga_s1 + I->turmas[posicao_certa].CH) <= I->professores[i].CHmax1){
-               carga_s1 += I->turmas[posicao_certa].CH;
-               covered[posicao_certa] = 1;
+            int semestre = I->turmas[posicao_certa-1].semestre;
+
+           // printf("\nESCOLHIDA PARA O PROFESSOR %d: CODIGO TURMA: %d; SEMESTERE: %d; CARGA HORARIA: %d; PESO ATRIBUIDO: %d\n", j, posicao_certa,semestre, I->turmas[posicao_certa-1].CH, posicao_escolhida.peso_atribuido);
+
+            // printf("\nCARGA HORARIA 1° SEMESTRE: %d; %d\n", carga_s1, I->professores[j].CHmax1);
+            // printf("CARGA HORARIA 2° SEMESTRE: %d; %d\n", carga_s2, I->professores[j].CHmax2);
+            if(semestre == 1 && (carga_s1 + I->turmas[posicao_certa-1].CH) <= I->professores[j].CHmax1){
+               carga_s1 += I->turmas[posicao_certa-1].CH;
+               covered[posicao_certa-1] = 1;
                nCovered++;
                var = varlist[(j*m)+posicao_certa];
                solution[nInSolution++] = var;
 
-               printf("PROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+               printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
-               printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-               printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+               // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
+               // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
 
 
-            }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa].CH) <= I->professores->CHmax2){
-               carga_s2 += I->turmas[posicao_certa].CH;
-               covered[posicao_certa] = 1;
+            }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa-1].CH) <= I->professores[j].CHmax2){
+               carga_s2 += I->turmas[posicao_certa-1].CH;
+               covered[posicao_certa-1] = 1;
                nCovered++;
                var = varlist[(j*m)+posicao_certa];
                solution[nInSolution++] = var;
 
-               printf("PROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+               printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
-               printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-               printf("\nVALOR DA VARIAVEL: %f\n", SCIPgetSolVal(scip, *sol, var));
+               // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
+               // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
 
             }
-            // remover da lista de candidatos esse item q foi escolhido (e marcar ele como coberto)
+            //printf("\n\n(FINAL) CARGA HORARIA DO PROFESSOR %d: %d e %d", j, carga_s1+carga_s2, I->professores[j].CHmin);
+            // remover da lista de candidatos esse item q foi escolhido
             atualiza_candidatos(candidatos, posicao_escolhida,n_candidatos);
             n_candidatos--;
 
@@ -343,11 +445,9 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
    }
 
-   
 
-
-   printf("NUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", I->m, nCovered, I->m-nCovered);
-   for(i = 0; i < I->m; i++){
+   printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
+   for(i = 0; i < m; i++){
       printf("%d\n", covered[i]);
       if(covered[i] == 0){
          printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
