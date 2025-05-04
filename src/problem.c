@@ -8,6 +8,14 @@
 #include "scip/scip.h"
 #include "probdata_dpd.h"
 
+int binario_para_inteiro(const char *bin) {
+  int resultado = 0;
+  for (int i = 0; bin[i] != '\0'; i++) {
+      resultado = resultado * 2 + (bin[i] - '0');
+  }
+  return resultado;
+}
+
 void freeInstance(instanceT* I) 
 {
   if(I){
@@ -80,9 +88,12 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   //lendo cabecalho
   fgets(linha, sizeof(linha), f);
 
+  // lendo as turmas
   for(int i=0; i<m; i++){
   	fgets(linha, sizeof(linha), f);
-  	sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%d", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, &(*I)->turmas[i].disciplina.areas);
+  	sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%99[^;];", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, (*I)->turmas[i].disciplina.myareas);
+    (*I)->turmas[i].disciplina.areas = binario_para_inteiro((*I)->turmas[i].disciplina.myareas);
+    //printf("\n%d \n", (*I)->turmas[i].disciplina.areas);
   }
   
   fgets(linha, sizeof(linha), f);//linha em branco
@@ -92,8 +103,12 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   for(int i=0; i<n; i++){
   	fgets(linha, sizeof(linha), f);
   	int p;
-  	sscanf(linha, "%99[^;];%d;%d;%d;%d;%d", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, &(*I)->professores[i].areas);
+  	sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;]", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, (*I)->professores[i].myareas);
 	(*I)->professores[i].numeroPreferencias=p;
+  (*I)->professores[i].carga_atual1 = (*I)->professores[i].CHmax1;
+  (*I)->professores[i].carga_atual2 = (*I)->professores[i].CHmax2; 
+
+ // printf("\n%s \n", (*I)->professores[i].myareas);
     float sum = 0;
   	for(int j=0; j<p; j++){
   		fgets(linha, sizeof(linha), f);

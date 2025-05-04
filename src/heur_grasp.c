@@ -168,18 +168,17 @@ void maxmin(Candidatos *C, int *max, int *min, int n) {
 
 // para estar na lista de candidatos do prof, a turma nao pode estar coberta
 int cria_candidatos(Candidatos *candidatos, int *codigo_turmas, int *pesos_atribuidos, int n, int *covered){
-   printf("\nCRIANDO A LISTA DE CANDIDATOS:\n");
+   //printf("\nCRIANDO A LISTA DE CANDIDATOS:\n");
    int posicao, j=0;
    for(int i = 0; i < n; i++){
       posicao = codigo_turmas[i] -1;
       if(covered[posicao] == 0){
-
-         printf("\nTURMA NAO COBERTA: %d\n", covered[posicao]);
+         //printf("\nTURMA NAO COBERTA: %d\n", covered[posicao]);
          candidatos[j].codigo_turma = codigo_turmas[i];
          candidatos[j].peso_atribuido = pesos_atribuidos[posicao];
          j++;
       }else{
-         printf("\nTURMA COBERTA: %d\n", covered[posicao]);
+         //printf("\nTURMA COBERTA: %d\n", covered[posicao]);
       }
      
    }
@@ -404,6 +403,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                nCovered++;
                var = varlist[(j*m)+posicao_certa];
                solution[nInSolution++] = var;
+               I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
 
                printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
@@ -422,6 +422,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
                // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
                // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+               I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
 
             }
             //printf("\n\n(FINAL) CARGA HORARIA DO PROFESSOR %d: %d e %d", j, carga_s1+carga_s2, I->professores[j].CHmin);
@@ -430,6 +431,8 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             n_candidatos--;
 
          }
+
+         printf("\nCARGA HORARIA RESTANTE DO PROFESSOR %d: %d e %d\n", j, I->professores[j].carga_atual1, I->professores[j].carga_atual2);
 
          free(candidatos);
          free(RCL);

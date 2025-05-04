@@ -154,21 +154,11 @@ static SCIP_RETCODE probdataFree(
   return SCIP_OKAY;
 }
 
-double checaArea(int areaProfessor, int areaTurma, int numAreas)
+int checaArea(unsigned int areaProfessor, unsigned int areaTurma)
 {
-  for (int i = 0; i < numAreas; i++)
-  {
-    if (areaProfessor % 10 == areaTurma % 10)
-    {
-      if (areaProfessor % 10 == 1)
-      {
-        return 1;
-      }
-    }
-    areaProfessor = areaProfessor / 10;
-    areaTurma     = areaTurma / 10;
-  }
-  return 2;
+  unsigned int result = areaProfessor & areaTurma;
+  //printf("Resultado: %u\n", result);
+  return result > 0 ? 1 : 0;
 }
 
 /**@} */
@@ -288,7 +278,7 @@ SCIP_RETCODE SCIPprobdataCreate(
     {
       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d_%d", i, j);
       int CoefAptidao;
-      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas, I->numAreas) == 1) || I->professores[i].preferencias[j] > 0)
+      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas) == 1) || I->professores[i].preferencias[j] > 0)
       {
         //professor apto
         CoefAptidao = I->professores[i].preferencias[j];
