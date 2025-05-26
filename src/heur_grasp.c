@@ -208,6 +208,9 @@ Candidatos escolherAleatorio(Candidatos *vetor, int n) {
 }
 
 void atualiza_candidatos(Candidatos *candidatos, Candidatos removido, int n){
+   if(n == 0){
+      return;
+   }
    for(int i = 0; i < n; i++){
       if(candidatos[i].codigo_turma == removido.codigo_turma){
          candidatos[i] = candidatos[n-1];
@@ -367,7 +370,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
    Candidatos posicao_escolhida;
    // int solucao_final = infinito ????
-   for(i = 0; i < max_i; i++){
+ //  for(i = 0; i < max_i; i++){
 
       // fase de construcao da solucao
       // percorrendo pelos professores
@@ -378,10 +381,6 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
          Candidatos *RCL = malloc(sizeof(Candidatos) * n_candidatos);
          n_candidatos = cria_candidatos(candidatos, I->professores[j].codigo_turmas, I->professores[j].preferencias, n_candidatos, covered);
 
-         if(candidatos == NULL || RCL == NULL){
-            printf("Erro na alocacao dos candidatos ou RLC!\n");
-            break;
-         }
          
          //printf("\nPROFESSOR ATUAL: %d\n", j);
          while(n_candidatos > 0 && (carga_s1 + carga_s2) <= I->professores[j].CHmin){
@@ -441,12 +440,9 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
          //printf("\nCARGA HORARIA RESTANTE DO PROFESSOR %d: %d e %d\n", j, I->professores[j].carga_atual1, I->professores[j].carga_atual2);
 
-         if(n_candidatos != 0){
-            free(candidatos);
-         }
-         if(n_RCL != 0){
-            free(RCL);
-         }
+         free(candidatos);
+         free(RCL);
+         
 
       }
 
@@ -506,12 +502,12 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
 
 
-   }
+   //} FIM DO FOR MAIS EXTERNO
 
 
    printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
    for(i = 0; i < m; i++){
-      printf("%d\n", covered[i]);
+     // printf("%d\n", covered[i]);
       if(covered[i] == 0){
          printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
       }
