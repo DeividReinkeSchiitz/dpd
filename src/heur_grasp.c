@@ -378,7 +378,12 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
          Candidatos *RCL = malloc(sizeof(Candidatos) * n_candidatos);
          n_candidatos = cria_candidatos(candidatos, I->professores[j].codigo_turmas, I->professores[j].preferencias, n_candidatos, covered);
 
-         printf("\nPROFESSOR ATUAL: %d\n", j);
+         if(candidatos == NULL || RCL == NULL){
+            printf("Erro na alocacao dos candidatos ou RLC!\n");
+            break;
+         }
+         
+         //printf("\nPROFESSOR ATUAL: %d\n", j);
          while(n_candidatos > 0 && (carga_s1 + carga_s2) <= I->professores[j].CHmin){
             //printf("\n(INICIO) CARGA HORARIA DO PROFESSOR %d: %d e %d\n", j, carga_s1+carga_s2, I->professores[j].CHmin);
             maxmin(candidatos, &max, &min, n_candidatos);
@@ -386,10 +391,10 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             cria_RCL(candidatos, RCL, 0.7, max, min, n_candidatos, &n_RCL);
             posicao_escolhida = escolherAleatorio(RCL, n_RCL);
 
-            printf("\nLISTA DE CANDIDATOS DO PROFESSOR %d:\n", j);
-            for(int k = 0; k < n_candidatos; k++){
-               printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
-            }
+            // printf("\nLISTA DE CANDIDATOS (%d) DO PROFESSOR %d:\n", n_candidatos,j);
+            // for(int k = 0; k < n_candidatos; k++){
+            //    printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
+            // }
             int posicao_certa = posicao_escolhida.codigo_turma;
             int semestre = I->turmas[posicao_certa-1].semestre;
 
@@ -399,13 +404,14 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             // printf("CARGA HORARIA 2° SEMESTRE: %d; %d\n", carga_s2, I->professores[j].CHmax2);
             if(semestre == 1 && (carga_s1 + I->turmas[posicao_certa-1].CH) <= I->professores[j].CHmax1){
                carga_s1 += I->turmas[posicao_certa-1].CH;
+               I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
                covered[posicao_certa-1] = 1;
                nCovered++;
                var = varlist[(j*m)+posicao_certa];
                solution[nInSolution++] = var;
-               I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
+               //I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
 
-               printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+             //  printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
                // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
                // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
@@ -413,16 +419,17 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
             }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa-1].CH) <= I->professores[j].CHmax2){
                carga_s2 += I->turmas[posicao_certa-1].CH;
+               I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
                covered[posicao_certa-1] = 1;
                nCovered++;
                var = varlist[(j*m)+posicao_certa];
                solution[nInSolution++] = var;
 
-               printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+              // printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
                // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
                // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
-               I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
+               //I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
 
             }
             //printf("\n\n(FINAL) CARGA HORARIA DO PROFESSOR %d: %d e %d", j, carga_s1+carga_s2, I->professores[j].CHmin);
@@ -432,15 +439,68 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
          }
 
-         printf("\nCARGA HORARIA RESTANTE DO PROFESSOR %d: %d e %d\n", j, I->professores[j].carga_atual1, I->professores[j].carga_atual2);
+         //printf("\nCARGA HORARIA RESTANTE DO PROFESSOR %d: %d e %d\n", j, I->professores[j].carga_atual1, I->professores[j].carga_atual2);
 
-         free(candidatos);
-         free(RCL);
+         if(n_candidatos != 0){
+            free(candidatos);
+         }
+         if(n_RCL != 0){
+            free(RCL);
+         }
 
       }
 
+      printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
 
       // fase de busca local
+
+      // ATRIBUINDO AS TURMAS QUE FICARAM SEM PROF PARA AQUELES PROF QUE AINDA POSSUEM CARGA HORARIA LIVRE
+      for(i = 0; i < m; i++){
+
+         // turma sem professor
+         if(covered[i] == 0){
+            printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
+
+            // turma atual é do 1° semestre
+            if(I->turmas[i].semestre == 1){
+               for(int j = 0; j < n; j++){
+                  if(I->professores[j].carga_atual1 <= I->turmas->CH){
+                     // atribuo a turma i para o prof j
+                     I->professores[j].carga_atual1 -= I->turmas[i].CH;
+                     covered[i] = 1;
+                     nCovered++;
+                     var = varlist[(j*m) + i];
+                     solution[nInSolution++] = var;
+
+                     printf("\nPROFESSOR: %d / TURMA: %d\n", j, i);
+
+                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
+                     //printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+                     break;
+                  }
+               }
+
+            }else{  // turma atual é do 2° semestre
+
+               for(int j = 0; j < n; j++){
+                  if(I->professores[j].carga_atual2 <= I->turmas->CH){
+                      I->professores[j].carga_atual2 -= I->turmas[i].CH;
+                     covered[i] = 1;
+                     nCovered++;
+                     var = varlist[(j*m) + i];
+                     solution[nInSolution++] = var;
+
+                      printf("\nPROFESSOR: %d / TURMA: %d\n", j, i);
+
+                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
+                    // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+                    break;
+                  }
+               }
+            }
+         }
+      }
+
 
       // if solucao_atual > solucao_final entao solucao_final = solucao_atual
 
