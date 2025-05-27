@@ -313,7 +313,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    n = I->n;  // quant de professores
    m = I->m;  // quant de turmas
     
-   solution = (SCIP_VAR**) malloc(sizeof(SCIP_VAR*)*n);
+   solution = (SCIP_VAR**) malloc(sizeof(SCIP_VAR*)* (n*m));
    covered = (int*) calloc(m,sizeof(int));  // o vetor de cobertos vai representar as turmas. inicialmente todas as pocicoes estao com 0 (nenhuma turma foi coberta)
    nInSolution = 0;
    nCovered = 0;
@@ -406,14 +406,13 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
                covered[posicao_certa-1] = 1;
                nCovered++;
-               var = varlist[(j*m)+posicao_certa];
+               var = varlist[(j*m)+(posicao_certa)];
                solution[nInSolution++] = var;
-               //I->professores[j].carga_atual1 -= I->turmas[posicao_certa-1].CH;
 
-             //  printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+              printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
-               // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
-               // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+               printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
+               printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
 
 
             }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa-1].CH) <= I->professores[j].CHmax2){
@@ -421,14 +420,14 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
                covered[posicao_certa-1] = 1;
                nCovered++;
-               var = varlist[(j*m)+posicao_certa];
+                var = varlist[(j*m)+(posicao_certa)];
                solution[nInSolution++] = var;
 
-              // printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
+              printf("\nPROFESSOR: %d / TURMA: %d\n", j, posicao_certa);
 
-               // printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
-               // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
-               //I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
+               printf("\nVARIAVEL SELECIONADA: %s", SCIPvarGetName(var));
+               printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+               I->professores[j].carga_atual2 -= I->turmas[posicao_certa-1].CH;
 
             }
             //printf("\n\n(FINAL) CARGA HORARIA DO PROFESSOR %d: %d e %d", j, carga_s1+carga_s2, I->professores[j].CHmin);
@@ -444,7 +443,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
          free(RCL);
          
 
-      }
+       }
 
       printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
 
@@ -471,7 +470,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                      printf("\nPROFESSOR: %d / TURMA: %d\n", j, i);
 
                      printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-                     //printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+                     printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
                      break;
                   }
                }
@@ -489,7 +488,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                       printf("\nPROFESSOR: %d / TURMA: %d\n", j, i);
 
                      printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(var));
-                    // printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
+                    printf("\nVALOR DA VARIAVEL: %f", SCIPgetSolVal(scip, *sol, var));
                     break;
                   }
                }
@@ -564,8 +563,8 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    //#ifdef DEBUG_GRASP
    //   getchar();
    //#endif
-   free(solution);
-   free(covered);
+   //free(solution);
+   //free(covered);
    return found;
 
 }
