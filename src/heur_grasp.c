@@ -218,28 +218,6 @@ void atualiza_candidatos(Candidatos *candidatos, Candidatos removido, int n){
    }
 }
 
-void int_para_string_bits(int valor, char *bits) {
-   int i;
-   for (i = 14; i >= 0; i--) {
-       bits[14 - i] = (valor & (1 << i)) ? '1' : '0';
-   }
-   bits[15] = '\0'; // Finaliza a string
-}
-
-int percorre_ate_1(int valor) {
-   char bits[15]; // 14 bits + '\0'
-   int_para_string_bits(valor, bits);
-
-   // printf("Valor: %d\n", valor);
-   // printf("Bits: %s\n", bits);
-
-   for (int i = 0; i < 15; i++) {
-       if (bits[i] == '1') {
-           //printf("Encontrou '1' na posição %d\n", i);
-           return i;
-       }
-   }
-}
 
 // funcao para verificar se a area de uma turma coincide com a area do prof
 // int verifica_area(int area_prof, int area_turma) {
@@ -292,7 +270,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    //  SCIP* scip_cp;
    SCIP_Real valor, bestUb;
    SCIP_PROBDATA* probdata;
-   int i, posicao_turma, max_i = 1, max, min, carga_s1, carga_s2, n_RCL;
+   int i, posicao_turma, max_i = 1, max, min, carga_s1, carga_s2, n_RCL, semestre;
    instanceT* I;
    // Auxiliar* profs_auxiliar;
 
@@ -365,7 +343,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             //    printf("CODIGO TURMA: %d; PESO ATRIBUIDO: %d\n", candidatos[k].codigo_turma, candidatos[k].peso_atribuido);
             // }
             int posicao_certa = posicao_escolhida.codigo_turma-1;
-            int semestre = I->turmas[posicao_certa].semestre;
+            semestre = I->turmas[posicao_certa].semestre;
 
             //printf("\nPOSICAO CERTA: %d - NOME DA TURMA: %s\n",posicao_certa, I->turmas[posicao_certa].disciplina.nome);
 
@@ -388,7 +366,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
 
             }else if(semestre == 2 && (carga_s2 + I->turmas[posicao_certa].CH) <= I->professores[j].CHmax2){
-               carga_s2 += I->turmas[posicao_certa-1].CH;
+               carga_s2 += I->turmas[posicao_certa].CH;
                I->professores[j].carga_restante2 -= I->turmas[posicao_certa].CH;
                I->professores[j].ch_totalatribuida += I->turmas[posicao_certa].CH;
                covered[posicao_certa] = 1;
@@ -417,7 +395,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
        }
 
-      printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
+      //printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
 
       // fase de busca local
 
@@ -426,10 +404,11 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
          // turma sem professor
          if(covered[i] == 0){
-            printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
+           // printf("TURMA SEM PROFESSOR: %s (CODIGO: %d)\n", I->turmas[i].disciplina.nome, i+1);
+            semestre = I->turmas[i].semestre;
 
             // turma atual é do 1° semestre
-            if(I->turmas[i].semestre == 1){
+            if(semestre == 1){
 
                // econtrando um professor que pode ficar com essa turma
                for(int j = 0; j < n; j++){
@@ -455,11 +434,11 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
                   }
                }
 
-            }else{  // turma atual é do 2° semestre
+            }else if(semestre == 2){  // turma atual é do 2° semestre
                
                // econtrando um professor que pode ficar com essa turma
                for(int j = 0; j < n; j++){
-
+               
                   // se o prof j ja cumpriu a sua carga horaria anual eu vou para o proximo
                   if(I->professores[j].ch_totalatribuida >= I->professores[j].CHmin){
                      continue;
@@ -491,14 +470,13 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
    //} FIM DO FOR MAIS EXTERNO
 
-
-   printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
-   for(int i = 0; i < n; i++){
-      printf("PROFESSOR %d:\n", i);
-      printf("CARGA ANUAL MINIMA, MAXIMA 1° SEMESTRE E 2° SEMESTRE: %d, %d, %d\n", I->professores[i].CHmin,I->professores[i].CHmax1, I->professores[i].CHmax2);
-      printf("CARGA TOTAL ATRIBUIDA, LIVRE 1° SEMESTRE E 2° SEMESTRE: %d, %d, %d\n", I->professores[i].ch_totalatribuida ,I->professores[i].carga_restante1, I->professores[i].carga_restante2);
-      printf("\n");
-   }
+   // printf("\nNUMERO DE TURMAS: %d / NUMERO DE TURMAS COBERTAS: %d / NUMERO DE TURMAS SEM PROF: %d\n", m, nCovered, m-nCovered);
+   // for(int i = 0; i < n; i++){
+   //    printf("PROFESSOR %d:\n", i+1);
+   //    printf("CARGA ANUAL MINIMA, MAXIMA 1° SEMESTRE E 2° SEMESTRE: %d, %d, %d\n", I->professores[i].CHmin,I->professores[i].CHmax1, I->professores[i].CHmax2);
+   //    printf("CARGA TOTAL ATRIBUIDA, LIVRE 1° SEMESTRE E 2° SEMESTRE: %d, %d, %d\n", I->professores[i].ch_totalatribuida ,I->professores[i].carga_restante1, I->professores[i].carga_restante2);
+   //    printf("\n");
+   // }
    // for(i = 0; i < m; i++){
    //   // printf("%d\n", covered[i]);
    //    if(covered[i] == 0){
