@@ -30,7 +30,8 @@ typedef struct
   char nome[100];
   int areas;
   char myareas[15];
-  int carga_atual1, carga_atual2;
+  int carga_restante1, carga_restante2;
+  int ch_totalatribuida;
 
   //preferencias é um vetor de inteiros, onde cada valor representa o peso dado a turma de indice correspondente. 
   //deve ser alocado dinamicamente de acordo com o numero de turmas

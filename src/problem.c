@@ -105,8 +105,9 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   	int p;
   	sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;]", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, (*I)->professores[i].myareas);
 	(*I)->professores[i].numeroPreferencias=p;
-  (*I)->professores[i].carga_atual1 = (*I)->professores[i].CHmax1;
-  (*I)->professores[i].carga_atual2 = (*I)->professores[i].CHmax2; 
+  (*I)->professores[i].carga_restante1 = (*I)->professores[i].CHmax1;
+  (*I)->professores[i].carga_restante2 = (*I)->professores[i].CHmax2; 
+  (*I)->professores[i].ch_totalatribuida = 0;
 
  // printf("\n%s \n", (*I)->professores[i].myareas);
     float sum = 0;
