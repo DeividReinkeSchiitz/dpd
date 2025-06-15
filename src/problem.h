@@ -11,9 +11,17 @@ typedef struct
   char myareas[15];
 }Disciplina;
 
+typedef struct{
+  int codigo_turma;
+  int score;
+  int n;  // quantidade de turmas que são da area do prof
+}SCORE;
+
+
 typedef struct
 {
   Disciplina disciplina;
+  int codigo;
   int numero;
   int CH;
   enum Periodo {matutino, vespertino, noturno} periodo;
@@ -39,6 +47,7 @@ typedef struct
   int* codigo_turmas;
   int* preferencias;
   float pesoMedioPreferencias;
+  SCORE Score[75];
 }Professor;
 
 typedef struct

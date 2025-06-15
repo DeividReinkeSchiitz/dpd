@@ -33,23 +33,6 @@
 extern "C" {
 #endif
 
-typedef struct
-{
-   int codigo_turma, peso_atribuido;
-}Candidatos;
-
-typedef struct
-{ 
-   // linha representa a quant de prof e a coluna e os caracteres do nome de cada um
-   char nome[61][50];
-   int quant_profs;  // quant de professores que sao dessa area
-   // int quant_turmas;  // quant de turmas que sao dessa area
-   // int *codigo_turmas;  // codigo das turmas que sao dessa area
-}Areas;
-
-
-
-  
 int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur);
 
 /** creates the grasp_crtp primal heuristic and includes it in SCIP */

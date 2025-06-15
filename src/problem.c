@@ -91,9 +91,10 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   // lendo as turmas
   for(int i=0; i<m; i++){
   	fgets(linha, sizeof(linha), f);
-  	sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%99[^;];", &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, (*I)->turmas[i].disciplina.myareas);
+  	sscanf(linha, "%d;%d;T%d;%99[^;];%99[^;];%d;%99[^;];", &((*I)->turmas[i].codigo), &((*I)->turmas[i].semestre), &((*I)->turmas[i].numero), (*I)->turmas[i].disciplina.nome, (*I)->turmas[i].cursos, &(*I)->turmas[i].CH, (*I)->turmas[i].disciplina.myareas);
     (*I)->turmas[i].disciplina.areas = binario_para_inteiro((*I)->turmas[i].disciplina.myareas);
     //printf("\n%d \n", (*I)->turmas[i].disciplina.areas);
+    //printf("\n%d \n", (*I)->turmas[i].codigo);
   }
   
   fgets(linha, sizeof(linha), f);//linha em branco
