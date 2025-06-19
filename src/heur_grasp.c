@@ -339,14 +339,21 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    
    // copiando as info dos prof para uma var auxiliar, porque no futuro eu irei alterar esse dados
    professores = I->professores;
-   int flag = 0, k, score;
+   int flag = 0, k, score, codigo_turma, peso_atribuido, alfa, aux;
    
    for(int i = 0; i < n; i++){
+      printf("PROFESSOR: %s\n", I->professores[i].nome);
+      //printf("n DO PROF: %d\n", I->professores[i].Score->n);
+      
       for(int j = 0; j < m; j++){
-
+        // printf("TURMA: %d\n", I->turmas[j].codigo);
          // verifico se a turma j esta nas escolhida pelo prof i
          for(k = 0; k < I->professores[i].numeroPreferencias; k++){
+
             if(I->professores[i].codigo_turmas[k] == I->turmas[j].codigo){
+               codigo_turma = I->turmas[j].codigo;
+               peso_atribuido = I->professores[i].preferencias[codigo_turma-1];
+               printf("CODIGO TURMA: %d e PESO ATRIBUIDO: %d\n", codigo_turma, peso_atribuido);
                flag = 1;
                break;
             }
@@ -354,6 +361,12 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
          if(flag == 1){
             // calcula o score passando o peso da preferencia
+            aux = I->professores[i].n;
+            alfa = numero_aleatorio(1, 3);
+            score = calculaScore(peso_atribuido, alfa);
+            I->professores[i].Score[aux].score = score;
+            I->professores[i].n+= 1;
+
 
          }else{
             // nao foi escolhida previamente. preciso verificar se é da área do prof

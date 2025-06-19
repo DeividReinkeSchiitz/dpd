@@ -199,7 +199,7 @@ int setParameters(int argc, char **argv, parametersT *pparam)
           {"heur round maxdepth", "--heur_round_depth", &(param.heur_round_maxdepth), INT, -1, MAXINT, 0, 0, -1, 0},
           {"heur round freqofs", "--heur_round_freqofs", &(param.heur_round_freqofs), INT, 0, MAXINT, 0, 0, 0, 0},
           {"heur gulosa", "--heur_gulosa", &(param.heur_gulosa), INT, 0, 1, 0, 0, 0, 0},
-          {"heur gulosa", "--heur_grasp", &(param.heur_grasp), INT, 0, 1, 0, 0, 0, 0},
+          {"heur grasp", "--heur_grasp", &(param.heur_grasp), INT, 0, 1, 0, 0, 0, 0},
           {"area penalty", "--penalty", &(param.area_penalty), INT, 0, MAXINT, 0, 0, 0, 0}};
   int i, j, ivalue, error;
   double dvalue;
