@@ -230,23 +230,23 @@ int verifica_area(const char a[15], const char b[15]) {
     return 0;
 }
 
-int verifica_areas(int areaProfessor, int areaTurma, int numAreas){
-   for (int i = 0; i < numAreas; i++)
-   {
-     if (areaProfessor % 10 == areaTurma % 10)
-     {
-       if (areaProfessor % 10 == 1)
-       {
-         return 1;
-       }
-     }
-     areaProfessor = areaProfessor / 10;
-     areaTurma     = areaTurma / 10;
-   }
-   return 2;
-}
+// int verifica_areas(int areaProfessor, int areaTurma, int numAreas){
+//    for (int i = 0; i < numAreas; i++)
+//    {
+//      if (areaProfessor % 10 == areaTurma % 10)
+//      {
+//        if (areaProfessor % 10 == 1)
+//        {
+//          return 1;
+//        }
+//      }
+//      areaProfessor = areaProfessor / 10;
+//      areaTurma     = areaTurma / 10;
+//    }
+//    return 2;
+// }
 
-float numero_aleatorio(int a, int b) {
+int numero_aleatorio(int a, int b) {
     // garante que a é menor do que b
     if (a > b) {
         int temp = a;
@@ -254,17 +254,27 @@ float numero_aleatorio(int a, int b) {
         b = temp;
     }
 
-    // inicializa a semente do gerador de numeros aleatorios
+    // inicializa a semente do gerador de numeros aleatórios apenas uma vez
     static int inicializado = 0;
     if (!inicializado) {
         srand(time(NULL));
         inicializado = 1;
     }
-    // gera um numero aleatorio entre 0 e 1
-    float r = (float)rand() / RAND_MAX;
-    
-    // escala para o intervalo estabelecido
-    return a + r * (b - a);
+
+    // gera um numero inteiro aleatório entre a e b (inclusive)
+    return a + rand() % (b - a + 1);
+}
+
+int verifica_preferencia(int *preferencias, int codigo_turma){
+
+   // percorrendo todas as turmas
+   for(int i = 0; i < 224; i++){ 
+      if(preferencias[i] != 0 && i+1 == codigo_turma){
+         //printf("teste1\n");
+         return preferencias[i];
+      }
+   }
+   return 0;
 }
 
 int calculaScore(int peso_preferencia, int alfa){
@@ -339,44 +349,42 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    
    // copiando as info dos prof para uma var auxiliar, porque no futuro eu irei alterar esse dados
    professores = I->professores;
-   int flag = 0, k, score, codigo_turma, peso_atribuido, alfa, aux;
+   int j, pref, score, alfa, nscore;
    
+   // percorre  os professores
    for(int i = 0; i < n; i++){
-      printf("PROFESSOR: %s\n", I->professores[i].nome);
-      //printf("n DO PROF: %d\n", I->professores[i].Score->n);
+      nscore=0;
+     // printf("PROFESSOR: %s\n", professores[i].nome);
       
-      for(int j = 0; j < m; j++){
+      // percorre as turmas
+      for(j = 0; j < m; j++){
         // printf("TURMA: %d\n", I->turmas[j].codigo);
-         // verifico se a turma j esta nas escolhida pelo prof i
-         for(k = 0; k < I->professores[i].numeroPreferencias; k++){
 
-            if(I->professores[i].codigo_turmas[k] == I->turmas[j].codigo){
-               codigo_turma = I->turmas[j].codigo;
-               peso_atribuido = I->professores[i].preferencias[codigo_turma-1];
-               printf("CODIGO TURMA: %d e PESO ATRIBUIDO: %d\n", codigo_turma, peso_atribuido);
-               flag = 1;
-               break;
-            }
-         }
-
-         if(flag == 1){
-            // calcula o score passando o peso da preferencia
-            aux = I->professores[i].n;
+         // verificado se a turma j foi escolhida pelo prof i
+         pref = verifica_preferencia(professores[i].preferencias, I->turmas[j].codigo);
+         if(pref != 0){
             alfa = numero_aleatorio(1, 3);
-            score = calculaScore(peso_atribuido, alfa);
-            I->professores[i].Score[aux].score = score;
-            I->professores[i].n+= 1;
+            score = calculaScore(pref, alfa);
+            professores[i].Score[nscore].score = score;
+            professores[i].Score[nscore].codigo_turma = j+1;
+            nscore++;
 
-
-         }else{
-            // nao foi escolhida previamente. preciso verificar se é da área do prof
-
-         }
-
-
-         // o importante aqui é: se a turma é da area do prof ela tem que entrar no vetor de SCORE
-
+            // nao foi escolhida. verificando se a turma j é da area do prof i
+         }else if(verifica_area(professores[i].myareas, I->turmas[j].disciplina.myareas) == 1){
+            alfa = numero_aleatorio(1, 5);
+            //score = calculaScore(0, alfa);  // score quando n tem pref eh so o alfa. posso tentar mudar isso depois
+            professores[i].Score[nscore].score = alfa;
+            professores[i].Score[nscore].codigo_turma = j+1;
+            nscore++; 
+        }
       }
+      printf("NSCORE: %d\n", nscore);
+      professores[i].n = nscore;
+
+      int flag = professores[0].n;
+         for(int i = 0; i < flag; i++){
+            printf("codigo_turma: %d, score: %d\n", professores[0].Score[i].codigo_turma, professores[0].Score[i].score);
+        }
    }
 
    if(!infeasible){

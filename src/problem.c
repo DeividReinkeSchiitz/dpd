@@ -47,7 +47,7 @@ void createInstance(instanceT** I, int n, int m, int numAreas)
    (*I)->professores[i].codigo_turmas = (int*) calloc(m, sizeof(int));
    // aparentemente aqui eu nao li ainda as info de cada prof ent n posso alocar um vetor usando a quant de preferencia que ele possui
 
-   (*I)->professores[i].n =  0;
+   //(*I)->professores[i].n =  0;
   }
   
 

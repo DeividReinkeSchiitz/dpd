@@ -47,7 +47,7 @@ typedef struct
   int* preferencias;
   float pesoMedioPreferencias;
   int n;  // quantidade de turmas que são da area do prof
-  SCORE Score[75];
+  SCORE Score[100];
 }Professor;
 
 typedef struct
