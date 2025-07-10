@@ -148,8 +148,6 @@ int grasp_randomized_selection(SCORE *candidates, int num_candidates, float alph
       }
    }
    
-   printf("TESTE\n");
-
    // selecionando aleatoriamente da RCL
    if(rcl_size==0) return rand() % num_candidates;
 
@@ -181,12 +179,13 @@ void construct_soluction(
    while(*nCovered < m){
       // verificando se a turma atual ja foi coberta
       for(int t = 0; t < m; t++){
+         printf("turma: %d\n", turmas[t].codigo);
          if(covered[t] == 1) continue; // turma ja alocada. va para a proxima
 
          // pegando as info da turma atual
          Turma turma = turmas[t];
-         SCORE candidate_scores[n];  // nao seria melhor alocar esses 3 vetores dinamicamente? dai ao final de cada iteracao eu desaloco
-         SCIP_VAR* candidate_vars[n];
+         SCORE *candidate_scores = (SCORE*) malloc(sizeof(SCORE) * n);  // nao seria melhor alocar esses 3 vetores dinamicamente? dai ao final de cada iteracao eu desaloco
+         SCIP_VAR **candidate_vars = (SCIP_VAR**) malloc(n * sizeof(SCIP_VAR*));
          int num_candidates = 0;
 
          // construindo a lista de candidatos dos prof que podem ministrar a turma atual
@@ -230,7 +229,7 @@ void construct_soluction(
          if(num_candidates > 0){
             int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
             int p = candidate_scores[selected].codigo_turma; // pegando o "codigo" do prof
-            printf("turma: %d; prof selecionado: %d\n", turma.codigo, p);
+           // printf("turma: %d; prof selecionado: %d\n", turma.codigo, p);
             covered[t] = 1;  // marcando a turma como coberta, ja que atribui um prof pra ela
             (*nCovered)++;
             solution[*nInSolution] = candidate_vars[selected];
@@ -243,7 +242,14 @@ void construct_soluction(
                professores[p].current_CH2 += turma.CH;
             }
          }
+         free(candidate_scores);
+         free(candidate_vars);
       }
+
+   }
+
+   for(int i = 0; i < n; i++){
+      printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
    }
 
 }
@@ -275,6 +281,25 @@ int verifica_area(const char a[15], const char b[15]) {
 //    }
 //    return 2;
 // }
+
+int numero_aleatorio(int a, int b) {
+    // garante que a é menor do que b
+    if (a > b) {
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+
+   //  // inicializa a semente do gerador de numeros aleatórios apenas uma vez
+   //  static int inicializado = 0;
+   //  if (!inicializado) {
+   //      srand(time(NULL));
+   //      inicializado = 1;
+   //  }
+
+    // gera um numero inteiro aleatório entre a e b (inclusive)
+    return a + rand() % (b - a + 1);
+}
 
 
 int verifica_preferencia(int *preferencias, int codigo_turma, int m){
