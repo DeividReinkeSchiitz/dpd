@@ -108,9 +108,10 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   	fgets(linha, sizeof(linha), f);
   	int p;
   	sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;]", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, (*I)->professores[i].myareas);
+    //printf("nome: %s\n", (*I)->professores[i].nome);
 	(*I)->professores[i].numeroPreferencias=p;
-  (*I)->professores[i].carga_restante1 = (*I)->professores[i].CHmax1;
-  (*I)->professores[i].carga_restante2 = (*I)->professores[i].CHmax2; 
+  (*I)->professores[i].current_CH1 = (*I)->professores[i].CHmax1;
+  (*I)->professores[i].current_CH2 = (*I)->professores[i].CHmax2; 
   (*I)->professores[i].ch_totalatribuida = 0;
 
  // printf("\n%s \n", (*I)->professores[i].myareas);

@@ -125,99 +125,129 @@ SCIP_DECL_HEUREXITSOL(heurExitsolGrasp)
    return SCIP_OKAY;
 }
 
-// void maxmin(Candidatos *C, int *max, int *min, int n) {
-//    if (n == 0) return; // vetor vazio, nada a fazer
+int grasp_randomized_selection(SCORE *candidates, int num_candidates, float alpha){
+   if(num_candidates == 1) return 0;
 
-//    // caso base: apenas um candidato
-//    if (n == 1) {
-//        *min = C[0].peso_atribuido;
-//        *max = C[0].peso_atribuido;
-//        return;
-//    }
+   // encontrando o score max e min
+   int min_score = candidates[0].score;
+   int max_score = candidates[0].score;
+   for(int i = 0; i < num_candidates; i++){
+      if(candidates[i].score < min_score) min_score = candidates[i].score;
+      if(candidates[i].score > max_score) max_score = candidates[i].score;
+   }
 
-//    // inicializa min e max com os dois primeiros candidatos
-//    if (C[0].peso_atribuido < C[1].peso_atribuido) {
-//        *min = C[0].peso_atribuido;
-//        *max = C[1].peso_atribuido;
-//    } else {
-//        *min = C[1].peso_atribuido;
-//        *max = C[0].peso_atribuido;
-//    }
+   // criando a RCL
+   int limite = min_score + alpha * (max_score-min_score);
+   int rcl[num_candidates];
+   int rcl_size=0;
 
-//    // percorre em pares a partir do terceiro elemento
-//    for (int i = 2; i < n - 1; i += 2) {
-//        int menor, maior;
-//        if (C[i].peso_atribuido < C[i + 1].peso_atribuido) {
-//            menor = C[i].peso_atribuido;
-//            maior = C[i + 1].peso_atribuido;
-//        } else {
-//            menor = C[i + 1].peso_atribuido;
-//            maior = C[i].peso_atribuido;
-//        }
+   for(int i = 0; i < num_candidates; i++){
+      if(candidates[i].score >= limite){
+         rcl[rcl_size] = i;
+         rcl_size++;
+      }
+   }
+   
+   printf("TESTE\n");
 
-//        if (menor < *min) *min = menor;
-//        if (maior > *max) *max = maior;
-//    }
+   // selecionando aleatoriamente da RCL
+   if(rcl_size==0) return rand() % num_candidates;
 
-//    // se o numero de candidatos for impar, verifica o ultimo
-//    if (n % 2 != 0) {
-//        if (C[n - 1].peso_atribuido < *min) *min = C[n - 1].peso_atribuido;
-//        if (C[n - 1].peso_atribuido > *max) *max = C[n - 1].peso_atribuido;
-//    }
-// }
+   return rcl[rand() % rcl_size];
+
+}
 
 
-// // para estar na lista de candidatos do prof, a turma nao pode estar coberta
-// int cria_candidatos(Candidatos *candidatos, int *codigo_turmas, int *pesos_atribuidos, int n, int *covered){
-//    //printf("\nCRIANDO A LISTA DE CANDIDATOS:\n");
-//    int posicao, j=0;
-//    for(int i = 0; i < n; i++){
-//       posicao = codigo_turmas[i] -1;
-//       if(covered[posicao] == 0){
-//          //printf("\nTURMA NAO COBERTA: %d\n", covered[posicao]);
-//          candidatos[j].codigo_turma = codigo_turmas[i];
-//          candidatos[j].peso_atribuido = pesos_atribuidos[posicao];
-//          j++;
-//       }else{
-//          //printf("\nTURMA COBERTA: %d\n", covered[posicao]);
-//       }
-     
-//    }
+void construct_soluction(
+   SCIP* scip,
+   SCIP_VAR** varlist,
+   SCIP_VAR** solution,
+   Professor* professores,
+   Turma* turmas,
+   int* nInSolution, //num de vars na solucao
+   int* covered,  // vetor de turmas cobertas
+   int* nCovered, // quant de turmas cobertas
+   int m,         // quant de turmas
+   int n,         // quant de prof
+   float alpha
+) {
+   // redefinindo a carga horaria de cada semestre dos professores
+   for(int i = 0; i < n; i++){
+      professores[i].current_CH1 = 0;
+      professores[i].current_CH2 = 0;
+   }
 
-//    return j;
+   // enquanto houver turmas que não foram cobertas
+   while(*nCovered < m){
+      // verificando se a turma atual ja foi coberta
+      for(int t = 0; t < m; t++){
+         if(covered[t] == 1) continue; // turma ja alocada. va para a proxima
+
+         // pegando as info da turma atual
+         Turma turma = turmas[t];
+         SCORE candidate_scores[n];  // nao seria melhor alocar esses 3 vetores dinamicamente? dai ao final de cada iteracao eu desaloco
+         SCIP_VAR* candidate_vars[n];
+         int num_candidates = 0;
+
+         // construindo a lista de candidatos dos prof que podem ministrar a turma atual
+         for(int p = 0; p < n; p++){
+           // printf("nome: %s\n", professores[p].nome);
+            // checando se o prof pode ministrar essa turma
+            for(int s = 0; s < professores[p].n; s++){
+
+              //printf("%d %d\n", professores[p].Score[s].codigo_turma, turma.codigo);
+               if(professores[p].Score[s].codigo_turma == turma.codigo){
+                  
+                  if(turmas->semestre == 1){
   
-// }
+                     if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1){
+                        
+                        candidate_scores[num_candidates].codigo_turma = p;
+                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
+                        candidate_vars[num_candidates] = varlist[p*m + t];
+                        num_candidates++;
+   
+                       // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + t]));
+                     }
 
-// void cria_RCL(Candidatos *candidatos, Candidatos *RCL, int alpha, int max, int min, int n, int *n_RCL){
-//    for(int i = 0; i < n; i++){
-//       if(candidatos[i].peso_atribuido >= min * alpha*(max - min)){
-//          RCL[*n_RCL].codigo_turma = candidatos[i].codigo_turma;
-//          RCL[*n_RCL].peso_atribuido = candidatos[i].peso_atribuido;
-//          *n_RCL += 1;
-//       }
-//    }
-// }
+                  }else{
+                     if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2){
 
-// Candidatos escolherAleatorio(Candidatos *vetor, int n) {
-//    if (n == 0) {
-//        Candidatos vazio = {-1, -1};
-//        return vazio;
-//    }
+                        candidate_scores[num_candidates].codigo_turma = p;
+                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
+                        candidate_vars[num_candidates] = varlist[p*m + t];
+                        num_candidates++;
+   
+                        //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + t]));
+                     }
+                  }
+                  break;
+               }
+            }
+         }
+         // se a lista de candidatos nao estiver vazia
+         //printf("numero de candidatos: %d\n", num_candidates);
+         if(num_candidates > 0){
+            int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
+            int p = candidate_scores[selected].codigo_turma; // pegando o "codigo" do prof
+            printf("turma: %d; prof selecionado: %d\n", turma.codigo, p);
+            covered[t] = 1;  // marcando a turma como coberta, ja que atribui um prof pra ela
+            (*nCovered)++;
+            solution[*nInSolution] = candidate_vars[selected];
+            (*nInSolution)++;
 
-//    int indice = rand() % n;
-//    return vetor[indice];
-// }
+            // atualizando a carga horaria do prof
+            if(turma.semestre == 1){
+               professores[p].current_CH1 += turma.CH;
+            }else{
+               professores[p].current_CH2 += turma.CH;
+            }
+         }
+      }
+   }
 
-// void atualiza_candidatos(Candidatos *candidatos, Candidatos removido, int n){
-//    if(n == 0){
-//       return;
-//    }
-//    for(int i = 0; i < n; i++){
-//       if(candidatos[i].codigo_turma == removido.codigo_turma){
-//          candidatos[i] = candidatos[n-1];
-//       }
-//    }
-// }
+}
+
 
 
 // funcao para verificar se a area de uma turma coincide com a area do prof
@@ -246,29 +276,11 @@ int verifica_area(const char a[15], const char b[15]) {
 //    return 2;
 // }
 
-int numero_aleatorio(int a, int b) {
-    // garante que a é menor do que b
-    if (a > b) {
-        int temp = a;
-        a = b;
-        b = temp;
-    }
 
-    // inicializa a semente do gerador de numeros aleatórios apenas uma vez
-    static int inicializado = 0;
-    if (!inicializado) {
-        srand(time(NULL));
-        inicializado = 1;
-    }
-
-    // gera um numero inteiro aleatório entre a e b (inclusive)
-    return a + rand() % (b - a + 1);
-}
-
-int verifica_preferencia(int *preferencias, int codigo_turma){
+int verifica_preferencia(int *preferencias, int codigo_turma, int m){
 
    // percorrendo todas as turmas
-   for(int i = 0; i < 224; i++){ 
+   for(int i = 0; i < m; i++){ 
       if(preferencias[i] != 0 && i+1 == codigo_turma){
          //printf("teste1\n");
          return preferencias[i];
@@ -348,20 +360,21 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    }
    
    // copiando as info dos prof para uma var auxiliar, porque no futuro eu irei alterar esse dados
-   professores = I->professores;
+  professores = I->professores;
    int j, pref, score, alfa, nscore;
    
    // percorre  os professores
    for(int i = 0; i < n; i++){
-      nscore=0;
-     // printf("PROFESSOR: %s\n", professores[i].nome);
+      nscore=0;  // quant de disciplinas que o prof i pode ministrar (escolheu + area)
+   //   printf("PROFESSOR: %s\n", I->professores[i].nome);
+   //   printf("chmin %d ch1 %d ch2 %d npref %d\n\n",I->professores[i].CHmin, I->professores[i].CHmax1, I->professores[i].CHmax2, I->professores[i].numeroPreferencias);
       
       // percorre as turmas
       for(j = 0; j < m; j++){
         // printf("TURMA: %d\n", I->turmas[j].codigo);
 
          // verificado se a turma j foi escolhida pelo prof i
-         pref = verifica_preferencia(professores[i].preferencias, I->turmas[j].codigo);
+         pref = verifica_preferencia(professores[i].preferencias, I->turmas[j].codigo, m);
          if(pref != 0){
             alfa = numero_aleatorio(1, 3);
             score = calculaScore(pref, alfa);
@@ -378,14 +391,30 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
             nscore++; 
         }
       }
-      printf("NSCORE: %d\n", nscore);
+      //printf("NSCORE: %d\n", nscore);
       professores[i].n = nscore;
 
       int flag = professores[0].n;
-         for(int i = 0; i < flag; i++){
-            printf("codigo_turma: %d, score: %d\n", professores[0].Score[i].codigo_turma, professores[0].Score[i].score);
-        }
+      //    for(int i = 0; i < flag; i++){
+      //       printf("codigo_turma: %d, score: %d\n", professores[0].Score[i].codigo_turma, professores[0].Score[i].score);
+      //   }
    }
+
+   // ================================================================================================================================
+   
+   SCIP_VAR** best_solution = (SCIP_VAR**)malloc(m *sizeof(SCIP_VAR*));  // m pq a quant de var na solucao final é no maximo m (quant de turmas)
+   SCIP_VAR** current_solution = (SCIP_VAR**)malloc(m *sizeof(SCIP_VAR*));
+
+   int maxitr = 10, best_nInSolution = 0, current_nInSolution = 0;
+   double y = SCIPinfinity(scip);  // y = x^*
+   
+
+   for(int k = 0; k < maxitr; k++){
+      // fase de construção da solucao
+      //printf("teste\n");
+      construct_soluction(scip, varlist, current_solution, professores, I->turmas, &current_nInSolution, covered, &nCovered, m, n, 0.3);
+   }
+
 
    if(!infeasible){
       /* create SCIP solution structure sol */

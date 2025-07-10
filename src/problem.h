@@ -37,7 +37,7 @@ typedef struct
   char nome[100];
   int areas;
   char myareas[15];
-  int carga_restante1, carga_restante2;
+  int current_CH1, current_CH2, num_assigned;
   int ch_totalatribuida;
 
   //preferencias é um vetor de inteiros, onde cada valor representa o peso dado a turma de indice correspondente. 
@@ -47,7 +47,7 @@ typedef struct
   int* preferencias;
   float pesoMedioPreferencias;
   int n;  // quantidade de turmas que são da area do prof
-  SCORE Score[100];
+  SCORE Score[125];
 }Professor;
 
 typedef struct
