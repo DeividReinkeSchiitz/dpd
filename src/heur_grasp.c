@@ -210,7 +210,7 @@ void construct_soluction(
                         candidate_vars[num_candidates] = varlist[p*m + t];
                         num_candidates++;
 
-                       // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + t]));
+                       //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
                   }else{
@@ -221,7 +221,7 @@ void construct_soluction(
                         candidate_vars[num_candidates] = varlist[p*m + t];
                         num_candidates++;
 
-                     //   printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + t]));
+                      //  printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
 
@@ -275,7 +275,6 @@ void construct_soluction(
       }
 
    }
-
 
 }
 
@@ -333,6 +332,16 @@ void reset_vector(int *vetor, int n){
    }
 }
 
+int compareTurmasByN(const void *a, const void *b)
+{
+    const Turma *turmaA = (const Turma *)a;
+    const Turma *turmaB = (const Turma *)b;
+    
+    if (turmaA->n < turmaB->n) return -1;
+    if (turmaA->n > turmaB->n) return 1;
+    return 0;
+}
+
 
 /**
  * @brief Core of the grasp heuristic: it builds one solution for the problem by grasp procedure.
@@ -355,6 +364,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    int i;
    instanceT* I;
    Professor *professores;
+   Turma *turmas;
 
    found = 0;
    infeasible = 0;
@@ -374,6 +384,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    m = I->m;  // quant de turmas
    
    professores = (Professor*) malloc(sizeof(Professor) * n);
+   turmas = (Turma*) malloc(sizeof(Turma) * m);
    solution = (SCIP_VAR**) malloc(sizeof(SCIP_VAR*)* (n*m));
    covered = (int*) calloc(m,sizeof(int));  // o vetor de cobertos vai representar as turmas. inicialmente todas as posicoes estao com 0 (nenhuma turma foi coberta)
    nInSolution = 0;
@@ -397,47 +408,51 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         }
       }
    }
-   
-   // copiando as info dos prof para uma var auxiliar, porque no futuro eu irei alterar esse dados
-  professores = I->professores;
+
+   // copiando as insfo para vars auxiliares
+   professores = I->professores;
+   turmas = I->turmas;
    int j, pref, score, alfa, nscore;
    
-   // percorre  os professores
+   // percorre os professores
    for(int i = 0; i < n; i++){
       nscore=0;  // quant de disciplinas que o prof i pode ministrar (escolheu + area)
-   //   printf("PROFESSOR: %s\n", I->professores[i].nome);
-   //   printf("chmin %d ch1 %d ch2 %d npref %d\n\n",I->professores[i].CHmin, I->professores[i].CHmax1, I->professores[i].CHmax2, I->professores[i].numeroPreferencias);
       
       // percorre as turmas
       for(j = 0; j < m; j++){
-        // printf("TURMA: %d\n", I->turmas[j].codigo);
 
          // verificado se a turma j foi escolhida pelo prof i
-         pref = check_preference(professores[i].preferencias, I->turmas[j].codigo, m);
+         pref = check_preference(professores[i].preferencias, turmas[j].codigo, m);
          if(pref != 0){
             alfa = random_number(1, 5);
             score = calculaScore(pref, alfa);
             professores[i].Score[nscore].score = score;
             professores[i].Score[nscore].codigo_turma = j+1;
             nscore++;
+            turmas[j].n++;
 
             // nao foi escolhida. verificando se a turma j é da area do prof i
-         }else if(check_area(professores[i].myareas, I->turmas[j].disciplina.myareas) == 1){
+         }else if(check_area(professores[i].myareas, turmas[j].disciplina.myareas) == 1){
             alfa = random_number(1, 8);
             //score = calculaScore(0, alfa);  // score quando n tem pref eh so o alfa. posso tentar mudar isso depois
             professores[i].Score[nscore].score = alfa;
             professores[i].Score[nscore].codigo_turma = j+1;
             nscore++; 
+            turmas[j].n++;
         }
+
       }
       //printf("NSCORE: %d\n", nscore);
       professores[i].n = nscore;
-
-      // int flag = professores[1].n;
-      //    for(int i = 0; i < flag; i++){
-      //       printf("codigo_turma: %d, score: %d\n", professores[0].Score[i].codigo_turma, professores[0].Score[i].score);
-      //   }
+      
    }
+   // ordenando as turmas com a menor quant de profs
+   qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+
+   // for(int i = 0; i < m; i++){
+   //    printf("turma: %d ; profs que podem ministrar: %d\n", turmas[i].codigo, turmas[i].n);
+   // }
+
 
    // ================================================================================================================================
    
@@ -450,7 +465,9 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
 
    for(int k = 0; k < maxitr; k++){
       // fase de construção da solucao
-      construct_soluction(scip, varlist, current_solution, professores, I->turmas, &current_nInSolution, covered, &nCovered, m, n, 0.3);
+      construct_soluction(scip, varlist, current_solution, professores, turmas, &current_nInSolution, covered, &nCovered, m, n, 0.3);
+
+   
 
 
 
@@ -507,6 +524,8 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    //#endif
    free(solution);
    free(covered);
+   free(professores);
+   free(turmas);
    return found;
 
 }

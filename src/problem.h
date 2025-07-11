@@ -26,6 +26,8 @@ typedef struct
   enum Periodo {matutino, vespertino, noturno} periodo;
   int semestre;
   char cursos [25];
+  int professores[61]; // profs que podem ministrar a turma em questao
+  int n;  // quant de profs que podem ministrar a turma em questao
 }Turma;
 
 typedef struct

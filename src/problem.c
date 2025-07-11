@@ -98,6 +98,8 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
     (*I)->turmas[i].disciplina.areas = binario_para_inteiro((*I)->turmas[i].disciplina.myareas);
     //printf("\n%d \n", (*I)->turmas[i].disciplina.areas);
     //printf("\n%d \n", (*I)->turmas[i].codigo);
+
+    (*I)->turmas->n = 0;  // inicializando com 0 o campo que corresponde o tanto de prof que podem minsitrar a turma em questao
   }
   
   fgets(linha, sizeof(linha), f);//linha em branco
