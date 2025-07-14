@@ -155,7 +155,6 @@ int grasp_randomized_selection(SCORE *candidates, int num_candidates, float alph
 
 }
 
-
 void construct_soluction(
    SCIP* scip,
    SCIP_VAR** varlist,
@@ -174,6 +173,9 @@ void construct_soluction(
       professores[i].current_CH1 = 0;
       professores[i].current_CH2 = 0;
    }
+
+   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 10); // considerando que ao final ficarao, no max, 10 turmas sem profs
+   int n_sem_prof = 0;
 
    while(*nCovered < m){
 
@@ -224,12 +226,9 @@ void construct_soluction(
                       //  printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
-
                   }
                   break;  // cod turma beteu com o cod do prof. logo, saia do laço desse prof
-
                }
-
             }
          }
 
@@ -257,22 +256,66 @@ void construct_soluction(
             }else{
                professores[p].current_CH2 += turma.CH;
             }
+         }else{
+            // turma t ficou nem nenhum prof candidato. salvando as insfo dela
+            turmas_sem_profs[n_sem_prof] = turma;
+            n_sem_prof++;
          }
 
          free(candidate_scores);
          free(candidate_vars);
 
       }
+      // ======  FIM DO LAÇO QUE PERCORRE TODAS AS TURMAS =====
 
+      // verificanndo se existem turmas que não foram cobertas
+      if(*nCovered < m){
+
+         // percorrendo as turmas que ficaram sem prof
+         for(int i = 0; i < n_sem_prof; i++){
+            if(turmas_sem_profs[i].semestre == 1){
+               // encontrando o primeiro prof que possui carga horaria livre no 1° semestre
+               for(int p = 0; p < n; p++){
+                  printf("nome: %s\n", professores[p].nome);
+                  if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1){
+                     professores[p].current_CH1 += turmas_sem_profs[i].CH;
+                     covered[turmas_sem_profs[i].codigo-1];
+                     (*nCovered)++;
+                     solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+
+                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                     break;
+                  }
+               }
+
+            }else{
+               // encontrando o primeiro prof que possui carga horaria livre no 2° semestre
+               for(int p = 0; p < n; p++){
+                  if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2){
+                     professores[p].current_CH2 += turmas_sem_profs[i].CH;
+                     covered[turmas_sem_profs[i].codigo-1];
+                     (*nCovered)++;
+                     solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+
+                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                     break;
+                  }
+               }
+            } 
+         }
+      }
+      
       // for(int i = 0; i < n; i++){
       //    printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
       // }
 
       printf("\n\nFIM\n\nTURMAS COBERTAS: %d ; TURMAS: %d\n", *nCovered, m);
       // se eu passei por todas as turmas, independente de terem ficado turmas sem profs, saia
-      if(t == m){
-         break;
-      }
+      // if(t == m){
+      //    break;
+      // }
+
+      free(turmas_sem_profs);
 
    }
 
@@ -287,8 +330,6 @@ int check_area(const char a[15], const char b[15]) {
     }
     return 0;
 }
-
-
 
 int random_number(int a, int b) {
     // garante que a é menor do que b
@@ -447,7 +488,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
       
    }
    // ordenando as turmas com a menor quant de profs
-   qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+  // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
 
    // for(int i = 0; i < m; i++){
    //    printf("turma: %d ; profs que podem ministrar: %d\n", turmas[i].codigo, turmas[i].n);
