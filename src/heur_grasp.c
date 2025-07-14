@@ -174,7 +174,7 @@ void construct_soluction(
       professores[i].current_CH2 = 0;
    }
 
-   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 10); // considerando que ao final ficarao, no max, 10 turmas sem profs
+   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 50); // considerando que ao final ficarao, no max, 10 turmas sem profs
    int n_sem_prof = 0;
 
    while(*nCovered < m){
@@ -206,7 +206,7 @@ void construct_soluction(
                   if(turma.semestre == 1){
 
                      // checando a carga horaria do prof no semestre 1
-                     if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1){
+                     if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
                         candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
                         candidate_scores[num_candidates].score = professores[p].Score[s].score;
                         candidate_vars[num_candidates] = varlist[p*m + t];
@@ -217,7 +217,7 @@ void construct_soluction(
                      }
                   }else{
                      // checando a carga horaria do prof no semestre 2
-                     if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2){
+                     if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
                         candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
                         candidate_scores[num_candidates].score = professores[p].Score[s].score;
                         candidate_vars[num_candidates] = varlist[p*m + t];
@@ -250,11 +250,15 @@ void construct_soluction(
 
             printf("numero de turmas cobertas: %d\n", *nCovered);
 
+            int j = professores[p].m;
             if(turma.semestre == 1){
                professores[p].current_CH1 += turma.CH;
-
+               professores[p].turmasAlocadas[j] = turma.codigo;
+               professores[p].m++;
             }else{
                professores[p].current_CH2 += turma.CH;
+               professores[p].turmasAlocadas[j] = turma.codigo;
+               professores[p].m++;
             }
          }else{
             // turma t ficou nem nenhum prof candidato. salvando as insfo dela
@@ -267,6 +271,7 @@ void construct_soluction(
 
       }
       // ======  FIM DO LAÇO QUE PERCORRE TODAS AS TURMAS =====
+      printf("\nNUMERO DE TURMAS COBERTAS AO PERCORRER TODAS AS TURMAS: %d\n", *nCovered);
 
       // verificanndo se existem turmas que não foram cobertas
       if(*nCovered < m){
@@ -276,14 +281,15 @@ void construct_soluction(
             if(turmas_sem_profs[i].semestre == 1){
                // encontrando o primeiro prof que possui carga horaria livre no 1° semestre
                for(int p = 0; p < n; p++){
-                  printf("nome: %s\n", professores[p].nome);
-                  if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1){
+                  //printf("nome: %s\n", professores[p].nome);
+                  if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
                      professores[p].current_CH1 += turmas_sem_profs[i].CH;
                      covered[turmas_sem_profs[i].codigo-1];
                      (*nCovered)++;
                      solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+                     (*nInSolution)++;
 
-                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                    // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
                      break;
                   }
                }
@@ -291,23 +297,34 @@ void construct_soluction(
             }else{
                // encontrando o primeiro prof que possui carga horaria livre no 2° semestre
                for(int p = 0; p < n; p++){
-                  if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2){
+                  if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
                      professores[p].current_CH2 += turmas_sem_profs[i].CH;
                      covered[turmas_sem_profs[i].codigo-1];
                      (*nCovered)++;
                      solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+                     (*nInSolution)++;
 
-                     printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                     //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
                      break;
                   }
                }
             } 
          }
       }
-      
-      // for(int i = 0; i < n; i++){
-      //    printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
-      // }
+
+      // ==== EM TEORIA NESSE PONTO TODAS AS TURMAS JA FORAM COBERTAS  ==== obs: pelo menos para a instancia real
+
+
+      int j = 0;
+      for(int i = 0; i < n; i++){
+         if(professores[i].current_CH1 + professores[i].current_CH2 >= professores[i].CHmin){
+            printf("\n");
+            printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
+            printf("turmas atribuidas: %d\n", professores[i].m);
+            j++;
+         }
+      }
+      printf("\ni: %d\n", j);
 
       printf("\n\nFIM\n\nTURMAS COBERTAS: %d ; TURMAS: %d\n", *nCovered, m);
       // se eu passei por todas as turmas, independente de terem ficado turmas sem profs, saia
@@ -315,9 +332,10 @@ void construct_soluction(
       //    break;
       // }
 
-      free(turmas_sem_profs);
 
    }
+
+   free(turmas_sem_profs);
 
 }
 

@@ -115,6 +115,8 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   (*I)->professores[i].current_CH1 = (*I)->professores[i].CHmax1;
   (*I)->professores[i].current_CH2 = (*I)->professores[i].CHmax2; 
   (*I)->professores[i].ch_totalatribuida = 0;
+  (*I)->professores[i].m = 0;  // quant de turmas alocadas para o prof em questao
+  
 
  // printf("\n%s \n", (*I)->professores[i].myareas);
     float sum = 0;

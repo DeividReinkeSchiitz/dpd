@@ -49,6 +49,8 @@ typedef struct
   int* preferencias;
   float pesoMedioPreferencias;
   int n;  // quantidade de turmas que são da area do prof
+  int m;  // quantidade de turmas alocadas para o prof
+  int turmasAlocadas[15];  // considerando que um prof pode ter no max 10 turmas atribuidas
   SCORE Score[125];
 }Professor;
 
