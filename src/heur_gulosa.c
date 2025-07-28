@@ -20,12 +20,12 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
-#include <assert.h>
-
 #include "heur_gulosa.h"
 #include "heur_problem.h"
 #include "parameters_dpd.h"
 #include "probdata_dpd.h"
+#include "utils.h"
+#include <assert.h>
 
 #define DEBUG_GULOSA 1
 /* configuracao da heuristica */
@@ -116,52 +116,6 @@ static SCIP_DECL_HEUREXITSOL(heurExitsolGulosa)
   return SCIP_OKAY;
 }
 
-int mTurmas = 0;
-int comparePreferencias(const void *a, const void *b)
-{
-  Preferencias *prefA = (Preferencias *) a;
-  Preferencias *prefB = (Preferencias *) b;
-
-  if (prefA->peso < prefB->peso)
-    return 1;
-  if (prefA->peso > prefB->peso)
-    return -1;
-  return 0;
-}
-
-int compareProfessores(const void *a, const void *b)
-{
-  Professor *profA = (Professor *) a;
-  Professor *profB = (Professor *) b;
-
-  // sort preferencias in descending order
-  qsort(profA->preferencias, mTurmas, sizeof(Preferencias), comparePreferencias);
-
-  if (profA->pesoMedioPreferencias < profB->pesoMedioPreferencias)
-    return 1;
-  if (profA->pesoMedioPreferencias > profB->pesoMedioPreferencias)
-    return -1;
-  return 0;
-}
-
-void printOrderedProfessores(instanceT *I)
-{
-#ifdef DEBUG_GULOSA
-  PRINTFD("----------------------------------------\n");
-  // print professors ordered by pesoMedioPreferencias
-  for (int i = 0; i < I->n; i++)
-  {
-    PRINTFD("%s: %f\n", I->professores[i].nome, I->professores[i].pesoMedioPreferencias);
-    // print preferencias
-    for (int j = 0; j < I->m; j++)
-    {
-      if (I->professores[i].preferencias[j].peso >= EPSILON)
-        printf("\nGULOSA: Professor %s apto para turma %d com peso de %f\n", I->professores[i].nome, I->professores[i].preferencias[j].turma->label, I->professores[i].preferencias[j].peso);
-    }
-  }
-#endif
-}
-
 /**
  * @brief Core of the gulosa heuristic: it builds one solution for the problem by gulosa procedure.
  *
@@ -181,9 +135,8 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   SCIP_Real valor, bestUb;
   SCIP_PROBDATA *probdata;
   int i, residual;
-  Turma *TurmasCopy;
 
-  instanceT *I;
+  Instance *I;
   found      = 0;
   infeasible = 0;
 
@@ -198,51 +151,51 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   nvars             = SCIPprobdataGetNVars(probdata);
   varlist           = SCIPprobdataGetVars(probdata);
   I                 = SCIPprobdataGetInstance(probdata);
-  nProfs            = I->n;  // number of professors
-  mTurmas           = I->m;  // number of turmas
+  nProfs            = I->nProfessors;  // number of professors
+  mCourses          = I->nCourses;     // number of turmas
 
   solution          = (SCIP_VAR **) calloc(nProfs, sizeof(SCIP_VAR *));
-  coveredTurmas     = (int *) calloc(mTurmas, sizeof(int));  // covered turmas
-  coveredProfessors = (int *) calloc(nProfs, sizeof(int));   // covered professors
+  coveredTurmas     = (int *) calloc(mCourses, sizeof(int));  // covered turmas
+  coveredProfessors = (int *) calloc(nProfs, sizeof(int));    // covered professors
   nInSolution       = 0;
   nCovered          = 0;
   custo             = 0;
   residual;
 
 #ifdef DEBUG_GULOSA
-  PRINTFD("nvars=%d nprof=%d nturmas=%d\n", nvars, nProfs, mTurmas);
+  PRINTFD("nvars=%d nprof=%d nturmas=%d\n", nvars, nProfs, mCourses);
 #endif
 
-  // Order list of professores by pesoMedioPreferencias
-  qsort(I->professores, I->n, sizeof(Professor), compareProfessores);
-  printOrderedProfessores(I);
+  // Order list of professors by avgPreferenceWeight
+  qsort(I->professors, I->nProfessors, sizeof(Professor), compareProfessors);
+  // Corrige chamada: passa função de impressão correta
+  printOrderedProfessors(I->professors, I->nProfessors);
+  int carga_s1[I->nProfessors];
+  int carga_s2[I->nProfessors];
 
-  int carga_s1[I->n];
-  int carga_s2[I->n];
-
-  for (int i = 0; i < I->n; i++)
+  for (int i = 0; i < I->nProfessors; i++)
   {
     carga_s1[i] = 0;
     carga_s2[i] = 0;
   }
 
   Professor *cur_professor;
-  Preferencias *cur_pref;
+  Preference *cur_pref;
 
-  // // for each turma
+  // for each course
   // for (int j = 0; j < mTurmas; j++)
   // {
 
   //   // for each professor
   //   for (int i = 0; i < nProfs; i++)
   //   {
-  //     cur_professor = &I->professores[i];
-  //     cur_pref      = &cur_professor->preferencias[j];
+  //     cur_professor = &I->professors[i];
+  //     cur_pref      = &cur_professor->preferences[j];
 
   //     // if the professor has reached the minimum CH, stop the loop
   //     if (carga_s1[i] + carga_s2[i] >= cur_professor->CHmin)
   //     {
-  //       PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
+  //       // PRINTFD("Professor %s atingiu carga minima\n", I->professores[i].nome);
   //       // cover the professor
   //       coveredProfessors[i] = 1;
   //     }
@@ -260,7 +213,7 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //       continue;
 
 
-  //     PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, cur_pref->turma->label);
+  //     // PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, cur_pref->turma->label);
 
   //     // turma is from semestre 1
   //     if (cur_pref->turma->semestre == 1)
@@ -291,8 +244,6 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //     coveredTurmas[cur_pref->turma->label] = 1;
   //   }  // end for turmas
   // }  // end for professores
-
-  ///////////////////////////
 
 
   // // for each professor
@@ -358,28 +309,81 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //   }
   // }
 
+  ///////////////////////////
+  for (int j = 0; j < mCourses; j++)
+  {
+    // for each professor
+    for (int i = 0; i < nProfs; i++)
+    {
+      cur_professor = &I->professors[i];
+      cur_pref      = &cur_professor->preferences[j];
 
-  // print all turmas that were not covered
-  PRINTFD("Turmas que nao foram cobertas:");
-  for (int i = 0; i < mTurmas; i++)
+      // If the professor has reached the minimum workload, mark as covered
+      if (carga_s1[i] + carga_s2[i] >= cur_professor->minWorkload)
+      {
+        coveredProfessors[i] = 1;
+      }
+
+      // If the professor is covered, skip
+      if (coveredProfessors[i] == 1)
+        continue;
+
+      // If course is already covered, skip
+      if (coveredTurmas[cur_pref->course_ptr->label] == 1)
+        continue;
+
+      // Only consider preferences with positive weight
+      if (cur_pref->weight == 0)
+        continue;
+
+      // Course is from semester 1
+      if (cur_pref->course_ptr->semester == 1)
+      {
+        // If the professor can take the course
+        if (carga_s1[i] + cur_pref->course_ptr->workload > cur_professor->maxWorkload1)
+          continue;
+
+        // Update the residual capacity
+        carga_s1[i] += cur_pref->course_ptr->workload;
+
+        PRINTFD("Professor %s eligible for course %d with weight %f\n", I->professors[i].name, cur_pref->course_ptr->label, cur_pref->weight);
+        // Cover the course
+        coveredTurmas[cur_pref->course_ptr->label] = 1;
+
+        continue;
+      }
+
+      // Course is from semester 2
+      if (carga_s2[i] + cur_pref->course_ptr->workload > cur_professor->maxWorkload2)
+        continue;
+
+      // Update the residual capacity
+      carga_s2[i] += cur_pref->course_ptr->workload;
+      // Cover the course
+      coveredTurmas[cur_pref->course_ptr->label] = 1;
+    }
+  }
+
+  // Print all courses that were not covered
+  PRINTFD("Courses that were not covered:");
+  for (int i = 0; i < mCourses; i++)
   {
     if (coveredTurmas[i] == 0)
     {
-      PRINTFD("Turma %s", I->turmas[i].disciplina.nome);
+      PRINTFD("Course %s", I->courses[i].subject.name);
     }
   }
   printf("\n");
-  // print all professors that were not covered
-  PRINTFD("Professores que nao foram cobertos:");
+  // Print all professors that were not covered
+  PRINTFD("Professors that were not covered:");
   for (int i = 0; i < nProfs; i++)
   {
     if (coveredProfessors[i] == 0)
     {
-      PRINTFD("Professor %s", I->professores[i].nome);
+      PRINTFD("Professor %s", I->professors[i].name);
     }
   }
   printf("\n");
-  getchar();
 
   //     // first, select all variables already fixed in 1.0
   //     for (i = 0; i < nvars; i++)

@@ -30,8 +30,10 @@
 #include <string.h>
 #include <time.h>
 
+#include "heur_badFeasible.h"
 #include "heur_gulosa.h"
-#include "heur_myrounding.h"
+#include "heur_lns.h"
+
 #include "parameters_dpd.h"
 #include "probdata_dpd.h"
 #include "problem.h"
@@ -46,7 +48,8 @@ void removePath(char *fullfilename, char **filename);
 void configOutputName(char *name, char *instance_filename, char *program);
 SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname);
 void printSol(SCIP *scip, char *outputname);
-SCIP_RETCODE configScip(SCIP **pscip);
+SCIP_RETCODE configScip(SCIP **pscip, parametersT param);
+
 //
 SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname)
 {
@@ -93,9 +96,14 @@ SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname)
     {
       fprintf(fout, ";bestsol in %lld;%lf;%d;%s", SCIPsolGetNodenum(bestSolution), SCIPsolGetTime(bestSolution), SCIPsolGetDepth(bestSolution), SCIPsolGetHeur(bestSolution) != NULL ? SCIPheurGetName(SCIPsolGetHeur(bestSolution)) : (SCIPsolGetRunnum(bestSolution) == 0 ? "initial" : "relaxation"));
     }
-    if (param.heur_rounding)
+    if (param.heur_lns)
     {
-      heur_hdlr = SCIPfindHeur(scip, "myrounding");
+      heur_hdlr = SCIPfindHeur(scip, "lns");
+      fprintf(fout, ";%lf;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
+    }
+    if (param.heur_bad_sol)
+    {
+      heur_hdlr = SCIPfindHeur(scip, "badFeasibleSolution");
       fprintf(fout, ";%lf;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
     }
     if (param.heur_gulosa)
@@ -114,11 +122,19 @@ SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname)
  * creates a SCIP instance with default plugins, and set SCIP parameters 
  */
 SCIP_RETCODE configScip(
-        SCIP **pscip)
+        SCIP **pscip,
+        parametersT param)
 {
-  SCIP *scip = NULL;
+
+  SCIP *scip           = NULL;
   /* initialize SCIP */
-  SCIP_CALL(SCIPcreate(&scip));
+  SCIP_RETCODE retcode = SCIPcreate(&scip);
+  if (retcode != SCIP_OKAY || scip == NULL)
+  {
+    printf("SCIPcreate failed: retcode=%d, scip=%p\n", retcode, (void *) scip);
+    return 1;
+  }
+
   /* include default SCIP plugins */
   SCIP_CALL(SCIPincludeDefaultPlugins(scip));
   /* for column generation, disable restarts */
@@ -131,18 +147,25 @@ SCIP_RETCODE configScip(
   SCIP_CALL(SCIPsetHeuristics(scip, SCIP_PARAMSETTING_OFF, TRUE));  // turn off
   /* for column generation, usualy we prefer branching using pscost instead of relcost  */
   SCIP_CALL(SCIPsetIntParam(scip, "branching/pscost/priority", 1000000));
+
   SCIP_CALL(SCIPsetIntParam(scip, "display/freq", param.display_freq));
   /* set time limit */
   SCIP_CALL(SCIPsetRealParam(scip, "limits/time", param.time_limit));
   // for only root, use 1
   SCIP_CALL(SCIPsetLongintParam(scip, "limits/nodes", param.nodes_limit));
+
   // active heuristic of rounding
-  if (param.heur_rounding)
-    SCIP_CALL(SCIPincludeHeurMyRounding(scip));
+  if (param.heur_bad_sol)
+    SCIP_CALL(SCIPincludeHeurBadFeasibleSolution(scip));
+  if (param.heur_lns)
+    SCIP_CALL(SCIPincludeHeurLns(scip));
+  // if (param.heur_rounding)
+  // SCIP_CALL(SCIPincludeHeurMyRounding(scip));
   if (param.heur_gulosa)
     SCIP_CALL(SCIPincludeHeurGulosa(scip));
 
   *pscip = scip;
+
   return SCIP_OKAY;
 }
 /**
@@ -191,11 +214,15 @@ int setParameters(int argc, char **argv, parametersT *pparam)
           {"param stamp", "--param_stamp", &(param.parameter_stamp), STRING, 0, 0, 0, 0, 0, 0},
           {"output path", "--output_path", &(output_path), STRING, 0, 0, 0, 0, 0, 0},
           {"heur rounding", "--heur_rounding", &(param.heur_rounding), INT, 0, 1, 0, 0, 0, 0},
+          {"heur bad Solution", "--heur_bad_sol", &(param.heur_bad_sol), INT, 0, 1, 0, 0, 0, 0},
+          {"heur lns", "--heur_lns", &(param.heur_lns), INT, 0, 1, 0, 0, 0, 0},
+          {"lns perc", "--lns_perc", &(param.lns_perc), DOUBLE, 0, 0, 0, 1.0, 0, 0.3},
+          {"lns_time", "--lns_time", &(param.lns_time), INT, 0, 3600, 0, 0, 30, 0},
           {"heur round freq", "--heur_round_freq", &(param.heur_round_freq), INT, 0, MAXINT, 0, 0, 1, 0},
           {"heur round maxdepth", "--heur_round_depth", &(param.heur_round_maxdepth), INT, -1, MAXINT, 0, 0, -1, 0},
           {"heur round freqofs", "--heur_round_freqofs", &(param.heur_round_freqofs), INT, 0, MAXINT, 0, 0, 0, 0},
           {"heur gulosa", "--heur_gulosa", &(param.heur_gulosa), INT, 0, 1, 0, 0, 0, 0},
-          {"area penalty", "--penalty", &(param.area_penalty), INT, 0, MAXINT, 0, 0, 0, 0}};
+          {"area penalty", "--penalty", &(param.area_penalty), INT, -100, MAXINT, 0, 0, 0, 0}};
   int i, j, ivalue, error;
   double dvalue;
   FILE *fin;
@@ -439,7 +466,7 @@ void printSol(SCIP *scip, char *outputname)
   SCIP_Real solval;
   FILE *file;
   int v, nvars;
-  instanceT *I;
+  Instance *I;
   char filename[SCIP_MAXSTRLEN];
   struct tm *ct;
   const time_t t = time(NULL);
@@ -465,37 +492,37 @@ void printSol(SCIP *scip, char *outputname)
   fprintf(file, "\nValue: %lf\n", -SCIPsolGetOrigObj(bestSolution));
 
 
-  for (int i = 0; i < I->n; i++)
+  for (int i = 0; i < I->nProfessors; i++)
   {
-    fprintf(file, "%d - %s:\n", i + 1, I->professores[i].nome);
-    int horas = 0;
+    fprintf(file, "%d - %s:\n", i + 1, I->professors[i].name);
+    int hours = 0;
     int count = 0;
     int sum   = 0;
-    float media;
-    for (int j = 0; j < I->professores->numeroPreferencias; j++)
+    float avg;
+    for (int j = 0; j < I->professors[i].numPreferences; j++)
     {
-      solval = SCIPgetSolVal(scip, bestSolution, vars[(i * (I->m)) + j]);
+      solval = SCIPgetSolVal(scip, bestSolution, vars[(i * (I->nCourses)) + j]);
       if (solval > EPSILON)
       {
         count++;
-        sum += I->professores[i].preferencias[j].peso;
-        fprintf(file, "%d: %s (%d)\n", j + 1, I->turmas[j].disciplina.nome, I->professores[i].preferencias[j].peso);
-        horas += I->turmas[j].CH;
+        sum += I->professors[i].preferences[j].weight;
+        fprintf(file, "%d: %s (%d)\n", j + 1, I->courses[j].subject.name, I->professors[i].preferences[j].weight);
+        hours += I->courses[j].workload;
       }
     }
 
     if (count > 0)
     {
-      media = sum / count;
+      avg = (float) sum / count;
     }
     else
     {
-      media = 0;
+      avg = 0;
     }
 
-    fprintf(file, "Peso m�dio atribu�do pelo sistema: %.2f\n", media);
-    fprintf(file, "Peso m�dio atribu�do pelo professor: %.2f\n", I->professores[i].pesoMedioPreferencias);
-    fprintf(file, "coeficiente de satisfa��o: %.2f\n\n", media / I->professores[i].pesoMedioPreferencias);
+    fprintf(file, "Average weight assigned by the system: %.2f\n", avg);
+    fprintf(file, "Average weight assigned by the professor: %.2f\n", I->professors[i].avgPreferenceWeight);
+    fprintf(file, "Satisfaction coefficient: %.2f\n\n", I->professors[i].avgPreferenceWeight);
   }
 
   fprintf(file, "\n");
@@ -535,7 +562,7 @@ void configOutputName(char *name, char *instance_filename, char *program)
 int main(int argc, char **argv)
 {
   SCIP *scip;
-  instanceT *in;
+  Instance *in;
   clock_t start, end;
   char outputname[SCIP_MAXSTRLEN];
 
@@ -551,9 +578,9 @@ int main(int argc, char **argv)
   }
   //  printInstance(in);
   // create scip and set scip configurations
-  configScip(&scip);
+  configScip(&scip, param);
   // load problem into scip
-  if (!loadProblem(scip, argv[1], in))
+  if (!loadProblem(scip, argv[1], in, 0, NULL))
   {
     printf("\nProblem to load instance problem\n");
     return 1;

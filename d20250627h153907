@@ -1,0 +1,15 @@
+--time 1800
+--display 50
+--nodes -1
+--param_stamp d20250627h153907
+--output_path .
+--heur_rounding 0
+--heur_bad_sol 0
+--heur_lns 0
+--lns_perc 0.300000
+--lns_time 30
+--heur_round_freq 1
+--heur_round_depth -1
+--heur_round_freqofs 0
+--heur_gulosa 0
+--penalty 0

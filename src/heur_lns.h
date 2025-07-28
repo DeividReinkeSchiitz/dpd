@@ -13,9 +13,9 @@
 /*                                                                           */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/**@file   heur_gulosa.h
+/**@file   heur_lns.h
  * @ingroup PRIMALHEURISTICS
- * @brief  gulosa primal heuristic
+ * @brief  lns primal heuristic
  * @author Edna Hoshino (based on template provided by Tobias Achterberg)
  *
  * template file for primal heuristic plugins
@@ -23,8 +23,8 @@
 
 /*---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2*/
 
-#ifndef __SCIP_HEUR_GULOSA_H__
-#define __SCIP_HEUR_GULOSA_H__
+#ifndef __SCIP_HEUR_LNS_H__
+#define __SCIP_HEUR_LNS_H__
 
 
 #include "scip/scip.h"
@@ -33,10 +33,10 @@
 extern "C" {
 #endif
   
-int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur);
+int lns(SCIP* scip, SCIP_SOL* initsol, SCIP_HEUR* heur);
 
-/** creates the gulosa_crtp primal heuristic and includes it in SCIP */
-SCIP_RETCODE SCIPincludeHeurGulosa(
+/** creates the lns_crtp primal heuristic and includes it in SCIP */
+SCIP_RETCODE SCIPincludeHeurLns(
    SCIP*                 scip                /**< SCIP data structure */
    );
 

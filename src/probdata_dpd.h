@@ -52,14 +52,16 @@ struct SCIP_ProbData
   SCIP_CONS **conss;    /**< all constraints */
   int nvars;            /**< total of vars */
   int ncons;            /**< number of constraints */
-  instanceT *I;         /**< instance of knapsack */
+  Instance *I;          /**< instance of knapsack */
 };
 
 /** sets up the problem data */
 extern SCIP_RETCODE SCIPprobdataCreate(
         SCIP *scip,           /**< SCIP data structure */
         const char *probname, /**< problem name */
-        instanceT *I          /**< instance of K-coloring */
+        Instance *I,          /**< instance of K-coloring */
+        int relaxed,          /**< should be relaxed? */
+        int *fixed            /**< vector of fixed items */
 );
 
 /** adds given variable to the problem data */
@@ -94,7 +96,7 @@ extern int SCIPprobdataGetNcons(
 );
 
 /** returns instance I */
-extern instanceT *SCIPprobdataGetInstance(
+extern Instance *SCIPprobdataGetInstance(
         SCIP_PROBDATA *probdata /**< problem data */
 );
 #endif
