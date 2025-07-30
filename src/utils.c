@@ -3,6 +3,8 @@
 #include "probdata_dpd.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <time.h>
 
 int mCourses = 0;
 

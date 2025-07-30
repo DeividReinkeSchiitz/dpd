@@ -29,5 +29,5 @@ typedef struct
 int setParameters(int argc, char **argv, parametersT *Param);
 
 extern parametersT param;
-extern const char *output_path;
+extern char current_path[256];
 #endif
