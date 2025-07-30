@@ -125,220 +125,6 @@ SCIP_DECL_HEUREXITSOL(heurExitsolGrasp)
    return SCIP_OKAY;
 }
 
-int grasp_randomized_selection(SCORE *candidates, int num_candidates, float alpha){
-   if(num_candidates == 1) return 0;
-
-   // encontrando o score max e min
-   int min_score = candidates[0].score;
-   int max_score = candidates[0].score;
-   for(int i = 0; i < num_candidates; i++){
-      if(candidates[i].score < min_score) min_score = candidates[i].score;
-      if(candidates[i].score > max_score) max_score = candidates[i].score;
-   }
-
-   // criando a RCL
-   int limite = min_score + alpha * (max_score-min_score);
-   int rcl[num_candidates];
-   int rcl_size=0;
-
-   for(int i = 0; i < num_candidates; i++){
-      if(candidates[i].score >= limite){
-         rcl[rcl_size] = i;
-         rcl_size++;
-      }
-   }
-   
-   // selecionando aleatoriamente da RCL
-   if(rcl_size==0) return rand() % num_candidates;
-
-   return rcl[rand() % rcl_size];
-
-}
-
-void construct_soluction(
-   SCIP* scip,
-   SCIP_VAR** varlist,
-   SCIP_VAR** solution,
-   Professor* professores,
-   Turma* turmas,
-   int* nInSolution, //num de vars na solucao
-   int* covered,  // vetor de turmas cobertas
-   int* nCovered, // quant de turmas cobertas
-   int m,         // quant de turmas
-   int n,         // quant de prof
-   float alpha
-) {
-   // redefinindo a carga horaria de cada semestre dos professores
-   for(int i = 0; i < n; i++){
-      professores[i].current_CH1 = 0;
-      professores[i].current_CH2 = 0;
-   }
-
-   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 50); // considerando que ao final ficarao, no max, 10 turmas sem profs
-   int n_sem_prof = 0;
-
-   while(*nCovered < m){
-
-      // percorrendo as turmas
-      int t;
-      for(t = 0; t < m; t++){
-         
-         // pegando as isnfo da turma atual t
-         Turma turma = turmas[t];
-         SCORE *candidate_scores = (SCORE*) malloc(sizeof(SCORE) * n);  
-         SCIP_VAR **candidate_vars = (SCIP_VAR**) malloc(n * sizeof(SCIP_VAR*));
-         int num_candidates = 0;
-
-        // printf("turma: %d\n", turma.codigo);
-         // percorrendo os profs
-         printf("TURMA: %d\n", turma.codigo);
-         for(int p = 0; p < n; p++){
-           //printf("nome: %s\n", professores[p].nome);
-
-            // indo na lista de pref do prof p, e verificando se a turma t esta la
-            for(int s = 0; s < professores[p].n && professores[p].Score[s].codigo_turma <= turma.codigo; s++){
-
-              // printf("turma: %d ; turma escolhida pelo prof: %s\n",professores[p].Score[s].codigo_turma ,professores[p].nome);
-               // verificando se o prof p tem a materia t na sua lista
-               if(turma.codigo == professores[p].Score[s].codigo_turma){
-
-                  // verificando se o prof p pode ser candidato para a turma t(verificar a carga horaria dele).
-                  if(turma.semestre == 1){
-
-                     // checando a carga horaria do prof no semestre 1
-                     if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
-                        candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
-                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
-                        candidate_vars[num_candidates] = varlist[p*m + t];
-                        num_candidates++;
-
-                       //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
-
-                     }
-                  }else{
-                     // checando a carga horaria do prof no semestre 2
-                     if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
-                        candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
-                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
-                        candidate_vars[num_candidates] = varlist[p*m + t];
-                        num_candidates++;
-
-                      //  printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
-
-                     }
-                  }
-                  break;  // cod turma beteu com o cod do prof. logo, saia do laço desse prof
-               }
-            }
-         }
-
-         // se a lista de candidatos da turma t nao estiver vazia
-         printf("numero de prof candidatos: %d\n", num_candidates);
-         if(num_candidates > 0){
-            // seleciona um prof da rcl
-            int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
-            int p = candidate_scores[selected].codigo_turma;
-            //printf("prof selecionado: %d\n", p);
-
-            // marcando a turma t como coberta
-            covered[t] = 1;
-            (*nCovered)++;
-            solution[*nInSolution] = candidate_vars[selected];
-            (*nInSolution)++;
-
-            //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
-
-            printf("numero de turmas cobertas: %d\n", *nCovered);
-
-            int j = professores[p].m;
-            if(turma.semestre == 1){
-               professores[p].current_CH1 += turma.CH;
-               professores[p].turmasAlocadas[j] = turma.codigo;
-               professores[p].m++;
-            }else{
-               professores[p].current_CH2 += turma.CH;
-               professores[p].turmasAlocadas[j] = turma.codigo;
-               professores[p].m++;
-            }
-         }else{
-            // turma t ficou nem nenhum prof candidato. salvando as insfo dela
-            turmas_sem_profs[n_sem_prof] = turma;
-            n_sem_prof++;
-         }
-
-         free(candidate_scores);
-         free(candidate_vars);
-
-      }
-      // ======  FIM DO LAÇO QUE PERCORRE TODAS AS TURMAS =====
-      printf("\nNUMERO DE TURMAS COBERTAS AO PERCORRER TODAS AS TURMAS: %d\n", *nCovered);
-
-      // verificanndo se existem turmas que não foram cobertas
-      if(*nCovered < m){
-
-         // percorrendo as turmas que ficaram sem prof
-         for(int i = 0; i < n_sem_prof; i++){
-            if(turmas_sem_profs[i].semestre == 1){
-               // encontrando o primeiro prof que possui carga horaria livre no 1° semestre
-               for(int p = 0; p < n; p++){
-                  //printf("nome: %s\n", professores[p].nome);
-                  if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
-                     professores[p].current_CH1 += turmas_sem_profs[i].CH;
-                     covered[turmas_sem_profs[i].codigo-1];
-                     (*nCovered)++;
-                     solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
-                     (*nInSolution)++;
-
-                    // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
-                     break;
-                  }
-               }
-
-            }else{
-               // encontrando o primeiro prof que possui carga horaria livre no 2° semestre
-               for(int p = 0; p < n; p++){
-                  if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2 && professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
-                     professores[p].current_CH2 += turmas_sem_profs[i].CH;
-                     covered[turmas_sem_profs[i].codigo-1];
-                     (*nCovered)++;
-                     solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
-                     (*nInSolution)++;
-
-                     //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
-                     break;
-                  }
-               }
-            } 
-         }
-      }
-
-      // ==== EM TEORIA NESSE PONTO TODAS AS TURMAS JA FORAM COBERTAS  ==== obs: pelo menos para a instancia real
-
-
-      int j = 0;
-      for(int i = 0; i < n; i++){
-         if(professores[i].current_CH1 + professores[i].current_CH2 >= professores[i].CHmin){
-            printf("\n");
-            printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
-            printf("turmas atribuidas: %d\n", professores[i].m);
-            j++;
-         }
-      }
-      printf("\ni: %d\n", j);
-
-      printf("\n\nFIM\n\nTURMAS COBERTAS: %d ; TURMAS: %d\n", *nCovered, m);
-      // se eu passei por todas as turmas, independente de terem ficado turmas sem profs, saia
-      // if(t == m){
-      //    break;
-      // }
-
-
-   }
-
-   free(turmas_sem_profs);
-
-}
-
 // funcao para verificar se a area de uma turma coincide com a area do prof
 int check_area(const char a[15], const char b[15]) {
     for (int i = 0; i < 15; i++) {
@@ -401,6 +187,239 @@ int compareTurmasByN(const void *a, const void *b)
     return 0;
 }
 
+int check_ch(int current_ch1, int current_ch2, int chmin){
+   if(current_ch1 + current_ch2 >= chmin){
+      return 1; // ch satisfeita
+   }
+   return 0;  // ch NAO satisfeita
+}
+
+// funcao que cria a relacao entre as turmas e os profs que são da mesma area
+void adaptive_check(Professor *professores, Turma *turmas, int *covered, int n, int m){
+   int nscore, pref, alfa, score;
+   // percorre os professores
+   for(int i = 0; i < n; i++){
+
+      // se o prof i ja atingiu a carga horaria, va para o proximo
+      if(check_ch(professores[i].current_CH1, professores[i].current_CH2, professores[i].CHmin) == 1) continue;
+      nscore = 0;
+
+      // percorre as turmas
+      for(int j = 0; j < m; j++){
+         // se a turma j ja foi coberta, va para a proxima
+        if(covered[j] == 1) continue;
+
+         // verificado se a turma j foi escolhida pelo prof i
+         pref = check_preference(professores[i].preferencias, turmas[j].codigo, m);
+         if(pref != 0){
+           // printf("PROF %s pode ministrar a turma %d\n", professores[i].nome, turmas[j].codigo);
+            alfa = random_number(1, 5);
+            score = calculaScore(pref, alfa);
+            professores[i].Score[nscore].score = score;
+            professores[i].Score[nscore].codigo_turma = j+1;
+            nscore++;
+            turmas[j].n++;
+
+            // nao foi escolhida. verificando se a turma j é da area do prof i
+         }else if(check_area(professores[i].myareas, turmas[j].disciplina.myareas) == 1){
+            //printf("PROF %s pode ministrar a turma %d\n", professores[i].nome, turmas[j].codigo);
+            alfa = random_number(1, 8);
+            //score = calculaScore(0, alfa);  // score quando n tem pref eh so o alfa. posso tentar mudar isso depois
+            professores[i].Score[nscore].score = alfa;
+            professores[i].Score[nscore].codigo_turma = j+1;
+            nscore++; 
+            turmas[j].n++;
+        }
+      }
+
+      professores[i].n = nscore;
+   }
+
+   // // agora vamos calcular os scores
+   // // calculando a media de profs disposiveis que cada turma possui
+   // int soma = 0;
+   // for(int j = 0; j < m; j++){
+   //    soma += turmas[j].n;
+   // }
+   
+}
+
+
+int grasp_randomized_selection(SCORE *candidates, int num_candidates, float alpha){
+   if(num_candidates == 1) return 0;
+
+   // encontrando o score max e min
+   int min_score = candidates[0].score;
+   int max_score = candidates[0].score;
+   for(int i = 0; i < num_candidates; i++){
+      if(candidates[i].score < min_score) min_score = candidates[i].score;
+      if(candidates[i].score > max_score) max_score = candidates[i].score;
+   }
+
+   // criando a RCL
+   int limite = min_score + alpha * (max_score-min_score);
+   int rcl[num_candidates];
+   int rcl_size=0;
+
+   for(int i = 0; i < num_candidates; i++){
+      if(candidates[i].score >= limite){
+         rcl[rcl_size] = i;
+         rcl_size++;
+      }
+   }
+   
+   // selecionando aleatoriamente da RCL
+   if(rcl_size==0) return rand() % num_candidates;
+
+   return rcl[rand() % rcl_size];
+
+}
+
+void construct_soluction(
+   SCIP* scip,
+   SCIP_VAR** varlist,
+   SCIP_VAR** solution,
+   Professor* professores,
+   Turma* turmas,
+   int* nInSolution, //num de vars na solucao
+   int* covered,  // vetor de turmas cobertas
+   int* nCovered, // quant de turmas cobertas
+   int m,         // quant de turmas
+   int n,         // quant de prof
+   float alpha
+) {
+   // redefinindo a carga horaria de cada semestre dos professores
+   for(int i = 0; i < n; i++){
+      professores[i].current_CH1 = 0;
+      professores[i].current_CH2 = 0;
+   }
+
+   // Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 50); // considerando que ao final ficarao, no max, 10 turmas sem profs
+   // int n_sem_prof = 0;
+
+   while(*nCovered < m){
+      //Turma turma = turmas[0]; // pegando sempre as insfo da primeira turma (ordenada)
+      // percorrendo as turmas
+      int t;
+      for(t = 0; t < m; t++){
+         
+         // pegando as isnfo da turma atual t
+         Turma turma = turmas[t];
+         SCORE *candidate_scores = (SCORE*) malloc(sizeof(SCORE) * n);  
+         SCIP_VAR **candidate_vars = (SCIP_VAR**) malloc(n * sizeof(SCIP_VAR*));
+         int num_candidates = 0;
+
+        // printf("turma: %d\n", turma.codigo);
+         // percorrendo os profs
+         printf("TURMA: %d\n", turma.codigo);
+         for(int p = 0; p < n; p++){
+           //printf("nome: %s\n", professores[p].nome);
+           // se o prof i ja bateu a sua ch, va para o prox
+           if(professores[p].current_CH1 + professores[p].current_CH2 >= professores[p].CHmin) continue;
+
+            // indo na lista de pref do prof p, e verificando se a turma t esta la
+            for(int s = 0; s < professores[p].n && professores[p].Score[s].codigo_turma <= turma.codigo; s++){
+
+              // printf("turma: %d ; turma escolhida pelo prof: %s\n",professores[p].Score[s].codigo_turma ,professores[p].nome);
+               // verificando se o prof p tem a materia t na sua lista
+               if(turma.codigo == professores[p].Score[s].codigo_turma){
+
+                  // verificando se o prof p pode ser candidato para a turma t(verificar a carga horaria dele).
+                  if(turma.semestre == 1){
+
+                     // checando a carga horaria do prof no semestre 1
+                     if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1){
+                        candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
+                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
+                        candidate_vars[num_candidates] = varlist[p*m + t];
+                        num_candidates++;
+
+                       //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
+
+                     }
+                  }else{
+                     // checando a carga horaria do prof no semestre 2
+                     if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2){
+                        candidate_scores[num_candidates].codigo_turma = p;  // p = 0 --> amaury
+                        candidate_scores[num_candidates].score = professores[p].Score[s].score;
+                        candidate_vars[num_candidates] = varlist[p*m + t];
+                        num_candidates++;
+
+                      // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
+
+                     }
+                  }
+                  break;  // cod turma beteu com o cod do prof. logo, saia do laço desse prof
+               }
+            }
+         }
+
+         // se a lista de candidatos da turma t nao estiver vazia
+         printf("numero de prof candidatos: %d\n", num_candidates);
+         if(num_candidates > 0){
+            // seleciona um prof da rcl
+            int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
+            int p = candidate_scores[selected].codigo_turma;
+            //printf("prof selecionado: %d\n", p);
+
+            // marcando a turma t como coberta
+            covered[t] = 1;
+            (*nCovered)++;
+            solution[*nInSolution] = candidate_vars[selected];
+            (*nInSolution)++;
+
+            //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
+
+            printf("numero de turmas cobertas: %d\n", *nCovered);
+
+            int j = professores[p].m;
+            if(turma.semestre == 1){
+               professores[p].current_CH1 += turma.CH;
+               professores[p].turmasAlocadas[j] = turma.codigo;
+               professores[p].m++;
+            }else{
+               professores[p].current_CH2 += turma.CH;
+               professores[p].turmasAlocadas[j] = turma.codigo;
+               professores[p].m++;
+            }
+         }else{
+            // // turma t ficou nem nenhum prof candidato. salvando as insfo dela
+            // turmas_sem_profs[n_sem_prof] = turma;
+            // n_sem_prof++;
+         }
+
+         free(candidate_scores);
+         free(candidate_vars);
+
+         //adaptive_check(professores, turmas, covered, n, m);
+        // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+
+      }
+      // ======  FIM DO LAÇO QUE PERCORRE TODAS AS TURMAS =====
+      int j = 0;
+      for(int i = 0; i < n; i++){
+            // printf("\n");
+            // printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
+            // printf("turmas atribuidas: %d\n", professores[i].m);
+         if(professores[i].current_CH1 + professores[i].current_CH2 >= professores[i].CHmin){
+            j++;
+         }
+      }
+      printf("\nNUMERO DE TURMAS COBERTAS AO PERCORRER TODAS AS TURMAS: %d\n", *nCovered);
+      printf("NUMERO DE PROFS COM AS HORAS ATINGIDAS: %d\n", j);
+
+      printf("\n\nFIM\n\nTURMAS COBERTAS: %d ; TURMAS: %d\n", *nCovered, m);
+      // se eu passei por todas as turmas, independente de terem ficado turmas sem profs, saia
+      // if(t == m){
+      //    break;
+      // }
+
+
+   }
+
+  // free(turmas_sem_profs);
+
+}
 
 /**
  * @brief Core of the grasp heuristic: it builds one solution for the problem by grasp procedure.
@@ -472,41 +491,10 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    professores = I->professores;
    turmas = I->turmas;
    int j, pref, score, alfa, nscore;
-   
-   // percorre os professores
-   for(int i = 0; i < n; i++){
-      nscore=0;  // quant de disciplinas que o prof i pode ministrar (escolheu + area)
-      
-      // percorre as turmas
-      for(j = 0; j < m; j++){
 
-         // verificado se a turma j foi escolhida pelo prof i
-         pref = check_preference(professores[i].preferencias, turmas[j].codigo, m);
-         if(pref != 0){
-            alfa = random_number(1, 5);
-            score = calculaScore(pref, alfa);
-            professores[i].Score[nscore].score = score;
-            professores[i].Score[nscore].codigo_turma = j+1;
-            nscore++;
-            turmas[j].n++;
-
-            // nao foi escolhida. verificando se a turma j é da area do prof i
-         }else if(check_area(professores[i].myareas, turmas[j].disciplina.myareas) == 1){
-            alfa = random_number(1, 8);
-            //score = calculaScore(0, alfa);  // score quando n tem pref eh so o alfa. posso tentar mudar isso depois
-            professores[i].Score[nscore].score = alfa;
-            professores[i].Score[nscore].codigo_turma = j+1;
-            nscore++; 
-            turmas[j].n++;
-        }
-
-      }
-      //printf("NSCORE: %d\n", nscore);
-      professores[i].n = nscore;
-      
-   }
-   // ordenando as turmas com a menor quant de profs
-  // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+   adaptive_check(professores, turmas, covered, n, m);
+   // ordenando as turmas pela quant de profs sao da area
+   qsort(turmas, m, sizeof(Turma), compareTurmasByN);
 
    // for(int i = 0; i < m; i++){
    //    printf("turma: %d ; profs que podem ministrar: %d\n", turmas[i].codigo, turmas[i].n);

@@ -98,6 +98,7 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
     (*I)->turmas[i].disciplina.areas = binario_para_inteiro((*I)->turmas[i].disciplina.myareas);
     //printf("\n%d \n", (*I)->turmas[i].disciplina.areas);
     //printf("\n%d \n", (*I)->turmas[i].codigo);
+    //printf("\n%s \n", (*I)->turmas[i].disciplina.myareas);
 
     (*I)->turmas->n = 0;  // inicializando com 0 o campo que corresponde o tanto de prof que podem minsitrar a turma em questao
   }
@@ -112,9 +113,8 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
   	sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;]", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, (*I)->professores[i].myareas);
     //printf("nome: %s\n", (*I)->professores[i].nome);
 	(*I)->professores[i].numeroPreferencias=p;
-  (*I)->professores[i].current_CH1 = (*I)->professores[i].CHmax1;
-  (*I)->professores[i].current_CH2 = (*I)->professores[i].CHmax2; 
-  (*I)->professores[i].ch_totalatribuida = 0;
+  (*I)->professores[i].current_CH1 = 0;
+  (*I)->professores[i].current_CH2 = 0; 
   (*I)->professores[i].m = 0;  // quant de turmas alocadas para o prof em questao
   
 
