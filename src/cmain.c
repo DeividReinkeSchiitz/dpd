@@ -162,8 +162,6 @@ SCIP_RETCODE configScip(
     SCIP_CALL(SCIPincludeHeurBadFeasibleSolution(scip));
   if (param.heur_lns)
     SCIP_CALL(SCIPincludeHeurLns(scip));
-  // if (param.heur_rounding)
-  // SCIP_CALL(SCIPincludeHeurMyRounding(scip));
   if (param.heur_gulosa)
     SCIP_CALL(SCIPincludeHeurGulosa(scip));
 

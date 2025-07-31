@@ -130,6 +130,7 @@ static SCIP_DECL_HEUREXITSOL(heurExitsolLns)
 int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 {
   PRINTFLNS("\nLNS heuristic called.\n");
+
   parametersT lnsparam;
   int found, nInSolution;
   unsigned int stored;
@@ -157,9 +158,13 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 
   probdata = SCIPgetProbData(scip);
   assert(probdata != NULL);
-  vars             = SCIPprobdataGetVars(probdata);
-  I                = SCIPprobdataGetInstance(probdata);
-  candProfessors   = (Professor *) calloc(I->nProfessors, sizeof(Professor));
+  vars           = SCIPprobdataGetVars(probdata);
+  I              = SCIPprobdataGetInstance(probdata);
+  candProfessors = (Professor *) calloc(I->nProfessors, sizeof(Professor));
+  for (int k = 0; k < I->nProfessors; k++)
+  {
+    candProfessors[k].name[0] = '\0';
+  }
   fixed            = (int *) calloc(I->nProfessors * I->nCourses, sizeof(int));
   nCandsProfessors = 0;
 
@@ -198,7 +203,7 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
           fixed[idx] = 1;
 
           // Check if the professor is already in the candidate list
-          if (strlen(candProfessors[nCandsProfessors].name) == 0)
+          if (nCandsProfessors < I->nProfessors && strlen(candProfessors[nCandsProfessors].name) == 0)
           {
             PRINTFLNS("Professor %s está atribuído à turma %s", I->professors[j].name, I->courses[i].subject.name);
             candProfessors[nCandsProfessors++] = I->professors[j];
@@ -210,7 +215,6 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 
   // order candidate professors by avgPreferenceWeight biggest to smallest
   qsort(candProfessors, nCandsProfessors, sizeof(Professor), compareProfessors);
-  printOrderedProfessors(candProfessors, nCandsProfessors);
 
   // Obs: nCandsProfessors is smaller than I->nProfessors
   toRemove = nCandsProfessors * (param.lns_perc);
@@ -220,10 +224,12 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   {
     // Remove the last professors and his courses from the candidate list
     Professor *prof = &candProfessors[i];
+    if (prof->preferences == NULL) continue;
     for (int j = 0; j < I->nCourses; j++)  // Use o número real de preferências
     {
       Course *course = prof->preferences[j].course_ptr;
-      int idx        = (course->label * I->nProfessors) + prof->label;
+      if (course == NULL) continue;
+      int idx = (course->label * I->nProfessors) + prof->label;
 
       if (fixed[idx] == 1)
       {
@@ -239,17 +245,18 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   lnsparam.heur_rounding   = 0;
   lnsparam.heur_bad_sol    = 0;
   lnsparam.heur_lns        = 0;
-  lnsparam.heur_gulosa     = 0;  // Ensure no heuristics are included in subscip
+  lnsparam.heur_gulosa     = 0;
 
   static int subscip_count = 0;
   PRINTFLNS("Creating subscip instance #%d", ++subscip_count);
 
   SCIP *subscip        = NULL;
   SCIP_RETCODE retcode = configScip(&subscip, lnsparam);
-  // SCIP_RETCODE retcode   = configScip(&subscip, lnsparam);
   if (retcode != SCIP_OKAY)
   {
     PRINTFLNS("\nError creating subscip instance for LNS heuristic");
+    free(fixed);
+    free(candProfessors);
     return -1;
   }
 
@@ -259,6 +266,8 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   if (!loadProblem(subscip, "lns", I, 0, fixed))
   {
     printf("\nProblem to load instance problem\n");
+    free(fixed);
+    free(candProfessors);
     return -1;
   }
   probdata2 = SCIPgetProbData(subscip);
@@ -266,17 +275,25 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 
   vars2 = SCIPprobdataGetVars(probdata2);
 
-  SCIP_CALL(SCIPsetIntParam(subscip, "display/verblevel", 4));
+  SCIP_CALL(SCIPsetIntParam(subscip, "display/verblevel", 1));
 
   // Use global output_folder for all output files
   char lns_lp_path[256];
   snprintf(lns_lp_path, sizeof(lns_lp_path), "%s/lns.lp", output_path);
 
   PRINTFLNS("Writing LNS problem to %s", lns_lp_path);
-  getchar();
+  // SCIP_CALL(SCIPwriteOrigProblem(subscip, lns_lp_path, "lp", TRUE));
 
-  SCIP_CALL(SCIPwriteOrigProblem(subscip, lns_lp_path, "lp", TRUE));
   SCIP_CALL(SCIPsolve(subscip));
+  // Check if subSCIP is infeasible
+  SCIP_STATUS subscip_status = SCIPgetStatus(subscip);
+  if (subscip_status == SCIP_STATUS_INFEASIBLE)
+  {
+    PRINTFLNS("SubSCIP is infeasible for the current neighborhood.");
+    free(fixed);
+    free(candProfessors);
+    return 0;
+  }
 
 #ifdef DEBUG_LNS
   SCIP_CALL(SCIPprintBestSol(subscip, NULL, FALSE));
@@ -287,77 +304,42 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   // Recupera solucao
   lnsSol = SCIPgetBestSol(subscip);
   lnsZ   = SCIPgetPrimalbound(subscip);  // o.f. for the solution found by LNS
-  z      = SCIPsolGetOrigObj(initsol);   // objective function for the initial solution
+  z      = -SCIPsolGetOrigObj(initsol);  // objective function for the initial solution
 
-  if (lnsZ > z + EPSILON)
+  PRINTFLNS("\nLNS solution found with objective value: %lf", lnsZ);
+  PRINTFLNS("Initial solution objective value: %lf", z);
+
+  // --- ADD: Transfer LNS solution to main SCIP only if better ---
+  if (lnsSol != NULL && lnsZ > z + EPSILON)
   {
-#ifdef DEBUG
-    printf("\nSolucao do LNS:");
-#endif
-    /* create SCIP solution structure sol */
     SCIP_CALL(SCIPcreateSol(scip, &sol, heur));
-    nInSolution = 0;
-
-    for (int j = 0; j < I->nProfessors; j++)
+    for (int idx = 0; idx < I->nProfessors * I->nCourses; idx++)
     {
-      for (int i = 0; i < I->nCourses; i++)
-      {
-        int idx = (i * I->nProfessors) + j;
-
-        var     = vars2[idx];
-        value   = SCIPgetSolVal(subscip, lnsSol, var);
-        if (value > EPSILON)
-        {
-          // x_ij is fixed at 1.0 (assigned)
-          SCIP_CALL(SCIPsetSolVal(scip, sol, var, value));
-          nInSolution++;
-          PRINTFLNS("Assignment x_%d_%d fixed at 1.0 (Course: %s, Professsor: %s)", j, i, I->courses[i].subject.name, I->professors[j].name);
-        }
-      }
+      SCIP_Real val = SCIPgetSolVal(subscip, lnsSol, vars2[idx]);
+      if (val > EPSILON)
+        SCIP_CALL(SCIPsetSolVal(scip, sol, vars[idx], val));
     }
 
     // check if the solution found by LNS is better than the current bestsolution
     bestUb = SCIPgetPrimalbound(scip);
-
-#ifdef DEBUG_LNS
-    printf("\nFound solution...\n");
-    //      SCIP_CALL( SCIPprintSol(scip, *sol, NULL, FALSE) );
-    printf("\ninfeasible=%d value = %lf > bestUb = %lf? %d\n\n", infeasible, lnsZ, bestUb, lnsZ > bestUb + EPSILON);
-#endif
-
     if (lnsZ > bestUb + EPSILON)
     {
-#ifdef DEBUG_LNS
-      printf("\nBest solution found...\n");
-      SCIP_CALL(SCIPprintSol(scip, sol, NULL, FALSE));
-#endif
-      /* check if the solution is feasible */
-      SCIP_CALL(SCIPtrySolMine(scip, sol, TRUE, TRUE, FALSE, TRUE, &stored));
+      SCIP_Bool stored = FALSE;
+      SCIP_CALL(SCIPtrySolMine(scip, sol, TRUE, TRUE, TRUE, TRUE, &stored));
       if (stored)
       {
-#ifdef DEBUG_LNS
-        printf("\nSolution is feasible and was saved! Total of items = %d", nInSolution);
-        SCIPdebugMessage("found feasible lns solution:\n");
-        SCIP_CALL(SCIPprintSol(scip, sol, NULL, FALSE));
-#endif
+        PRINTFLNS("LNS solution transferred and accepted in main SCIP!\n");
+        found = 1;
       }
       else
       {
-        found = 0;
-#ifdef DEBUG_LNS
-        printf("\nCould not found better solution\n. BestUb=%lf", bestUb);
-#endif
+        PRINTFLNS("LNS solution transferred but NOT accepted in main SCIP!\n");
       }
     }
   }
 
-  getchar();
-  // Destroi problema
-  // SCIP_CALL(SCIPfree(&subscip));
   free(fixed);
   free(candProfessors);
-
-  // clear problem
   return found;
 }
 

@@ -7,7 +7,6 @@
 #include "scip/scip.h"
 #include <math.h>
 
-
 void freeInstance(Instance *I)
 {
   if (I)
@@ -80,7 +79,7 @@ unsigned long str2bin(char *str)
 int loadInstance(char *filename, Instance **I, int area_penalty)
 {
   FILE *f;
-  int n, m, numareas;
+  int n, m = 0, numareas;
   f = fopen(filename, "r");
   if (!f)
   {
@@ -112,7 +111,7 @@ int loadInstance(char *filename, Instance **I, int area_penalty)
   for (int i = 0; i < n; i++)
   {
     fgets(linha, sizeof(linha), f);
-    int p;
+    int p = 0;
     sscanf(linha, "%99[^;];%d;%d;%d;%d;%s", (*I)->professors[i].name, &((*I)->professors[i].minWorkload), &((*I)->professors[i].maxWorkload1), &((*I)->professors[i].maxWorkload2), &p, areas_str);
     (*I)->professors[i].areas          = str2bin(areas_str);
     (*I)->professors[i].numPreferences = p;

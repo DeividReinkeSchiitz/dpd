@@ -170,12 +170,10 @@ void bin2str(unsigned long num, char *str, int len)
   }
 }
 
-
 // 100000 & 110000 =
 int checaArea(unsigned int areaProfessor, unsigned int areaTurma)
 {
   unsigned int result = areaProfessor & areaTurma;
-  printf("Resultado: %u\n", result);
   return result > 0 ? 1 : 0;
 }
 
@@ -232,7 +230,6 @@ static SCIP_DECL_PROBEXITSOL(probexitsolMochila)
 
 /**@} */
 
-
 /**@name Interface methods
  *
  * @{
@@ -241,7 +238,6 @@ static SCIP_DECL_PROBEXITSOL(probexitsolMochila)
 /** sets up the problem data
   * TODO: specific for the problem
  */
-
 
 SCIP_RETCODE SCIPprobdataCreate(
         SCIP *scip,           /**< SCIP data structure */
@@ -314,11 +310,12 @@ SCIP_RETCODE SCIPprobdataCreate(
       char courseAreaBin[33];
       bin2str(I->professors[i].areas, professorAreaBin, 32);
       bin2str(I->courses[j].subject.areas, courseAreaBin, 32);
-      printf("PROFESSOR %s with area %s for course %s with area %s", I->professors[i].name, professorAreaBin, I->courses[j].subject.name, courseAreaBin);
+      // printf("PROFESSOR %s with area %s for course %s with area %s\n", I->professors[i].name, professorAreaBin, I->courses[j].subject.name, courseAreaBin);
 
+      // TODO: This check occurs every time
       if ((checaArea(I->professors[i].areas, I->courses[j].subject.areas) == 1))
       {
-        printf(" - ELIGIBLE\n");
+        // printf(" - ELIGIBLE\n");
         count++;
         if (I->professors[i].preferences[j].weight > 0)
         {
@@ -329,7 +326,7 @@ SCIP_RETCODE SCIPprobdataCreate(
       }
       else
       {
-        printf(" - NOT ELIGIBLE\n");
+        // printf(" - NOT ELIGIBLE\n");
         aptitudeCoef = -I->area_penalty;
       }
 
@@ -349,8 +346,8 @@ SCIP_RETCODE SCIPprobdataCreate(
       SCIP_CALL(SCIPaddVar(scip, var));
       nvars++;
     }
-    if (count == 0)
-      printf("PROFESSOR %s: %d\n", I->professors[i].name, count);
+    // if (count == 0)
+    // printf("PROFESSOR %s: %d\n", I->professors[i].name, count);
   }
 
   // add constraint: each course must be assigned to exactly one professor
@@ -420,7 +417,6 @@ SCIP_RETCODE SCIPprobdataCreate(
 #endif
   /* set user problem data */
   SCIP_CALL(SCIPsetProbData(scip, probdata));
-
 
   /* free local buffer arrays */
   for (i = 0; i < nvars; ++i)

@@ -38,7 +38,7 @@ format:
 	clang-format -i src/*.c src/*.h
 
 clean:
-	rm -f bin/*.o bin/dpd output/*
+	rm -rf bin/*.o bin/dpd output/*
 
 run:
 	make && xargs -a ./configs/teste.config ./bin/dpd ./input/entrada_real.csv
