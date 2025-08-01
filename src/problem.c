@@ -113,10 +113,11 @@ int loadInstance(char *filename, Instance **I, int area_penalty)
     fgets(linha, sizeof(linha), f);
     int p = 0;
     sscanf(linha, "%99[^;];%d;%d;%d;%d;%s", (*I)->professors[i].name, &((*I)->professors[i].minWorkload), &((*I)->professors[i].maxWorkload1), &((*I)->professors[i].maxWorkload2), &p, areas_str);
-    (*I)->professors[i].areas          = str2bin(areas_str);
+    (*I)->professors[i].areas = str2bin(areas_str);
+    (*I)->professors[i].label = i;
+    float sum                 = 0;
+    if (p > m) p = m;  // Prevent buffer overflow if input is malformed
     (*I)->professors[i].numPreferences = p;
-    (*I)->professors[i].label          = i;
-    float sum                          = 0;
     for (int j = 0; j < p; j++)
     {
       fgets(linha, sizeof(linha), f);

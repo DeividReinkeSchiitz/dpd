@@ -1,6 +1,8 @@
 #SCIP_LIB=/usr/local/lib
 CFLAGS=-D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR
 $LDFLAGS=-L $(SCIP_LIB)
+#CFLAGS=-D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR -g -fsanitize=address -fno-omit-frame-pointer
+#$LDFLAGS=-fsanitize=address -L $(SCIP_LIB)
 
 bin/dpd: bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o
 	gcc $(CFLAGS) $(LDFLAGS) -o bin/dpd bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o -lm  -lscip

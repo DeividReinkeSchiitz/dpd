@@ -162,9 +162,8 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   I              = SCIPprobdataGetInstance(probdata);
   candProfessors = (Professor *) calloc(I->nProfessors, sizeof(Professor));
   for (int k = 0; k < I->nProfessors; k++)
-  {
     candProfessors[k].name[0] = '\0';
-  }
+
   fixed            = (int *) calloc(I->nProfessors * I->nCourses, sizeof(int));
   nCandsProfessors = 0;
 
@@ -237,7 +236,6 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
       }
     }
   }
-
   lnsparam.time_limit      = param.lns_time;
   lnsparam.display_freq    = param.display_freq;
   lnsparam.area_penalty    = param.area_penalty;
@@ -292,6 +290,7 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
     PRINTFLNS("SubSCIP is infeasible for the current neighborhood.");
     free(fixed);
     free(candProfessors);
+    getchar();
     return 0;
   }
 
