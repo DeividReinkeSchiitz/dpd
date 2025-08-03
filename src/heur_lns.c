@@ -190,23 +190,24 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
         // PRINTFLNS("Assignment x_%d_%d fixed at 0.0 (Course: %s, Professor: %s)", j, i, I->courses[i].subject.name, I->professors[j].name);
         fixed[idx] = -1;
       }
-      else
+    }
+  }
+
+  for (int j = 0; j < I->nProfessors; j++)
+  {
+    for (int i = 0; i < I->nCourses; i++)
+    {
+      int idx       = (i * I->nProfessors) + j;
+      SCIP_Real val = SCIPgetSolVal(scip, initsol, vars[idx]);
+      if (val > EPSILON && !fixed[i])
       {
-        // x_ij is not fixed
-        // PRINTFLNS("Assignment x_%d_%d not fixed (Course: %s, Professor: %s)", j, i, I->courses[i].subject.name, I->professors[j].name);
-        fixed[idx]    = 0;
+        // x_ij is fixed at 1.0 (assigned)
+        fixed[idx] = 1;
 
-        SCIP_Real val = SCIPgetSolVal(scip, initsol, var);
-        if (val > EPSILON)
+        if (candProfessors[nCandsProfessors].name[0] == '\0')
         {
-          fixed[idx] = 1;
-
-          // Check if the professor is already in the candidate list
-          if (nCandsProfessors < I->nProfessors && strlen(candProfessors[nCandsProfessors].name) == 0)
-          {
-            PRINTFLNS("Professor %s está atribuído à turma %s", I->professors[j].name, I->courses[i].subject.name);
-            candProfessors[nCandsProfessors++] = I->professors[j];
-          }
+          // First assignment for this professor
+          candProfessors[nCandsProfessors++] = I->professors[j];
         }
       }
     }
@@ -217,25 +218,17 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 
   // Obs: nCandsProfessors is smaller than I->nProfessors
   toRemove = nCandsProfessors * (param.lns_perc);
-  PRINTFLNS("Removing %d candidate from %d professors", toRemove, nCandsProfessors);
-
   for (int i = nCandsProfessors - 1; i >= toRemove; i--)
   {
-    // Remove the last professors and his courses from the candidate list
     Professor *prof = &candProfessors[i];
-    if (prof->preferences == NULL) continue;
-    for (int j = 0; j < I->nCourses; j++)  // Use o número real de preferências
+    for (int j = 0; j < I->nCourses; j++)
     {
       Course *course = prof->preferences[j].course_ptr;
-      if (course == NULL) continue;
-      int idx = (course->label * I->nProfessors) + prof->label;
-
-      if (fixed[idx] == 1)
-      {
-        fixed[idx] = 0;
-      }
+      int idx        = (course->label * I->nProfessors) + prof->label;
+      fixed[idx]     = 0;
     }
   }
+
   lnsparam.time_limit      = param.lns_time;
   lnsparam.display_freq    = param.display_freq;
   lnsparam.area_penalty    = param.area_penalty;
@@ -253,9 +246,7 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   if (retcode != SCIP_OKAY)
   {
     PRINTFLNS("\nError creating subscip instance for LNS heuristic");
-    free(fixed);
-    free(candProfessors);
-    return -1;
+    getchar();  // Wait for user input to see the message
   }
 
   //   /* disable output to console */
@@ -266,6 +257,7 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
     printf("\nProblem to load instance problem\n");
     free(fixed);
     free(candProfessors);
+
     return -1;
   }
   probdata2 = SCIPgetProbData(subscip);
@@ -273,14 +265,14 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
 
   vars2 = SCIPprobdataGetVars(probdata2);
 
-  SCIP_CALL(SCIPsetIntParam(subscip, "display/verblevel", 1));
+  SCIP_CALL(SCIPsetIntParam(subscip, "display/verblevel", 4));
 
   // Use global output_folder for all output files
   char lns_lp_path[256];
   snprintf(lns_lp_path, sizeof(lns_lp_path), "%s/lns.lp", output_path);
 
   PRINTFLNS("Writing LNS problem to %s", lns_lp_path);
-  // SCIP_CALL(SCIPwriteOrigProblem(subscip, lns_lp_path, "lp", TRUE));
+  SCIP_CALL(SCIPwriteOrigProblem(subscip, lns_lp_path, "lp", TRUE));
 
   SCIP_CALL(SCIPsolve(subscip));
   // Check if subSCIP is infeasible
@@ -288,10 +280,7 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
   if (subscip_status == SCIP_STATUS_INFEASIBLE)
   {
     PRINTFLNS("SubSCIP is infeasible for the current neighborhood.");
-    free(fixed);
-    free(candProfessors);
-    getchar();
-    return 0;
+    getchar();  // Wait for user input to see the message
   }
 
 #ifdef DEBUG_LNS
@@ -337,8 +326,12 @@ int lns(SCIP *scip, SCIP_SOL *initsol, SCIP_HEUR *heur)
     }
   }
 
+  // Free all allocated memory before freeing subscip
   free(fixed);
   free(candProfessors);
+  if (subscip != NULL)
+    SCIP_CALL(SCIPfree(&subscip));
+
   return found;
 }
 

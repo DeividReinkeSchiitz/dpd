@@ -11,12 +11,24 @@ void freeInstance(Instance *I)
 {
   if (I)
   {
-    for (int i = 0; i < I->nProfessors; i++)
+    if (I->professors)
     {
-      free(I->professors[i].preferences);
+      for (int i = 0; i < I->nProfessors; i++)
+      {
+        if (I->professors[i].preferences)
+        {
+          free(I->professors[i].preferences);
+          I->professors[i].preferences = NULL;
+        }
+      }
+      free(I->professors);
+      I->professors = NULL;
     }
-    free(I->professors);
-    free(I->courses);
+    if (I->courses)
+    {
+      free(I->courses);
+      I->courses = NULL;
+    }
     free(I);
     I = NULL;
   }
@@ -99,7 +111,7 @@ int loadInstance(char *filename, Instance **I, int area_penalty)
   {
     fgets(linha, sizeof(linha), f);
     (*I)->courses[i].subject.areas = 0;
-    sscanf(linha, "%*d;%d;T%d;%99[^;];%99[^;];%d;%99[^;]", &((*I)->courses[i].semester), &((*I)->courses[i].number), (*I)->courses[i].subject.name, (*I)->courses[i].programs, &(*I)->courses[i].workload, areas_str);
+    sscanf(linha, "%*d;%d;T%d;%99[^;];%24[^;];%d;%99[^;]", &((*I)->courses[i].semester), &((*I)->courses[i].number), (*I)->courses[i].subject.name, (*I)->courses[i].programs, &(*I)->courses[i].workload, areas_str);
     (*I)->courses[i].subject.areas = str2bin(areas_str);  // Convert areas_str to binary representation
     (*I)->courses[i].label         = i;
   }
@@ -112,20 +124,24 @@ int loadInstance(char *filename, Instance **I, int area_penalty)
   {
     fgets(linha, sizeof(linha), f);
     int p = 0;
-    sscanf(linha, "%99[^;];%d;%d;%d;%d;%s", (*I)->professors[i].name, &((*I)->professors[i].minWorkload), &((*I)->professors[i].maxWorkload1), &((*I)->professors[i].maxWorkload2), &p, areas_str);
-    (*I)->professors[i].areas = str2bin(areas_str);
-    (*I)->professors[i].label = i;
-    float sum                 = 0;
+    // Use safer format for areas_str and cap p to m
+    sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;\n]", (*I)->professors[i].name, &((*I)->professors[i].minWorkload), &((*I)->professors[i].maxWorkload1), &((*I)->professors[i].maxWorkload2), &p, areas_str);
     if (p > m) p = m;  // Prevent buffer overflow if input is malformed
+    (*I)->professors[i].areas          = str2bin(areas_str);
+    (*I)->professors[i].label          = i;
+    float sum                          = 0;
     (*I)->professors[i].numPreferences = p;
-    for (int j = 0; j < p; j++)
+    for (int j = 0; j < p && j < m; j++)  // Ensure we do not write past preferences array
     {
       fgets(linha, sizeof(linha), f);
       int courseIndex, weight;
       sscanf(linha, "%d;%d", &courseIndex, &weight);
-      (*I)->professors[i].preferences[j].weight     = weight;
-      (*I)->professors[i].preferences[j].course_ptr = &(*I)->courses[courseIndex - 1];
-      sum += weight;
+      if (courseIndex > 0 && courseIndex <= m)
+      {
+        (*I)->professors[i].preferences[j].weight     = weight;
+        (*I)->professors[i].preferences[j].course_ptr = &(*I)->courses[courseIndex - 1];
+        sum += weight;
+      }
     }
 
     // Professors who have no weight for a course but share the area with the course get EPSILON weight for the greedy heuristic

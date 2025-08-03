@@ -83,15 +83,12 @@ static SCIP_DECL_HEURFREE(heurFreeGulosa)
   return SCIP_OKAY;
 }
 
-
 /** initialization method of primal heuristic (called after problem was transformed) */
 static SCIP_DECL_HEURINIT(heurInitGulosa)
 { /*lint --e{715}*/
 
-
   return SCIP_OKAY;
 }
-
 
 /** deinitialization method of primal heuristic (called before transformed problem is freed) */
 static SCIP_DECL_HEUREXIT(heurExitGulosa)
@@ -100,14 +97,12 @@ static SCIP_DECL_HEUREXIT(heurExitGulosa)
   return SCIP_OKAY;
 }
 
-
 /** solving process initialization method of primal heuristic (called when branch and bound process is about to begin) */
 static SCIP_DECL_HEURINITSOL(heurInitsolGulosa)
 { /*lint --e{715}*/
 
   return SCIP_OKAY;
 }
-
 
 /** solving process deinitialization method of primal heuristic (called before branch and bound process data is freed) */
 static SCIP_DECL_HEUREXITSOL(heurExitsolGulosa)
@@ -212,7 +207,6 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //     if (coveredTurmas[cur_pref->turma->label] == 1)
   //       continue;
 
-
   //     // PRINTFD("Analisando Professor %s com a turma %d\n", cur_professor->nome, cur_pref->turma->label);
 
   //     // turma is from semestre 1
@@ -245,17 +239,14 @@ int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
   //   }  // end for turmas
   // }  // end for professores
 
-
   // // for each professor
   // for (int i = 0; i < nProfs; i++)
   // {
   //   cur_professor = &I->professores[i];
 
-
   //   // if the professor is covered
   //   if (coveredProfessors[i] == 1)
   //     continue;
-
 
   //   // for each turma
   //   for (int j = 0; j < mTurmas; j++)
@@ -507,7 +498,6 @@ static SCIP_DECL_HEUREXEC(heurExecGulosa)
   if (SCIPisGE(scip, SCIPgetLPObjval(scip), SCIPgetCutoffbound(scip)))
     return SCIP_OKAY;
 
-
   /* check if there exists integer variables with fractionary values in the LP */
   SCIP_CALL(SCIPgetLPBranchCands(scip, NULL, NULL, NULL, &nlpcands, NULL, NULL));
   //Fractional implicit integer variables are stored at the positions *nlpcands to *nlpcands + *nfrac - 1
@@ -530,7 +520,6 @@ static SCIP_DECL_HEUREXEC(heurExecGulosa)
   }
   return SCIP_OKAY;
 }
-
 
 /*
  * primal heuristic specific interface methods
