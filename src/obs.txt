@@ -1,0 +1,17 @@
+a funcao adaptive_edges cria o "grafo" G (entre aspas porque não é criado um grafo de fato, mas eu estou interpretando assim o 
+problema para ficar mais facil). no caso, ela cria as arestas do grafo bipartido. cada aresta liga um prof p com uma turma t, no qual
+essa aresta vai existir se o prof p é da area da turma t E se ele não bateu a sua ch minima anual E se ele possui ch disonivel no semestre da 
+turma t. na primeira vez a funcao cria esse "grafo" com base na instancia de entrada.
+
+Agora, a ideia é incluir uma parte adaptativa na criação desse "grafo": toda vez que uma turma t é coberta, o vertice dessa turma  deve sumir, bem como todas as arestas ligadas e ele. alem disso,
+essa turma t foi atribuida a algum professor p, ou seja, esse prof p cumpriu com isso a ch dessa turma, logo, ele tem menos ch disponivel no semestre 
+dessa turma (se essa turma tem ch 2 horas e é do  primeiro semestre, a ch disponivel do prof p no primeiro semestre é: ch que ele possuia inicialmente no 
+semestre 1 - ch da turma t). e essa atribuicao abre cenario para uma outra remocao de arestas: o prof p, mesmo sendo da área de uma turma x, por exemplo, pode não ter mais uma aresta 
+que o liga com essa turma se a ch exigida por ela for maior do que a ch que ele tem no semestre da turma. esse vai ser um efeito que será mais fácil de perceber depois que várias turmas
+forem cobertas.
+
+em resumo, temos que uma aresta que liga uma turma t com um prof p deixará de existir toda vez que: a turma t for coberta ou o prof p ter atingido sua ch min anual 
+ou o prof não ter mais ch disponivel no semestre daquela turma
+
+sobre os pesos das aresta: até o momento, ele não esta sendo calculado de forma adaptativa. mas eu quero fazer com que todas vez que esse "grafo" for construído, os pesos
+sejam calculados novamente com base em como me encontra a instancia atual
