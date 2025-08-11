@@ -179,20 +179,30 @@ void reset_vector(int *vetor, int n){
    }
 }
 
+// int compareTurmasByN(const void *a, const void *b)
+// {
+//     const Turma *turmaA = (const Turma *)a;
+//     const Turma *turmaB = (const Turma *)b;
+
+//     usando o ponteiro global g_covered para saber se a turma esta coberta
+//     int coveredA = g_covered ? g_covered[turmaA->codigo - 1] : 0;
+//     int coveredB = g_covered ? g_covered[turmaB->codigo - 1] : 0;
+
+//     turmas cobertas vao para o final
+//     if (coveredA && !coveredB) return 1;
+//     if (!coveredA && coveredB) return -1;
+
+//     se ambas tem o mesmo status, ordena por n
+//     if (turmaA->n < turmaB->n) return -1;
+//     if (turmaA->n > turmaB->n) return 1;
+//     return 0;
+// }
+
 int compareTurmasByN(const void *a, const void *b)
 {
     const Turma *turmaA = (const Turma *)a;
     const Turma *turmaB = (const Turma *)b;
-
-    // usando o ponteiro global g_covered para saber se a turma esta coberta
-    int coveredA = g_covered ? g_covered[turmaA->codigo - 1] : 0;
-    int coveredB = g_covered ? g_covered[turmaB->codigo - 1] : 0;
-
-    // turmas cobertas vao para o final
-    if (coveredA && !coveredB) return 1;
-    if (!coveredA && coveredB) return -1;
-
-    // se ambas tem o mesmo status, ordena por n
+    
     if (turmaA->n < turmaB->n) return -1;
     if (turmaA->n > turmaB->n) return 1;
     return 0;
@@ -243,7 +253,7 @@ void adaptive_edges(Professor *professores, Turma *turmas, int *covered, int n, 
             professores[p].Score[nscore].score = score;
             professores[p].Score[nscore].codigo_turma = t+1;  // salvando a turma no prof
             nscore++;
-            turmas[t].professores[turmas[t].n] = p;  // salvando o prof na turma
+           // turmas[t].professores[turmas[t].n] = p;  // salvando o prof na turma
             turmas[t].n++;
 
             // nao foi escolhida. verificando se a turma j é da area do prof i
@@ -254,7 +264,7 @@ void adaptive_edges(Professor *professores, Turma *turmas, int *covered, int n, 
             professores[p].Score[nscore].score = alfa;
             professores[p].Score[nscore].codigo_turma = t+1;   // salvando a turma no prof
             nscore++; 
-            turmas[t].professores[turmas[t].n] = p;  // salvando o prof na turma
+            //turmas[t].professores[turmas[t].n] = p;  // salvando o prof na turma
             turmas[t].n++;
         }
       }
@@ -313,6 +323,10 @@ void construct_soluction(
       professores[i].current_CH2 = 0;
    }
 
+
+   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 15); // considerando que ao final ficarao, no max, 10 turmas sem profs
+   int n_sem_prof = 0;
+
    while(*nCovered < m){
       // Turma turma = turmas[0]; // pegando sempre as insfo da primeira turma (ordenada)
       // percorrendo as turmas
@@ -327,7 +341,7 @@ void construct_soluction(
 
         //printf("turma: %d\n", t);
          // percorrendo os profs
-         printf("\nTURMA: %d\n", turma.codigo);
+         //printf("\nTURMA: %d\n", turma.codigo);
          for(int p = 0; p < n; p++){
            //printf("nome: %s\n", professores[p].nome);
            // se o prof i ja bateu a sua ch, va para o prox
@@ -350,7 +364,9 @@ void construct_soluction(
                         candidate_vars[num_candidates] = varlist[p*m + turma.codigo-1];
                         num_candidates++;
 
-                     //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
+                       // printf("PROFESSOR: %s; TURMA: %s\n", professores[p].nome, turmas[t].disciplina.nome);
+
+                       // printf("\nVARIAVEL CANDIDATA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
                   }else{
@@ -361,7 +377,8 @@ void construct_soluction(
                         candidate_vars[num_candidates] = varlist[p*m + turma.codigo-1];
                         num_candidates++;
 
-                    // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
+                        // printf("PROFESSOR: %s; TURMA: %s\n", professores[p].nome, turmas[t].disciplina.nome);
+                        // printf("\nVARIAVEL CANDIDATA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
                   }
@@ -371,22 +388,23 @@ void construct_soluction(
          }
 
          // se a lista de candidatos da turma t nao estiver vazia
-         printf("numero de prof candidatos: %d\n", num_candidates);
+         //printf("numero de prof candidatos: %d\n", num_candidates);
          if(num_candidates > 0){
             // seleciona um prof da rcl
             int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
             int p = candidate_scores[selected].codigo_turma;
-            //printf("prof selecionado: %d\n", p);
+            // printf("PROF SELECIONADO: %d\n", p);
 
             // marcando a turma t como coberta
             covered[turma.codigo-1] = 1;
+            // printf("TURMA COBERTA: %d\n", turma.codigo-1);
             (*nCovered)++;
             solution[*nInSolution] = candidate_vars[selected];
             (*nInSolution)++;
 
-            //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
+            // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
 
-            printf("numero de turmas cobertas: %d\n", *nCovered);
+            //printf("numero de turmas cobertas: %d\n", *nCovered);
 
             int j = professores[p].m;
             if(turma.semestre == 1){
@@ -398,16 +416,21 @@ void construct_soluction(
                professores[p].turmasAlocadas[j] = turma.codigo;
                professores[p].m++;
             }
+         }else{
+            // turma sem candidato
+            turmas_sem_profs[n_sem_prof] = turma;
+            n_sem_prof++;
          }
 
          free(candidate_scores);
          free(candidate_vars);
       
-      //reset_class(turmas, n);
+      // reset_class(turmas, n);  // reseta a quant de profs que cada turma pode ministrar
       // adaptive_edges(professores, turmas, covered, n, m);
-      printf("turma: %d ; profs que podem ministrar: %d\n", turmas[t].codigo, turmas[t].n);
 
-      //qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+      //printf("turma: %d ; profs que podem ministrar: %d\n", turmas[t].codigo, turmas[t].n);
+
+      // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
 
       }
 
@@ -418,13 +441,67 @@ void construct_soluction(
             // printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
             // printf("turmas atribuidas: %d\n", professores[i].m);
          if(professores[i].current_CH1 + professores[i].current_CH2 >= professores[i].CHmin){
-            j++;
+            j++;  // another covered prof
          }
       }
-      printf("\nNUMERO DE TURMAS COBERTAS AO PERCORRER TODAS AS TURMAS: %d\n", *nCovered);
-      printf("NUMERO DE PROFS COM AS HORAS ATINGIDAS: %d\n", j);
+      printf("\n=== FIM DO LACO QUE PERCORRE TODAS AS TURMAS ====\n");
+      printf("TURMAS COBERTAS: %d; PROFS COBERTOS: %d\n", *nCovered, j);
 
-      printf("\n\nFIM\n\nTURMAS COBERTAS: %d ; TURMAS: %d\n", *nCovered, m);
+
+      if(*nCovered < m){
+      // percorrendo as turmas que ficaram sem prof
+      for(int i = 0; i < n_sem_prof; i++){
+         //printf("\nTURMA QUE AINDA NAO FOI COBERTA: %d\n", turmas_sem_profs[i].codigo);
+         if(turmas_sem_profs[i].semestre == 1){
+            // encontrando o primeiro prof que possui carga horaria livre no 1° semestre
+            for(int p = 0; p < n; p++){
+               if(professores[p].current_CH1 + professores[p].current_CH2 >= professores[p].CHmin) continue;
+               if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1){
+                  // printf("nome: %s\n", professores[p].nome);
+                  professores[p].current_CH1 += turmas_sem_profs[i].CH;
+                  covered[turmas_sem_profs[i].codigo-1] = 1;
+                  (*nCovered)++;
+                  solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+                  (*nInSolution)++;
+                  //j++;  // another covered prof
+
+                 // printf("VARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                 
+                  break;
+               }
+            }
+
+         }else{
+            // encontrando o primeiro prof que possui carga horaria livre no 2° semestre
+            for(int p = 0; p < n; p++){
+               if(professores[p].current_CH1 + professores[p].current_CH2 >= professores[p].CHmin) continue;
+               if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2){
+                  // printf("nome: %s\n", professores[p].nome);
+                  professores[p].current_CH2 += turmas_sem_profs[i].CH;
+                  covered[turmas_sem_profs[i].codigo-1] = 1;
+                  (*nCovered)++;
+                  solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
+                  (*nInSolution)++;
+                  //j++;  // another covered prof
+
+                  // printf("VARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
+                  break;
+               }
+            }
+         } 
+      }
+   }
+      j = 0;
+      for(int i = 0; i < n; i++){
+            // printf("\n");
+            // printf("nome: %s, ch1 atual: %d, ch2 atual: %d\n", professores[i].nome, professores[i].current_CH1, professores[i].current_CH2);
+            // printf("turmas atribuidas: %d\n", professores[i].m);
+         if(professores[i].current_CH1 + professores[i].current_CH2 >= professores[i].CHmin){
+            j++;  // another covered prof
+         }
+      }
+      printf("\nDEPOIS DA ATRIBUICAO FINAL --> TURMAS COBERTAS: %d; PROFS COBERTOS: %d\n", *nCovered, j);
+
       // se eu passei por todas as turmas, independente de terem ficado turmas sem profs, saia
       // if(t == m){
       //    break;
@@ -432,6 +509,8 @@ void construct_soluction(
 
 
    }
+
+   
 
 }
 
@@ -505,7 +584,14 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    professores = I->professores;
    turmas = I->turmas;
    int j, pref, score, alfa, nscore;
-   //covered[104] = 1;
+
+   // covered[104] = 1;
+   // professores[30].CHmax2 -= 4;
+   // printf("\nprofessor: %s; turma: %s\n", professores[30].nome, turmas[104].disciplina.nome);
+   // reset_class(turmas, n);  // reseta a quant de profs que cada turma pode ministrar
+   // g_covered = covered;
+   // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
+   // g_covered = NULL;
    adaptive_edges(professores, turmas, covered, n, m);
 
    // FILE *arquivo = fopen("dados_professores.txt", "w");
@@ -541,34 +627,37 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    SCIP_VAR** best_solution = (SCIP_VAR**)malloc(m *sizeof(SCIP_VAR*));  // m pq a quant de var na solucao final é no maximo m (quant de turmas)
    SCIP_VAR** current_solution = (SCIP_VAR**)malloc(m *sizeof(SCIP_VAR*));
 
-   int maxitr = 10, best_nInSolution = 0, current_nInSolution = 0;
+   int maxitr = 1, best_nInSolution = 0, current_nInSolution = 0;
    double y = SCIPinfinity(scip);  // y = x^*
    
 
-   // for(int k = 0; k < maxitr; k++){
-   //    // fase de construção da solucao
-   //    construct_soluction(scip, varlist, current_solution, professores, turmas, &current_nInSolution, covered, &nCovered, m, n, 0.3);
+   for(int k = 0; k < maxitr; k++){
+      // fase de construção da solucao
+      construct_soluction(scip, varlist, solution, professores, turmas, &current_nInSolution, covered, &nCovered, m, n, 0.3);
 
    
-
-
-
-
-   //    // antes de chamar a funcao construct_soluction, eu preciso percorrer o vetor covered e marcar todas as turmas como nao cobertas. ou seha, atribuir o valor 1
-   //    nCovered = 0;
-   //    reset_vector(covered, m);
-   //    printf("\n\nFIM DA ITERACO %d\n\n", k);
-   // }
+      // antes de chamar a funcao construct_soluction, eu preciso percorrer o vetor covered e marcar todas as turmas como nao cobertas. ou seha, atribuir o valor 1
+      //nCovered = 0;
+      //reset_vector(covered, m);
+      printf("\n\nFIM DA ITERACO %d\n\n", k);
+   }
 
 
    if(!infeasible){
       /* create SCIP solution structure sol */
       SCIP_CALL( SCIPcreateSol(scip, sol, heur) );
+      FILE *arquivo2 = fopen("SOLUCTION.txt", "w");
+      printf("\n\n === VARS QUE ESTÃO NA SOLUÇÃO ==== %d \n\n", current_nInSolution);
+
       // save found solution in sol
-      for(i=0;i<nInSolution;i++){
+      for(i=0;i<current_nInSolution;i++){
         var = solution[i];
         SCIP_CALL( SCIPsetSolVal(scip, *sol, var, 1.0) );
+        fprintf(arquivo2, "VAR: %s\n", SCIPvarGetName(solution[i]));
       }
+
+      fclose(arquivo2);
+
       //valor = custo;//createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
       bestUb = SCIPgetPrimalbound(scip);
 #ifdef DEBUG_GRASP

@@ -1,3 +1,5 @@
+resultado da funcao adaptive_edges olhando a partir de cada TURMA
+
 TURMA: 105 ; PROFS QUE PODEM MINISTRAR: 1
 professor: Jonathan de Andrade Silva
 
