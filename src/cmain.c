@@ -114,6 +114,11 @@ SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname)
       heur_hdlr = SCIPfindHeur(scip, "gulosa");
       fprintf(fout, ";%lf;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
     }
+    if (param.heur_grasp)
+    {
+      heur_hdlr = SCIPfindHeur(scip, "grasp");
+      fprintf(fout, ";%lf;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
+    }
 
     fprintf(fout, ";%s\n", param.parameter_stamp);
   }

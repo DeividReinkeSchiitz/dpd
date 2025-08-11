@@ -7,12 +7,20 @@
 // Area type (32 bits)
 typedef uint32_t Area;
 
+// Score structure for GRASP heuristic
+typedef struct
+{
+  int score;         // numerical score value
+  int codigo_turma;  // alias for courseCode
+} Score;
+
 // Subject structure
 typedef struct
 {
   char name[100];    // name of the subject
   char acronym[20];  // acronym of the subject
   Area areas;        // 32 bits // areas of the subject, represented as a bitmask
+  Area myareas;      // alias for areas
 } Subject;
 
 // Course structure
@@ -22,6 +30,7 @@ typedef struct
   Subject subject;  // subject of the course
   int number;       // number of the course
   int workload;     // workload of the course
+  int level;        // level of the Course vertex in the graph based on the number of professors that can teach it
   enum Period
   {
     morning,
@@ -54,6 +63,13 @@ typedef struct
   int numPreferences;         // number of preferences
   Preference *preferences;    // array of preferences for the courses
   float avgPreferenceWeight;  // average weight of the preferences
+
+  // Portuguese field names for backward compatibility with GRASP heuristic
+  int current_CH1;  // alias for currentWorkload1
+  int current_CH2;  // alias for currentWorkload2
+  Score *scores;    // array of scores for suitable courses
+
+  int level;  // alias for numSuitableCourses
 } Professor;
 
 // Instance structure

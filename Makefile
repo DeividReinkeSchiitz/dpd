@@ -3,11 +3,11 @@ CFLAGS=-D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR
 $LDFLAGS=-L $(SCIP_LIB)
 
 ## TO DEBUG
-CFLAGS=-D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR -g -fsanitize=address -fno-omit-frame-pointer
-$LDFLAGS=-fsanitize=address -L $(SCIP_LIB)
+# CFLAGS=-D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR -g -fsanitize=address -fno-omit-frame-pointer
+# $LDFLAGS=-fsanitize=address -L $(SCIP_LIB)
 
-bin/dpd: bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o
-	gcc $(CFLAGS) $(LDFLAGS) -o bin/dpd bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o -lm  -lscip
+bin/dpd: bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o bin/heur_grasp.o
+	gcc $(CFLAGS) $(LDFLAGS) -o bin/dpd bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_badFeasible.o bin/heur_lns.o bin/utils.o bin/parameters_dpd.o bin/heur_grasp.o -lm  -lscip
 
 bin/cmain.o: src/cmain.c
 	gcc $(CFLAGS) -c -o bin/cmain.o src/cmain.c
@@ -30,11 +30,15 @@ bin/heur_badFeasible.o: src/heur_badFeasible.c src/heur_badFeasible.h
 bin/heur_lns.o: src/heur_lns.c src/heur_lns.h
 	gcc $(CFLAGS) -c -o bin/heur_lns.o src/heur_lns.c
 
+bin/heur_grasp.o: src/heur_grasp.c src/heur_grasp.h
+	gcc $(CFLAGS) -c -o bin/heur_grasp.o src/heur_grasp.c
+
 bin/utils.o: src/utils.c src/utils.h
 	gcc $(CFLAGS) -c -o bin/utils.o src/utils.c
 
 bin/parameters_dpd.o: src/parameters_dpd.c src/parameters_dpd.h
 	gcc $(CFLAGS) -c -o bin/parameters_dpd.o src/parameters_dpd.c
+
 
 .PHONY: clean
 

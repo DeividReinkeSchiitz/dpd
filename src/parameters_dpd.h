@@ -24,6 +24,7 @@ typedef struct
   int lns_time;
   int heur_rf;
   int heur_gulosa;
+  int heur_grasp;
 } parametersT;
 
 int setParameters(int argc, char **argv, parametersT *Param);

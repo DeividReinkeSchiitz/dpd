@@ -263,7 +263,6 @@ const char *FEASIBLE_SOLUTION[]      = {"x_0_24",
 // Calculate the number of elements in FEASIBLE_SOLUTION
 const int NUM_FEASIBLE_SOLUTION_VARS = sizeof(FEASIBLE_SOLUTION) / sizeof(FEASIBLE_SOLUTION[0]);
 
-
 #define DEBUG_BAD_FEASIBLE 1
 /* configuracao da heuristica */
 #define HEUR_NAME "badFeasibleSolution"
@@ -272,7 +271,7 @@ const int NUM_FEASIBLE_SOLUTION_VARS = sizeof(FEASIBLE_SOLUTION) / sizeof(FEASIB
 #define HEUR_PRIORITY 3                       /**< heuristics of high priorities are called first */
 #define HEUR_FREQ 1                           /**< heuristic call frequency. 1 = in all levels of the B&B tree */
 #define HEUR_FREQOFS 0                        /**< starts of level 0 (root node) */
-#define HEUR_MAXDEPTH 10                      /**< maximal level to be called. -1 = no limit */
+#define HEUR_MAXDEPTH 2                       /**< maximal level to be called. -1 = no limit */
 #define HEUR_TIMING SCIP_HEURTIMING_AFTERNODE /**< when the heuristic should be called? SCIP_HEURTIMING_DURINGLPLOOP or SCIP_HEURTIMING_AFTERNODE */
 #define HEUR_USESSUBSCIP TRUE                 /**< does the heuristic use a secondary SCIP instance? */
 
@@ -288,7 +287,6 @@ const int NUM_FEASIBLE_SOLUTION_VARS = sizeof(FEASIBLE_SOLUTION) / sizeof(FEASIB
 static char **g_heuristic_solution_var_names = NULL;   // Array to hold variable names from FEASIBLE_SOLUTION
 static int g_num_heuristic_solution_vars     = 0;      // Number of variables in the heuristic solution
 static SCIP_Bool g_is_heuristic_initialized  = FALSE;  // Flag to check if the heuristic has been initializeds
-
 
 /*
  * Local methods
@@ -331,7 +329,6 @@ static SCIP_DECL_HEURFREE(heurFreeBadFeasible)
   return SCIP_OKAY;
 }
 
-
 /** initialization method of primal heuristic (called after problem was transformed) */
 static SCIP_DECL_HEURINIT(heurInitBadFeasible)
 { /*lint --e{715}*/
@@ -367,14 +364,12 @@ static SCIP_DECL_HEURINIT(heurInitBadFeasible)
   return SCIP_OKAY;
 }
 
-
 /** deinitialization method of primal heuristic (called before transformed problem is freed) */
 static SCIP_DECL_HEUREXIT(heurExitBadFeasible)
 { /*lint --e{715}*/
 
   return SCIP_OKAY;
 }
-
 
 /** solving process initialization method of primal heuristic (called when branch and bound process is about to begin) */
 static SCIP_DECL_HEURINITSOL(heurInitsolBadFeasible)
@@ -383,14 +378,12 @@ static SCIP_DECL_HEURINITSOL(heurInitsolBadFeasible)
   return SCIP_OKAY;
 }
 
-
 /** solving process deinitialization method of primal heuristic (called before branch and bound process data is freed) */
 static SCIP_DECL_HEUREXITSOL(heurExitsolBadFeasible)
 { /*lint --e{715}*/
 
   return SCIP_OKAY;
 }
-
 
 /**
  * @brief Core of the heuristic: it builds one solution based on variables listed in a temporary file.
@@ -402,20 +395,22 @@ static SCIP_DECL_HEUREXITSOL(heurExitsolBadFeasible)
  */
 int bad_feasible_solution(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 {
+  printf("\nBad Feasible heuristic called.\n");
+  getchar();
+
   /* SCIP specific types */
   SCIP_PROBDATA *probdata       = NULL;
   SCIP_VAR **vars_for_sol_array = NULL;
   SCIP_VAR *current_scip_var    = NULL;
 
   /* Custom SCIP data types */
-  Instance *I                  = NULL;
+  Instance *I                   = NULL;
 
   /* Integers / Booleans */
   int i;
   int found_solution_flag                   = 0;
   unsigned int solution_stored_successfully = FALSE;
   int num_vars_added_to_solution            = 0;
-
 
 #ifdef DEBUG_BAD_FEASIBLE
   SCIPinfoMessage(scip, NULL, "\\n============== New heuristic: building solution from FEASIBLE_SOLUTION at node: %lld\\n", SCIPnodeGetNumber(SCIPgetCurrentNode(scip)));
@@ -436,7 +431,6 @@ int bad_feasible_solution(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur)
 #endif
     return 0;  // No variables to form a solution
   }
-
 
   /* recover the problem data*/
   probdata = SCIPgetProbData(scip);
@@ -530,7 +524,6 @@ static SCIP_DECL_HEUREXEC(heurExecBadFeasible)
   if (SCIPisGE(scip, SCIPgetLPObjval(scip), SCIPgetCutoffbound(scip)))
     return SCIP_OKAY;
 
-
   /* check if there exists integer variables with fractionary values in the LP */
   SCIP_CALL(SCIPgetLPBranchCands(scip, NULL, NULL, NULL, &nlpcands, NULL, NULL));
   //Fractional implicit integer variables are stored at the positions *nlpcands to *nlpcands + *nfrac - 1
@@ -553,7 +546,6 @@ static SCIP_DECL_HEUREXEC(heurExecBadFeasible)
   }
   return SCIP_OKAY;
 }
-
 
 /*
  * primal heuristic specific interface methods
@@ -586,8 +578,8 @@ SCIP_RETCODE SCIPincludeHeurBadFeasibleSolution(
     * compile independent of new callbacks being added in future SCIP versions
     */
   SCIP_CALL(SCIPincludeHeurBasic(scip, &heur,
-                                 HEUR_NAME, HEUR_DESC, HEUR_DISPCHAR, HEUR_PRIORITY, param.heur_round_freq, param.heur_round_freqofs,
-                                 param.heur_round_maxdepth, HEUR_TIMING, HEUR_USESSUBSCIP, heurExecBadFeasible, heurdata));
+                                 HEUR_NAME, HEUR_DESC, HEUR_DISPCHAR, HEUR_PRIORITY, HEUR_FREQ, HEUR_FREQOFS,
+                                 HEUR_MAXDEPTH, HEUR_TIMING, HEUR_USESSUBSCIP, heurExecBadFeasible, heurdata));
 
   assert(heur != NULL);
 
