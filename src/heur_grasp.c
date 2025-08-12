@@ -208,6 +208,16 @@ int compareTurmasByN(const void *a, const void *b)
     return 0;
 }
 
+int compareProfessoresByN(const void *a, const void *b)
+{
+    const Professor *profA = (const Professor *)a;
+    const Professor *profB = (const Professor *)b;
+    
+    if (profA->n < profB->n) return -1;
+    if (profA->n > profB->n) return 1;
+    return 0;
+}
+
 int check_ch(int current_ch1, int current_ch2, int chmin){
    if(current_ch1 + current_ch2 >= chmin){
       return 1; // ch satisfeita
@@ -323,12 +333,10 @@ void construct_soluction(
       professores[i].current_CH2 = 0;
    }
 
-
    Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 15); // considerando que ao final ficarao, no max, 10 turmas sem profs
    int n_sem_prof = 0;
 
    while(*nCovered < m){
-      // Turma turma = turmas[0]; // pegando sempre as insfo da primeira turma (ordenada)
       // percorrendo as turmas
       int t;
       for(t = 0; t < m; t++){
@@ -365,7 +373,6 @@ void construct_soluction(
                         num_candidates++;
 
                        // printf("PROFESSOR: %s; TURMA: %s\n", professores[p].nome, turmas[t].disciplina.nome);
-
                        // printf("\nVARIAVEL CANDIDATA: %s\n", SCIPvarGetName(varlist[p*m + turma.codigo-1]));
 
                      }
@@ -463,7 +470,6 @@ void construct_soluction(
                   (*nCovered)++;
                   solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
                   (*nInSolution)++;
-                  //j++;  // another covered prof
 
                  // printf("VARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
                  
@@ -482,7 +488,6 @@ void construct_soluction(
                   (*nCovered)++;
                   solution[*nInSolution] = varlist[p*m + turmas_sem_profs[i].codigo-1];
                   (*nInSolution)++;
-                  //j++;  // another covered prof
 
                   // printf("VARIAVEL SELECIONADA: %s\n", SCIPvarGetName(varlist[p*m + turmas_sem_profs[i].codigo-1]));
                   break;
@@ -509,9 +514,6 @@ void construct_soluction(
 
 
    }
-
-   
-
 }
 
 /**
@@ -584,6 +586,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    professores = I->professores;
    turmas = I->turmas;
    int j, pref, score, alfa, nscore;
+   //qsort(professores, n, sizeof(Professor), compareProfessoresByN);
 
    // covered[104] = 1;
    // professores[30].CHmax2 -= 4;
@@ -593,6 +596,7 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    // qsort(turmas, m, sizeof(Turma), compareTurmasByN);
    // g_covered = NULL;
    adaptive_edges(professores, turmas, covered, n, m);
+
 
    // FILE *arquivo = fopen("dados_professores.txt", "w");
 
@@ -609,6 +613,11 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    g_covered = covered;
    qsort(turmas, m, sizeof(Turma), compareTurmasByN);
    g_covered = NULL;
+   //qsort(professores, n-1, sizeof(Professor), compareProfessoresByN);
+
+   // for(int i = 0; i < n; i++){
+   //    printf("%d \n", professores[i].n);
+   // }
 
    // FILE *arquivo2 = fopen("dados_turmas.txt", "w");
    // printf("\n");
@@ -646,17 +655,17 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    if(!infeasible){
       /* create SCIP solution structure sol */
       SCIP_CALL( SCIPcreateSol(scip, sol, heur) );
-      FILE *arquivo2 = fopen("SOLUCTION.txt", "w");
+      //FILE *arquivo2 = fopen("SOLUCTION.txt", "w");
       printf("\n\n === VARS QUE ESTÃO NA SOLUÇÃO ==== %d \n\n", current_nInSolution);
 
       // save found solution in sol
       for(i=0;i<current_nInSolution;i++){
         var = solution[i];
         SCIP_CALL( SCIPsetSolVal(scip, *sol, var, 1.0) );
-        fprintf(arquivo2, "VAR: %s\n", SCIPvarGetName(solution[i]));
+        //fprintf(arquivo2, "VAR: %s\n", SCIPvarGetName(solution[i]));
       }
 
-      fclose(arquivo2);
+      //fclose(arquivo2);
 
       //valor = custo;//createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
       bestUb = SCIPgetPrimalbound(scip);

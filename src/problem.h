@@ -36,7 +36,7 @@ typedef struct
   int CHmax1;
   int CHmax2;
   int ativo; //bool
-  char nome[100];
+  char nome[30];
   int areas;
   char myareas[15];
   int current_CH1, current_CH2, num_assigned;

@@ -1,4 +1,5 @@
-resultado da funcao adaptive_edges olhando a partir de cada prof
+resultado (a partir da instancia lida) da funcao adaptive_edges olhando a partir de cada prof
+
 PROFESSOR: Amaury Antonio de Castro Junior; MATERIAS DA AREA: 72
 codigo_turma: 1
 codigo_turma: 2
