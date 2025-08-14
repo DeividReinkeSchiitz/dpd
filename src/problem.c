@@ -8,6 +8,27 @@
 #include "scip/scip.h"
 #include "probdata_dpd.h"
 
+// int check_area(const char *a, const char *b, int size) {
+//     for (int i = 0; i < size; i++) {
+//         if (a[i] == '1' && b[i] == '1') {
+//             return 1;
+//         }
+//     }
+//     return 0;
+// }
+
+// // perocrre o vetor das turmas escolhidas pelo prof e verifica se a turma de codigo "codigo_turma" esta la
+// int check_preference(int *preferencias, int codigo_turma, int m){
+
+//   // percorrendo todas as turmas
+//   for(int i = 0; i < m; i++){ 
+//     if(preferencias[i] != 0 && i+1 == codigo_turma){
+//         return preferencias[i];
+//     }
+//   }
+//   return 0;
+// }
+
 int binario_para_inteiro(const char *bin) {
   int resultado = 0;
   for (int i = 0; bin[i] != '\0'; i++) {
@@ -22,8 +43,15 @@ void freeInstance(instanceT* I)
     for(int i=0; i<I->n; i++){
       free(I->professores[i].preferencias);
       free(I->professores[i].codigo_turmas);
+      //free(I->professores[i].pref);
+      free(I->professores[i].myareas);
 
     }
+
+    for(int i = 0; i < I->m; i++){
+      free(I->turmas[i].disciplina.myareas);
+    }
+
     free(I->professores);
     free(I->turmas);
     free(I->C);
@@ -42,12 +70,16 @@ void createInstance(instanceT** I, int n, int m, int numAreas)
   //int pref;
   for(int i=0; i<n; i++){
     (*I)->professores[i].preferencias = (int*) calloc(m, sizeof(int));
+    (*I)->professores[i].myareas = (char*) malloc(numAreas * sizeof(char));
     //pref = (*I)->professores[i].numeroPreferencias;  // pegando a quant de turmas que o prof i tem interesse
-    //printf("\n\nTESTE: %d\n\n", pref);
-   (*I)->professores[i].codigo_turmas = (int*) calloc(m, sizeof(int));
+   //(*I)->professores[i].codigo_turmas = (int*) calloc(m, sizeof(int));
    // aparentemente aqui eu nao li ainda as info de cada prof ent n posso alocar um vetor usando a quant de preferencia que ele possui
 
    //(*I)->professores[i].n =  0;
+  }
+
+  for(int i = 0; i < m; i++){
+    (*I)->turmas[i].disciplina.myareas = (char*) malloc(numAreas * sizeof(char));
   }
   
 
@@ -100,37 +132,65 @@ int loadInstance(char* filename, instanceT** I, int area_penalty)
     //printf("\n%d \n", (*I)->turmas[i].codigo);
     //printf("\n%s \n", (*I)->turmas[i].disciplina.myareas);
 
-    (*I)->turmas->n = 0;  // inicializando com 0 o campo que corresponde o tanto de prof que podem minsitrar a turma em questao
+    (*I)->turmas[i].n = 0;  // inicializando com 0 o campo que corresponde o tanto de prof que podem minsitrar a turma em questao
+    (*I)->turmas[i].covered = 0;
   }
   
   fgets(linha, sizeof(linha), f);//linha em branco
   fgets(linha, sizeof(linha), f);//cabecalho professores
   
   //lendo professores
+  //int n_prefs;
   for(int i=0; i<n; i++){
   	fgets(linha, sizeof(linha), f);
   	int p;
   	sscanf(linha, "%99[^;];%d;%d;%d;%d;%99[^;]", (*I)->professores[i].nome, &((*I)->professores[i].CHmin), &((*I)->professores[i].CHmax1), &((*I)->professores[i].CHmax2), &p, (*I)->professores[i].myareas);
     //printf("nome: %s\n", (*I)->professores[i].nome);
-	(*I)->professores[i].numeroPreferencias=p;
-  (*I)->professores[i].current_CH1 = 0;
-  (*I)->professores[i].current_CH2 = 0; 
-  (*I)->professores[i].m = 0;  // quant de turmas alocadas para o prof em questao
-  (*I)->professores[i].n = 0;  // quant de turmas que sao da area do prof em questao
+    (*I)->professores[i].numeroPreferencias=p;
+    (*I)->professores[i].current_CH1 = 0;
+    (*I)->professores[i].current_CH2 = 0; 
+    (*I)->professores[i].m = 0;  // quant de turmas alocadas para o prof em questao
+    //(*I)->professores[i].n = 0;  // quant de turmas que sao da area do prof em questao
+    //n_prefs = 0;
+    (*I)->professores[i].codigo = i;
 
-
- // printf("\n%s \n", (*I)->professores[i].myareas);
     float sum = 0;
   	for(int j=0; j<p; j++){
   		fgets(linha, sizeof(linha), f);
   		int indexTurma, peso;
   		sscanf(linha, "%d;%d", &indexTurma, &peso);
   		(*I)->professores[i].preferencias[indexTurma-1]=peso;
-      (*I)->professores[i].codigo_turmas[j]=indexTurma;
+      //(*I)->professores[i].codigo_turmas[j]=indexTurma;
         sum += peso;
-	}
+	  }
     (*I)->professores[i].pesoMedioPreferencias = sum / p;
+
+    // // ===========================================================================
+    // // descobrindo quais turmas sao da area do prof atual
+    // for(int t = 0; t < m; t++){
+    //   // verificando se a turma atual foi escolhida pela prof atual
+    //   int pref = check_preference((*I)->professores[i].preferencias, (*I)->turmas[t].codigo, m);
+    //   if(pref != 0){
+    //     //(*I)->professores[i].pref[n_prefs].codigo_turma = (*I)->turmas[t].codigo;  // criei a aresta que liga o prof atual com a turma atual
+    //     n_prefs++;
+    //     (*I)->turmas[t].n += 1;  // mais um prof que pode a ministrar
+        
+    //   }
+    //   // senao foi escolhida, verifico se é da area
+    //   else if(check_area((*I)->professores[i].myareas, (*I)->turmas[t].disciplina.myareas, numareas) == 1){
+    //    // (*I)->professores[i].pref[n_prefs].codigo_turma = (*I)->turmas[t].codigo;  // criei a aresta que liga o prof atual com a turma atual
+    //     n_prefs++;
+    //     (*I)->turmas[t].n += 1;  // mais um prof que pode a ministrar
+    //   }
+    // }
+    // (*I)->professores[i].n = n_prefs;  // salvando no prof atual o grau de seu vertice (quant de turmas que ele pode ministrar)
+
+    // // alocando o vetor de pref do professor atual
+    // (*I)->professores[i].pref =  malloc(sizeof(int) * n_prefs);
+    
+
   }
+
   return 1;
 
 }
