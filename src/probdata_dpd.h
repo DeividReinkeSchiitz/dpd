@@ -26,8 +26,8 @@
 #ifndef __SCIP_PROBDATA_MOCHILA__
 #define __SCIP_PROBDATA_MOCHILA__
 
-#include "scip/scip.h"
 #include "problem.h"
+#include "scip/scip.h"
 
 /* constants */
 
@@ -36,8 +36,10 @@
 #ifdef DEBUG
 #define PRINTF(...) printf(__VA_ARGS__)
 #else
-#define PRINTF(...) 
+#define PRINTF(...)
 #endif
+
+int checaArea(unsigned int areaProfessor, unsigned int areaTurma);
 
 /** @brief Problem data which is accessible in all places
  *
@@ -45,62 +47,56 @@
  */
 struct SCIP_ProbData
 {
-   const char*           probname;           /**< problem name */
-   SCIP_VAR**            vars;               /**< array of variables */
-   SCIP_CONS**           conss;              /**< all constraints */
-   int                   nvars;              /**< total of vars */
-   int                   ncons;              /**< number of constraints */
-   instanceT*            I;                  /**< instance of knapsack */
+  const char *probname; /**< problem name */
+  SCIP_VAR **vars;      /**< array of variables */
+  SCIP_CONS **conss;    /**< all constraints */
+  int nvars;            /**< total of vars */
+  int ncons;            /**< number of constraints */
+  Instance *I;          /**< instance of knapsack */
 };
 
 /** sets up the problem data */
-extern
-SCIP_RETCODE SCIPprobdataCreate(
-   SCIP*                 scip,               /**< SCIP data structure */
-   const char*           probname,           /**< problem name */
-   instanceT*            I                   /**< instance of K-coloring */
-   );
+extern SCIP_RETCODE SCIPprobdataCreate(
+        SCIP *scip,           /**< SCIP data structure */
+        const char *probname, /**< problem name */
+        Instance *I,          /**< instance of K-coloring */
+        int relaxed,          /**< should be relaxed? */
+        int *fixed            /**< vector of fixed items */
+);
 
 /** adds given variable to the problem data */
-extern
-SCIP_RETCODE SCIPprobdataAddVar(
-   SCIP*                 scip,               /**< SCIP data structure */
-   SCIP_PROBDATA*        probdata,           /**< problem data */
-   SCIP_VAR*             var                 /**< variables to add */
-   );
+extern SCIP_RETCODE SCIPprobdataAddVar(
+        SCIP *scip,              /**< SCIP data structure */
+        SCIP_PROBDATA *probdata, /**< problem data */
+        SCIP_VAR *var            /**< variables to add */
+);
 
 /** returns Probname of the instance */
-extern
-const char* SCIPprobdataGetProbname(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-			      );
+extern const char *SCIPprobdataGetProbname(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 /** returns array of all variables ordered in the way they got generated */
-extern
-SCIP_VAR** SCIPprobdataGetVars(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-   );
+extern SCIP_VAR **SCIPprobdataGetVars(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 
 /** returns number of variables */
-extern
-int SCIPprobdataGetNVars(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-   );
+extern int SCIPprobdataGetNVars(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 
 /** returns array of set partitioning constrains */
-extern
-SCIP_CONS** SCIPprobdataGetConss(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-   );
+extern SCIP_CONS **SCIPprobdataGetConss(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 
 /** returns array of set partitioning constrains */
-extern
-int SCIPprobdataGetNcons(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-			 );
+extern int SCIPprobdataGetNcons(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 
 /** returns instance I */
-extern
-instanceT* SCIPprobdataGetInstance(
-   SCIP_PROBDATA*        probdata            /**< problem data */
-   );
+extern Instance *SCIPprobdataGetInstance(
+        SCIP_PROBDATA *probdata /**< problem data */
+);
 #endif

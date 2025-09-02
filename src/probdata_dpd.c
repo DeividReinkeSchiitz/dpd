@@ -39,7 +39,7 @@
  *    SCIP_CONS**           conss;        **< all constraints  *
  *    int                   nvars;        **< size of vars *
  *    int                   ncons;        **< number of constraints *
- *    instanceT*            I;            **< instance of knapsack *
+ *    Instance*            I;            **< instance of knapsack *
  * };
  * \endcode
  *
@@ -90,7 +90,7 @@ static SCIP_RETCODE probdataCreate(
         SCIP_CONS **conss,        /**< all constraints */
         int nvars,                /**< size of vars */
         int ncons,                /**< number of constraints */
-        instanceT *I              /**< pointer to the instance data */
+        Instance *I               /**< pointer to the instance data */
 )
 {
   assert(scip != NULL);
@@ -154,29 +154,28 @@ static SCIP_RETCODE probdataFree(
   return SCIP_OKAY;
 }
 
-double checaArea(int areaProfessor, int areaTurma, int numAreas)
+// Function to convert unsigned long to binary string representation
+void bin2str(unsigned long num, char *str, int len)
 {
-  for (int i = 0; i < numAreas; i++)
+  // Initialize str with all '0's
+  memset(str, '0', len);
+  str[len] = '\0';
+
+  // Set bits from right to left
+  for (int i = len - 1; i >= 0; i--)
   {
-    if (areaProfessor % 10 == areaTurma % 10)
-    {
-      if (areaProfessor % 10 == 1)
-      {
-        return 1;
-      }
-    }
-    areaProfessor = areaProfessor / 10;
-    areaTurma     = areaTurma / 10;
+    if (num & 1)
+      str[i] = '1';
+    num >>= 1;
   }
-  return 2;
 }
 
-/**@} */
-
-/**@name Callback methods of problem data
- *
- * @{
- */
+// 100000 & 110000 =
+int checaArea(unsigned int areaProfessor, unsigned int areaTurma)
+{
+  unsigned int result = areaProfessor & areaTurma;
+  return result > 0 ? 1 : 0;
+}
 
 /** frees user data of original problem (called when the original problem is freed) */
 static SCIP_DECL_PROBDELORIG(probdelorigMochila)
@@ -231,7 +230,6 @@ static SCIP_DECL_PROBEXITSOL(probexitsolMochila)
 
 /**@} */
 
-
 /**@name Interface methods
  *
  * @{
@@ -241,11 +239,12 @@ static SCIP_DECL_PROBEXITSOL(probexitsolMochila)
   * TODO: specific for the problem
  */
 
-
 SCIP_RETCODE SCIPprobdataCreate(
         SCIP *scip,           /**< SCIP data structure */
         const char *probname, /**< problem name */
-        instanceT *I          /**< instance of knapsack */
+        Instance *I,          /**< instance of knapsack */
+        int relaxed,          /**< should be relaxed? */
+        int *fixed            /**< vector of fixed items */
 )
 {
   SCIP_PROBDATA *probdata;
@@ -256,6 +255,8 @@ SCIP_RETCODE SCIPprobdataCreate(
   int i;
   int ncons;
   int nvars;
+  int idx;
+  double lbvar, ubvar;
 
   assert(scip != NULL);
 
@@ -275,125 +276,137 @@ SCIP_RETCODE SCIPprobdataCreate(
   SCIP_CALL(SCIPsetObjIntegral(scip));
 
   // alloc memory to create vars and cons - it is necessary to probdatacreate(), that will make a copy of them.
-  SCIP_CALL(SCIPallocBufferArray(scip, &conss, I->m + 3 * I->n));
-  SCIP_CALL(SCIPallocBufferArray(scip, &vars, (I->n) * (I->m)));
+  SCIP_CALL(SCIPallocBufferArray(scip, &conss, I->nCourses + 3 * I->nProfessors));
+  SCIP_CALL(SCIPallocBufferArray(scip, &vars, (I->nProfessors) * (I->nCourses)));
 
   ncons = 0;
   nvars = 0;
+
   // TODO: configure vars and constraints ....
-  //cria variaveis e função objetiva
-  for (int i = 0; i < I->n; i++)
+  // create variables and objective function
+  for (int i = 0; i < I->nProfessors; i++)
   {
-    for (int j = 0; j < I->m; j++)
+    int count = 0;
+    for (int j = 0; j < I->nCourses; j++)
     {
       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d_%d", i, j);
-      int CoefAptidao;
-      if ((checaArea(I->professores[i].areas, I->turmas[j].disciplina.areas, I->numAreas) == 1) || I->professores[i].preferencias[j] > 0)
+      if (!fixed)
       {
-        //professor apto
-        CoefAptidao = I->professores[i].preferencias[j];
-        //possibilidade de atribuir valor 1 aqui para todas as disciplinas da area
+        lbvar = 0.0;
+        ubvar = 1.0;
       }
       else
       {
-        CoefAptidao = -I->area_penalty;
+        idx   = (i * I->nCourses) + j;
+
+        lbvar = fixed[idx] == 1 ? 1.0 : 0.0;   // if (fixed[idx]==1) { lb=1.0 e ub = 1.0 }
+        ubvar = fixed[idx] == -1 ? 0.0 : 1.0;  // if(fixed[idx]==-1) { lb = 0.0 e ub = 0.0 }
       }
-      SCIP_CALL(SCIPcreateVarBasic(scip, &var, name, 0.0, 1.0, (double) CoefAptidao, SCIP_VARTYPE_BINARY));
+      int aptitudeCoef;
+      int countAreas = 0;
+
+      printf("\n\n");
+      char professorAreaBin[33];
+      char courseAreaBin[33];
+      bin2str(I->professors[i].areas, professorAreaBin, 32);
+      bin2str(I->courses[j].subject.areas, courseAreaBin, 32);
+      // printf("PROFESSOR %s with area %s for course %s with area %s\n", I->professors[i].name, professorAreaBin, I->courses[j].subject.name, courseAreaBin);
+
+      // TODO: This check occurs every time
+      if ((checaArea(I->professors[i].areas, I->courses[j].subject.areas) == 1))
+      {
+        // printf(" - ELIGIBLE\n");
+        count++;
+        if (I->professors[i].preferences[j].weight > 0)
+        {
+          // professor eligible
+          aptitudeCoef = I->professors[i].preferences[j].weight;
+        }
+        // possibility to assign value 1 here for all subjects in the area
+      }
+      else
+      {
+        // printf(" - NOT ELIGIBLE\n");
+        aptitudeCoef = -I->area_penalty;
+      }
+
+      /* create a basic variable object */
+      if (!relaxed)
+      {
+        SCIP_CALL(SCIPcreateVarBasic(scip, &var, name, lbvar, ubvar, (double) aptitudeCoef, SCIP_VARTYPE_BINARY));
+      }
+      else
+      {
+        SCIP_CALL(SCIPcreateVarBasic(scip, &var, name, lbvar, ubvar, (double) aptitudeCoef, SCIP_VARTYPE_CONTINUOUS));
+      }
+      // SCIP_CALL(SCIPcreateVarBasic(scip, &var, name, 0.0, 1.0, (double) aptitudeCoef, SCIP_VARTYPE_BINARY));
       assert(var != NULL);
       vars[nvars] = var;
 
       SCIP_CALL(SCIPaddVar(scip, var));
       nvars++;
     }
+    // if (count == 0)
+    // printf("PROFESSOR %s: %d\n", I->professors[i].name, count);
   }
 
-
-  //adiciona restricao para que cada turma esteja atribuida a exatamente um professor
-  for (int j = 0; j < I->m; j++)
+  // add constraint: each course must be assigned to exactly one professor
+  for (int j = 0; j < I->nCourses; j++)
   {
-    //cria restricao para turma j
     (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "4.2_%d", j);
     SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, 1, 1);
     SCIP_CALL(SCIPaddCons(scip, conss[ncons]));
-    for (int i = 0; i < I->n; i++)
+    for (int i = 0; i < I->nProfessors; i++)
     {
-      //adiciona variaveis a restricao
-      SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->m + j], 1));
+      SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->nCourses + j], 1));
     }
     ncons++;
   }
 
-  //adiciona restricoes relacionadas a carga horaria minima anual
-  for (int i = 0; i < I->n; i++)
+  // add constraints: annual minimum workload
+  for (int i = 0; i < I->nProfessors; i++)
   {
     (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "4.3_%d", i);
-    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, I->professores[i].CHmin, SCIPinfinity(scip));
+    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, I->professors[i].minWorkload, SCIPinfinity(scip));
     SCIP_CALL(SCIPaddCons(scip, conss[ncons]));
-    for (int j = 0; j < I->m; j++)
+    for (int j = 0; j < I->nCourses; j++)
     {
-      SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->m + j], I->turmas[j].CH));
+      SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->nCourses + j], I->courses[j].workload));
     }
     ncons++;
   }
 
-
-  //adiciona restricoes relacionadas a carga horaria do primeiro semestre
-  for (int i = 0; i < I->n; i++)
+  // add constraints: first semester max workload
+  for (int i = 0; i < I->nProfessors; i++)
   {
     (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "4.4_%d", i);
-    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, -SCIPinfinity(scip), I->professores[i].CHmax1);
+    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, -SCIPinfinity(scip), I->professors[i].maxWorkload1);
     SCIP_CALL(SCIPaddCons(scip, conss[ncons]));
-    for (int j = 0; j < I->m; j++)
+    for (int j = 0; j < I->nCourses; j++)
     {
-      if (I->turmas[j].semestre == 1)
+      if (I->courses[j].semester == 1)
       {
-        SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->m + j], I->turmas[j].CH));
+        SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->nCourses + j], I->courses[j].workload));
       }
     }
     ncons++;
   }
 
-  //adiciona restricoes relacionadas a carga horaria do segundo semestre
-  for (int i = 0; i < I->n; i++)
+  // add constraints: second semester max workload
+  for (int i = 0; i < I->nProfessors; i++)
   {
     (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "4.5_%d", i);
-    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, -SCIPinfinity(scip), I->professores[i].CHmax2);
+    SCIPcreateConsBasicLinear(scip, &conss[ncons], name, 0, NULL, NULL, -SCIPinfinity(scip), I->professors[i].maxWorkload2);
     SCIP_CALL(SCIPaddCons(scip, conss[ncons]));
-    for (int j = 0; j < I->m; j++)
+    for (int j = 0; j < I->nCourses; j++)
     {
-      if (I->turmas[j].semestre == 2)
+      if (I->courses[j].semester == 2)
       {
-        SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->m + j], I->turmas[j].CH));
+        SCIP_CALL(SCIPaddCoefLinear(scip, conss[ncons], vars[i * I->nCourses + j], I->courses[j].workload));
       }
     }
     ncons++;
   }
-
-  /*
-    // create constraint to the capacity of the knapsack
-    SCIP_CALL( SCIPcreateConsBasicLinear (scip, &conss[ncons], "capacity", 0, NULL, NULL, -SCIPinfinity(scip), (double) I->C[0]) );
-    SCIP_CALL( SCIPaddCons(scip, conss[ncons]) );
-    //   SCIP_CALL( SCIPreleaseCons(scip, &conss[0]) );
-    ncons++; // it must be 1
-
-    // create one variable for each item i
-    for( i = 0; i < I->n; nvars++, ++i )
-    {
-       (void) SCIPsnprintf(name, SCIP_MAXSTRLEN, "x_%d", i);
-       // create a basic variable object
-       SCIP_CALL( SCIPcreateVarBasic(scip, &var, name, 0.0, 1.0, (double) I->item[i].value, SCIP_VARTYPE_BINARY) );
-       assert(var != NULL);
-       // save the pointer to the created var
-       vars[nvars]=var;
-
-       // add variable to the problem
-       SCIP_CALL( SCIPaddVar(scip, var) );
-
-       // add variable to the capacity constraint
-       SCIP_CALL( SCIPaddCoefLinear(scip, conss[0], var, (double) I->item[i].weight) );
-    }
-    */
-
 
   // TODO: ... after vars and constraints have been created, nothing more is necessary. Just do exactly as follows:
   /* create problem data */
@@ -404,7 +417,6 @@ SCIP_RETCODE SCIPprobdataCreate(
 #endif
   /* set user problem data */
   SCIP_CALL(SCIPsetProbData(scip, probdata));
-
 
   /* free local buffer arrays */
   for (i = 0; i < nvars; ++i)
@@ -417,7 +429,7 @@ SCIP_RETCODE SCIPprobdataCreate(
   return SCIP_OKAY;
 }
 
-instanceT *SCIPprobdataGetInstance(
+Instance *SCIPprobdataGetInstance(
         SCIP_PROBDATA *probdata)
 {
   return probdata->I;

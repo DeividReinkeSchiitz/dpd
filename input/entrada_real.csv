@@ -225,7 +225,7 @@ codigo;semestre;numero;nome;curso;CH;area;
 223;2;T1;PROCESSAMENTO DE IMAGENS E APLICAÇÕES EM ENGENHARIA;POS;3;00000010000000;
 224;2;T1;TÓPICOS EM PROCESSAMENTO DE IMAGENS;SI + CC + EC + ES + TADS;4;00000010000000;
 
-nome;CHmin1;CHmax1;CHmin2;CHmax2;preferencias;areas;
+nome;CHmin1;CHmax1;CHmax2;preferencias;areas;
 Amaury Antonio de Castro Junior;8;8;8;10;10000001000010
 54;5;
 156;5;

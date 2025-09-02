@@ -26,19 +26,24 @@
 #ifndef __SCIP_HEUR_GULOSA_H__
 #define __SCIP_HEUR_GULOSA_H__
 
-
 #include "scip/scip.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-  
-int gulosa(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur);
 
-/** creates the gulosa_crtp primal heuristic and includes it in SCIP */
-SCIP_RETCODE SCIPincludeHeurGulosa(
-   SCIP*                 scip                /**< SCIP data structure */
-   );
+  typedef struct
+  {
+    int *codigo_turma, *peso_atribuido;
+  } Auxiliar;
+
+  int gulosa(SCIP *scip, SCIP_SOL **sol, SCIP_HEUR *heur);
+
+  /** creates the gulosa_crtp primal heuristic and includes it in SCIP */
+  SCIP_RETCODE SCIPincludeHeurGulosa(
+          SCIP *scip /**< SCIP data structure */
+  );
 
 #ifdef __cplusplus
 }
