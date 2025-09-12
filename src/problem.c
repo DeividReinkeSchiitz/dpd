@@ -45,6 +45,7 @@ void freeInstance(instanceT* I)
       free(I->professores[i].codigo_turmas);
       //free(I->professores[i].pref);
       free(I->professores[i].myareas);
+      free(I->professores[i].pref);
 
     }
 
@@ -71,6 +72,8 @@ void createInstance(instanceT** I, int n, int m, int numAreas)
   for(int i=0; i<n; i++){
     (*I)->professores[i].preferencias = (int*) calloc(m, sizeof(int));
     (*I)->professores[i].myareas = (char*) malloc(numAreas * sizeof(char));
+    (*I)->professores[i].pref = (Preferencia*) malloc(sizeof(Preferencia) * m);
+    (*I)->professores[i].codigo_turmas = (int*) calloc(m, sizeof(int));
     //pref = (*I)->professores[i].numeroPreferencias;  // pegando a quant de turmas que o prof i tem interesse
    //(*I)->professores[i].codigo_turmas = (int*) calloc(m, sizeof(int));
    // aparentemente aqui eu nao li ainda as info de cada prof ent n posso alocar um vetor usando a quant de preferencia que ele possui

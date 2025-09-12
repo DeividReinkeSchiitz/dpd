@@ -1,58 +1,10 @@
-nome: Amaury Antonio de Castro Junior | grau: 72
-nome: Ana Karina Salina de Oliveira | grau: 55
-nome: Anderson Viçoso de Araújo | grau: 66
-nome: Awdren de Lima Fontão | grau: 52
-nome: Bianca de Almeida Dantas | grau: 74
-nome: Brivaldo Alves da Silva Junior | grau: 13
-nome: Bruno Barbieri de Pontes Cafeo | grau: 54
-nome: Bruno Magalhães Nogueira | grau: 65
-nome: Carlos Alberto da Silva | grau: 48
-nome: Carlos Henrique Aguena Higa | grau: 71
-nome: Cristiano Costa Argemon Vieira | grau: 49
-nome: Daniela Luiza Catelan Carneiro | grau: 19
-nome: Débora Maria Barroso Paiva | grau: 54
-nome: Diego Padilha Rubert | grau: 71
-nome: Dionisio Machado Leite Filho | grau: 29
-nome: Edna Ayako Hoshino | grau: 22
-nome: Edson Norberto Caceres | grau: 71
-nome: Edson Takashi Matsubara | grau: 63
-nome: Eraldo Fernandes | grau: 63
-nome: Fábio Henrique Viduani Martinez | grau: 24
-nome: Fábio Iaione | grau: 15
-nome: Francisco Elói Soares de Araújo | grau: 71
-nome: Glauder Guimaraes Ghinozzi | grau: 72
-nome: Graziela Santos de Araújo | grau: 73
-nome: Hana Karina Salles Rubinsztejn | grau: 28
-nome: Henrique Mongelli | grau: 23
-nome: Hercules da Costa Sandim | grau: 59
-nome: Hudson Silva Borges | grau: 57
-nome: Irineu Sotoma | grau: 75
-nome: Jane Dirce Alves Sandim Eleutério | grau: 54
-nome: Jonathan de Andrade Silva | grau: 24
-nome: Jucele França de Alencar Vasconcellos | grau: 102
-nome: Liana Dessandre Duenha | grau: 13
-nome: Luciana Montera Cheung | grau: 89
-nome: Luciano Édipo Pereira da Silva | grau: 58
-nome: Luciano Gonda | grau: 7
-nome: Marcelo Augusto Santos Turine | grau: 52
-nome: Marcelo Henriques de Carvalho | grau: 24
-nome: Marcio Aparecido Inácio da Silva | grau: 13
-nome: Marco Aurélio Stefanes | grau: 53
-nome: Maria Istela Cagnin Machado | grau: 52
-nome: Milton Ernesto Romero Romero | grau: 25
-nome: Nahri Balesdent Moreano | grau: 19
-nome: Nalvo Franco de Almeida Junior | grau: 22
-nome: Patrícia Gomes Fernandes | grau: 52
-nome: Paulo Aristarco Pagliosa | grau: 6
-nome: Renan Albuquerque Marks | grau: 21
-nome: Renato Porfirio Ishii | grau: 25
-nome: Ricardo Ribeiro dos Santos | grau: 23
-nome: Rodrigo Funabashi Jorge | grau: 52
-nome: Ronaldo Alves Ferreira | grau: 29
-nome: Said Sadique Adi | grau: 71
-nome: Samuel Benjoino Ferraz | grau: 50
-nome: Vagner Pedrotti | grau: 23
-nome: Valéria Quadros dos Reis | grau: 39
-nome: Vanessa Araujo Borges | grau: 17
-nome: Victor Leonardo Yoshimura | grau: 13
-nome: Wesley Nunes Gonçalves | grau: 19
+nome: André Santos | grau: 17
+nome: Carla Lima | grau: 18
+nome: Antonio Silva | grau: 29
+nome: Ricardo Gomes | grau: 29
+nome: Fernanda Pereira | grau: 31
+nome: Maria Oliveira | grau: 32
+nome: Carlos Ferreira | grau: 32
+nome: Laura Mendes | grau: 35
+nome: Ana Rodrigues | grau: 42
+nome: Pedro Almeida | grau: 42

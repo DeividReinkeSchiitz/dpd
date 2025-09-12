@@ -1,10 +1,14 @@
 #SCIP_LIB=/usr/local/lib
 CFLAGS=-g -D NO_CONFIG_HEADER -D SCIP_VERSION_MAJOR
-$LDFLAGS=-L $(SCIP_LIB)
+ifeq ($(SCIP_LIB),)
+LDFLAGS=
+else
+LDFLAGS=-L$(SCIP_LIB)
+endif
 
 
 bin/dpd: bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_myrounding.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_grasp.o
-	gcc $(CFLAGS) $(LDFLAGS) -o bin/dpd bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_myrounding.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_grasp.o -lscip 
+	gcc $(CFLAGS) $(LDFLAGS) -o bin/dpd bin/cmain.o bin/probdata_dpd.o bin/problem.o bin/heur_myrounding.o bin/heur_problem.o bin/heur_gulosa.o bin/heur_grasp.o -lscip -lm
 
 bin/cmain.o: src/cmain.c
 	gcc $(CFLAGS) -c -o bin/cmain.o src/cmain.c

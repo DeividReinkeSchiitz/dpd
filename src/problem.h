@@ -52,7 +52,7 @@ typedef struct
   int n;  // grau do vertice do prof (quantas disciplinas ele pode ministrar)
   int m;  // quantidade de turmas alocadas para o prof
   int turmasAlocadas[15];  // considerando que um prof pode ter no max 10 turmas atribuidas
-  Preferencia pref[128];  // contem as turmas que o prof escolheu previamente + as turmas da sua area
+  Preferencia *pref;  // contem as turmas que o prof escolheu previamente + as turmas da sua area
 }Professor;
 
 typedef struct

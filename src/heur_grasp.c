@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 
 #include "probdata_dpd.h"
 #include "parameters_dpd.h"
@@ -156,37 +157,6 @@ int calculaScore(int peso_preferencia, int alfa){
    return peso_preferencia + alfa * 1;
 }
 
-// int compareClasses(const void *a, const void *b)
-// {
-//     const Turma *turmaA = (const Turma *)a;
-//     const Turma *turmaB = (const Turma *)b;
-
-//     // Case 1: A is covered, B is not. B should come first.
-//     if (turmaA->covered == 1 && turmaB->covered == 0) {
-//         return 1; // A is "greater" than B
-//     }
-
-//     // Case 2: B is covered, A is not. A should come first.
-//     if (turmaA->covered == 0 && turmaB->covered == 1) {
-//         return -1; // A is "less than" B
-//     }
-
-//     // Case 3: Both have the same 'covered' status.
-//     // If both are covered, their relative order doesn't matter. They are equal.
-//     if (turmaA->covered == 1) { // This implies turmaB->covered is also 1
-//         return 0;
-//     }
-
-//     // Case 4: Both are not covered. Sort by 'n'.
-//     if (turmaA->n < turmaB->n) {
-//         return -1;
-//     }
-//     if (turmaA->n > turmaB->n) {
-//         return 1;
-//     }
-
-//     return 0; // 'n' values are equal
-// }
 
 int compareClasses(const void *a, const void *b)
 {
@@ -232,38 +202,79 @@ int check_preference(int *preferencias, int codigo_turma, int m){
 }
 
 // funcao que cria as arestas do "grafo"
-void adaptive_edges(Professor *professores, Turma *turmas, int *covered, int n, int m, int numareas){
+void adaptive_edges(Professor *professores, Turma *turmas, int n, int m, int numareas){
    int peso, alfa, score, n_pref;
-   // percorre os professores
-   for(int p = 0; p < n; p++){
-      n_pref = 0;  // zera o grau do prof p toda vez que começar
+   /*
+    Strategy:
+    1) First pass: compute degrees (professors' possible assignments and classes' possible professors).
+    2) Second pass: for each feasible (prof, class) pair compute a score that favors low-degree vertices.
+       We'll use a formula that combines the original preference weight with inverse-degree terms:
+         score = base_weight * (1.0 + K * (1.0/(1+deg_prof) + 1.0/(1+deg_class)))
+       where K is a tunable constant (we use K=5 to keep scores in integer range), and base_weight
+       is either the preference weight or a small positive value for area-based edges.
+   */
 
-      // percorre as turmas
+   // zero degrees and temp counts
+   for(int p = 0; p < n; p++){
+      professores[p].n = 0;
+   }
+   for(int t = 0; t < m; t++){
+      turmas[t].n = 0;
+   }
+
+   // First pass: count possible edges (degrees) without setting pref list
+   for(int p = 0; p < n; p++){
       for(int t = 0; t < m; t++){
-         // verificando se o prof p escolheu a turma t previamente
+         if(turmas[t].covered == 1) continue;
          peso = check_preference(professores[p].preferencias, turmas[t].codigo, m);
          if(peso != 0){
-            alfa = random_number(1, 5);
-            score = calculaScore(peso, alfa);
+            professores[p].n++;
+            turmas[t].n++;
+         } else if(check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
+            professores[p].n++;
+            turmas[t].n++;
+         }
+      }
+   }
+
+   // Second pass: fill pref lists and compute scores using degrees
+   const double K = 5.0; /* weight factor to amplify inverse-degree effect */
+   for(int p = 0; p < n; p++){
+      n_pref = 0;  // index to fill professores[p].pref
+      // If no possible classes, ensure n is zero
+      if(professores[p].n == 0){
+         professores[p].n = 0;
+         continue;
+      }
+
+      for(int t = 0; t < m; t++){
+         if(turmas[t].covered == 1) continue;
+         peso = check_preference(professores[p].preferencias, turmas[t].codigo, m);
+         if(peso != 0){
+            // combine base preference with inverse-degree bonuses
+            double degp = (double)professores[p].n;
+            double degt = (double)turmas[t].n;
+            double base = (double)peso;
+            double bonus = K * (1.0/(1.0 + degp) + 1.0/(1.0 + degt));
+            score = (int)ceil(base * (1.0 + bonus));
+
             professores[p].pref[n_pref].codigo_turma = turmas[t].codigo;
             professores[p].pref[n_pref].score = score;
-            n_pref++;  // aumentando o grau do prof p
-           // printf("%d \n", turmas[t].n);
-            turmas[t].n++;  // aumentando o grau da turma t
-            
+            n_pref++;
          }
-         // turma nao foi escolhida previamente. verificando se ela é da area do prof
          else if(check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
-            alfa = random_number(1, 7);
-            professores[p].pref[n_pref].codigo_turma = turmas[t].codigo;
-            professores[p].pref[n_pref].score = alfa;
-            n_pref++;   // aumentando o grau do prof p
-           // printf("%d \n", turmas[t].n);
-            turmas[t].n++;  // aumentando o grau da turma t
-         }
+            double degp = (double)professores[p].n;
+            double degt = (double)turmas[t].n;
+            double base = 1.0; /* small base weight for area-based edges */
+            double bonus = K * (1.0/(1.0 + degp) + 1.0/(1.0 + degt));
+            score = (int)ceil(base * (1.0 + bonus));
 
-         professores[p].n = n_pref;
+            professores[p].pref[n_pref].codigo_turma = turmas[t].codigo;
+            professores[p].pref[n_pref].score = score;
+            n_pref++;
+         }
       }
+      professores[p].n = n_pref; /* update actual filled count */
    }
 }
 
@@ -317,14 +328,14 @@ void construct_solution(
       professores[i].current_CH2 = 0;
    }
 
-   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * 15); // considerando que ao final ficarao, no max, 10 turmas sem profs
+   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * m); // buffer sized to m
    int n_sem_prof = 0, num_candidates, codigo_prof;
 
    while(*nCovered < m){
       int t;
       for(t = 0; t < m; t++){
          Turma turma = turmas[t];
-         //printf("\nTURMA: %s | CODIGO: %d\n",turmas[t].disciplina.nome ,turma.codigo);
+         // printf("\nTURMA: %s | CODIGO: %d\n",turmas[t].disciplina.nome ,turma.codigo);
          Preferencia *candidate_scores = (Preferencia *) malloc(sizeof(Preferencia) * n);
          SCIP_VAR **candidate_vars = (SCIP_VAR **) malloc(sizeof(SCIP_VAR*) * n);
          num_candidates = 0;  // num de profs candidatos da turma atual
@@ -337,7 +348,7 @@ void construct_solution(
             for(int s = 0; s < professores[p].n && professores[p].pref[s].codigo_turma <= turma.codigo; s++){
 
                if(turma.codigo == professores[p].pref[s].codigo_turma){
-                 // printf("\nPROF CANDIDATO: %s\n", professores[p].nome);
+               //   printf("\nPROF CANDIDATO: %s\n", professores[p].nome);
 
                   if(turma.semestre == 1){
 
@@ -368,16 +379,17 @@ void construct_solution(
          }
 
          if(num_candidates > 0){
-            //printf("\n=========================\n");
+            // printf("\n=========================\n");
             int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
             int p = candidate_scores[selected].codigo_turma;
-            //printf("PROF SELECIONANDO: %s | CODIGO: %d\n", professores[p].nome, professores[p].codigo);
+            // printf("PROF SELECIONANDO: %s | CODIGO: %d\n", professores[p].nome, professores[p].codigo);
             solution[*nInSolution] = candidate_vars[selected];
             (*nInSolution)++;
-            covered[turma.codigo-1] = 1;
+            //covered[turma.codigo-1] = 1;
+            turmas[t].covered = 1;
             (*nCovered)++;
 
-            //printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
+            // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
 
             if(turma.semestre == 1){
                professores[p].current_CH1 += turma.CH;
@@ -385,10 +397,17 @@ void construct_solution(
             }else{
                professores[p].current_CH2 += turma.CH;
             }
+
+            // aqui a turma t foi coberta
+            reset_class(turmas, m);
+            adaptive_edges(professores, turmas, n, m, numareas);
+            qsort(turmas, m, sizeof(Turma), compareClasses);  // ordenando as turmas pelo grau do vertice
+            
+
             
          }else{
             turmas_sem_profs[n_sem_prof] = turma;
-            n_sem_prof;
+            n_sem_prof++;
          }
 
 
@@ -406,7 +425,8 @@ void construct_solution(
                   if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1){
                      professores[p].current_CH1 += turmas_sem_profs[i].CH;
                      solution[*nInSolution] = varlist[codigo_prof*m + turmas_sem_profs[i].codigo-1];
-                     covered[turmas_sem_profs[i].codigo-1] = 1;
+                     // covered[turmas_sem_profs[i].codigo-1] = 1;
+                     turmas[turmas_sem_profs[i].codigo-1].covered = 1;
                      (*nInSolution)++;
                      (*nCovered)++;
 
@@ -422,7 +442,8 @@ void construct_solution(
                   if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2){
                      professores[p].current_CH2 += turmas_sem_profs[i].CH;
                      solution[*nInSolution] = varlist[codigo_prof*m + turmas_sem_profs[i].codigo-1];
-                     covered[turmas_sem_profs[i].codigo-1] = 1;
+                     // covered[turmas_sem_profs[i].codigo-1] = 1;
+                     turmas[turmas_sem_profs[i].codigo-1].covered = 1;
                      (*nInSolution)++;
                      (*nCovered)++;
 
@@ -512,18 +533,15 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    turmas = I->turmas;
    int j, pref, score, alfa, nscore;
    reset_class(turmas, m);
-   adaptive_edges(professores, turmas, covered, n, m, numareas);
+   adaptive_edges(professores, turmas, n, m, numareas);
 
-  // qsort(professores, n, sizeof(Professor), compareProfessoresByN);  // ordenando os profs pelo grau do vertice
+   // qsort(professores, n, sizeof(Professor), compareProfessoresByN);  // ordenando os profs pelo grau do vertice
 
    // FILE *arq = fopen("professores.txt", "w");
    // for(int p = 0; p < n; p++){
    //    fprintf(arq, "nome: %s | grau: %d\n", professores[p].nome, professores[p].n);
    // }
    // fclose(arq);
-
-   // turmas[2].covered = 1;
-   // turmas[15].covered = 1;
 
    qsort(turmas, m, sizeof(Turma), compareClasses);  // ordenando as turmas pelo grau do vertice
 
@@ -596,8 +614,6 @@ fclose(arq);
    //#endif
    free(solution);
    free(covered);
-   // free(professores);  / NAO POSSO DAR FREE NESSE VETORES AUXILIARES (professores e turmas). talvez se eu fizesse um for, que nem no problem.c...
-   // free(turmas);
    return found;
 
 }
