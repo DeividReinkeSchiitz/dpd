@@ -28,6 +28,7 @@ typedef struct
   //int professores[61]; // profs que podem ministrar a turma em questao
   int n;  // grau do vertice da turma (quantos profs a turma pode ministrar)
   int covered;  // se 1 turma esta coberta, se 0 turma nao esta coberta
+  int current_prof;  // registrar prof alocado
 }Turma;
 
 typedef struct

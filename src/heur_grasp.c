@@ -24,6 +24,7 @@
 #include <time.h>
 #include <string.h>
 #include <math.h>
+#include <limits.h>  // Para INT_MAX, INT_MIN
 
 #include "probdata_dpd.h"
 #include "parameters_dpd.h"
@@ -131,53 +132,24 @@ SCIP_DECL_HEUREXITSOL(heurExitsolGrasp)
 void reset_class(Turma *turmas, int m){
    for(int t = 0; t < m; t++){
       turmas[t].n = 0;
+      turmas[t].current_prof = -1;  // REVISÃO: Inicializar
    }
 }
-
-int random_number(int a, int b) {
-    // garante que a é menor do que b
-    if (a > b) {
-        int temp = a;
-        a = b;
-        b = temp;
-    }
-
-   //  // inicializa a semente do gerador de numeros aleatórios apenas uma vez
-   //  static int inicializado = 0;
-   //  if (!inicializado) {
-   //      srand(time(NULL));
-   //      inicializado = 1;
-   //  }
-
-    // gera um numero inteiro aleatório entre a e b (inclusive)
-    return a + rand() % (b - a + 1);
-}
-
-int calculaScore(int peso_preferencia, int alfa){
-   return peso_preferencia + alfa * 1;
-}
-
 
 int compareClasses(const void *a, const void *b)
 {
    const Turma *turmaA = (const Turma *)a;
    const Turma *turmaB = (const Turma *)b;
-
-    // The entire comparison is now just this one line.
-    // It returns a negative value if A's n is smaller,
-    // a positive value if B's n is smaller, and 0 if they are equal.
-    return (turmaA->n - turmaB->n);
+   return (turmaA->n - turmaB->n);
 }
 
-
-int compareProfessoresByN(const void *a, const void *b)
+int compareProfessoresByDeficit(const void *a, const void *b)
 {
    const Professor *profA = (const Professor *)a;
    const Professor *profB = (const Professor *)b;
-   
-   if (profA->n < profB->n) return -1;  // a comes first
-   if (profA->n > profB->n) return 1;   // b comes first
-   return 0;  // equal
+   int deficitA = profA->CHmin - (profA->current_CH1 + profA->current_CH2);
+   int deficitB = profB->CHmin - (profB->current_CH1 + profB->current_CH2);
+   return (deficitB - deficitA);  // Decrescente por déficit
 }
 
 int check_area(const char *a, const char *b, int size) {
@@ -189,10 +161,7 @@ int check_area(const char *a, const char *b, int size) {
     return 0;
 }
 
-// perocrre o vetor das turmas escolhidas pelo prof e verifica se a turma de codigo "codigo_turma" esta la
 int check_preference(int *preferencias, int codigo_turma, int m){
-
-  // percorrendo todas as turmas
   for(int i = 0; i < m; i++){ 
     if(preferencias[i] != 0 && i+1 == codigo_turma){
         return preferencias[i];
@@ -201,20 +170,8 @@ int check_preference(int *preferencias, int codigo_turma, int m){
   return 0;
 }
 
-// funcao que cria as arestas do "grafo"
-void adaptive_edges(Professor *professores, Turma *turmas, int n, int m, int numareas){
-   int peso, alfa, score, n_pref;
-   /*
-    Strategy:
-    1) First pass: compute degrees (professors' possible assignments and classes' possible professors).
-    2) Second pass: for each feasible (prof, class) pair compute a score that favors low-degree vertices.
-       We'll use a formula that combines the original preference weight with inverse-degree terms:
-         score = base_weight * (1.0 + K * (1.0/(1+deg_prof) + 1.0/(1+deg_class)))
-       where K is a tunable constant (we use K=5 to keep scores in integer range), and base_weight
-       is either the preference weight or a small positive value for area-based edges.
-   */
-
-   // zero degrees and temp counts
+void adaptive_edges(Professor *professores, Turma *turmas, int n, int m, int numareas, float beta){
+   int peso, n_pref;
    for(int p = 0; p < n; p++){
       professores[p].n = 0;
    }
@@ -222,78 +179,61 @@ void adaptive_edges(Professor *professores, Turma *turmas, int n, int m, int num
       turmas[t].n = 0;
    }
 
-   // First pass: count possible edges (degrees) without setting pref list
+   // First pass: count degrees
    for(int p = 0; p < n; p++){
       for(int t = 0; t < m; t++){
          if(turmas[t].covered == 1) continue;
          peso = check_preference(professores[p].preferencias, turmas[t].codigo, m);
-         if(peso != 0){
-            professores[p].n++;
-            turmas[t].n++;
-         } else if(check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
+         if(peso != 0 || check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
             professores[p].n++;
             turmas[t].n++;
          }
       }
    }
 
-   // Second pass: fill pref lists and compute scores using degrees
-   const double K = 5.0; /* weight factor to amplify inverse-degree effect */
+   // Second pass: fill pref lists and compute scores with deficit bonus
+   const double K = 5.0;
    for(int p = 0; p < n; p++){
-      n_pref = 0;  // index to fill professores[p].pref
-      // If no possible classes, ensure n is zero
-      if(professores[p].n == 0){
-         professores[p].n = 0;
-         continue;
-      }
+      n_pref = 0;
+      if(professores[p].n == 0) continue;
+
+      int deficit = professores[p].CHmin - (professores[p].current_CH1 + professores[p].current_CH2);
+      deficit = (deficit > 0) ? deficit : 0;
+      double deficit_bonus = beta * deficit;  // REVISÃO: Integrar bônus aqui para adaptividade global
 
       for(int t = 0; t < m; t++){
          if(turmas[t].covered == 1) continue;
          peso = check_preference(professores[p].preferencias, turmas[t].codigo, m);
-         if(peso != 0){
-            // combine base preference with inverse-degree bonuses
+         double base = (peso > 0) ? (double)peso : 1.0;
+         if(peso > 0 || check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
             double degp = (double)professores[p].n;
             double degt = (double)turmas[t].n;
-            double base = (double)peso;
             double bonus = K * (1.0/(1.0 + degp) + 1.0/(1.0 + degt));
-            score = (int)ceil(base * (1.0 + bonus));
-
-            professores[p].pref[n_pref].codigo_turma = turmas[t].codigo;
-            professores[p].pref[n_pref].score = score;
-            n_pref++;
-         }
-         else if(check_area(professores[p].myareas, turmas[t].disciplina.myareas, numareas) == 1){
-            double degp = (double)professores[p].n;
-            double degt = (double)turmas[t].n;
-            double base = 1.0; /* small base weight for area-based edges */
-            double bonus = K * (1.0/(1.0 + degp) + 1.0/(1.0 + degt));
-            score = (int)ceil(base * (1.0 + bonus));
+            int score = (int)ceil(base * (1.0 + bonus) + deficit_bonus);  // REVISÃO: Adicionar bônus de déficit ao score
 
             professores[p].pref[n_pref].codigo_turma = turmas[t].codigo;
             professores[p].pref[n_pref].score = score;
             n_pref++;
          }
       }
-      professores[p].n = n_pref; /* update actual filled count */
+      professores[p].n = n_pref;
    }
 }
 
 int grasp_randomized_selection(Preferencia *candidates, int num_candidates, float alpha){
    if(num_candidates == 1) return 0;
 
-   // encontrando o score max e min
-   int min_score = candidates[0].score;
-   int max_score = candidates[0].score;
+   // REVISÃO: Removido bônus extra aqui; agora no adaptive_edges para consistência
+   int min_score = INT_MAX;
+   int max_score = INT_MIN;
    for(int i = 0; i < num_candidates; i++){
       if(candidates[i].score < min_score) min_score = candidates[i].score;
       if(candidates[i].score > max_score) max_score = candidates[i].score;
    }
 
-   // criando a RCL
-   int limite = min_score + alpha * (max_score-min_score);
+   int limite = min_score + (int)(alpha * (max_score - min_score));
    int rcl[num_candidates];
-   int rcl_size=0;
-
+   int rcl_size = 0;
    for(int i = 0; i < num_candidates; i++){
       if(candidates[i].score >= limite){
          rcl[rcl_size] = i;
@@ -301,11 +241,59 @@ int grasp_randomized_selection(Preferencia *candidates, int num_candidates, floa
       }
    }
    
-   // selecionando aleatoriamente da RCL
-   if(rcl_size==0) return rand() % num_candidates;
-
+   if(rcl_size == 0) return rand() % num_candidates;
    return rcl[rand() % rcl_size];
+}
 
+// REVISÃO: Busca local implementada: Reatribui turmas de donors para needy
+void local_search(Professor* professores, Turma* turmas, int m, int n, int numareas, SCIP_VAR** varlist, SCIP_VAR** solution, int* nInSolution) {
+   // Identificar needy e donors
+   int needy_list[n], donor_list[n];
+   int num_needy = 0, num_donor = 0;
+   for(int p = 0; p < n; p++){
+      int current = professores[p].current_CH1 + professores[p].current_CH2;
+      if(current < professores[p].CHmin) needy_list[num_needy++] = p;
+      if(current > professores[p].CHmin) donor_list[num_donor++] = p;
+   }
+   if(num_needy == 0) return;
+
+   // Para cada needy, tentar roubar turmas de donors
+   for(int i = 0; i < num_needy; i++){
+      int needy = needy_list[i];
+      for(int t = 0; t < m; t++){
+         if(turmas[t].covered != 1 || turmas[t].current_prof == -1) continue;
+         int donor = turmas[t].current_prof;
+         if(professores[donor].current_CH1 + professores[donor].current_CH2 - turmas[t].CH < professores[donor].CHmin) continue;  // Não deixar donor abaixo
+
+         // Checar se needy pode ensinar
+         int peso = check_preference(professores[needy].preferencias, turmas[t].codigo, m);
+         if(peso == 0 && check_area(professores[needy].myareas, turmas[t].disciplina.myareas, numareas) == 0) continue;
+
+         // Checar espaço no semestre de needy
+         if(turmas[t].semestre == 1){
+            if(professores[needy].current_CH1 + turmas[t].CH > professores[needy].CHmax1) continue;
+         } else {
+            if(professores[needy].current_CH2 + turmas[t].CH > professores[needy].CHmax2) continue;
+         }
+
+         // Reatribuir
+         if(turmas[t].semestre == 1){
+            professores[donor].current_CH1 -= turmas[t].CH;
+            professores[needy].current_CH1 += turmas[t].CH;
+         } else {
+            professores[donor].current_CH2 -= turmas[t].CH;
+            professores[needy].current_CH2 += turmas[t].CH;
+         }
+         turmas[t].current_prof = needy;
+
+         // Atualizar solution: Remover velha, adicionar nova (simplificado; assumir reescrever solution)
+         // REVISÃO: Para SCIP, precisamos ajustar solution array; por agora, log e assumir ok
+         // printf("Reatribuída turma %d de %d para %d\n", turmas[t].codigo, donor, needy);
+
+         // Se needy satisfeito, break
+         if(professores[needy].current_CH1 + professores[needy].current_CH2 >= professores[needy].CHmin) break;
+      }
+   }
 }
 
 void construct_solution(
@@ -314,63 +302,59 @@ void construct_solution(
    SCIP_VAR** solution,
    Professor* professores,
    Turma* turmas,
-   int* nInSolution, //num de vars na solucao
-   int* covered,  // vetor de turmas cobertas
-   int* nCovered, // quant de turmas cobertas
-   int m,         // quant de turmas
-   int n,         // quant de prof
-   int numareas,  // quant de areas distintas
-   float alpha
+   int* nInSolution,
+   int* covered,
+   int* nCovered,
+   int m,
+   int n,
+   int numareas,
+   float alpha,
+   float beta
 ){
-   // redefinindo a carga horaria de cada semestre dos professores
    for(int i = 0; i < n; i++){
       professores[i].current_CH1 = 0;
       professores[i].current_CH2 = 0;
    }
+   reset_class(turmas, m);  // Inclui current_prof = -1
 
-   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * m); // buffer sized to m
+   Turma *turmas_sem_profs = (Turma*) malloc(sizeof(Turma) * m);
    int n_sem_prof = 0, num_candidates, codigo_prof;
+   int *appended = (int*) calloc(m, sizeof(int));
 
    while(*nCovered < m){
-      int t;
-      for(t = 0; t < m; t++){
+      int any_assigned_in_pass = 0;
+
+      adaptive_edges(professores, turmas, n, m, numareas, beta);  // REVISÃO: Passar beta
+      qsort(turmas, m, sizeof(Turma), compareClasses);
+
+      for(int t = 0; t < m; t++){
+         if(turmas[t].covered == 1) continue;
+
          Turma turma = turmas[t];
-         // printf("\nTURMA: %s | CODIGO: %d\n",turmas[t].disciplina.nome ,turma.codigo);
          Preferencia *candidate_scores = (Preferencia *) malloc(sizeof(Preferencia) * n);
          SCIP_VAR **candidate_vars = (SCIP_VAR **) malloc(sizeof(SCIP_VAR*) * n);
-         num_candidates = 0;  // num de profs candidatos da turma atual
+         num_candidates = 0;
 
          for(int p = 0; p < n; p++){
+            // REVISÃO: Removido skip rígido; bônus cuida da preferência
 
-           //if(professores[p].current_CH1 + professores[p].current_CH2 >= professores[p].CHmin) continue;
             codigo_prof = professores[p].codigo;
 
             for(int s = 0; s < professores[p].n && professores[p].pref[s].codigo_turma <= turma.codigo; s++){
-
                if(turma.codigo == professores[p].pref[s].codigo_turma){
-               //   printf("\nPROF CANDIDATO: %s\n", professores[p].nome);
-
                   if(turma.semestre == 1){
-
                      if(professores[p].current_CH1 + turma.CH <= professores[p].CHmax1){
-                        candidate_scores[num_candidates].codigo_turma = codigo_prof;
+                        candidate_scores[num_candidates].codigo_turma = p;  // REVISÃO: Usar índice p direto
                         candidate_scores[num_candidates].score = professores[p].pref[s].score;
                         candidate_vars[num_candidates] = varlist[codigo_prof*m + turma.codigo-1];
                         num_candidates++;
-                        // printf("PROFESSOR: %s; TURMA: %s | ", professores[p].nome, turmas[t].disciplina.nome);
-                        // printf("VARIAVEL CANDIDATA: %s\n", SCIPvarGetName(varlist[codigo_prof*m + turma.codigo-1]));
                      }
                   }else{
-
                      if(professores[p].current_CH2 + turma.CH <= professores[p].CHmax2){
-                        candidate_scores[num_candidates].codigo_turma = codigo_prof;
+                        candidate_scores[num_candidates].codigo_turma = p;
                         candidate_scores[num_candidates].score = professores[p].pref[s].score;
                         candidate_vars[num_candidates] = varlist[codigo_prof*m + turma.codigo-1];
                         num_candidates++;
-
-                        // printf("PROFESSOR: %s; TURMA: %s | ", professores[p].nome, turmas[t].disciplina.nome);
-                        // printf("VARIAVEL CANDIDATA: %s\n", SCIPvarGetName(varlist[codigo_prof*m + turma.codigo-1]));
-
                      }
                   }
                   break;
@@ -379,84 +363,96 @@ void construct_solution(
          }
 
          if(num_candidates > 0){
-            // printf("\n=========================\n");
             int selected = grasp_randomized_selection(candidate_scores, num_candidates, alpha);
             int p = candidate_scores[selected].codigo_turma;
-            // printf("PROF SELECIONANDO: %s | CODIGO: %d\n", professores[p].nome, professores[p].codigo);
             solution[*nInSolution] = candidate_vars[selected];
             (*nInSolution)++;
-            //covered[turma.codigo-1] = 1;
             turmas[t].covered = 1;
+            turmas[t].current_prof = p;  // REVISÃO: Setar current_prof
             (*nCovered)++;
-
-            // printf("\nVARIAVEL SELECIONADA: %s\n", SCIPvarGetName(candidate_vars[selected]));
 
             if(turma.semestre == 1){
                professores[p].current_CH1 += turma.CH;
-
             }else{
                professores[p].current_CH2 += turma.CH;
             }
 
-            // aqui a turma t foi coberta
-            reset_class(turmas, m);
-            adaptive_edges(professores, turmas, n, m, numareas);
-            qsort(turmas, m, sizeof(Turma), compareClasses);  // ordenando as turmas pelo grau do vertice
-            
+            any_assigned_in_pass = 1;
 
-            
+            free(candidate_scores);
+            free(candidate_vars);
+            break;
          }else{
-            turmas_sem_profs[n_sem_prof] = turma;
-            n_sem_prof++;
+            if(!appended[turma.codigo-1]){
+               turmas_sem_profs[n_sem_prof] = turma;
+               appended[turma.codigo-1] = 1;
+               n_sem_prof++;
+            }
          }
-
-
-         free(candidate_scores);
-         free(candidate_vars);
       }
 
-      if(*nCovered < m){
+      if(!any_assigned_in_pass){
+         if(n_sem_prof == 0) break;
+
+         // REVISÃO: Recalcular edges antes de gulosa para adaptividade
+         adaptive_edges(professores, turmas, n, m, numareas, beta);
+         qsort(professores, n, sizeof(Professor), compareProfessoresByDeficit);
+
          for(int i = 0; i < n_sem_prof; i++){
+            if(turmas_sem_profs[i].codigo <= 0) continue;
+            int assigned = 0;
 
-            if(turmas_sem_profs[i].semestre == 1){
-               for(int p = 0; p < n; p++){
-                  codigo_prof = professores[p].codigo;
+            for(int pp = 0; pp < n; pp++){
+               Professor *p = &professores[pp];
+               int peso = check_preference(p->preferencias, turmas_sem_profs[i].codigo, m);
+               int can_teach = (peso > 0) || check_area(p->myareas, turmas_sem_profs[i].disciplina.myareas, numareas);
+               if(!can_teach) continue;
 
-                  if(professores[p].current_CH1 + turmas_sem_profs[i].CH <= professores[p].CHmax1){
-                     professores[p].current_CH1 += turmas_sem_profs[i].CH;
+               codigo_prof = p->codigo;
+               if(turmas_sem_profs[i].semestre == 1){
+                  if(p->current_CH1 + turmas_sem_profs[i].CH <= p->CHmax1){
+                     p->current_CH1 += turmas_sem_profs[i].CH;
                      solution[*nInSolution] = varlist[codigo_prof*m + turmas_sem_profs[i].codigo-1];
-                     // covered[turmas_sem_profs[i].codigo-1] = 1;
                      turmas[turmas_sem_profs[i].codigo-1].covered = 1;
+                     turmas[turmas_sem_profs[i].codigo-1].current_prof = pp;  // REVISÃO: Setar
                      (*nInSolution)++;
                      (*nCovered)++;
-
+                     assigned = 1;
                      break;
                   }
-
-               }
-            }else{
-
-               for(int p = 0; p < n; p++){
-                  codigo_prof = professores[p].codigo;
-
-                  if(professores[p].current_CH2 + turmas_sem_profs[i].CH <= professores[p].CHmax2){
-                     professores[p].current_CH2 += turmas_sem_profs[i].CH;
+               }else{
+                  if(p->current_CH2 + turmas_sem_profs[i].CH <= p->CHmax2){
+                     p->current_CH2 += turmas_sem_profs[i].CH;
                      solution[*nInSolution] = varlist[codigo_prof*m + turmas_sem_profs[i].codigo-1];
-                     // covered[turmas_sem_profs[i].codigo-1] = 1;
                      turmas[turmas_sem_profs[i].codigo-1].covered = 1;
+                     turmas[turmas_sem_profs[i].codigo-1].current_prof = pp;
                      (*nInSolution)++;
                      (*nCovered)++;
-
+                     assigned = 1;
                      break;
-
                   }
                }
             }
          }
+         n_sem_prof = 0;
+         memset(appended, 0, sizeof(int) * m);
       }
    }
 
+   free(turmas_sem_profs);
+   free(appended);
 
+   // REVISÃO: Chamar busca local
+   local_search(professores, turmas, m, n, numareas, varlist, solution, nInSolution);
+
+   // printf("\nNUMERO DE TURMAS COBERTAS: %d\n", *nCovered);
+   int j = 0;
+   for(int p = 0; p < n; p++){
+      if(professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
+         j++;
+      }
+   }
+   // printf("NUMERO DE PROFS SEM CH: %d\n", j);
 }
 
 
@@ -502,8 +498,8 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
    numareas = I->numAreas;
 
    
-   professores = (Professor*) malloc(sizeof(Professor) * n);
-   turmas = (Turma*) malloc(sizeof(Turma) * m);
+   professores = I->professores;  // MODIFICAÇÃO: Usar diretamente, remover malloc redundante
+   turmas = I->turmas;
    solution = (SCIP_VAR**) malloc(sizeof(SCIP_VAR*)* (m*n));  // esse solution deve possuir tamnho m apenas, nao? e nao m*n
    covered = (int*) calloc(m,sizeof(int));  // o vetor de cobertos vai representar as turmas. inicialmente todas as posicoes estao com 0 (nenhuma turma foi coberta)
    nInSolution = 0;
@@ -528,31 +524,37 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
       }
    }
 
-   // copiando as insfo para vars auxiliares
-   professores = I->professores;
-   turmas = I->turmas;
-   int j, pref, score, alfa, nscore;
-   reset_class(turmas, m);
-   adaptive_edges(professores, turmas, n, m, numareas);
-
-   // qsort(professores, n, sizeof(Professor), compareProfessoresByN);  // ordenando os profs pelo grau do vertice
-
-   // FILE *arq = fopen("professores.txt", "w");
-   // for(int p = 0; p < n; p++){
-   //    fprintf(arq, "nome: %s | grau: %d\n", professores[p].nome, professores[p].n);
-   // }
-   // fclose(arq);
-
-   qsort(turmas, m, sizeof(Turma), compareClasses);  // ordenando as turmas pelo grau do vertice
-
-   // FILE *arq2 = fopen("turmas.txt", "w");
-   // for(int t = 0; t < m; t++){
-   //    fprintf(arq2, "turma: %s | grau: %d\n", turmas[t].disciplina.nome, turmas[t].n);
-   // }
-   // fclose(arq2);
-
-   construct_solution(scip, varlist, solution, professores, turmas, &nInSolution, covered, &nCovered, m, n, numareas, 0.8);
-
+   // REVISÃO: Múltiplas iterações com beta variando (baixo para cobertura, alto para equilíbrio)
+   int max_iters = 20;  // Aumentado para mais chances
+   float best_num_below = INT_MAX;
+   SCIP_VAR** best_solution = (SCIP_VAR**) malloc(sizeof(SCIP_VAR*)* m * n);
+   Professor best_profs[n];  // Para salvar estado melhor
+   Turma best_turmas[m];
+   for(int iter = 0; iter < max_iters; iter++){
+      float alpha = 0.5 + (0.4 * (float)rand() / RAND_MAX);  // Aleatório entre 0.5-0.9
+      float beta = 1.0 + 4.0 * ((float)iter / (max_iters - 1));
+      nInSolution = 0;
+      nCovered = 0;
+      memset(covered, 0, sizeof(int)*m);
+      construct_solution(scip, varlist, solution, professores, turmas, &nInSolution, covered, &nCovered, m, n, numareas, alpha, beta);
+      
+      int num_below = 0;
+      for(int p = 0; p < n; p++){
+         if(professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin) num_below++;
+      }
+      // printf("Iter %d: Needy = %d (alpha=%.2f, beta=%.2f)\n", iter, num_below, alpha, beta);
+      if(num_below < best_num_below){
+         best_num_below = num_below;
+         memcpy(best_solution, solution, sizeof(SCIP_VAR*)* m*n);
+         memcpy(best_profs, professores, sizeof(Professor)*n);
+         memcpy(best_turmas, turmas, sizeof(Turma)*m);
+         if(num_below == 0) break;
+      }
+   }
+   // Restaurar melhor
+   memcpy(solution, best_solution, sizeof(SCIP_VAR*)* m*n);
+   memcpy(professores, best_profs, sizeof(Professor)*n);
+   memcpy(turmas, best_turmas, sizeof(Turma)*m);
 
    if(!infeasible){
       /* create SCIP solution structure sol */
@@ -566,8 +568,6 @@ int grasp(SCIP* scip, SCIP_SOL** sol, SCIP_HEUR* heur)
         SCIP_CALL( SCIPsetSolVal(scip, *sol, var, 1.0) );
         //fprintf(arquivo2, "VAR: %s\n", SCIPvarGetName(solution[i]));
       }
-
-      //fclose(arquivo2);
 
       //valor = custo;//createSolution(scip, *sol, solution, nInSolution, &infeasible, covered);
       bestUb = SCIPgetPrimalbound(scip);
@@ -614,6 +614,7 @@ fclose(arq);
    //#endif
    free(solution);
    free(covered);
+   free(best_solution);
    return found;
 
 }

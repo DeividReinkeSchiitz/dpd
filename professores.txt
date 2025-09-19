@@ -1,10 +1,61 @@
-nome: André Santos | grau: 17
-nome: Carla Lima | grau: 18
-nome: Antonio Silva | grau: 29
-nome: Ricardo Gomes | grau: 29
-nome: Fernanda Pereira | grau: 31
-nome: Maria Oliveira | grau: 32
-nome: Carlos Ferreira | grau: 32
-nome: Laura Mendes | grau: 35
-nome: Ana Rodrigues | grau: 42
-nome: Pedro Almeida | grau: 42
+nome: Paulo Aristarco Pagliosa | grau: 6 | codigo: 45
+nome: Substituto 3 | grau: 6 | codigo: 55
+nome: Luciano Gonda | grau: 7 | codigo: 35
+nome: Brivaldo Alves da Silva Junior | grau: 13 | codigo: 5
+nome: Liana Dessandre Duenha | grau: 13 | codigo: 32
+nome: Marcio Aparecido Inácio da Silva | grau: 13 | codigo: 38
+nome: Victor Leonardo Yoshimura | grau: 14 | codigo: 59
+nome: Fábio Iaione | grau: 16 | codigo: 20
+nome: Vanessa Araujo Borges | grau: 17 | codigo: 58
+nome: Daniela Luiza Catelan Carneiro | grau: 19 | codigo: 11
+nome: Nahri Balesdent Moreano | grau: 19 | codigo: 42
+nome: Wesley Nunes Gonçalves | grau: 20 | codigo: 60
+nome: Renan Albuquerque Marks | grau: 21 | codigo: 46
+nome: Edna Ayako Hoshino | grau: 22 | codigo: 15
+nome: Nalvo Franco de Almeida Junior | grau: 22 | codigo: 43
+nome: Henrique Mongelli | grau: 23 | codigo: 25
+nome: Ricardo Ribeiro dos Santos | grau: 23 | codigo: 48
+nome: Vagner Pedrotti | grau: 23 | codigo: 56
+nome: Fábio Henrique Viduani Martinez | grau: 24 | codigo: 19
+nome: Jonathan de Andrade Silva | grau: 24 | codigo: 30
+nome: Marcelo Henriques de Carvalho | grau: 24 | codigo: 37
+nome: Renato Porfirio Ishii | grau: 25 | codigo: 47
+nome: Milton Ernesto Romero Romero | grau: 26 | codigo: 41
+nome: Hana Karina Salles Rubinsztejn | grau: 28 | codigo: 24
+nome: Dionisio Machado Leite Filho | grau: 29 | codigo: 14
+nome: Ronaldo Alves Ferreira | grau: 29 | codigo: 50
+nome: Valéria Quadros dos Reis | grau: 39 | codigo: 57
+nome: Carlos Alberto da Silva | grau: 48 | codigo: 8
+nome: Cristiano Costa Argemon Vieira | grau: 49 | codigo: 10
+nome: Samuel Benjoino Ferraz | grau: 50 | codigo: 52
+nome: Marco Aurélio Stefanes | grau: 53 | codigo: 39
+nome: Awdren de Lima Fontão | grau: 54 | codigo: 3
+nome: Marcelo Augusto Santos Turine | grau: 54 | codigo: 36
+nome: Maria Istela Cagnin Machado | grau: 54 | codigo: 40
+nome: Patrícia Gomes Fernandes | grau: 54 | codigo: 44
+nome: Rodrigo Funabashi Jorge | grau: 54 | codigo: 49
+nome: Substituto 2 | grau: 54 | codigo: 54
+nome: Ana Karina Salina de Oliveira | grau: 55 | codigo: 1
+nome: Bruno Barbieri de Pontes Cafeo | grau: 56 | codigo: 6
+nome: Débora Maria Barroso Paiva | grau: 56 | codigo: 12
+nome: Jane Dirce Alves Sandim Eleutério | grau: 56 | codigo: 29
+nome: Hercules da Costa Sandim | grau: 59 | codigo: 26
+nome: Hudson Silva Borges | grau: 59 | codigo: 27
+nome: Luciano Édipo Pereira da Silva | grau: 60 | codigo: 34
+nome: Edson Takashi Matsubara | grau: 63 | codigo: 17
+nome: Eraldo Fernandes | grau: 63 | codigo: 18
+nome: Bruno Magalhães Nogueira | grau: 65 | codigo: 7
+nome: Anderson Viçoso de Araújo | grau: 66 | codigo: 2
+nome: Substituto 1 | grau: 67 | codigo: 53
+nome: Carlos Henrique Aguena Higa | grau: 71 | codigo: 9
+nome: Diego Padilha Rubert | grau: 71 | codigo: 13
+nome: Edson Norberto Caceres | grau: 71 | codigo: 16
+nome: Francisco Elói Soares de Araújo | grau: 71 | codigo: 21
+nome: Said Sadique Adi | grau: 71 | codigo: 51
+nome: Amaury Antonio de Castro Junior | grau: 72 | codigo: 0
+nome: Glauder Guimaraes Ghinozzi | grau: 72 | codigo: 22
+nome: Graziela Santos de Araújo | grau: 73 | codigo: 23
+nome: Bianca de Almeida Dantas | grau: 74 | codigo: 4
+nome: Irineu Sotoma | grau: 75 | codigo: 28
+nome: Luciana Montera Cheung | grau: 89 | codigo: 33
+nome: Jucele França de Alencar Vasconcellos | grau: 104 | codigo: 31
