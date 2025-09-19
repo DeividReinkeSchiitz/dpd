@@ -445,14 +445,14 @@ void construct_solution(
    // REVISÃO: Chamar busca local
    local_search(professores, turmas, m, n, numareas, varlist, solution, nInSolution);
 
-   // printf("\nNUMERO DE TURMAS COBERTAS: %d\n", *nCovered);
+   printf("\nNUMERO DE TURMAS COBERTAS: %d\n", *nCovered);
    int j = 0;
    for(int p = 0; p < n; p++){
       if(professores[p].current_CH1 + professores[p].current_CH2 < professores[p].CHmin){
          j++;
       }
    }
-   // printf("NUMERO DE PROFS SEM CH: %d\n", j);
+   printf("NUMERO DE PROFS SEM CH: %d\n", j);
 }
 
 
