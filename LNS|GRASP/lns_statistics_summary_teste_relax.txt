@@ -1,0 +1,45 @@
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_relax
+Completed at: Fri Jan 16 11:31:04 AM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_relax.config
+  Input files processed: 10
+
+EXECUTION SUMMARY:
+  Total files processed: 10
+  Successful runs: 10
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 10
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 737.71s
+  Average time per instance: 112.63s
+
+NODE STATISTICS:
+  Total nodes explored: 357619
+  Average nodes per instance: 17453
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input5.csv
+  - input11.csv
+  - input15.csv
+  - input16.csv
+  - input19.csv
+  - input21.csv
+  - input25.csv
+  - input30.csv
+  - input35.csv
+  - input42.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_relax.csv
+
+=========================================

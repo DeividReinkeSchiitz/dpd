@@ -1,0 +1,45 @@
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_decrease
+Completed at: Wed Jan 14 11:55:44 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_decrease.config
+  Input files processed: 10
+
+EXECUTION SUMMARY:
+  Total files processed: 10
+  Successful runs: 10
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 10
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 1804.38s
+  Average time per instance: 400.05s
+
+NODE STATISTICS:
+  Total nodes explored: 874925
+  Average nodes per instance: 179452
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input4.csv
+  - input5.csv
+  - input12.csv
+  - input15.csv
+  - input16.csv
+  - input17.csv
+  - input20.csv
+  - input33.csv
+  - input37.csv
+  - input38.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_decrease.csv
+
+=========================================

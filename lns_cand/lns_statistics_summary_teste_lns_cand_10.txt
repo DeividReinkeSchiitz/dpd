@@ -1,0 +1,45 @@
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_cand_10
+Completed at: Wed Jan 14 09:56:53 AM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.10
+  Config File: ./configs/teste_lns_cand_10.config
+  Input files processed: 10
+
+EXECUTION SUMMARY:
+  Total files processed: 10
+  Successful runs: 10
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 10
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 755.82s
+  Average time per instance: 17.07s
+
+NODE STATISTICS:
+  Total nodes explored: 393611
+  Average nodes per instance: 596
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input5.csv
+  - input6.csv
+  - input7.csv
+  - input9.csv
+  - input13.csv
+  - input19.csv
+  - input20.csv
+  - input26.csv
+  - input34.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_cand_10.csv
+
+=========================================

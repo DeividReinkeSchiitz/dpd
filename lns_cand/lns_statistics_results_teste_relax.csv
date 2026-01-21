@@ -1,0 +1,11 @@
+Input File,Classes,Professors,Total Nodes,Nodes Left,Total Time,LNS Time,Best Solution,Gap,Best Sol At Node,Best Sol Found By,Output Folder
+input2.csv,167,52,1026,0,4.036377,teste_relax.config,710.000000,0.00,990,relaxation,2026-01-16_13:07:31
+input5.csv,214,69,17453,0,113.026394,teste_relax.config,1008.000000,0.00,17453,relaxation,2026-01-16_13:07:35
+input6.csv,79,24,1198,0,1.070095,teste_relax.config,321.000000,0.00,1157,relaxation,2026-01-16_13:09:28
+input7.csv,84,29,307788,66230,400.022016,teste_relax.config,335.000000,0.60,119381,relaxation,2026-01-16_13:09:29
+input9.csv,104,35,15724,0,17.060698,teste_relax.config,480.000000,0.00,15597,relaxation,2026-01-16_13:16:09
+input13.csv,100,34,30940,0,29.127108,teste_relax.config,490.000000,0.00,30127,relaxation,2026-01-16_13:16:26
+input19.csv,95,29,1488,0,2.110074,teste_relax.config,359.000000,0.00,1478,relaxation,2026-01-16_13:16:55
+input20.csv,104,37,334,0,0.947120,teste_relax.config,411.000000,0.00,147,relaxation,2026-01-16_13:16:58
+input26.csv,114,38,16292,0,33.733756,teste_relax.config,482.000000,0.00,16292,relaxation,2026-01-16_13:16:59
+input34.csv,161,54,7230,0,21.915564,teste_relax.config,648.000000,0.00,7225,relaxation,2026-01-16_13:17:32

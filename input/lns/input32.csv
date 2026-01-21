@@ -1,0 +1,271 @@
+97;36;20;
+codigo;semestre;numero;nome;curso;CH;area
+1;1;T1;Cálculo 1;Cálculo 1;61;1
+2;1;T1;Física 1;Física 1;52;10
+3;1;T1;Física 2;Física 2;17;10
+4;1;T1;Física 3;Física 3;70;10
+5;1;T1;Programação 1;Programação 1;78;100
+6;1;T1;Algoritmos 1;Algoritmos 1;59;1000
+7;1;T1;Estruturas de Dados 1;Estruturas de Dados 1;99;10000
+8;1;T1;Estruturas de Dados 2;Estruturas de Dados 2;29;10000
+9;1;T1;Banco de Dados 1;Banco de Dados 1;66;100000
+10;1;T1;Banco de Dados 2;Banco de Dados 2;87;100000
+11;1;T1;Banco de Dados 3;Banco de Dados 3;31;100000
+12;1;T1;Banco de Dados 4;Banco de Dados 4;83;100000
+13;1;T1;Banco de Dados 5;Banco de Dados 5;74;100000
+14;1;T1;Redes de Computadores 1;Redes de Computadores 1;28;1000000
+15;1;T1;Redes de Computadores 2;Redes de Computadores 2;55;1000000
+16;1;T1;Redes de Computadores 3;Redes de Computadores 3;70;1000000
+17;1;T1;Redes de Computadores 4;Redes de Computadores 4;56;1000000
+18;1;T1;Redes de Computadores 5;Redes de Computadores 5;72;1000000
+19;1;T1;Redes de Computadores 6;Redes de Computadores 6;30;1000000
+20;1;T1;Sistemas Operacionais 1;Sistemas Operacionais 1;84;10000000
+21;1;T1;Sistemas Operacionais 2;Sistemas Operacionais 2;97;10000000
+22;1;T1;Sistemas Operacionais 3;Sistemas Operacionais 3;80;10000000
+23;1;T1;Sistemas Operacionais 4;Sistemas Operacionais 4;69;10000000
+24;1;T1;Sistemas Operacionais 5;Sistemas Operacionais 5;62;10000000
+25;1;T1;Sistemas Operacionais 6;Sistemas Operacionais 6;65;10000000
+26;1;T1;Sistemas Operacionais 7;Sistemas Operacionais 7;18;10000000
+27;1;T1;Sistemas Operacionais 8;Sistemas Operacionais 8;21;10000000
+28;1;T1;Sistemas Operacionais 9;Sistemas Operacionais 9;86;10000000
+29;1;T1;Engenharia de Software 1;Engenharia de Software 1;24;100000000
+30;1;T1;Engenharia de Software 2;Engenharia de Software 2;42;100000000
+31;1;T1;Engenharia de Software 3;Engenharia de Software 3;42;100000000
+32;1;T1;Inteligência Artificial 1;Inteligência Artificial 1;51;1000000000
+33;1;T1;Inteligência Artificial 2;Inteligência Artificial 2;48;1000000000
+34;1;T1;Matemática Discreta 1;Matemática Discreta 1;7;10000000000
+35;1;T1;Matemática Discreta 2;Matemática Discreta 2;74;10000000000
+36;1;T1;Matemática Discreta 3;Matemática Discreta 3;45;10000000000
+37;1;T1;Matemática Discreta 4;Matemática Discreta 4;39;10000000000
+38;1;T1;Matemática Discreta 5;Matemática Discreta 5;87;10000000000
+39;1;T1;Matemática Discreta 6;Matemática Discreta 6;21;10000000000
+40;1;T1;Matemática Discreta 7;Matemática Discreta 7;92;10000000000
+41;1;T1;Matemática Discreta 8;Matemática Discreta 8;89;10000000000
+42;1;T1;Matemática Discreta 9;Matemática Discreta 9;87;10000000000
+43;1;T1;Probabilidade e Estatística 1;Probabilidade e Estatística 1;80;100000000000
+44;1;T1;Probabilidade e Estatística 2;Probabilidade e Estatística 2;32;100000000000
+45;1;T1;Probabilidade e Estatística 3;Probabilidade e Estatística 3;54;100000000000
+46;1;T1;Probabilidade e Estatística 4;Probabilidade e Estatística 4;75;100000000000
+47;1;T1;Probabilidade e Estatística 5;Probabilidade e Estatística 5;20;100000000000
+48;1;T1;Probabilidade e Estatística 6;Probabilidade e Estatística 6;88;100000000000
+49;1;T1;Probabilidade e Estatística 7;Probabilidade e Estatística 7;39;100000000000
+50;1;T1;Teoria da Computação 1;Teoria da Computação 1;95;1000000000000
+51;1;T1;Compiladores 1;Compiladores 1;78;10000000000000
+52;1;T1;Compiladores 2;Compiladores 2;55;10000000000000
+53;1;T1;Compiladores 3;Compiladores 3;85;10000000000000
+54;1;T1;Compiladores 4;Compiladores 4;16;10000000000000
+55;1;T1;Compiladores 5;Compiladores 5;76;10000000000000
+56;1;T1;Compiladores 6;Compiladores 6;20;10000000000000
+57;1;T1;Arquitetura de Computadores 1;Arquitetura de Computadores 1;36;100000000000000
+58;1;T1;Arquitetura de Computadores 2;Arquitetura de Computadores 2;64;100000000000000
+59;1;T1;Arquitetura de Computadores 3;Arquitetura de Computadores 3;89;100000000000000
+60;1;T1;Arquitetura de Computadores 4;Arquitetura de Computadores 4;46;100000000000000
+61;1;T1;Arquitetura de Computadores 5;Arquitetura de Computadores 5;79;100000000000000
+62;1;T1;Segurança da Informação 1;Segurança da Informação 1;44;1000000000000000
+63;1;T1;Segurança da Informação 2;Segurança da Informação 2;13;1000000000000000
+64;1;T1;Segurança da Informação 3;Segurança da Informação 3;41;1000000000000000
+65;1;T1;Segurança da Informação 4;Segurança da Informação 4;20;1000000000000000
+66;1;T1;Segurança da Informação 5;Segurança da Informação 5;26;1000000000000000
+67;1;T1;Computação Gráfica 1;Computação Gráfica 1;59;10000000000000000
+68;1;T1;Computação Gráfica 2;Computação Gráfica 2;10;10000000000000000
+69;1;T1;Computação Gráfica 3;Computação Gráfica 3;6;10000000000000000
+70;1;T1;Computação Gráfica 4;Computação Gráfica 4;72;10000000000000000
+71;1;T1;Computação Gráfica 5;Computação Gráfica 5;94;10000000000000000
+72;1;T1;Computação Gráfica 6;Computação Gráfica 6;66;10000000000000000
+73;1;T1;Computação Gráfica 7;Computação Gráfica 7;54;10000000000000000
+74;1;T1;Interação Humano-Computador 1;Interação Humano-Computador 1;1;100000000000000000
+75;1;T1;Interação Humano-Computador 2;Interação Humano-Computador 2;9;100000000000000000
+76;1;T1;Interação Humano-Computador 3;Interação Humano-Computador 3;17;100000000000000000
+77;1;T1;Interação Humano-Computador 4;Interação Humano-Computador 4;19;100000000000000000
+78;1;T1;Interação Humano-Computador 5;Interação Humano-Computador 5;65;100000000000000000
+79;1;T1;Interação Humano-Computador 6;Interação Humano-Computador 6;17;100000000000000000
+80;1;T1;Interação Humano-Computador 7;Interação Humano-Computador 7;55;100000000000000000
+81;1;T1;Interação Humano-Computador 8;Interação Humano-Computador 8;24;100000000000000000
+82;1;T1;Interação Humano-Computador 9;Interação Humano-Computador 9;12;100000000000000000
+83;1;T1;Desenvolvimento Web 1;Desenvolvimento Web 1;88;1000000000000000000
+84;1;T1;Desenvolvimento Web 2;Desenvolvimento Web 2;48;1000000000000000000
+85;1;T1;Desenvolvimento Web 3;Desenvolvimento Web 3;27;1000000000000000000
+86;1;T1;Desenvolvimento Web 4;Desenvolvimento Web 4;4;1000000000000000000
+87;1;T1;Desenvolvimento Web 5;Desenvolvimento Web 5;39;1000000000000000000
+88;1;T1;Desenvolvimento Web 6;Desenvolvimento Web 6;5;1000000000000000000
+89;1;T1;Desenvolvimento Web 7;Desenvolvimento Web 7;14;1000000000000000000
+90;1;T1;Desenvolvimento Web 8;Desenvolvimento Web 8;30;1000000000000000000
+91;1;T1;Desenvolvimento Web 9;Desenvolvimento Web 9;100;1000000000000000000
+92;1;T1;Desenvolvimento Web 10;Desenvolvimento Web 10;11;1000000000000000000
+93;1;T1;Engenharia de Dados 1;Engenharia de Dados 1;69;10000000000000000000
+94;1;T1;Engenharia de Dados 2;Engenharia de Dados 2;80;10000000000000000000
+95;1;T1;Engenharia de Dados 3;Engenharia de Dados 3;79;10000000000000000000
+96;1;T1;Engenharia de Dados 4;Engenharia de Dados 4;50;10000000000000000000
+97;1;T1;Engenharia de Dados 5;Engenharia de Dados 5;11;10000000000000000000
+
+nome;CHmin1;CHmax1;CHmax2;preferencias;areas
+Professor 1 Cálculo;20;62;0;1;1;
+1;3;
+Professor 1 Física;79;140;0;1;10;
+3;7;
+Professor 1 Programação;58;79;0;1;100;
+5;7;
+Professor 1 Algoritmos;43;60;0;1;1000;
+6;7;
+Professor 1 Estruturas de Dados;48;129;0;2;10000;
+7;0;
+8;7;
+Professor 1 Banco de Dados;106;146;0;4;100000;
+12;4;
+13;10;
+11;5;
+9;5;
+Professor 2 Banco de Dados;54;284;0;2;100000;
+9;6;
+10;5;
+Professor 1 Redes de Computadores;79;270;0;1;1000000;
+18;1;
+Professor 2 Redes de Computadores;70;231;0;5;1000000;
+14;1;
+18;2;
+17;3;
+19;3;
+15;2;
+Professor 1 Sistemas Operacionais;23;215;0;8;10000000;
+21;5;
+23;5;
+25;9;
+24;8;
+28;6;
+27;8;
+22;0;
+26;4;
+Professor 2 Sistemas Operacionais;87;262;0;7;10000000;
+26;8;
+27;8;
+28;10;
+24;1;
+21;3;
+22;1;
+20;2;
+Professor 3 Sistemas Operacionais;91;132;0;3;10000000;
+27;5;
+21;9;
+25;0;
+Professor 4 Sistemas Operacionais;80;469;0;7;10000000;
+26;0;
+22;3;
+23;10;
+21;10;
+25;8;
+20;1;
+28;7;
+Professor 1 Engenharia de Software;25;109;0;3;100000000;
+30;5;
+29;10;
+31;7;
+Professor 1 Inteligência Artificial;61;100;0;1;1000000000;
+33;5;
+Professor 1 Matemática Discreta;72;542;0;8;10000000000;
+40;7;
+41;7;
+37;1;
+35;8;
+39;4;
+34;5;
+38;6;
+42;3;
+Professor 1 Probabilidade e Estatística;95;260;0;6;100000000000;
+46;5;
+44;0;
+45;5;
+43;9;
+49;10;
+47;4;
+Professor 2 Probabilidade e Estatística;150;285;0;7;100000000000;
+44;9;
+46;10;
+48;3;
+47;1;
+45;9;
+43;2;
+49;5;
+Professor 1 Teoria da Computação;78;96;0;1;1000000000000;
+50;1;
+Professor 1 Compiladores;94;211;0;4;10000000000000;
+55;10;
+56;5;
+51;8;
+54;10;
+Professor 2 Compiladores;15;221;0;6;10000000000000;
+51;9;
+52;0;
+53;2;
+56;3;
+54;4;
+55;2;
+Professor 3 Compiladores;96;114;0;2;10000000000000;
+54;4;
+56;7;
+Professor 1 Arquitetura de Computadores;61;188;0;2;100000000000000;
+61;10;
+60;3;
+Professor 2 Arquitetura de Computadores;149;234;0;4;100000000000000;
+59;8;
+60;4;
+58;5;
+57;4;
+Professor 1 Segurança da Informação;24;112;0;3;1000000000000000;
+65;0;
+62;4;
+66;2;
+Professor 2 Segurança da Informação;42;60;0;2;1000000000000000;
+64;3;
+65;9;
+Professor 1 Computação Gráfica;178;362;0;6;10000000000000000;
+68;0;
+70;1;
+71;3;
+72;0;
+67;10;
+73;0;
+Professor 1 Interação Humano-Computador;38;126;0;9;100000000000000000;
+82;2;
+80;1;
+78;0;
+81;9;
+75;6;
+76;8;
+74;8;
+77;4;
+79;1;
+Professor 2 Interação Humano-Computador;14;86;0;4;100000000000000000;
+77;0;
+82;7;
+80;3;
+76;10;
+Professor 3 Interação Humano-Computador;34;108;0;8;100000000000000000;
+79;2;
+81;7;
+78;1;
+76;3;
+80;9;
+74;3;
+77;9;
+75;9;
+Professor 4 Interação Humano-Computador;17;138;0;2;100000000000000000;
+79;1;
+74;3;
+Professor 1 Desenvolvimento Web;102;310;0;1;1000000000000000000;
+86;5;
+Professor 2 Desenvolvimento Web;47;148;0;2;1000000000000000000;
+83;2;
+86;1;
+Professor 3 Desenvolvimento Web;73;338;0;1;1000000000000000000;
+87;6;
+Professor 1 Engenharia de Dados;25;82;0;4;10000000000000000000;
+96;9;
+95;4;
+94;1;
+97;4;
+Professor 2 Engenharia de Dados;45;213;0;5;10000000000000000000;
+93;2;
+95;2;
+96;10;
+94;1;
+97;7;

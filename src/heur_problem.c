@@ -133,7 +133,7 @@ void printLPvars(SCIP *scip, SCIP_VAR **pvars, int n1, int nfrac, int n0)
  * @param cost the current cost of the solution, that must be updated
  * @return always return 1 (not used yet). 
  */
-int updateSolution(SCIP_VAR *var, instanceT *I, int *covered, int *nCovered, int *cost)
+int updateSolution(SCIP_VAR *var, Instance *I, int *covered, int *nCovered, int *cost)
 {
   int a, i;
   // update item covered by the current solution
@@ -147,7 +147,7 @@ int updateSolution(SCIP_VAR *var, instanceT *I, int *covered, int *nCovered, int
   }
   covered[a] = 1;
   (*nCovered)++;
-  //*cost += I->item[a].weight; //comented
+  //*cost += I->items[a].weight; //comented, update if needed
   return 1;
 }
 // TODO: create solution based on vars in solution (specific for the problem)
@@ -158,7 +158,7 @@ SCIP_Real createSolution(SCIP *scip, SCIP_SOL *sol, SCIP_VAR **solution, int nSo
   SCIP_PROBDATA *probdata;
   SCIP_Real value;
   int weight;
-  instanceT *I;
+  Instance *I;
 
   /* recover the data problem */
   probdata = SCIPgetProbData(scip);
@@ -168,15 +168,12 @@ SCIP_Real createSolution(SCIP *scip, SCIP_SOL *sol, SCIP_VAR **solution, int nSo
 
   value  = 0;
   weight = 0;
-  for (i = 0; i < I->n; i++)
+  for (i = 0; i < I->nProfessors; i++)
   {
     if (covered[i])
     {
-      /*
-        value += I->item[i].value;
-        weight += I->item[i].weight;
-        comented
-        */
+      // value += I->items[i].value;
+      // weight += I->items[i].weight;
     }
   }
   for (s = 0; s < nSolution; s++)
@@ -190,14 +187,14 @@ SCIP_Real createSolution(SCIP *scip, SCIP_SOL *sol, SCIP_VAR **solution, int nSo
   }  // for each var at solution
 
   *infeasible = 0;
-  if (weight > I->C[0])
-  {
-    *infeasible = 1;
-  }
+  // if (weight > I->C[0])
+  // {
+  //   *infeasible = 1;
+  // }
 
   if (*infeasible)
   {
-    printf("\nSolution has became infeasible!!\n");
+    printf("\nSolution has become infeasible!!\n");
   }
   return value;
 }
@@ -207,7 +204,7 @@ int isFeasibleColumn(SCIP *scip, SCIP_VAR **solution, int nInSolution, int *cove
 {
   SCIP_PROBDATA *probdata;
   int i, feasible, weight;
-  instanceT *I;
+  Instance *I;
   int a;
   // update item covered by the current solution
   const char *name;
@@ -229,18 +226,16 @@ int isFeasibleColumn(SCIP *scip, SCIP_VAR **solution, int nInSolution, int *cove
   assert(probdata != NULL);
   // TODO: we are considering that there is one constraint for each compact variable in PMR
   // TODO: should consider specific requirements for the problem
-  /*
-  weight = 0;
-  for(i=0;i<I->n && weight <= I->C[0]; i++){
-     if(covered[i]){
-        weight+=I->item[i].weight;
-     }
-  }
-  if(weight + I->item[a].weight > I->C[0]){ // Here, we just do not allow non-disjoint columns and non-relaxed columns
-    feasible = 0;
-  }
+  // weight = 0;
+  // for(i=0;i<I->nProfessors && weight <= I->C[0]; i++){
+  //    if(covered[i]){
+  //       weight+=I->items[i].weight;
+  //    }
+  // }
+  // if(weight + I->items[a].weight > I->C[0]){ // Here, we just do not allow non-disjoint columns and non-relaxed columns
+  //   feasible = 0;
+  // }
   //comented
-  */
   return feasible;
 }
 /* TODO: can be improved, based on specific properties of the problem */
@@ -252,7 +247,7 @@ SCIP_RETCODE selectCand(SCIP *scip, SCIP_VAR **solution, int nInSolution, int co
   SCIP_PROBDATA *probdata;
   SCIP_Real solval, bestSolVal;
   int found;
-  instanceT *I;
+  Instance *I;
 
   /* recupera os dados do problema */
   probdata = SCIPgetProbData(scip);
@@ -285,7 +280,7 @@ SCIP_RETCODE selectCand(SCIP *scip, SCIP_VAR **solution, int nInSolution, int co
     }
   }
   // if there is no fractionary variable, select the first one not used feasible variable.
-  for (c = n1 + nfrac; !found && c < I->n; c++)
+  for (c = n1 + nfrac; !found && c < I->nProfessors; c++)
   {
     var = varlist[c];
     if (isFeasibleColumn(scip, solution, nInSolution, covered, var))

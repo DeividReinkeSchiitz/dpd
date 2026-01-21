@@ -1,0 +1,178 @@
+52;23;10;
+codigo;semestre;numero;nome;curso;CH;area
+1;1;T1;Cálculo 1;Cálculo 1;14;1
+2;1;T1;Cálculo 2;Cálculo 2;78;1
+3;1;T1;Cálculo 3;Cálculo 3;42;1
+4;1;T1;Cálculo 4;Cálculo 4;6;1
+5;1;T1;Cálculo 5;Cálculo 5;45;1
+6;1;T1;Cálculo 6;Cálculo 6;89;1
+7;1;T1;Cálculo 7;Cálculo 7;31;1
+8;1;T1;Cálculo 8;Cálculo 8;4;1
+9;1;T1;Cálculo 9;Cálculo 9;5;1
+10;1;T1;Cálculo 10;Cálculo 10;29;1
+11;1;T1;Física 1;Física 1;3;10
+12;1;T1;Física 2;Física 2;81;10
+13;1;T1;Física 3;Física 3;93;10
+14;1;T1;Física 4;Física 4;63;10
+15;1;T1;Física 5;Física 5;45;10
+16;1;T1;Física 6;Física 6;37;10
+17;1;T1;Física 7;Física 7;22;10
+18;1;T1;Física 8;Física 8;71;10
+19;1;T1;Física 9;Física 9;53;10
+20;1;T1;Programação 1;Programação 1;38;100
+21;1;T1;Algoritmos 1;Algoritmos 1;19;1000
+22;1;T1;Algoritmos 2;Algoritmos 2;13;1000
+23;1;T1;Algoritmos 3;Algoritmos 3;84;1000
+24;1;T1;Algoritmos 4;Algoritmos 4;36;1000
+25;1;T1;Algoritmos 5;Algoritmos 5;78;1000
+26;1;T1;Algoritmos 6;Algoritmos 6;80;1000
+27;1;T1;Algoritmos 7;Algoritmos 7;70;1000
+28;1;T1;Algoritmos 8;Algoritmos 8;48;1000
+29;1;T1;Estruturas de Dados 1;Estruturas de Dados 1;20;10000
+30;1;T1;Estruturas de Dados 2;Estruturas de Dados 2;33;10000
+31;1;T1;Banco de Dados 1;Banco de Dados 1;34;100000
+32;1;T1;Banco de Dados 2;Banco de Dados 2;99;100000
+33;1;T1;Banco de Dados 3;Banco de Dados 3;32;100000
+34;1;T1;Banco de Dados 4;Banco de Dados 4;93;100000
+35;1;T1;Redes de Computadores 1;Redes de Computadores 1;59;1000000
+36;1;T1;Redes de Computadores 2;Redes de Computadores 2;77;1000000
+37;1;T1;Redes de Computadores 3;Redes de Computadores 3;10;1000000
+38;1;T1;Redes de Computadores 4;Redes de Computadores 4;16;1000000
+39;1;T1;Redes de Computadores 5;Redes de Computadores 5;4;1000000
+40;1;T1;Redes de Computadores 6;Redes de Computadores 6;0;1000000
+41;1;T1;Redes de Computadores 7;Redes de Computadores 7;94;1000000
+42;1;T1;Redes de Computadores 8;Redes de Computadores 8;14;1000000
+43;1;T1;Sistemas Operacionais 1;Sistemas Operacionais 1;54;10000000
+44;1;T1;Sistemas Operacionais 2;Sistemas Operacionais 2;97;10000000
+45;1;T1;Engenharia de Software 1;Engenharia de Software 1;39;100000000
+46;1;T1;Engenharia de Software 2;Engenharia de Software 2;26;100000000
+47;1;T1;Engenharia de Software 3;Engenharia de Software 3;27;100000000
+48;1;T1;Engenharia de Software 4;Engenharia de Software 4;67;100000000
+49;1;T1;Inteligência Artificial 1;Inteligência Artificial 1;61;1000000000
+50;1;T1;Inteligência Artificial 2;Inteligência Artificial 2;74;1000000000
+51;1;T1;Inteligência Artificial 3;Inteligência Artificial 3;23;1000000000
+52;1;T1;Inteligência Artificial 4;Inteligência Artificial 4;23;1000000000
+
+nome;CHmin1;CHmax1;CHmax2;preferencias;areas
+Professor 1 Cálculo;42;221;0;6;1;
+7;9;
+6;7;
+9;10;
+10;4;
+3;5;
+1;10;
+Professor 2 Cálculo;18;207;0;5;1;
+2;2;
+6;3;
+4;10;
+3;8;
+8;8;
+Professor 3 Cálculo;22;130;0;4;1;
+9;1;
+8;9;
+2;5;
+4;2;
+Professor 4 Cálculo;5;54;0;6;1;
+8;1;
+2;8;
+10;10;
+6;5;
+1;8;
+7;7;
+Professor 5 Cálculo;51;180;0;5;1;
+1;6;
+2;1;
+7;6;
+3;3;
+9;7;
+Professor 1 Física;59;97;0;4;10;
+12;7;
+19;2;
+17;9;
+13;8;
+Professor 2 Física;74;407;0;9;10;
+12;9;
+19;2;
+11;0;
+18;7;
+15;3;
+13;7;
+16;1;
+14;8;
+17;8;
+Professor 3 Física;39;173;0;4;10;
+19;4;
+17;8;
+14;2;
+16;7;
+Professor 4 Física;75;447;0;1;10;
+19;7;
+Professor 1 Programação;12;39;0;1;100;
+20;4;
+Professor 1 Algoritmos;79;261;0;6;1000;
+22;10;
+21;6;
+27;9;
+26;0;
+25;5;
+28;2;
+Professor 2 Algoritmos;45;214;0;3;1000;
+25;9;
+22;9;
+23;9;
+Professor 3 Algoritmos;44;392;0;8;1000;
+25;6;
+21;2;
+24;1;
+23;9;
+22;4;
+26;6;
+28;0;
+27;6;
+Professor 1 Estruturas de Dados;38;54;0;2;10000;
+30;0;
+29;9;
+Professor 1 Banco de Dados;60;259;0;4;100000;
+34;8;
+33;7;
+31;2;
+32;9;
+Professor 1 Redes de Computadores;43;214;0;7;1000000;
+40;0;
+37;5;
+35;2;
+42;10;
+38;4;
+41;5;
+36;7;
+Professor 2 Redes de Computadores;31;140;0;7;1000000;
+36;8;
+42;1;
+39;2;
+38;10;
+35;0;
+37;6;
+41;10;
+Professor 3 Redes de Computadores;39;90;0;5;1000000;
+41;1;
+42;1;
+37;2;
+36;4;
+40;0;
+Professor 4 Redes de Computadores;56;123;0;3;1000000;
+40;10;
+37;5;
+42;8;
+Professor 1 Sistemas Operacionais;121;152;0;1;10000000;
+44;1;
+Professor 1 Engenharia de Software;69;160;0;2;100000000;
+45;0;
+47;8;
+Professor 1 Inteligência Artificial;67;96;0;2;1000000000;
+52;1;
+49;10;
+Professor 2 Inteligência Artificial;56;147;0;4;1000000000;
+49;1;
+51;9;
+52;3;
+50;9;
