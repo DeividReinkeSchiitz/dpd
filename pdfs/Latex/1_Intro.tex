@@ -1,0 +1,42 @@
+\chapter{Introdução}
+
+\section{Contextualização}
+
+O planejamento acadêmico semestral envolve diversas decisões interdependentes, entre as quais se destaca a atribuição de disciplinas a professores. Em cursos de graduação, essa distribuição precisa respeitar restrições institucionais (por exemplo, alocação única de cada disciplina, limites de carga horária por período e por ano e regras internas de oferta), ao mesmo tempo em que busca atender critérios de qualidade associados à afinidade do docente com o conteúdo, histórico de atuação e preferências.
+
+Neste trabalho considera-se o 
+Problema da Distribuição de Disciplinas (DPD), no qual o objetivo é construir uma atribuição disciplina--professor que maximize a qualidade da alocação sob restrições operacionais. O DPD pode ser modelado como um problema de otimização combinatória e, em particular, como um programa linear inteiro (PLI) com variáveis binárias indicando se um professor $p$ é designado para uma disciplina $c$. Modelos desse tipo podem ser resolvidos por métodos exatos, como Branch-and-Bound, disponíveis em solvers modernos como o SCIP.
+
+Apesar de a modelagem via PLI permitir incorporar restrições e critérios de forma sistemática, instâncias de maior porte e/ou com restrições mais detalhadas podem tornar a obtenção de boas soluções em tempo limitado um desafio prático. Isso motiva o uso de estratégias que combinem a força dos métodos exatos com mecanismos heurísticos de intensificação.
+
+\section{Motivação e Justificativa}
+
+Na prática, a distribuição de disciplinas é um processo recorrente e sensível: pequenas mudanças em regras, em ofertas ou no quadro docente podem alterar significativamente o espaço de soluções. Além disso, a necessidade de respostas em prazos curtos torna desejável obter soluções viáveis de boa qualidade rapidamente, mesmo quando a prova de otimalidade não é alcançada.
+
+Uma linha de pesquisa que atende a essa necessidade é o uso de matheurísticas, isto é, heurísticas baseadas em programação matemática, que exploram subproblemas de PLI (ou relaxações) como operadores dentro de um procedimento de busca. Em particular, a Large Neighborhood Search (LNS) é uma matheurística de destruição e reparação: parte-se de uma solução incumbente, 
+``destrói-se'' uma parte controlada das decisões e, em seguida, reotimiza-se o subproblema resultante para ``reparar'' a solução. Esse paradigma tem sido utilizado com sucesso em diferentes problemas combinatórios e também em contextos que integram técnicas exatas e heurísticas \cite{neto2023matheuristicas}.
+
+No contexto do DPD, a LNS é especialmente atrativa por permitir explorar vizinhanças grandes preservando a maior parte da estrutura da incumbente. Nesta monografia, implementa-se uma LNS no estilo 
+fix-and-relax no SCIP: fixa-se a maior parte das variáveis binárias conforme a incumbente e libera-se uma fração das atribuições para reotimização, gerando um subproblema inteiro (sub-MIP) resolvido com limite de tempo. A estratégia é integrada ao processo de Branch-and-Bound, buscando intensificação por meio de melhorias sucessivas da incumbente.
+
+Além da análise interna da LNS, este trabalho também considera uma comparação com uma heurística GRASP desenvolvida especificamente para o DPD, bem como uma estratégia híbrida na qual a LNS é aplicada como etapa de melhoria a partir de soluções construídas pelo GRASP (GRASP|LNS). Essa comparação visa evidenciar, nas métricas de tempo, gap e nós remanescentes, em quais cenários a intensificação via LNS agrega valor em relação a uma abordagem construtiva/melhorativa dedicada \cite{jhonatan_grasp_dpd}.
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Propor, implementar e avaliar uma matheurística baseada em LNS, integrada ao solver SCIP, para obter soluções de boa qualidade para o DPD em tempo limitado.
+
+\subsection{Objetivos Específicos}
+
+\begin{itemize}
+    \item modelar o DPD como um PLI e integrá-lo ao framework de solução do SCIP, utilizando Branch-and-Bound como abordagem exata de referência;
+    \item implementar uma matheurística LNS do tipo fix-and-relax, baseada em destruição parcial da incumbente e reparação via resolução de um sub-MIP em uma instância secundária (sub-SCIP);
+    \item analisar o impacto de parâmetros internos da LNS, incluindo a taxa de destruição, o sentido de ordenação dos candidatos e o tempo máximo do subproblema;
+    \item avaliar o desempenho por meio das métricas observadas nos experimentos: tempo, gap e nós remanescentes (nodes-left);
+    \item comparar a estratégia LNS com abordagens alternativas consideradas no trabalho (relaxação e a heurística GRASP), incluindo a variação híbrida GRASP|LNS, discutindo cenários em que a LNS é mais efetiva.
+\end{itemize}
+
+\section{Organização do Trabalho}
+
+O restante deste trabalho está organizado da seguinte forma. No Capítulo~2 é apresentada a fundamentação teórica, cobrindo conceitos de otimização inteira e heurísticas/matheurísticas relevantes ao estudo. O Capítulo~3 define o DPD e descreve o modelo matemático exato adotado. O Capítulo~4 apresenta os resultados experimentais e a análise computacional, incluindo a avaliação das configurações internas da LNS e comparações de desempenho. Por fim, o Capítulo~5 conclui o trabalho e discute limitações e possibilidades de trabalhos futuros.

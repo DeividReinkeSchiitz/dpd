@@ -1,0 +1,19 @@
+\babel@toc {brazil}{}\relax 
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {table}{\numberline {1}{\ignorespaces Tempo de execução (segundos) para diferentes taxas de destruição do LNS. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}}{21}{table.caption.8}%
+\contentsline {table}{\numberline {2}{\ignorespaces Número de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição. Valores menores indicam maior progresso em direção à otimalidade.}}{21}{table.caption.9}%
+\contentsline {table}{\numberline {3}{\ignorespaces Tempo de execução (segundos) comparando ordenação crescente e decrescente. Configuração: 75\% de destruição, tempo LNS = 30s, limite global = 400s.}}{22}{table.caption.10}%
+\contentsline {table}{\numberline {4}{\ignorespaces Número de nós restantes comparando ordenação crescente e decrescente.}}{22}{table.caption.11}%
+\contentsline {table}{\numberline {5}{\ignorespaces Tempo de execução (segundos) para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}}{22}{table.caption.12}%
+\contentsline {table}{\numberline {6}{\ignorespaces Número de nós restantes para diferentes limites de tempo do sub-MIP.}}{23}{table.caption.13}%
+\contentsline {table}{\numberline {7}{\ignorespaces Gap de otimalidade (\%) para diferentes taxas de destruição. Gap igual a zero indica solução ótima.}}{23}{table.caption.14}%
+\contentsline {table}{\numberline {8}{\ignorespaces Gap de otimalidade (\%) comparando ordenação crescente e decrescente.}}{23}{table.caption.15}%
+\contentsline {table}{\numberline {9}{\ignorespaces Gap de otimalidade (\%) para diferentes limites de tempo do sub-MIP.}}{24}{table.caption.16}%
+\contentsline {table}{\numberline {10}{\ignorespaces Tempo de execução (segundos) comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}}{24}{table.caption.17}%
+\contentsline {table}{\numberline {11}{\ignorespaces Número de nós restantes comparando Relaxação, LNS, GRASP e GRASP|LNS.}}{24}{table.caption.18}%
+\contentsline {table}{\numberline {12}{\ignorespaces Gap de otimalidade (\%) comparando Relaxação, LNS, GRASP e GRASP|LNS.}}{25}{table.caption.19}%
+\addvspace {10pt}
+\addvspace {10pt}

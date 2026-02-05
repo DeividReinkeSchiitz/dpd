@@ -1,0 +1,455 @@
+%!TEX root = 0_MainText.tex
+%% MODELO DE LaTeX PARA TRABALHOS ACADÊMICOS
+%% INSTRUÇÕES GERAIS:
+%%    1. TODO O TEXTO NA FRENTE DO SIMBOLO '%' É COMENTÁRIO, ISTO É, ELE NÃO FAZ DIFERENÇA NO RESULTADO FINAL 
+%%    2. NESTE MODELO, VOCÊS SÓ PRECISAM EDITAR DAS LINHAS 114 A 132 (INFORMAÇÕES DE CAPA) E DAS LINHAS 188 EM DIANTE (CORPO DO TRABALHO). O RESTO SÃO CONFIGURAÇÕES DE FORMATAÇÃO QUE PROVAVELMENTE NÃO SERÁ PRECISO MODIFICAR.
+%%    3. MAIS INSTRUÇÕES DETALHADAS PODERÃO SER ENCONTRADAS NA PÁGINA profhelioh.wordpress.com. DÚVIDAS: heliohenrique@ufpr.br OU heliohenrique3@gmail.com
+
+%% 4. Versão melhorada pelo prof. Luigi Galotto Jr - Dúvidas: luigi.galotto@ufms.br
+
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Relatório Técnico/Acadêmico em conformidade com 
+% ABNT NBR 10719:2011 Informação e documentação - Relatório técnico e/ou
+% científico - Apresentação
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	% openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+        oneside,			% para impressão somente frente. Oposto a twoside (frente e verso)
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	]{abntex2}
+
+\usepackage{hyphenat}
+
+
+% =======
+% PACOTES
+% =======
+
+% ---
+% Pacotes Fundamentais 
+% ---
+\usepackage{cmap}				% Mapear caracteres especiais no PDF
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\usepackage{upgreek}
+\usepackage{gensymb}
+\usepackage{tocloft}
+\usepackage{amssymb}
+\usepackage{stackengine} %letra sobre letra
+
+\usepackage[savewrites,nopostdot,toc,acronym,symbols,nogroupskip]{glossaries}
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\setlength\glsdescwidth{0.8\hsize}
+
+\usepackage{enumitem}
+\usepackage{dashbox}
+\newcommand\dboxed[1]{\dbox{\ensuremath{#1}}}
+%\usepackage{gensymb}           % The \degree command is provided by the gensymb package
+% ---
+%% gray box color
+\usepackage{color}
+\definecolor{lightgray}{gray}{0.75}
+
+\newcommand\greybox[1]{%
+  \vskip\baselineskip%
+  \par\noindent\colorbox{lightgray}{%
+    \begin{minipage}{\textwidth}#1\end{minipage}%
+  }%
+  \vskip\baselineskip%
+}
+%%
+% ---
+% Minhas modificações
+% ---
+\usepackage{float} % Imagens com H
+%\interfootnotelinepenalty=10000
+\usepackage{chngcntr} % Captions de acordo com as seções
+\counterwithout{figure}{chapter} % Numeracao corrida
+% \counterwithin{figure}{section} % Numeracao por capitulo. Ex.: Figura 3.2
+\counterwithout{table}{chapter} % Numeracao corrida
+
+\usepackage{mathrsfs,amsmath} % F da transformada de Fourier
+\usepackage{tipa}
+\usepackage{textcomp} % text symbols, like registered or trademark
+\usepackage{subcaption} % subfigura
+
+\usepackage{mathtools} % Utilizar matrix e também condicionais
+%\usepackage[titles]{tocloft} % Espaçamento na lista de figuras
+\cftsetindents{figure}{0em}{4em}
+\cftsetindents{table}{0em}{4em}
+
+% ---
+% Pacotes para gráficos com pgfplots/tikz
+% ---
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+
+% ---
+% Pasta de imagens
+% ---
+\graphicspath{{./Figuras/}}
+
+
+% ---
+% Opção de Lista Automática das abreviações
+%\makeglossaries
+%\renewcommand*\glspostdescription{\cftdotfill{\cftsecdotsep}}
+%\input{Auxiliares/glossary.tex} %importa as abreviações
+
+% ---
+% Pacotes adicionais, usados no anexo do modelo de folha de identificação
+% ---
+\usepackage{multicol}
+\usepackage{multirow}
+% ---
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+%\usepackage[brazilian,hyperpageref]{backref}  % Paginas com as citações nas Biblio
+
+% Escolher um dos dois padrões a seguir:
+%\usepackage[num]{abntex2cite}	              % Citações numérica padrão ABNT
+\usepackage[alf]{abntex2cite}	              % Citações nominais padrão ABNT
+
+% ---
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+%\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+%\renewcommand{\backref}{}
+% Define os textos da citação
+%\renewcommand*{\backrefalt}[4]{
+	%\ifcase #1 %
+		%Nenhuma citação no texto.%
+	%\or
+		%Citado na página #2.%
+	%\else
+		%Citado #1 vezes nas páginas #2.%
+	%\fi}%
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{Uma Abordagem Matheurística baseada em Large Neighborhood Search para o Problema da Distribuição de Disciplinas}
+\autor{Deivid Reinke Schutz}
+\local{Campo Grande - MS}
+\data{23 de Janeiro de 2026}
+\orientador{Profa. Dr. Edna Ayako Hoshino}
+\membrodabancaA{Prof. Dr. Membro da banca 1}
+\membrodabancaB{Prof. Dr. Membro da banca 2}
+\instituicao{%
+    \mbox{UNIVERSIDADE FEDERAL DE MATO GROSSO DO SUL}
+    \mbox{FACULDADE DE COMPUTAÇÃO}
+    %\mbox{Dissertação de mestrado do curso de Engenharia Elétrica}
+    \mbox{CURSO DE CIÊNCIA DA COMPUTAÇÃO}
+    %\mbox{MESTRADO EM SISTEMAS DE ENERGIA}
+}
+\tipotrabalho{Dissertação}
+
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{
+Trabalho de Conclusão de Curso apresentado como exigência para obtenção do grau de Bacharelado em Ciência da Computação da Universidade Federal de Mato Grosso do Sul – UFMS.}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{Dissertação de Mestrado}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      	% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% Fallbacks for bibliography produced commands that may use htmladdnormallink
+% Some .bbl files (abntex styles) use \htmladdnormallink; if undefined, map to \href
+\providecommand{\htmladdnormallink}[2]{\href{#1}{#2}}
+\providecommand{\htmladdnormallinkfoot}[2]{\href{#1}{#2}}
+\providecommand{\htmladdnormallinknew}[2]{\href{#1}{#2}}
+% --- 
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+% Compila o indice
+% ---
+\makeindex
+% ---
+\usepackage{pdfpages}
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+\imprimirfolhaderosto
+%\imprimirfolhaderosto* % (use esta opção com * quando houver ficha catalográfica)
+
+% Folha de aprovação
+\imprimirfolhadeaprovacao
+% ---
+
+
+% ---
+% Agradecimentos
+% ---
+\begin{agradecimentos} % (opcional)
+% Adicionar o texto
+   
+\end{agradecimentos}
+% ---
+
+% ---
+% RESUMO
+% ---
+% resumo na língua vernácula (obrigatório)
+\begin{resumo} %% AQUI COMEÇA A PÁGINA DE RESUMO
+	Este trabalho aborda o Problema da Distribuição de Disciplinas (DPD), que consiste em atribuir disciplinas a professores respeitando restrições de alocação e limites de carga horária, visando maximizar a qualidade da atribuição. O problema é modelado como um programa linear inteiro e resolvido no SCIP via Branch-and-Bound.
+
+	Como contribuição, propõe-se e avalia-se uma matheurística baseada em Large Neighborhood Search (LNS) no esquema fix-and-relax, que explora uma solução incumbente e define uma vizinhança ao fixar a maior parte das variáveis binárias $x_{p,c}$, liberando uma fração controlada para reotimização. A taxa de destruição (\texttt{lns\_perc}), a ordenação de candidatos (\texttt{avgPreferenceWeight}) e o tempo máximo do sub-MIP são analisados quanto ao impacto na qualidade da solução e nas métricas de desempenho observadas: tempo, gap e nós remanescentes (nodes-left).
+
+\noindent
+	{\sloppy \textbf{Palavras-chave}: Distribuição de Disciplinas, Programação Linear Inteira, Branch-and-Bound, Matheurística, Large Neighborhood Search, Fix-and-Relax, SCIP.\par}\fussy
+\end{resumo} %AQUI TERMINA A PÁGINA DE RESUMO
+% ---
+
+\cleardoublepage %% Pula página
+% ---
+% inserir lista de ilustrações
+% ---
+\listoffigures* %% o * indica que não será incluso no sumário
+\cleardoublepage %% Pula página
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\listoftables*
+\cleardoublepage
+
+
+% --- 
+% inserir lista automática de abreviaturas e siglas
+% ---
+%\printglossary%[title=Abreviações,nonumberlist,type=acronym,style=long]
+%\cleardoublepage
+% ---
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+%\begin{siglas} % OPCIONAL
+%    \item [HEV] Veículo Elétrico Híbrido    
+%\end{siglas}
+% ---
+
+% ---
+% inserir lista de símbolos
+% ---
+%\begin{simbolos} % OPCIONAL
+%    \item[$ \longleftrightarrow $] Conectivo bicondicional "Se e somente se"
+%    \item[$ f(t) $] Função no domínio do tempo
+%    \item[$ F(S) $] Função no domínio da frequência
+%    \item[$ \mathscr{F} $] Transformada direta de Fourier
+%    \item[$ \mathscr{F}^{-1} $] Transformada inversa de Fourier
+%\end{simbolos}
+% ---
+
+% ---
+% inserir o sumario
+% ---
+\tableofcontents*
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS  (necessário para incluir número nas páginas)
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\input{1_Intro.tex}
+
+% ----------------------------------------------------------
+% Embasamento Teórico
+% ----------------------------------------------------------
+\input{2_Revisao_biblio.tex}
+
+% ----------------------------------------------------------
+% Desenvolvimento
+% ----------------------------------------------------------
+
+\input{3_Metodologia.tex}
+
+\input{4_Resultados.tex}
+
+% ----------------------------------------------------------
+% Conclusão
+% ----------------------------------------------------------
+\input{5_Conclusao.tex}
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+% \bibliographystyle{ieeetr}
+
+% Bibliografia: aplicar \sloppy localmente para evitar overfull hboxes
+\begingroup\sloppy
+\bibliography{Auxiliares/References} %% REFERENCIA AO ARQUIVO abntex2-modelo-references.bib
+\endgroup
+\cleardoublepage %% Pula página
+
+%\chapter{Referências}
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+
+% ----------------------------------------------------------
+% Glossário
+% ----------------------------------------------------------
+%
+% Consulte o manual da classe abntex2 para orientações sobre o glossário.
+%
+%\glossary
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+
+% ---
+% Inicia os apêndices
+% ---
+\begin{apendicesenv}
+
+% Imprime uma página indicando o início dos apêndices
+\partapendices
+
+% ----------------------------------------------------------
+\chapter{Códigos} \label{apendix}
+% ----------------------------------------------------------
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+% Apêndices ou Anexos
+\section{Apêndices - Materiais do autor} \label{sec:cod1}
+Explicações
+
+%exibição de código fonte
+% \lstinputlisting{Codes/All_data.m}
+
+
+\end{apendicesenv}
+
+
+
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+
+% ---
+% Inicia os anexos
+% ---
+% \begin{anexosenv}
+
+% Imprime uma página indicando o início dos anexos
+% \partanexos
+
+% ---
+% \chapter{Morbi ultrices rutrum lorem.}
+% ---
+
+% \end{anexosenv}
+
+\end{document}

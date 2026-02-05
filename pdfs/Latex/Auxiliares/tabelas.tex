@@ -1,0 +1,353 @@
+% ============================================
+% TABELAS - RESULTADOS DOS EXPERIMENTOS LNS
+% ============================================
+
+% Pacotes necessários: booktabs, multirow, array
+
+% ============================================
+% TABELA 1: Impacto da Taxa de Destruição - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) para diferentes taxas de destruição do LNS. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_cand_tempo}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 4,04    & 17,07  & 17,66  & 16,98  & 17,04  & Relax. \\
+input5  & 84  & 29 & 113,03  & 145,27 & 145,04 & 145,71 & 143,63 & Relax. \\
+input6  & 113 & 31 & 1,07    & 2,47   & 2,40   & 2,33   & 2,22   & Relax. \\
+input7  & 99  & 28 & 400,02  & 400,02 & 400,02 & 400,02 & 400,02 & Empate \\
+input9  & 133 & 41 & 17,06   & 72,52  & 72,33  & 72,57  & 73,48  & Relax. \\
+input13 & 125 & 39 & 29,13   & 60,21  & 59,56  & 59,04  & 59,43  & Relax. \\
+input19 & 114 & 39 & 2,11    & 1,39   & 1,44   & 1,42   & 1,47   & LNS 10\% \\
+input20 & 113 & 40 & 0,95    & 4,69   & 4,56   & 4,59   & 5,02   & Relax. \\
+input26 & 185 & 60 & 33,73   & 25,50  & 24,67  & 24,81  & 24,38  & LNS 75\% \\
+input34 & 137 & 42 & 21,92   & 26,68  & 26,08  & 26,38  & 26,41  & Relax. \\
+\midrule
+\textbf{Média}  & 114 & 39 & 19,49 & 25,38 & 25,38 & 25,59 & 25,39 & Relax. \\
+\textbf{Total}  & 1.296 & 412 & \textbf{623,05} & 755,82 & 753,76 & 753,84 & 753,10 & \textbf{Relax.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 2: Impacto da Taxa de Destruição - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição. Valores menores indicam maior progresso em direção à otimalidade.}
+\label{tab:lns_cand_nodes}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 0      & 0      & 0      & 0      & 0      & -- \\
+input5  & 84  & 29 & 0      & 0      & 0      & 0      & 0      & -- \\
+input6  & 113 & 31 & 0      & 0      & 0      & 0      & 0      & -- \\
+input7  & 99  & 28 & 66.230 & 62.628 & 60.540 & 61.056 & \textbf{58.921} & \textbf{75\%} \\
+input9  & 133 & 41 & 0      & 0      & 0      & 0      & 0      & -- \\
+input13 & 125 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input19 & 114 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input20 & 113 & 40 & 0      & 0      & 0      & 0      & 0      & -- \\
+input26 & 185 & 60 & 0      & 0      & 0      & 0      & 0      & -- \\
+input34 & 137 & 42 & 0      & 0      & 0      & 0      & 0      & -- \\
+\midrule
+\textbf{Média}  & 114 & 39 & 6.623 & 6.263 & 6.054 & 6.106 & 5.892 & LNS 75\% \\
+\textbf{Total}  & 1.296 & 412 & 66.230 & 62.628 & 60.540 & 61.056 & \textbf{58.921} & \textbf{LNS 75\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 3: Impacto da Ordenação - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) comparando ordenação crescente e decrescente. Configuração: 75\% de destruição, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_order_tempo}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
+\midrule
+input4  & 123 & 46 & 400,05 & 400,04 & 400,05 & Crescente \\
+input5  & 214 & 69 & 114,18 & 140,64 & 141,47 & Crescente \\
+input12 & 115 & 37 & 5,79   & 25,70  & 25,84  & Crescente \\
+input15 & 94  & 30 & 400,03 & 400,02 & 400,02 & Decrescente \\
+input16 & 89  & 28 & 3,07   & 0,72   & 0,72   & Decrescente \\
+input17 & 108 & 38 & 400,04 & 400,04 & 400,03 & Decrescente \\
+input20 & 104 & 37 & 0,90   & 4,40   & 4,32   & Decrescente \\
+input33 & 104 & 36 & 400,03 & 400,03 & 400,03 & Decrescente \\
+input37 & 152 & 53 & 68,00  & 31,61  & 31,62  & Crescente \\
+input38 & 62  & 22 & 0,16   & 0,28   & 0,28   & Decrescente \\
+\midrule
+\textbf{Média}  & 106 & 37 & 91,09 & 180,31 & 180,38 & Crescente \\
+\textbf{Total}  & 1.271 & 433 & \textbf{1.792,24} & 1.803,48 & 1.804,48 & \textbf{Relax.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 4: Impacto da Ordenação - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes comparando ordenação crescente e decrescente.}
+\label{tab:lns_order_nodes}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
+\midrule
+input4  & 123 & 46 & 19.797 & 19.541 & 19.507 & Decrescente \\
+input5  & 214 & 69 & 0      & 0      & 0      & -- \\
+input12 & 115 & 37 & 0      & 0      & 0      & -- \\
+input15 & 94  & 30 & 64.711 & \textbf{61.546} & 62.452 & \textbf{Crescente} \\
+input16 & 89  & 28 & 0      & 0      & 0      & -- \\
+input17 & 108 & 38 & 4.673  & 4.667  & 4.652  & Decrescente \\
+input20 & 104 & 37 & 0      & 0      & 0      & -- \\
+input33 & 104 & 36 & 50.279 & \textbf{46.243} & 47.063 & \textbf{Crescente} \\
+input37 & 152 & 53 & 0      & 0      & 0      & -- \\
+input38 & 62  & 22 & 0      & 0      & 0      & -- \\
+\midrule
+\textbf{Média}  & 106 & 37 & 13.946 & 13.200 & 13.367 & Crescente \\
+\textbf{Total}  & 1.271 & 433 & 139.460 & \textbf{131.997} & 133.674 & \textbf{Crescente} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 5: Impacto do Tempo Máximo LNS - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
+\label{tab:lns_time_tempo}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 1,19   & 2,40   & 2,14   & 2,15   & \textbf{2,14}   & \textbf{200s} \\
+input14 & 99  & 28 & 14,21  & 22,31  & 68,47  & 118,44 & 168,12 & Relax. \\
+input15 & 94  & 30 & 400,03 & 400,02 & 400,02 & \textbf{76,31} & 77,09 & \textbf{100s} \\
+input21 & 104 & 31 & 6,98   & \textbf{3,02}   & 3,04   & 3,05   & 3,10   & \textbf{10s} \\
+input22 & 133 & 41 & 400,05 & 400,04 & 400,04 & 400,04 & 400,04 & 10s \\
+input23 & 118 & 35 & 1,55   & \textbf{11,41} & 12,80  & 12,66  & 12,50  & \textbf{10s} \\
+input27 & 125 & 39 & 4,93   & 7,45   & 7,34   & 7,33   & \textbf{7,31}   & \textbf{200s} \\
+input29 & 103 & 39 & 400,03 & 400,03 & 19,42  & 19,40  & \textbf{19,39}  & \textbf{200s} \\
+input33 & 104 & 36 & 400,03 & 400,03 & 400,03 & 400,03 & 400,03 & 200s \\
+input38 & 62  & 22 & 0,16   & 0,28   & 0,28   & \textbf{0,28}   & 0,28   & \textbf{100s} \\
+\midrule
+\textbf{Média} & 104 & 33 & 162,92 & 164,77 & 162,11 & 160,27 & \textbf{159,46} & \textbf{200s} \\
+\textbf{Total} & 1.125 & 358 & 1.629,16 & 1.647,01 & 1.313,60 & \textbf{1.039,68} & 1.090,00 & \textbf{100s} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 6: Impacto do Tempo Máximo LNS - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes para diferentes limites de tempo do sub-MIP.}
+\label{tab:lns_time_nodes}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 0      & 0      & 0      & 0      & 0      & -- \\
+input14 & 99  & 28 & 0      & 0      & 0      & 0      & 0      & -- \\
+input15 & 94  & 30 & 54.355 & 63.056 & 59.819 & \textbf{0} & \textbf{0} & \textbf{100s} \\
+input21 & 104 & 31 & 0      & 0      & 0      & 0      & 0      & -- \\
+input22 & 133 & 41 & 21.528 & 29.161 & \textbf{25.100} & 50.411 & 33.000 & \textbf{50s} \\
+input23 & 118 & 35 & 0      & 0      & 0      & 0      & 0      & -- \\
+input27 & 125 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input29 & 103 & 39 & 12.643 & 4.347  & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{50s} \\
+input33 & 104 & 36 & 47.460 & 48.110 & 45.505 & 1.524  & \textbf{539} & \textbf{200s} \\
+input38 & 62  & 22 & 0      & 0      & 0      & 0      & 0      & -- \\
+\midrule
+\textbf{Média} & 104 & 33 & 13.599 & 14.467 & 13.042 & 5.194 & \textbf{3.354} & \textbf{200s} \\
+\textbf{Total} & 1.125 & 358 & 135.986 & 144.674 & 130.424 & 51.935 & \textbf{33.539} & \textbf{200s} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 7: Impacto da Taxa de Destruição - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) para diferentes taxas de destruição. Gap igual a zero indica solução ótima.}
+\label{tab:lns_cand_gap}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input5  & 84  & 29 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input6  & 113 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input7  & 99  & 28 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & Empate \\
+input9  & 133 & 41 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input13 & 125 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input19 & 114 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input20 & 113 & 40 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input26 & 185 & 60 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input34 & 137 & 42 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+\textbf{Média}  & 114 & 39 & 0,06 & 0,06 & 0,06 & 0,06 & 0,06 & Empate \\
+\textbf{Total}  & 1.296 & 412 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & \textbf{Empate} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 8: Impacto da Ordenação - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) comparando ordenação crescente e decrescente.}
+\label{tab:lns_order_gap}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
+\midrule
+input4  & 123 & 46 & 0,20 & 0,20 & 0,20 & Empate \\
+input5  & 214 & 69 & 0,00 & 0,00 & 0,00 & Empate \\
+input12 & 115 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
+input15 & 94  & 30 & 0,73 & 0,73 & 0,73 & Empate \\
+input16 & 89  & 28 & 0,00 & 0,00 & 0,00 & Empate \\
+input17 & 108 & 38 & 0,20 & 0,20 & 0,20 & Empate \\
+input20 & 104 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
+input33 & 104 & 36 & 0,49 & 0,49 & 0,49 & Empate \\
+input37 & 152 & 53 & 0,00 & 0,00 & 0,00 & Empate \\
+input38 & 62  & 22 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+\textbf{Média}  & 106 & 37 & 0,16 & 0,16 & 0,16 & Empate \\
+\textbf{Total}  & 1.271 & 433 & 1,62 & 1,62 & 1,62 & \textbf{Empate} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 9: Impacto do Tempo Máximo LNS - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) para diferentes limites de tempo do sub-MIP.}
+\label{tab:lns_time_gap}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input14 & 99  & 28 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input15 & 94  & 30 & 0,73 & 0,73 & 0,73 & \textbf{0,00} & \textbf{0,00} & \textbf{100s} \\
+input21 & 104 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input22 & 133 & 41 & 0,32 & 0,32 & 0,32 & 0,48 & 0,48 & Relax. \\
+input23 & 118 & 35 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input27 & 125 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input29 & 103 & 39 & 0,19 & 0,19 & \textbf{0,00} & \textbf{0,00} & \textbf{0,00} & \textbf{50s} \\
+input33 & 104 & 36 & 0,49 & 0,49 & 0,49 & \textbf{0,24} & \textbf{0,24} & \textbf{100s} \\
+input38 & 62  & 22 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+\textbf{Média} & 104 & 33 & 0,17 & 0,17 & 0,15 & 0,07 & \textbf{0,07} & \textbf{100s} \\
+\textbf{Total} & 1.125 & 358 & 1,73 & 1,73 & 1,54 & \textbf{0,72} & \textbf{0,72} & \textbf{100s} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 10: Avaliação Geral - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
+\label{tab:geral_tempo}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} \\
+\midrule
+input5  & 214 & 69 & 112,63 & \textbf{54,46}  & 400,12 & 83,09 \\
+input11 & 100 & 31 & 1,54   & 2,59   & 3,90   & \textbf{0,83} \\
+input15 & 94  & 30 & 400,03 & \textbf{79,90}  & 400,02 & 400,02 \\
+input16 & 89  & 28 & 3,07   & 0,75   & 8,38   & \textbf{0,36} \\
+input19 & 95  & 29 & 2,03   & \textbf{1,45}   & 5,74   & 2,73 \\
+input21 & 104 & 31 & 5,93   & \textbf{3,16}   & 13,45  & 4,42 \\
+input25 & 107 & 34 & 15,63  & \textbf{9,27}   & 37,64  & 9,54 \\
+input30 & 109 & 36 & 3,21   & \textbf{1,36}   & 7,94   & 2,36 \\
+input35 & 169 & 53 & 186,72 & \textbf{63,27}  & 400,07 & 71,20 \\
+input42 & 142 & 35 & \textbf{6,91}   & 8,18   & 20,19  & 13,39 \\
+\midrule
+\textbf{Média} & 106 & 33 & 73,76 & \textbf{22,44} & 129,75 & 58,79 \\
+\textbf{Total} & 1.329 & 409 & 744,13 & \textbf{230,05} & 1.314,27 & 594,92 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 11: Avaliação Geral - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes comparando Relaxação, LNS, GRASP e GRASP|LNS.}
+\label{tab:geral_nodes}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} \\
+\midrule
+input5  & 214 & 69 & 0      & \textbf{0}      & 8.037  & \textbf{0} \\
+input11 & 100 & 31 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input15 & 94  & 30 & 64.364 & \textbf{0}      & 7.526  & 2.324 \\
+input16 & 89  & 28 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input19 & 95  & 29 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input21 & 104 & 31 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input25 & 107 & 34 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input30 & 109 & 36 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+input35 & 169 & 53 & 0      & \textbf{0}      & 20.740 & \textbf{0} \\
+input42 & 142 & 35 & 0      & \textbf{0}      & 0      & \textbf{0} \\
+\midrule
+\textbf{Média} & 106 & 33 & 6.436 & \textbf{0} & 3.630 & 232 \\
+\textbf{Total} & 1.329 & 409 & 64.364 & \textbf{0} & 36.303 & 2.324 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 12: Avaliação Geral - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) comparando Relaxação, LNS, GRASP e GRASP|LNS.}
+\label{tab:geral_gap}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} \\
+\midrule
+input5  & 214 & 69 & 0,00 & \textbf{0,00} & 1,01 & \textbf{0,00} \\
+input11 & 100 & 31 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input15 & 94  & 30 & 0,73 & \textbf{0,00} & 0,24 & 0,24 \\
+input16 & 89  & 28 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input19 & 95  & 29 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input21 & 104 & 31 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input25 & 107 & 34 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input30 & 109 & 36 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+input35 & 169 & 53 & 0,00 & \textbf{0,00} & 2,21 & \textbf{0,00} \\
+input42 & 142 & 35 & 0,00 & \textbf{0,00} & 0,00 & \textbf{0,00} \\
+\midrule
+\textbf{Média} & 106 & 33 & 0,07 & \textbf{0,00} & 0,35 & 0,02 \\
+\textbf{Total} & 1.329 & 409 & 0,73 & \textbf{0,00} & 3,46 & 0,24 \\
+\bottomrule
+\end{tabular}
+\end{table}

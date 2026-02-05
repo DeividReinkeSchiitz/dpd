@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2026/dev/Arch Linux)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: 0_MainText.aux
+The style file: abntex2-alf.bst
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated wiz_functions (elt_size=8) to 9000 items from 6000.
+Database file #1: abntex2-options.bib
+Database file #2: Auxiliares/References.bib
+Warning--I didn't find a database entry for "neto2023matheuristicas"
+Reallocated singl_function (elt_size=8) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=8) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=8) to 20 items from 10.
++---------------------------------------------------------+
+| Estilo bibliográfico abntex2-alf.bst versão v-1.9.7           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://www.abntex.net.br/                               |
++---------------------------------------------------------+
+You've used 22 entries,
+            6714 wiz_defined-function locations,
+            1332 strings with 13600 characters,
+and the built_in function-call counts, 34999 in all, are:
+= -- 4710
+> -- 673
+< -- 564
++ -- 831
+- -- 203
+* -- 1876
+:= -- 3573
+add.period$ -- 94
+call.type$ -- 22
+change.case$ -- 240
+chr.to.int$ -- 48
+cite$ -- 21
+duplicate$ -- 4025
+empty$ -- 1360
+format.name$ -- 968
+if$ -- 7595
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 399
+newline$ -- 122
+num.names$ -- 106
+pop$ -- 566
+preamble$ -- 1
+purify$ -- 87
+quote$ -- 0
+skip$ -- 4095
+stack$ -- 1
+substring$ -- 1291
+swap$ -- 973
+text.length$ -- 33
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 3
+warning$ -- 0
+while$ -- 168
+width$ -- 0
+write$ -- 350
+(There was 1 warning)

@@ -1,0 +1,122 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Ahuja et al. 2002]{ahuja_ergun_orlin_punnen_2002}
+\abntrefinfo{Ahuja et al.}{AHUJA et al.}{2002}
+{AHUJA, R.~K. et al. A survey of very large-scale neighborhood search techniques.
+\emph{Discrete Applied Mathematics}, v.~123, n.~1-3, p. 75--102, 2002.}
+
+\bibitem[Al-Yakoob e Sherali 2013]{al_yakoob_sherali_2013}
+\abntrefinfo{Al-Yakoob e Sherali}{AL-YAKOOB; SHERALI}{2013}
+{AL-YAKOOB, S.; SHERALI, H. A column generation mathematical programming approach for a class-faculty assignment problem with preferences.
+\emph{Computational Management Science}, v.~12, 2013.
+Citado na página 6.}
+
+\bibitem[Al-Yakoob e Sherali 2006]{al_yakoob_sherali_2006}
+\abntrefinfo{Al-Yakoob e Sherali}{AL-YAKOOB; SHERALI}{2006}
+{AL-YAKOOB, S.~M.; SHERALI, H.~D. Mathematical programming models and algorithms for a class--faculty assignment problem.
+\emph{European Journal of Operational Research}, v.~173, n.~2, p. 488--507, 2006.
+ISSN 0377-2217.
+Citado nas páginas 6 e 7.
+Dispon{\'\i}vel em: \htmladdnormallink{$<$https:\-/\-/www\-.sciencedirect\-.com\-/science\-/article\-/pii\-/S0377221705002067$>$}{https://www.sciencedirect.com/science/article/pii/S0377221705002067}.}
+
+\bibitem[Avella e Vasilyev 2005]{avella_vasilyev_2005}
+\abntrefinfo{Avella e Vasilyev}{AVELLA; VASILYEV}{2005}
+{AVELLA, P.; VASILYEV, I. A computational study of a cutting plane algorithm for university course timetabling.
+\emph{Journal of Scheduling}, v.~8, p. 497--514, 2005.
+Citado na página 6.}
+
+\bibitem[Ball 2011]{ball_2011}
+\abntrefinfo{Ball}{BALL}{2011}
+{BALL, M.~O. Heuristics based on mathematical programming.
+\emph{Surveys in Operations Research and Management Science}, v.~16, n.~1, p. 21--38, 2011.
+ISSN 1876-7354.
+Dispon{\'\i}vel em: \htmladdnormallink{$<$https:\-/\-/www\-.sciencedirect\-.com\-/science\-/article\-/pii\-/S1876735410000036$>$}{https://www.sciencedirect.com/science/article/pii/S1876735410000036}.}
+
+\bibitem[Boschetti, Letchford e Maniezzo 2023]{boschetti_letchford_maniezzo_2023}
+\abntrefinfo{Boschetti, Letchford e Maniezzo}{BOSCHETTI; LETCHFORD; MANIEZZO}{2023}
+{BOSCHETTI, M.~A.; LETCHFORD, A.~N.; MANIEZZO, V. Matheuristics: survey and synthesis.
+\emph{International Transactions in Operational Research}, v.~30, n.~6, p. 2840--2866, 2023.}
+
+\bibitem[Carter e Laporte 1998]{carter_laporte_1998}
+\abntrefinfo{Carter e Laporte}{CARTER; LAPORTE}{1998}
+{CARTER, M.~W.; LAPORTE, G. Recent developments in practical course timetabling. In:  BURKE, E.; CARTER, M. (Ed.). \emph{Practice and Theory of Automated Timetabling II}. [S.l.]: Springer Berlin Heidelberg, 1998. p. 3--19.
+ISBN 978-3-540-49803-2.
+Citado na página 6.}
+
+\bibitem[D'Ambrosio et al. 2023]{dambrosio_laureana_raiconi_vitale_2023}
+\abntrefinfo{D'Ambrosio et al.}{D'AMBROSIO et al.}{2023}
+{D'AMBROSIO, C. et al. The knapsack problem with forfeit sets.
+\emph{Computers \& Operations Research}, v.~151, p. 106093, 2023.}
+
+\bibitem[Domenech e Lusa 2016]{domenech_lusa_2016}
+\abntrefinfo{Domenech e Lusa}{DOMENECH; LUSA}{2016}
+{DOMENECH, B.; LUSA, A. A milp model for the teacher assignment problem considering teachers' preferences.
+\emph{European Journal of Operational Research}, v.~249, n.~3, p. 1153--1160, 2016.
+ISSN 0377-2217.
+Citado na página 6.
+Dispon{\'\i}vel em: \htmladdnormallink{$<$https:\-/\-/www\-.sciencedirect\-.com\-/science\-/article\-/pii\-/S0377221715008139$>$}{https://www.sciencedirect.com/science/article/pii/S0377221715008139}.}
+
+\bibitem[Gamrath et al. 2020]{gamrath_2020_scip}
+\abntrefinfo{Gamrath et al.}{GAMRATH et al.}{2020}
+{GAMRATH, G. et al. \emph{The SCIP Optimization Suite 7.0}. 2020. Technical report, Optimization Online.
+Citado na página 17.
+Dispon{\'\i}vel em: \htmladdnormallink{$<$http:\-/\-/www\-.optimization-online\-.org\-/DB\underline{\ }HTML\-/2020\-/03\-/7705\-.html$>$}{http://www.optimization-online.org/DB\_HTML/2020/03/7705.html}.}
+
+\bibitem[Gunawan, Ng e Ong 2008]{gunawan_ng_ong_2008}
+\abntrefinfo{Gunawan, Ng e Ong}{GUNAWAN; NG; ONG}{2008}
+{GUNAWAN, A.; NG, K.; ONG, H. A genetic algorithm for the teacher assignment problem for a university in indonesia.
+\emph{International Journal of Information and Management Sciences}, v.~19, 2008.
+Citado na página 7.}
+
+\bibitem[Hosny 2012]{hosny_2012}
+\abntrefinfo{Hosny}{HOSNY}{2012}
+{HOSNY, M. \emph{A heuristic algorithm for the faculty assignment problem}. 2012.
+Citado na página 6.}
+
+\bibitem[Jhonatan 2025]{jhonatan_grasp_dpd}
+\abntrefinfo{Jhonatan}{JHONATAN}{2025}
+{JHONATAN. \emph{Uma heurística GRASP para o Problema da Distribuição de Disciplinas (DPD)}. 2025.
+Referência provisória (completar autores, título, veículo e ano conforme o artigo original).}
+
+\bibitem[Jovanovic e Vo{\ss} 2024]{jovanovic_voss_2024}
+\abntrefinfo{Jovanovic e Vo{\ss}}{JOVANOVIC; VO{SS}}{2024}
+{JOVANOVIC, R.; VO{SS}, S. Matheuristic fixed set search applied to the multidimensional knapsack problem and the knapsack problem with forfeit sets.
+\emph{OR Spectrum}, p. 1--37, 2024.}
+
+\bibitem[Maniezzo, St{\"u}tzle e Vo{\ss} 2021]{maniezzo_stutzle_voss_2021}
+\abntrefinfo{Maniezzo, St{\"u}tzle e Vo{\ss}}{MANIEZZO; ST{\"U}TZLE; VO{SS}}{2021}
+{MANIEZZO, V.; ST{\"U}TZLE, T.; VO{SS}, S. \emph{Matheuristics: Algorithms and Implementations}. [S.l.]: Springer, 2021.}
+
+\bibitem[Pisinger e Ropke 2010]{pisinger_ropke_2010}
+\abntrefinfo{Pisinger e Ropke}{PISINGER; ROPKE}{2010}
+{PISINGER, D.; ROPKE, S. Large neighborhood search. In:  \emph{Handbook of Metaheuristics}. [S.l.]: Springer US, 2010. p. 399--419.}
+
+\bibitem[Silva 2024]{silva2024abordagem_exata_dpd}
+\abntrefinfo{Silva}{SILVA}{2024a}
+{SILVA, L.~S. \emph{Uma abordagem exata para o problema da distribuição de disciplinas}. 2024.
+Trabalho de Conclusão de Curso, Universidade Federal de Mato Grosso do Sul (UFMS), Campo Grande, MS.}
+
+\bibitem[Silva 2024]{silva2024matheuristica_mochila}
+\abntrefinfo{Silva}{SILVA}{2024b}
+{SILVA, P. P.~A. de~Paula~e. \emph{Uma Matheurística de Melhoria para o Problema da Mochila com Conjuntos de Penalidades}. 2024.
+Trabalho de Conclusão de Curso, Universidade Federal de Mato Grosso do Sul (UFMS), Campo Grande, MS.}
+
+\bibitem[Szwarc, Bach-D{\'a}browska e Bocewicz 2018]{szwarc_2018}
+\abntrefinfo{Szwarc, Bach-D{\'a}browska e Bocewicz}{SZWARC; BACH-D{\'A}BROWSKA; BOCEWICZ}{2018}
+{SZWARC, E.; BACH-D{\'A}BROWSKA, I.; BOCEWICZ, G. Competence management in teacher assignment planning. In:  \emph{24th International Conference, ICIST 2018, Vilnius, Lithuania, October 4--6, 2018, Proceedings}. [S.l.]: Springer, 2018. p. 449--460.
+ISBN 978-3-319-99971-5. Citado na página 6.}
+
+\bibitem[Vanderbei 2014]{vanderbei_2014}
+\abntrefinfo{Vanderbei}{VANDERBEI}{2014}
+{VANDERBEI, R.~J. \emph{Linear Programming: Foundations and Extensions}. [S.l.]: Springer, 2014. Citado na página 9.}
+
+\bibitem[Wolsey 2020]{wolsey_2020}
+\abntrefinfo{Wolsey}{WOLSEY}{2020}
+{WOLSEY, L.~A. \emph{Integer Programming}. [S.l.]: John Wiley \& Sons, Ltd., 2020. Citado na página 9.}
+
+\end{thebibliography}

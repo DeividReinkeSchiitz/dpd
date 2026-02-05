@@ -1,0 +1,45 @@
+\chapter{Fundamentação Teórica}
+
+\section{Otimização Combinatória e Programação Linear Inteira (PLI)}
+
+% Para citações que fazem parte da sentença, conforme a ABNT, utilizar o comando \citeonline{}
+
+Problemas de alocação em ambientes acadêmicos podem ser formulados como problemas de otimização combinatória, nos quais se busca selecionar uma atribuição que maximize uma medida de qualidade (por exemplo, preferências) e, ao mesmo tempo, respeite restrições operacionais (carga horária, conflitos e requisitos mínimos). Na literatura, problemas próximos incluem o \textit{class--faculty assignment} e variantes de alocação docente com preferências \cite{al_yakoob_sherali_2006,al_yakoob_sherali_2013,domenech_lusa_2016}, bem como estudos em \textit{course timetabling} \cite{carter_laporte_1998,avella_vasilyev_2005}.
+
+Uma forma padrão de modelar tais problemas é por Programação Linear Inteira (PLI), em que variáveis de decisão (frequentemente binárias) representam escolhas discretas, e a função objetivo quantifica a qualidade da solução. De modo geral, um modelo pode ser escrito como
+\[
+\max\ \sum_{p \in P}\sum_{c \in C} w_{p,c}\,x_{p,c}\quad \text{sujeito a restrições lineares e } x_{p,c}\in\{0,1\},
+\]
+onde $x_{p,c}=1$ indica que o professor $p$ é designado à disciplina $c$, e $w_{p,c}$ representa o peso/preferência. A PLI permite representar restrições de compatibilidade e limites de capacidade de forma explícita, mantendo uma interpretação direta do modelo \cite{vanderbei_2014,wolsey_2020}.
+
+\section{O Método Branch-and-Bound e Relaxação Linear}
+
+Modelos de PLI são, em geral, NP-difíceis, de modo que solucionadores utilizam métodos exatos baseados em limites e enumeração inteligente. Um componente central é a relaxação linear, obtida ao substituir a integralidade por $0\le x\le 1$, produzindo um problema de Programação Linear (PL) que fornece um limite para a solução inteira ótima \cite{vanderbei_2014,wolsey_2020}.
+
+O Branch-and-Bound (B\&B) explora uma árvore de subproblemas: a cada nó, resolve-se uma relaxação para obter um limite e, quando necessário, ramifica-se em subproblemas impondo decisões de integralidade (por exemplo, $x_{p,c}=0$ ou $x_{p,c}=1$). Nós cujos limites não superam a melhor solução inteira conhecida podem ser podados, reduzindo a busca \cite{wolsey_2020}. Na prática, solucionadores modernos integram B\&B com técnicas adicionais; neste trabalho, a resolução exata é realizada com o SCIP \cite{gamrath_2020_scip}.
+
+\section{Heurísticas e Metaheurísticas}
+
+Embora métodos exatos forneçam garantias de otimalidade, instâncias reais podem apresentar grande dimensão e múltiplas restrições, tornando necessário recorrer a estratégias aproximadas. Heurísticas constroem boas soluções em tempo reduzido, enquanto metaheurísticas organizam mecanismos de exploração e intensificação para escapar de ótimos locais e melhorar soluções iterativamente.
+
+Para problemas de alocação docente, há abordagens heurísticas e metaheurísticas que exploram diferentes representações e movimentos de vizinhança, como algoritmos genéticos e buscas locais especializadas \cite{gunawan_ng_ong_2008,hosny_2012,szwarc_2018}. Esse corpo de técnicas é especialmente útil quando se deseja produzir soluções de boa qualidade sob limites de tempo, ou quando o modelo exato é utilizado como referência/validação.
+
+\subsection{Greedy Randomized Adaptive Search Procedure (GRASP)}
+
+O GRASP é uma metaheurística em duas fases: (i) uma construção gulosa aleatorizada, que produz uma solução inicial por escolhas guiadas por um critério de qualidade com componente probabilística; e (ii) uma busca local, que tenta melhorar a solução por movimentos em uma vizinhança definida. A aleatoriedade permite amostrar diferentes regiões do espaço de soluções, enquanto a busca local promove intensificação.
+
+No contexto do Problema da Distribuição de Disciplinas (DPD), uma estratégia GRASP é um caminho natural por combinar regras gulosas (por exemplo, priorizar pares professor--disciplina com maior peso) com fases de melhoria que reatribuem disciplinas para reduzir violações e aumentar a qualidade \cite{jhonatan_grasp_dpd}.
+
+\section{Matheurísticas}
+
+Matheurísticas combinam programação matemática com componentes heurísticos/metaheurísticos, buscando aproveitar simultaneamente a força de modelagem e os limites fornecidos por modelos exatos, e a flexibilidade de estratégias de busca em grandes espaços combinatórios \cite{ball_2011,boschetti_letchford_maniezzo_2023,maniezzo_stutzle_voss_2021}. Em geral, a ideia é usar submodelos (ou modelos restritos) como operadores de melhoria, resolver subproblemas por MIP/CPLEX/SCIP, ou ainda usar informações do solucionador (limites, incumbentes, cortes) para orientar a busca.
+
+Em problemas do tipo mochila e variantes, por exemplo, há linhas de trabalho que empregam resoluções exatas em subestruturas, gerando melhorias sistemáticas em torno de incumbentes \cite{dambrosio_laureana_raiconi_vitale_2023,jovanovic_voss_2024}. Essa mesma filosofia se estende ao DPD: parte-se de um modelo de PLI e explora-se uma vizinhança definida sobre variáveis binárias, reotimizando subproblemas com tempo controlado.
+
+\subsection{Large Neighborhood Search (LNS) e Fix-and-Relax}
+
+O Large Neighborhood Search (LNS) alterna etapas de \textit{destroy} e \textit{repair}: uma porção da solução corrente é liberada (ou removida) e, em seguida, o problema restrito é resolvido para reparar e potencialmente melhorar a solução. A principal vantagem é permitir movimentos de grande alcance, mantendo a viabilidade por meio de um procedimento de reparo eficaz \cite{ahuja_ergun_orlin_punnen_2002,pisinger_ropke_2010}. Uma implementação prática e amplamente adotada é usar um solucionador MIP na etapa de reparo, o que transforma o LNS em uma matheurística.
+
+O esquema \textit{fix-and-relax} pode ser visto como uma forma estruturada de definir vizinhanças: fixa-se a maior parte das variáveis (mantendo decisões da incumbente) e relaxa-se um subconjunto selecionado para reotimização, normalmente sob um limite de tempo. Esse desenho permite controlar o tamanho da vizinhança e o custo computacional de cada iteração, ao mesmo tempo em que preserva a capacidade do MIP de recombinar decisões de modo consistente. Assim, o método proposto neste trabalho utiliza o SCIP \cite{gamrath_2020_scip} como motor de reotimização em vizinhanças geradas a partir de uma solução incumbente.
+
+Por fim, este TCC se insere na linha de abordagens para o DPD que exploram tanto modelos exatos quanto estratégias de melhoria, dialogando com trabalhos recentes no problema \cite{silva2024abordagem_exata_dpd} e com a motivação geral de matheurísticas de melhoria para problemas combinatórios de grande porte \cite{silva2024matheuristica_mochila}.

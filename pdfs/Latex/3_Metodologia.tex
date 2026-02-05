@@ -1,0 +1,121 @@
+\chapter{O Problema da Distribuição de Disciplinas (DPD)} \label{ch:dpd}
+
+\section{Definição do Problema}
+
+O Problema da Distribuição de Disciplinas (DPD) consiste em atribuir professores a disciplinas de modo a respeitar restrições operacionais (carga horária mínima anual e máximas por semestre para cada professor, cobertura obrigatória de todas as disciplinas) e, simultaneamente, maximizar a qualidade da alocação. A qualidade de cada atribuição é mensurada por um peso que combina a preferência do professor pela disciplina e a compatibilidade entre a área de atuação do professor e a área da disciplina. Quando um professor é designado a uma disciplina fora de suas áreas de especialização, o modelo aplica uma penalidade (\texttt{area\_penalty}), resultando em um coeficiente negativo na função objetivo.
+
+Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplinas. Cada disciplina $j\in C$ possui uma carga horária associada $ch_j$ (em horas/aula ou créditos) e deve ser atribuída a exatamente um professor. Cada professor $i\in P$ possui uma carga horária mínima anual $\text{min}_i$ e cargas horárias máximas $\text{max}_{i,1}$ e $\text{max}_{i,2}$ para o primeiro e segundo semestres, respectivamente. O problema é NP-difícil e sua modelagem como Programação Linear Inteira permite explorar tanto métodos exatos quanto heurísticos/matheurísticos para obtenção de soluções de boa qualidade.
+
+\section{Modelo Matemático Exato}
+
+\subsection{Conjuntos e Índices}
+
+\begin{itemize}
+  \item $P = \{1,\ldots,|P|\}$: conjunto de professores, indexado por $i$;
+  \item $C = \{1,\ldots,|C|\}$: conjunto de disciplinas, indexado por $j$;
+  \item $C_1 \subseteq C$: disciplinas do primeiro semestre;
+  \item $C_2 \subseteq C$: disciplinas do segundo semestre.
+\end{itemize}
+
+\subsection{Parâmetros e Constantes}
+
+\begin{itemize}
+  \item $w_{i,j}$: peso/preferência da atribuição do professor $i$ à disciplina $j$. Quando o professor possui competência na área da disciplina e alguma preferência, $w_{i,j}$ assume o valor da preferência; caso contrário, aplica-se $w_{i,j} = -\text{area\_penalty}$;
+  \item $ch_j$: carga horária (créditos) da disciplina $j$;
+  \item $\text{min}_i$: carga horária mínima anual do professor $i$;
+  \item $\text{max}_{i,1}$: carga horária máxima do professor $i$ no primeiro semestre;
+  \item $\text{max}_{i,2}$: carga horária máxima do professor $i$ no segundo semestre.
+\end{itemize}
+
+\subsection{Variáveis de Decisão}
+
+\[
+x_{i,j} \in \{0,1\},\quad i\in P,\ j\in C,
+\]
+onde $x_{i,j}=1$ indica que o professor $i$ é designado à disciplina $j$, e $x_{i,j}=0$ caso contrário.
+
+\subsection{Função Objetivo}
+
+O objetivo é maximizar a soma dos pesos das atribuições:
+\[
+\max\ Z = \sum_{i\in P}\sum_{j\in C} w_{i,j}\,x_{i,j}.
+\]
+Valores positivos de $w_{i,j}$ indicam preferência ou adequação, enquanto valores negativos (resultantes da penalidade por incompatibilidade de área) desencorajam atribuições inadequadas.
+
+\subsection{Restrições}
+
+\subsubsection{Cobertura Obrigatória de Disciplinas}
+
+Cada disciplina deve ser atribuída a exatamente um professor:
+\[
+\sum_{i\in P} x_{i,j} = 1,\quad \forall j\in C.
+\]
+
+\subsubsection{Carga Horária Mínima Anual}
+
+A soma das cargas horárias das disciplinas atribuídas ao professor $i$ deve ser pelo menos $\text{min}_i$:
+\[
+\sum_{j\in C} ch_j\,x_{i,j} \ge \text{min}_i,\quad \forall i\in P.
+\]
+
+\subsubsection{Carga Horária Máxima no Primeiro Semestre}
+
+A soma das cargas horárias das disciplinas do primeiro semestre atribuídas ao professor $i$ não pode exceder $\text{max}_{i,1}$:
+\[
+\sum_{j\in C_1} ch_j\,x_{i,j} \le \text{max}_{i,1},\quad \forall i\in P.
+\]
+
+\subsubsection{Carga Horária Máxima no Segundo Semestre}
+
+Analogamente, para o segundo semestre:
+\[
+\sum_{j\in C_2} ch_j\,x_{i,j} \le \text{max}_{i,2},\quad \forall i\in P.
+\]
+
+
+\section{Matheurística LNS Proposta}
+
+A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Search (LNS) no esquema fix-and-relax. A cada iteração, a heurística parte de uma solução incumbente $\bar{x}$ e define uma vizinhança ao fixar a maior parte das variáveis binárias e liberar um subconjunto controlado de atribuições para reotimização. A estratégia é implementada no arquivo \texttt{heur\_lns.c} e integra-se ao framework de heurísticas primais do SCIP.
+
+\subsection{Definição de Candidatos e Ordenação}
+
+A partir da solução incumbente $\bar{x}$, o algoritmo identifica todas as atribuições ativas (i.e., $\bar{x}_{i,j}=1$), formando um conjunto de candidatos. Cada candidato corresponde a um par (professor, disciplina) e possui associado o valor \texttt{avgPreferenceWeight} do professor, uma métrica calculada como:
+\[
+\text{avgPreferenceWeight}_i = \frac{\sum_{j \in J_i} w_{i,j}}{|J_i|} + \frac{|C|}{|J_i|},
+\]
+onde $J_i$ é o conjunto de disciplinas para as quais o professor $i$ declarou preferência no arquivo de entrada, e $|C|$ é o número total de disciplinas. O primeiro termo representa a média aritmética dos pesos de preferência, enquanto o segundo termo ($|C|/|J_i|$) introduz um bônus inversamente proporcional ao grau de versatilidade do professor: professores mais especializados (com menos preferências declaradas) recebem valores maiores, indicando maior prioridade para reotimização devido às suas restrições de alocação.
+
+O conjunto de candidatos é ordenado segundo o parâmetro \texttt{lns\_order}:
+\begin{itemize}
+  \item \texttt{"decrescente"} (padrão): candidatos com maior \texttt{avgPreferenceWeight} aparecem primeiro, priorizando professores mais especializados (menor número de preferências). Estes professores possuem menos opções alternativas de atribuição, sendo candidatos naturais para reotimização;
+  \item \texttt{"crescente"}: ordena em ordem ascendente, priorizando professores mais versáteis (maior número de preferências). Esta estratégia busca explorar a flexibilidade de realocação dos professores generalistas.
+\end{itemize}
+
+\subsection{Destruição (Destroy)}
+
+Após a ordenação, o algoritmo seleciona os primeiros $\lfloor \text{nCands} \times \text{lns\_perc} \rfloor$ candidatos, onde \texttt{lns\_perc} $\in (0,1)$ é a taxa de destruição configurada pelo usuário. Para cada candidato selecionado, a variável $x_{i,j}$ correspondente é liberada (i.e., seu valor é desfixado), removendo a atribuição da solução incumbente. As demais variáveis permanecem fixadas nos valores da incumbente.
+
+\subsection{Reparo (Repair) via Sub-MIP}
+
+Com o subconjunto de variáveis liberado, o algoritmo resolve um sub-MIP no SCIP auxiliar (mantido em memória pela estrutura \texttt{heurdata->subscip}). O sub-MIP possui:
+\begin{itemize}
+  \item Todas as restrições do problema original;
+  \item Variáveis fixadas conforme o vetor \texttt{fixed[]};
+  \item Limite de tempo configurado pelo parâmetro \texttt{lns\_time};
+  \item Limite de função objetivo (\texttt{objlimit}) ajustado para parar assim que uma solução melhor que a incumbente for encontrada.
+\end{itemize}
+
+A resolução do sub-MIP busca reatribuir as disciplinas liberadas de modo a melhorar a função objetivo, respeitando todas as restrições de carga horária e cobertura. Se uma solução melhor é encontrada, ela é transferida para o SCIP principal e passa a ser a nova incumbente.
+
+\subsection{Integração com o SCIP}
+
+A heurística LNS é registrada como uma heurística primal do SCIP com prioridade e frequência configuráveis. A cada chamada, a heurística:
+\begin{enumerate}
+  \item Verifica se existe uma solução incumbente viável;
+  \item Extrai os candidatos ativos e ordena conforme \texttt{lns\_order};
+  \item Libera uma fração \texttt{lns\_perc} das atribuições;
+  \item Resolve o sub-MIP com limite de tempo \texttt{lns\_time};
+  \item Caso o sub-MIP retorne uma solução de melhor qualidade, adiciona a nova solução ao pool do SCIP principal.
+\end{enumerate}
+
+A abordagem permite explorar vizinhanças de tamanho controlado, equilibrando a intensificação (ao focar em atribuições específicas) e a diversificação (ao permitir reatribuições significativas). Os parâmetros \texttt{lns\_perc}, \texttt{lns\_order} e \texttt{lns\_time} oferecem controle sobre o trade-off entre qualidade da solução e tempo computacional, sendo objeto de análise experimental detalhada no próximo capítulo.
