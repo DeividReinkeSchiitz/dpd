@@ -2,13 +2,13 @@
 
 \section{Instâncias e Ambiente de Testes}
 
-Os experimentos computacionais foram realizados utilizando um conjunto de 42 instâncias de teste geradas sinteticamente, representando diferentes cenários do Problema da Distribuição de Disciplinas (DPD). As instâncias variam em tamanho e complexidade, com número de disciplinas entre 62 e 214, número de professores entre 22 e 69, e diferentes configurações de áreas de conhecimento e preferências.
+Os experimentos computacionais foram conduzidos utilizando um conjunto de 42 instâncias de teste geradas sinteticamente, abrangendo diferentes cenários do Problema da Distribuição de Disciplinas (DPD). As instâncias variam em tamanho (62 a 214 disciplinas), número de professores (22 a 69), complexidade das restrições de carga horária e distribuição de preferências entre áreas de conhecimento.
 
-Para cada experimento, foram selecionadas aleatoriamente 10 instâncias dentre as 42 disponíveis, garantindo representatividade estatística enquanto mantém o tempo total de experimentação viável. Cada instância foi escolhida de maneira aleatória dentro do conjunto de arquivos de entrada. As mesmas instâncias foram utilizadas em todas as configurações testadas de um mesmo parâmetro, assegurando comparabilidade direta dos resultados.
+Para cada experimento, foram selecionadas aleatoriamente 10 instâncias dentre as 42 disponíveis, garantindo representatividade estatística e mantendo o tempo total de experimentação viável. As mesmas instâncias foram utilizadas em todas as configurações testadas de um mesmo parâmetro, assegurando comparabilidade direta dos resultados.
 
-Todas as execuções foram realizadas com limite de tempo global de 400 segundos por instância. O solver utilizado foi o SCIP 7.0, integrado com as heurísticas LNS e GRASP desenvolvidas neste trabalho. 
+Todas as execuções foram realizadas com limite de tempo global de 400 segundos por instância. O solver utilizado foi o SCIP 7.0 \cite{gamrath_2020_scip}, integrado com as heurísticas LNS e GRASP desenvolvidas neste trabalho. A calibração dos parâmetros da heurística LNS foi conduzida de forma incremental, conforme a abordagem \emph{one-factor-at-a-time}: primeiro determinou-se a melhor taxa de destruição, em seguida o melhor sentido de ordenação e, finalmente, o melhor limite de tempo para o sub-MIP. Essa estratégia permite isolar o efeito de cada parâmetro e identificar a configuração mais adequada de forma sistemática.
 
-A análise dos parâmetros da heurística LNS foi conduzida de forma incremental: primeiro determinou-se a melhor taxa de destruição, em seguida o melhor sentido de ordenação, e finalmente o melhor limite de tempo para o sub-MIP. Esta abordagem sistemática permite isolar o impacto de cada parâmetro e identificar a configuração ótima.
+Para a seleção do melhor valor de cada parâmetro, adotou-se a seguinte hierarquia de critérios de desempate: (i)~tempo de execução, (ii)~gap de otimalidade e (iii)~número de nós restantes na árvore de Branch-and-Bound (\emph{nodes left}). Quando os critérios de maior prioridade apresentaram empate entre as configurações, o critério subsequente foi utilizado como desempate.
 
 \section{Análise Interna das Configurações da LNS}
 
@@ -16,54 +16,132 @@ A análise dos parâmetros da heurística LNS foi conduzida de forma incremental
 
 A primeira análise experimental investigou o impacto da taxa de destruição (\texttt{lns\_perc}) na qualidade das soluções e no desempenho computacional. Foram testadas quatro configurações: 10\%, 25\%, 50\% e 75\% de destruição, mantendo fixos o tempo máximo do LNS (30s por chamada), a ordenação (crescente) e o tempo total de execução (400s).
 
-\textbf{Resultados de Tempo de Execução:} A Tabela~\ref{tab:lns_cand_tempo} apresenta o tempo total de execução para 10 instâncias selecionadas. A configuração de relaxação (sem LNS) obteve o melhor desempenho médio, com 19,49 segundos, contra 25,39 segundos da melhor configuração LNS. Entretanto, sete das dez instâncias foram resolvidas de forma ótima (tempo reduzido), enquanto três instâncias (input7, input15 e input22) atingiram o limite de tempo. Este resultado indica que o tempo adicional investido pelo LNS não se traduz necessariamente em melhoria para instâncias fáceis, mas pode ser crucial para instâncias difíceis.
-
 \input{Auxiliares/tabelas.tex}
 
-\textbf{Nodes Left:} O critério decisivo para a escolha do melhor parâmetro foi a quantidade de nós restantes na árvore de Branch-and-Bound ao final da execução, métrica que reflete diretamente o progresso em direção à otimalidade. A Tabela~\ref{tab:lns_cand_nodes} mostra que a configuração com 75\% de destruição alcançou o menor total de nós restantes: \textbf{58.921 nós}, comparado a 62.628 (10\%), 60.540 (25\%) e 61.056 (50\%). Todas as configurações obtiveram desempenho idêntico em 9 das 10 instâncias (resolvidas até a otimalidade), mas na instância crítica input7, a configuração de 75\% demonstrou maior capacidade de exploração e poda da árvore.
+\textbf{Tempo de Execução.} A Tabela~\ref{tab:lns_cand_tempo} apresenta os tempos de execução para as 10 instâncias selecionadas. A configuração de relaxação (sem LNS) obteve o menor tempo médio, com 19,49 segundos, contra 25,39 segundos da melhor configuração LNS (75\%). Esse resultado é esperado, pois o \emph{overhead} introduzido pelas chamadas ao sub-MIP do LNS aumenta o tempo total, sobretudo em instâncias que já são resolvidas de forma ótima pelo Branch-and-Bound puro. Nove das dez instâncias foram resolvidas até a otimalidade por todas as configurações, e apenas a instância input7 atingiu o limite de tempo. Assim, o tempo de execução não foi suficiente para diferenciar as configurações LNS entre si.
 
-A Figura~\ref{fig:nodes_cand} demonstra visualmente a superioridade da taxa de 75\%.
+\textbf{Gap de Otimalidade.} Em termos de gap, todas as configurações --- incluindo a relaxação --- apresentaram desempenho equivalente (0,60\% de gap total), com apenas a instância input7 permanecendo sem solução ótima comprovada (ver Tabela~\ref{tab:lns_cand_gap}). Esse empate impediu o uso do gap como critério de seleção.
+
+\textbf{Nós Restantes (\emph{Nodes Left}).} Uma vez que tanto o tempo quanto o gap resultaram em empate, o critério de desempate utilizado foi a quantidade de nós restantes na árvore de Branch-and-Bound ao final da execução, métrica que reflete o progresso em direção à prova de otimalidade. A Tabela~\ref{tab:lns_cand_nodes} revela que a configuração com 75\% de destruição alcançou o menor total de nós restantes: \textbf{58.921 nós}, comparado a 66.230 (relaxação), 62.628 (10\%), 60.540 (25\%) e 61.056 (50\%). Todas as configurações obtiveram resultado idêntico em 9 das 10 instâncias (resolvidas até a otimalidade), mas na instância crítica input7, a taxa de 75\% demonstrou maior capacidade de exploração e poda da árvore. A Figura~\ref{fig:nodes_cand} apresenta visualmente a comparação dos totais, e a Figura~\ref{fig:avg_nodes_cand} exibe a média por instância, evidenciando a superioridade da configuração de 75\%.
 
 \input{Auxiliares/fig_nodes_cand.tex}
 
-\textbf{Gap de Otimalidade:} Em termos de gap, todas as configurações apresentaram desempenho equivalente (0,60\% total), com apenas a instância input7 permanecendo sem solução ótima. Este empate no gap reforça a importância da métrica de nodes left como critério de desempate.
+\input{Auxiliares/fig_avg_nodes_cand.tex}
 
-\textbf{Conclusão:} A taxa de destruição de \textbf{75\%} foi selecionada para as análises subsequentes, pois demonstrou melhor capacidade de redução da árvore de busca em instâncias difíceis, indicando que vizinhanças maiores permitem ao LNS realizar explorações mais agressivas e produtivas do espaço de soluções.
+\textbf{Conclusão Parcial.} A taxa de destruição de \textbf{75\%} foi selecionada para as análises subsequentes, pois demonstrou melhor capacidade de redução da árvore de busca na instância difícil. Esse resultado indica que vizinhanças maiores permitem ao LNS realizar explorações mais agressivas e produtivas do espaço de soluções, reforçando a estratégia de intensificação adotada pela matheurística.
 
 \subsection{Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}
 
-Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight}. Conforme descrito na metodologia, a ordenação crescente prioriza professores mais versáteis (maior número de preferências), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
+Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight}. Conforme descrito no Capítulo~\ref{ch:dpd}, a ordenação crescente prioriza a liberação de professores mais versáteis (maior número de preferências declaradas), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
 
-\textbf{Resultados de Tempo:} A Tabela~\ref{tab:lns_order_tempo} revela desempenho temporal praticamente idêntico entre as duas estratégias: 180,31 segundos (crescente) versus 180,38 segundos (decrescente) no tempo médio, com diferença de apenas 0,07 segundos. Das 10 instâncias testadas, quatro atingiram o limite de tempo em ambas as configurações (input4, input15, input17 e input33), e as demais apresentaram variações inferiores a 1 segundo.
+\textbf{Tempo de Execução.} A Tabela~\ref{tab:lns_order_tempo} revela desempenho temporal praticamente idêntico entre as duas estratégias: 180,31 segundos (crescente) versus 180,38 segundos (decrescente) no tempo médio, com diferença inferior a 0,1 segundo. Das 10 instâncias testadas, quatro atingiram o limite de tempo em ambas as configurações (input4, input15, input17 e input33), e as demais apresentaram variações inferiores a 1 segundo. O tempo, portanto, não permitiu diferenciar as estratégias.
 
-\textbf{Nodes Left:} A métrica de nós restantes revelou vantagem significativa para a ordenação crescente. A Tabela~\ref{tab:lns_order_nodes} mostra que a configuração crescente resultou em \textbf{131.997 nós restantes}, enquanto a decrescente deixou 133.674 nós, uma redução de 1.677 nós (1,25\%). Observa-se desempenho superior da ordenação crescente em duas instâncias críticas: input15 (61.546 vs. 62.452 nós) e input33 (46.243 vs. 47.063 nós). A Figura~\ref{fig:nodes_order} apresenta a comparação visual entre as três configurações.
+\textbf{Gap de Otimalidade.} Ambas as configurações mantiveram gap total idêntico de 1,62\%, distribuído entre quatro instâncias não resolvidas de forma ótima (input4, input15, input17 e input33), com gaps individuais variando de 0,20\% a 0,73\% (ver Tabela~\ref{tab:lns_order_gap}). O empate no gap impediu, novamente, seu uso como critério de seleção.
+
+\textbf{Nós Restantes (\emph{Nodes Left}).} A métrica de nós restantes revelou vantagem para a ordenação crescente. A Tabela~\ref{tab:lns_order_nodes} mostra que a configuração crescente resultou em \textbf{131.997 nós restantes} no total, enquanto a decrescente deixou 133.674 nós --- uma redução de 1.677 nós (1,25\%). A diferença se concentra em duas instâncias críticas: input15 (61.546 vs.\ 62.452 nós) e input33 (46.243 vs.\ 47.063 nós). A Figura~\ref{fig:nodes_order} apresenta a comparação visual dos totais, e a Figura~\ref{fig:avg_nodes_order} exibe a média por instância.
 
 \input{Auxiliares/fig_nodes_order.tex}
 
-\textbf{Gap de Otimalidade:} Ambas as configurações mantiveram gap total idêntico de 1,62\%, distribuído entre três instâncias não resolvidas (input4, input15 e input17), todas com gap individual de 0,20\% a 0,73\%.
+\input{Auxiliares/fig_avg_nodes_order.tex}
 
-\textbf{Interpretação:} A superioridade da ordenação \textbf{crescente} sugere que, para o problema DPD, priorizar a realocação de professores mais versáteis (generalistas) oferece maior flexibilidade para o sub-MIP encontrar rearranjos que melhorem a solução global. Embora professores especializados tenham menos opções de atribuição, são justamente os generalistas que permitem redistribuições mais efetivas das disciplinas, facilitando a satisfação simultânea de múltiplas restrições de carga horária.
+\textbf{Interpretação.} A superioridade da ordenação \textbf{crescente} sugere que, para o DPD, priorizar a realocação de professores mais versáteis (generalistas) oferece maior flexibilidade para o sub-MIP encontrar rearranjos que melhorem a solução global. Professores generalistas possuem preferências por um maior número de disciplinas, o que amplia o espaço de busca do sub-MIP e facilita a satisfação simultânea de múltiplas restrições de carga horária. A ordenação crescente foi, portanto, adotada para as análises subsequentes.
 
 \subsection{Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}
 
-Com os parâmetros de taxa de destruição (75\%) e ordenação (crescente) otimizados, investigou-se o impacto do limite de tempo do sub-MIP (\texttt{lns\_time}). Foram testados quatro valores: 10s, 50s, 100s e 200s, mantendo o limite global de 400 segundos por instância.
+Com os parâmetros de taxa de destruição (75\%) e ordenação (crescente) definidos, investigou-se o impacto do limite de tempo do sub-MIP (\texttt{lns\_time}). Foram testados quatro valores: 10s, 50s, 100s e 200s, mantendo o limite global de 400 segundos por instância.
 
-\textbf{Resultados de Tempo:} A Tabela~\ref{tab:lns_time_tempo} apresenta resultados contraintuitivos. Embora esperasse-se que limites maiores de LNS aumentassem o tempo total, observou-se comportamento não monotônico: o tempo médio foi de 164,77s (10s), 162,11s (50s), 160,27s (100s) e \textbf{159,46s (200s)}. O tempo total agregado confirma esta tendência: 1.639,76s (relaxação), 1.647,01s (10s), 1.313,60s (50s), \textbf{1.039,68s (100s)} e 1.090,00s (200s). Destaca-se a instância input15, onde as configurações de 100s e 200s resolveram o problema em $\sim$77s, contra 400s nas demais.
+\textbf{Tempo de Execução.} A Tabela~\ref{tab:lns_time_tempo} apresenta resultados contraintuitivos: embora se esperasse que limites maiores de LNS aumentassem o tempo total, observou-se comportamento não monotônico. O tempo médio foi de 164,77s (10s), 162,11s (50s), 160,27s (100s) e \textbf{159,46s (200s)}. O tempo total agregado reforça essa tendência: 1.629,16s (relaxação), 1.647,01s (10s), 1.313,60s (50s), \textbf{1.039,68s (100s)} e 1.090,00s (200s). Destaca-se a instância input15, em que as configurações de 100s e 200s resolveram o problema em $\sim$77s, contra 400s nas demais. Contudo, os resultados de tempo médio e tempo total apontam para configurações diferentes (200s e 100s, respectivamente), não permitindo uma conclusão unívoca por este critério.
 
-Esta redução de tempo com limites maiores de LNS é explicada pela capacidade de encontrar soluções de melhor qualidade mais cedo, permitindo podas mais agressivas na árvore de Branch-and-Bound. Configurações com tempo insuficiente (10s) produzem melhorias marginais que não compensam o overhead da heurística.
+Essa redução de tempo com limites maiores de LNS pode ser explicada pela capacidade de encontrar soluções de melhor qualidade mais cedo: uma incumbente mais forte permite podas mais agressivas na árvore de Branch-and-Bound, acelerando a convergência. Configurações com tempo insuficiente (10s) produzem melhorias marginais que não compensam o \emph{overhead} da heurística.
 
-\textbf{Nodes Left:} A Tabela~\ref{tab:lns_time_nodes} confirma a superioridade de limites maiores. O total de nós restantes foi: 135.986 (relaxação), 144.674 (10s), 130.424 (50s), 51.935 (100s) e \textbf{33.539 (200s)}. A configuração de 200s reduziu os nós em 75,3\% em relação à relaxação pura e em 76,8\% em relação ao LNS com 10s. As instâncias input15 e input33 foram resolvidas completamente apenas com 100s ou 200s, enquanto permaneceram com dezenas de milhares de nós nas configurações inferiores. A Figura~\ref{fig:nodes_time} demonstra claramente o impacto positivo de limites maiores na redução da árvore de busca.
+\textbf{Gap de Otimalidade.} A Tabela~\ref{tab:lns_time_gap} mostra que as configurações de 100s e 200s empataram com gap total de \textbf{0,72\%}, substancialmente inferior ao obtido pela relaxação e pelo LNS com 10s (ambos com 1,73\%). O destaque vai para a instância input15, resolvida até a otimalidade (gap 0,00\%) apenas pelas configurações de 100s e 200s, e para a instância input33, cujo gap caiu de 0,49\% (relaxação) para 0,24\% com 100s e 200s. Entretanto, o empate entre 100s e 200s impediu o uso do gap como critério final.
+
+\textbf{Nós Restantes (\emph{Nodes Left}).} A Tabela~\ref{tab:lns_time_nodes} foi o critério de desempate definitivo. O total de nós restantes foi: 135.986 (relaxação), 144.674 (10s), 130.424 (50s), 51.935 (100s) e \textbf{33.539 (200s)}. A configuração de 200s reduziu os nós em 75,3\% em relação à relaxação e em 76,8\% em relação ao LNS com 10s. As instâncias input15 e input29 foram resolvidas completamente (0 nós restantes) pelas configurações de 100s e 200s, enquanto permaneceram com dezenas de milhares de nós nas configurações inferiores. Na instância input33, a configuração de 200s deixou apenas 539 nós, contra 1.524 com 100s. A Figura~\ref{fig:nodes_time} apresenta os totais, e a Figura~\ref{fig:avg_nodes_time} ilustra a média por instância, evidenciando a clara superioridade do limite de 200s.
 
 \input{Auxiliares/fig_nodes_time.tex}
 
-\textbf{Gap de Otimalidade:} A instância input22 manteve gap positivo em todas as configurações, mas com variação significativa nos nós restantes: 21.528 (relaxação), 29.161 (10s), 25.100 (50s), 50.411 (100s) e 33.000 (200s), sugerindo diferentes regiões de exploração.
+\input{Auxiliares/fig_avg_nodes_time.tex}
 
-\textbf{Conclusão:} O limite de \textbf{200 segundos} demonstrou o melhor desempenho global, reduzindo drasticamente a árvore de busca e resolvendo instâncias que outras configurações não conseguiram. O resultado evidencia que, para problemas combinatórios complexos como o DPD, investir mais tempo em cada chamada do LNS compensa através de soluções de maior qualidade que aceleram a convergência do Branch-and-Bound global. O trade-off entre intensidade (tempo por chamada) e frequência (número de chamadas) favorece claramente a intensidade para este problema.
+\textbf{Conclusão Parcial.} O limite de \textbf{200 segundos} demonstrou o melhor desempenho global, reduzindo drasticamente a árvore de busca e resolvendo instâncias que outras configurações não conseguiram. Para problemas combinatórios como o DPD, investir mais tempo em cada chamada do LNS é compensado por soluções de maior qualidade, que aceleram a convergência do Branch-and-Bound. O \emph{trade-off} entre intensidade (tempo por chamada) e frequência (número de chamadas) favorece claramente a intensidade para este problema.
 
-\section{Comparativo de Desempenho e Qualidade de Solução}
+\subsection{Resumo da Configuração Selecionada}
 
-\subsection{LNS versus GRASP}
+A Tabela~\ref{tab:config_final} resume os parâmetros selecionados ao longo da análise incremental.
 
-\subsection{LNS versus Modelo Exato (Branch-and-Bound Padrão)}
+\begin{table}[htbp]
+\centering
+\caption{Configuração final da heurística LNS selecionada pela análise incremental.}
+\label{tab:config_final}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Parâmetro} & \textbf{Valores Testados} & \textbf{Selecionado} & \textbf{Critério Decisivo} \\
+\midrule
+Taxa de destruição (\texttt{lns\_perc}) & 10\%, 25\%, 50\%, 75\% & 75\% & Nós restantes \\
+Ordenação (\texttt{lns\_order})         & Crescente, Decrescente  & Crescente & Nós restantes \\
+Tempo do sub-MIP (\texttt{lns\_time})   & 10s, 50s, 100s, 200s   & 200s & Nós restantes \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\section{Análise de Tempo Computacional e Gap de Otimidade}
+Nota-se que, em todas as etapas, o tempo de execução e o gap de otimalidade não foram suficientes para diferenciar as configurações, sendo a métrica de nós restantes o critério de desempate definitivo. Esse padrão sugere que, para as instâncias avaliadas, o LNS atua predominantemente como acelerador da prova de otimalidade, reduzindo o esforço do Branch-and-Bound por meio de incumbentes de melhor qualidade.
+
+\section{Comparativo de Desempenho: LNS, GRASP e Modelo Exato}
+
+Com os parâmetros da LNS calibrados (75\% de destruição, ordenação crescente e tempo de sub-MIP de 200s), realizou-se um comparativo final entre quatro configurações: (i)~\textbf{Relaxação} (Branch-and-Bound puro, sem heurísticas primais customizadas), (ii)~\textbf{LNS} (apenas a heurística LNS proposta), (iii)~\textbf{GRASP} (apenas a heurística GRASP, com \texttt{max\_iter=1}, $\alpha=0{,}8$ e sem busca local \cite{jhonatan_grasp_dpd}) e (iv)~\textbf{GRASP|LNS} (ambas as heurísticas ativadas simultaneamente). As mesmas 10 instâncias foram utilizadas em todas as configurações.
+
+\subsection{Análise do Tempo de Execução}
+
+A Tabela~\ref{tab:geral_tempo} apresenta os tempos de execução para cada configuração. O \textbf{LNS} obteve o menor tempo médio: \textbf{22,44 segundos}, representando uma redução de 69,6\% em relação à relaxação (73,76s) e de 82,7\% em relação ao GRASP (129,75s). A configuração GRASP|LNS alcançou 58,79s de tempo médio, posicionando-se entre a relaxação e o LNS.
+
+Dentre as 10 instâncias, o LNS foi o mais rápido em 7 delas, com destaque para a instância input15: enquanto a relaxação e o GRASP atingiram o limite de 400s, o LNS resolveu a instância em 79,90s. A instância input35, com 169 disciplinas e 53 professores, exemplifica o impacto da heurística: o LNS concluiu em 63,27s contra 186,72s da relaxação e 400,07s do GRASP. A Figura~\ref{fig:geral_tempo} ilustra a comparação dos tempos médios.
+
+\input{Auxiliares/fig_geral_tempo.tex}
+
+O GRASP apresentou o pior desempenho temporal, atingindo o limite de tempo em 3 das 10 instâncias (input5, input15 e input35). Esse resultado sugere que a heurística construtiva do GRASP, embora forneça soluções iniciais viáveis rapidamente, não contribui de forma eficaz para a redução da árvore de busca do Branch-and-Bound.
+
+\subsection{Análise do Gap de Otimalidade}
+
+A Tabela~\ref{tab:geral_gap} apresenta o gap de otimalidade para cada configuração. O \textbf{LNS} atingiu \textbf{gap total de 0,00\%}, provando a otimalidade de todas as 10 soluções encontradas. A relaxação obteve 0,73\% (devido à instância input15 não resolvida), a GRASP|LNS obteve 0,24\% (input15 com gap residual) e o GRASP apresentou o pior resultado com 3,46\% de gap total, com três instâncias sem solução ótima comprovada (input5 com 1,01\%, input15 com 0,24\% e input35 com 2,21\%). A Figura~\ref{fig:geral_gap} apresenta a comparação visual.
+
+\input{Auxiliares/fig_geral_gap.tex}
+
+A superioridade do LNS no gap é particularmente expressiva: enquanto a relaxação pura não conseguiu provar a otimalidade da instância input15 em 400s, o LNS resolveu-a completamente. O GRASP, por sua vez, não apenas falhou em provar otimalidade, como também obteve soluções de pior qualidade em duas instâncias (input5 e input35), conforme indicado pelos gaps de 1,01\% e 2,21\%.
+
+\subsection{Análise dos Nós Restantes}
+
+A Tabela~\ref{tab:geral_nodes} confirma a superioridade do LNS. O \textbf{LNS alcançou 0 nós restantes} no total, indicando que todas as instâncias foram resolvidas até a otimalidade dentro do limite de tempo. A relaxação deixou 64.364 nós (todos da instância input15), o GRASP deixou 36.303 nós (distribuídos entre input5, input15 e input35) e a GRASP|LNS deixou 2.324 nós (apenas input15). A Figura~\ref{fig:geral_nodes} apresenta a comparação.
+
+\input{Auxiliares/fig_geral_nodes.tex}
+
+\subsection{Discussão dos Resultados}
+
+Os resultados do comparativo evidenciam que a matheurística LNS proposta supera consistentemente tanto o Branch-and-Bound puro quanto o GRASP em todas as métricas avaliadas. A Tabela~\ref{tab:resumo_comparativo} sintetiza os principais indicadores.
+
+\begin{table}[htbp]
+\centering
+\caption{Resumo comparativo das quatro configurações avaliadas.}
+\label{tab:resumo_comparativo}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Métrica} & \textbf{Relaxação} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} \\
+\midrule
+Tempo médio (s)        & 73,76  & \textbf{22,44} & 129,75 & 58,79 \\
+Tempo total (s)        & 744,13 & \textbf{230,05} & 1.314,27 & 594,92 \\
+Gap total (\%)         & 0,73   & \textbf{0,00}  & 3,46   & 0,24 \\
+Nós restantes (total)  & 64.364 & \textbf{0}     & 36.303 & 2.324 \\
+Instâncias ótimas      & 9/10   & \textbf{10/10} & 7/10   & 9/10 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A análise revela três observações principais:
+
+\begin{enumerate}
+  \item \textbf{O LNS é o método mais eficaz.} Com a configuração calibrada (75\% de destruição, ordenação crescente, 200s de sub-MIP), o LNS resolveu todas as instâncias até a otimalidade, com tempo médio 3,3 vezes menor que a relaxação e 5,8 vezes menor que o GRASP. A estratégia de intensificação via sub-MIP gera incumbentes de alta qualidade que viabilizam podas mais eficientes na árvore de busca.
+
+  \item \textbf{A combinação GRASP|LNS não supera o LNS isolado.} Embora a GRASP|LNS tenha apresentado desempenho superior à relaxação e ao GRASP, o \emph{overhead} da heurística construtiva GRASP não trouxe benefícios adicionais quando o LNS já estava ativo. Isso sugere que o LNS é capaz de encontrar incumbentes de qualidade suficiente sem a necessidade de uma solução inicial heurística dedicada.
+
+  \item \textbf{O GRASP isolado apresenta limitações para o DPD.} O GRASP atingiu o limite de tempo em 30\% das instâncias e não conseguiu provar a otimalidade em 3 delas. A heurística construtiva, embora gere soluções viáveis rapidamente, não contribui de forma significativa para a redução do espaço de busca, e o \emph{overhead} computacional de sua execução a cada nó penaliza o desempenho global.
+\end{enumerate}

@@ -38,7 +38,7 @@ input34 & 137 & 42 & 21,92   & 26,68  & 26,08  & 26,38  & 26,41  & Relax. \\
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Número de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição. Valores menores indicam maior progresso em direção à otimalidade.}
+\caption{Número de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}
 \label{tab:lns_cand_nodes}
 \small
 \begin{tabular}{@{}lrrrrrrrr@{}}
@@ -63,7 +63,36 @@ input34 & 137 & 42 & 0      & 0      & 0      & 0      & 0      & -- \\
 \end{table}
 
 % ============================================
-% TABELA 3: Impacto da Ordenação - Tempo
+% TABELA 3: Impacto da Taxa de Destruição - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) para diferentes taxas de destruição. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_cand_gap}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input5  & 84  & 29 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input6  & 113 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input7  & 99  & 28 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & Empate \\
+input9  & 133 & 41 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input13 & 125 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input19 & 114 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input20 & 113 & 40 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input26 & 185 & 60 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input34 & 137 & 42 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+\textbf{Média}  & 114 & 39 & 0,06 & 0,06 & 0,06 & 0,06 & 0,06 & Empate \\
+\textbf{Total}  & 1.296 & 412 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & \textbf{Empate} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 4: Impacto da Ordenação - Tempo
 % ============================================
 \begin{table}[htbp]
 \centering
@@ -92,11 +121,11 @@ input38 & 62  & 22 & 0,16   & 0,28   & 0,28   & Decrescente \\
 \end{table}
 
 % ============================================
-% TABELA 4: Impacto da Ordenação - Nodes Left
+% TABELA 5: Impacto da Ordenação - Nodes Left
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Número de nós restantes comparando ordenação crescente e decrescente.}
+\caption{Número de nós restantes comparando ordenação crescente e decrescente. Configuração: 75\% de destruição, tempo LNS = 30s, limite global = 400s.}
 \label{tab:lns_order_nodes}
 \small
 \begin{tabular}{@{}lrrrrrr@{}}
@@ -121,7 +150,36 @@ input38 & 62  & 22 & 0      & 0      & 0      & -- \\
 \end{table}
 
 % ============================================
-% TABELA 5: Impacto do Tempo Máximo LNS - Tempo
+% TABELA 6: Impacto da Ordenação - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) comparando ordenação crescente e decrescente. Configuração: 75\% de destruição, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_order_gap}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
+\midrule
+input4  & 123 & 46 & 0,20 & 0,20 & 0,20 & Empate \\
+input5  & 214 & 69 & 0,00 & 0,00 & 0,00 & Empate \\
+input12 & 115 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
+input15 & 94  & 30 & 0,73 & 0,73 & 0,73 & Empate \\
+input16 & 89  & 28 & 0,00 & 0,00 & 0,00 & Empate \\
+input17 & 108 & 38 & 0,20 & 0,20 & 0,20 & Empate \\
+input20 & 104 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
+input33 & 104 & 36 & 0,49 & 0,49 & 0,49 & Empate \\
+input37 & 152 & 53 & 0,00 & 0,00 & 0,00 & Empate \\
+input38 & 62  & 22 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+\textbf{Média}  & 106 & 37 & 0,16 & 0,16 & 0,16 & Empate \\
+\textbf{Total}  & 1.271 & 433 & 1,62 & 1,62 & 1,62 & \textbf{Empate} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================
+% TABELA 7: Impacto do Tempo Máximo LNS - Tempo
 % ============================================
 \begin{table}[htbp]
 \centering
@@ -150,11 +208,11 @@ input38 & 62  & 22 & 0,16   & 0,28   & 0,28   & \textbf{0,28}   & 0,28   & \text
 \end{table}
 
 % ============================================
-% TABELA 6: Impacto do Tempo Máximo LNS - Nodes Left
+% TABELA 8: Impacto do Tempo Máximo LNS - Nodes Left
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Número de nós restantes para diferentes limites de tempo do sub-MIP.}
+\caption{Número de nós restantes para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
 \label{tab:lns_time_nodes}
 \small
 \begin{tabular}{@{}lrrrrrrrrr@{}}
@@ -179,69 +237,11 @@ input38 & 62  & 22 & 0      & 0      & 0      & 0      & 0      & -- \\
 \end{table}
 
 % ============================================
-% TABELA 7: Impacto da Taxa de Destruição - GAP
-% ============================================
-\begin{table}[htbp]
-\centering
-\caption{Gap de otimalidade (\%) para diferentes taxas de destruição. Gap igual a zero indica solução ótima.}
-\label{tab:lns_cand_gap}
-\small
-\begin{tabular}{@{}lrrrrrrrr@{}}
-\toprule
-\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
-\midrule
-input2  & 79  & 24 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input5  & 84  & 29 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input6  & 113 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input7  & 99  & 28 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & Empate \\
-input9  & 133 & 41 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input13 & 125 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input19 & 114 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input20 & 113 & 40 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input26 & 185 & 60 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-input34 & 137 & 42 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
-\midrule
-\textbf{Média}  & 114 & 39 & 0,06 & 0,06 & 0,06 & 0,06 & 0,06 & Empate \\
-\textbf{Total}  & 1.296 & 412 & 0,60 & 0,60 & 0,60 & 0,60 & 0,60 & \textbf{Empate} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% ============================================
-% TABELA 8: Impacto da Ordenação - GAP
-% ============================================
-\begin{table}[htbp]
-\centering
-\caption{Gap de otimalidade (\%) comparando ordenação crescente e decrescente.}
-\label{tab:lns_order_gap}
-\small
-\begin{tabular}{@{}lrrrrrr@{}}
-\toprule
-\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
-\midrule
-input4  & 123 & 46 & 0,20 & 0,20 & 0,20 & Empate \\
-input5  & 214 & 69 & 0,00 & 0,00 & 0,00 & Empate \\
-input12 & 115 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
-input15 & 94  & 30 & 0,73 & 0,73 & 0,73 & Empate \\
-input16 & 89  & 28 & 0,00 & 0,00 & 0,00 & Empate \\
-input17 & 108 & 38 & 0,20 & 0,20 & 0,20 & Empate \\
-input20 & 104 & 37 & 0,00 & 0,00 & 0,00 & Empate \\
-input33 & 104 & 36 & 0,49 & 0,49 & 0,49 & Empate \\
-input37 & 152 & 53 & 0,00 & 0,00 & 0,00 & Empate \\
-input38 & 62  & 22 & 0,00 & 0,00 & 0,00 & Empate \\
-\midrule
-\textbf{Média}  & 106 & 37 & 0,16 & 0,16 & 0,16 & Empate \\
-\textbf{Total}  & 1.271 & 433 & 1,62 & 1,62 & 1,62 & \textbf{Empate} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-% ============================================
 % TABELA 9: Impacto do Tempo Máximo LNS - GAP
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Gap de otimalidade (\%) para diferentes limites de tempo do sub-MIP.}
+\caption{Gap de otimalidade (\%) para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
 \label{tab:lns_time_gap}
 \small
 \begin{tabular}{@{}lrrrrrrrrr@{}}
@@ -299,7 +299,7 @@ input42 & 142 & 35 & \textbf{6,91}   & 8,18   & 20,19  & 13,39 \\
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Número de nós restantes comparando Relaxação, LNS, GRASP e GRASP|LNS.}
+\caption{Número de nós restantes comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
 \label{tab:geral_nodes}
 \small
 \begin{tabular}{@{}lrrrrrr@{}}
@@ -328,7 +328,7 @@ input42 & 142 & 35 & 0      & \textbf{0}      & 0      & \textbf{0} \\
 % ============================================
 \begin{table}[htbp]
 \centering
-\caption{Gap de otimalidade (\%) comparando Relaxação, LNS, GRASP e GRASP|LNS.}
+\caption{Gap de otimalidade (\%) comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
 \label{tab:geral_gap}
 \small
 \begin{tabular}{@{}lrrrrrr@{}}

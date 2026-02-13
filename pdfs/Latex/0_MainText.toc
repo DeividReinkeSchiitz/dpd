@@ -1,52 +1,54 @@
 \changetocdepth {3}
 \babel@toc {brazil}{}\relax 
-\contentsline {chapter}{\chapternumberline {1}Introdução}{9}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Contextualização}{9}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Motivação e Justificativa}{9}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Objetivos}{10}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Objetivo Geral}{10}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Objetivos Específicos}{10}{subsection.1.3.2}%
-\contentsline {section}{\numberline {1.4}Organização do Trabalho}{11}{section.1.4}%
-\contentsline {chapter}{\chapternumberline {2}Fundamentação Teórica}{12}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Otimização Combinatória e Programação Linear Inteira (PLI)}{12}{section.2.1}%
-\contentsline {section}{\numberline {2.2}O Método Branch-and-Bound e Relaxação Linear}{12}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Heurísticas e Metaheurísticas}{13}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Greedy Randomized Adaptive Search Procedure (GRASP)}{13}{subsection.2.3.1}%
-\contentsline {section}{\numberline {2.4}Matheurísticas}{13}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Large Neighborhood Search (LNS) e Fix-and-Relax}{14}{subsection.2.4.1}%
-\contentsline {chapter}{\chapternumberline {3}O Problema da Distribuição de Disciplinas (DPD)}{15}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Definição do Problema}{15}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Modelo Matemático Exato}{15}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Conjuntos e Índices}{15}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Parâmetros e Constantes}{15}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Variáveis de Decisão}{16}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Função Objetivo}{16}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Restrições}{16}{subsection.3.2.5}%
-\contentsline {subsubsection}{\numberline {3.2.5.1}Cobertura Obrigatória de Disciplinas}{16}{subsubsection.3.2.5.1}%
-\contentsline {subsubsection}{\numberline {3.2.5.2}Carga Horária Mínima Anual}{16}{subsubsection.3.2.5.2}%
-\contentsline {subsubsection}{\numberline {3.2.5.3}Carga Horária Máxima no Primeiro Semestre}{16}{subsubsection.3.2.5.3}%
-\contentsline {subsubsection}{\numberline {3.2.5.4}Carga Horária Máxima no Segundo Semestre}{17}{subsubsection.3.2.5.4}%
-\contentsline {section}{\numberline {3.3}Matheurística LNS Proposta}{17}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Definição de Candidatos e Ordenação}{17}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Destruição (Destroy)}{18}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Reparo (Repair) via Sub-MIP}{18}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Integração com o SCIP}{18}{subsection.3.3.4}%
-\contentsline {chapter}{\chapternumberline {4}Resultados e Análise Computacional}{20}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Instâncias e Ambiente de Testes}{20}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Análise Interna das Configurações da LNS}{20}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Impacto da Taxa de Destruição (10\%, 25\%, 50\% e 75\%)}{20}{subsection.4.2.1}%
+\contentsline {chapter}{\chapternumberline {1}Introdução}{10}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contextualização}{10}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Motivação e Justificativa}{10}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objetivos}{11}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Objetivo Geral}{11}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Objetivos Específicos}{11}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}Organização do Trabalho}{12}{section.1.4}%
+\contentsline {chapter}{\chapternumberline {2}Fundamentação Teórica}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Otimização Combinatória e Programação Linear Inteira (PLI)}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}O Método Branch-and-Bound e Relaxação Linear}{13}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Heurísticas e Metaheurísticas}{14}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Greedy Randomized Adaptive Search Procedure (GRASP)}{14}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Matheurísticas}{14}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Large Neighborhood Search (LNS) e Fix-and-Relax}{15}{subsection.2.4.1}%
+\contentsline {chapter}{\chapternumberline {3}O Problema da Distribuição de Disciplinas (DPD)}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Definição do Problema}{16}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Modelo Matemático Exato}{16}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Conjuntos e Índices}{16}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Parâmetros e Constantes}{16}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Variáveis de Decisão}{17}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Função Objetivo}{17}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Restrições}{17}{subsection.3.2.5}%
+\contentsline {subsubsection}{\numberline {3.2.5.1}Cobertura Obrigatória de Disciplinas}{17}{subsubsection.3.2.5.1}%
+\contentsline {subsubsection}{\numberline {3.2.5.2}Carga Horária Mínima Anual}{17}{subsubsection.3.2.5.2}%
+\contentsline {subsubsection}{\numberline {3.2.5.3}Carga Horária Máxima no Primeiro Semestre}{17}{subsubsection.3.2.5.3}%
+\contentsline {subsubsection}{\numberline {3.2.5.4}Carga Horária Máxima no Segundo Semestre}{18}{subsubsection.3.2.5.4}%
+\contentsline {section}{\numberline {3.3}Matheurística LNS Proposta}{18}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Definição de Candidatos e Ordenação}{18}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Destruição (Destroy)}{19}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Reparo (Repair) via Sub-MIP}{19}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Integração com o SCIP}{19}{subsection.3.3.4}%
+\contentsline {chapter}{\chapternumberline {4}Resultados e Análise Computacional}{21}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Instâncias e Ambiente de Testes}{21}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Análise Interna das Configurações da LNS}{21}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Impacto da Taxa de Destruição (10\%, 25\%, 50\% e 75\%)}{21}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}{26}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}{27}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Comparativo de Desempenho e Qualidade de Solução}{28}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}LNS versus GRASP}{28}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}LNS versus Modelo Exato (Branch-and-Bound Padrão)}{28}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Análise de Tempo Computacional e Gap de Otimidade}{28}{section.4.4}%
-\contentsline {chapter}{\chapternumberline {5}Conclusão}{29}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Considerações Finais}{29}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitações do Estudo}{29}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Trabalhos Futuros}{29}{section.5.3}%
-\contentsline {chapter}{Refer\^encias}{30}{chapter*.23}%
+\contentsline {subsection}{\numberline {4.2.3}Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}{29}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Resumo da Configuração Selecionada}{31}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Comparativo de Desempenho: LNS, GRASP e Modelo Exato}{31}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Análise do Tempo de Execução}{32}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Análise do Gap de Otimalidade}{33}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Análise dos Nós Restantes}{33}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Discussão dos Resultados}{34}{subsection.4.3.4}%
+\contentsline {chapter}{\chapternumberline {5}Conclusão}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Considerações Finais}{36}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Limitações do Estudo}{36}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Trabalhos Futuros}{36}{section.5.3}%
+\contentsline {chapter}{Refer\^encias}{37}{chapter*.31}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
-\contentsline {part}{Ap\^endices}{32}{section*.24}%
-\contentsline {appendix}{\chapternumberline {A}Códigos}{33}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Apêndices - Materiais do autor}{33}{section.A.1}%
+\contentsline {part}{Ap\^endices}{39}{section*.32}%
+\contentsline {appendix}{\chapternumberline {A}Códigos}{40}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Apêndices - Materiais do autor}{40}{section.A.1}%

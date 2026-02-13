@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  4 FEB 2026 19:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  12 FEB 2026 20:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1544,71 +1544,67 @@ Overfull \hbox (11.21103pt too wide) in paragraph at lines 15--15
  [][] [][][]\T1/lmr/m/n/12 Tempo de exe-cu-ção (se-gun-dos) com-pa-rando Re-la-xa-ção, LNS, GRASP 
  []
 
-)
+
 
 [6
 
-] (./0_MainText.toc
+])
 
-[7
+[7] (./0_MainText.toc
+
+[8
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 50.
+(Font)              <14.4> on input line 52.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 50.
+(Font)              <10> on input line 52.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 50.
+(Font)              <7> on input line 52.
 ) (./1_Intro.tex
 
-[8]
+[9]
 
-LaTeX Warning: Citation `neto2023matheuristicas' on page 9 undefined on input line 17.
+LaTeX Warning: Citation `neto2023matheuristicas' on page 10 undefined on input line 17.
 
 
 
-[9
+[10
 
 ])
 
-[10{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (./2_Revisao_biblio.tex
+[11{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (./2_Revisao_biblio.tex
 
-[11]
+[12]
 Overfull \hbox (0.91454pt too wide) in paragraph at lines 3--3
 []\T1/lmr/m/n/17.28 Otimização Com-bi-na-tó-ria e Pro-gra-ma-ção Li-near In-teira (PLI) 
  []
 
 
 
-[12
+[13
 
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
-[13]) (./3_Metodologia.tex
+[14]) (./3_Metodologia.tex
 
-[14]
+[15]
 
-[15
+[16
 
 ]
 
-[16]
+[17]
 
-[17])
+[18])
 
-[18] (./4_Resultados.tex
+[19] (./4_Resultados.tex
 
-[19]
+[20] (./Auxiliares/tabelas.tex)
 
-[20
+[21
 
-] (./Auxiliares/tabelas.tex) (./Auxiliares/fig_nodes_cand.tex
-Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 31.
-)
-
-[21]
+]
 
 [22]
 
@@ -1616,31 +1612,66 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [24]
 
-[25] (./Auxiliares/fig_nodes_order.tex
+[25] (./Auxiliares/fig_nodes_cand.tex
 Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 31.
+) (./Auxiliares/fig_avg_nodes_cand.tex
+Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[26] (./Auxiliares/fig_nodes_time.tex
+[26]
+
+[27] (./Auxiliares/fig_nodes_order.tex
 Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
+) (./Auxiliares/fig_avg_nodes_order.tex
+Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
+)
+
+[28]
+
+[29] (./Auxiliares/fig_nodes_time.tex
+Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
+) (./Auxiliares/fig_avg_nodes_time.tex
+Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
+)
+
+[30]
+
+[31] (./Auxiliares/fig_geral_tempo.tex
+Package pgfplots info on input line 24: Using 'lua backend=false' for axis: x coord trafo unsupported.
+)
+
+[32] (./Auxiliares/fig_geral_gap.tex
+Package pgfplots info on input line 24: Using 'lua backend=false' for axis: x coord trafo unsupported.
+) (./Auxiliares/fig_geral_nodes.tex
+Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
+)
+
+[33]
+Overfull \hbox (9.76993pt too wide) in paragraph at lines 144--145
+[]\T1/lmr/bx/n/12 A com-bi-na-ção GRASP|LNS não su-pera o LNS iso-lado. \T1/lmr/m/n/12 Em-bora a GRASP|LNS
+ []
 
 
-[27])) (./5_Conclusao.tex
 
-[28]) (./0_MainText.bbl
+[34]) (./5_Conclusao.tex
 
-[29
+[35]) (./0_MainText.bbl
+
+[36
 
 ]
 bibitemlist
 
 
-[30
+[37
 
 ])
 
-[31]
+[38]
 
-[32
+[39
 
 
 
@@ -1660,7 +1691,7 @@ Package glossaries Warning: Glossary `symbols' has no entries.
 
 
 
-[33
+[40
 
 ]
 \tf@lof=\write6
@@ -1686,18 +1717,18 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 54927 strings out of 475151
- 1234296 string characters out of 5766386
- 2112852 words of memory out of 5000000
- 76847 multiletter control sequences out of 15000+600000
- 652247 words of font info for 122 fonts, out of 8000000 for 9000
+ 55037 strings out of 475151
+ 1236690 string characters out of 5766386
+ 2119212 words of memory out of 5000000
+ 76917 multiletter control sequences out of 15000+600000
+ 656518 words of font info for 123 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
  99i,13n,131p,2442b,2345s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on 0_MainText.pdf (34 pages, 489856 bytes).
+</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
+Output written on 0_MainText.pdf (41 pages, 523084 bytes).
 PDF statistics:
- 695 PDF objects out of 1000 (max. 8388607)
- 625 compressed objects within 7 object streams
- 134 named destinations out of 1000 (max. 500000)
- 454 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 806 PDF objects out of 1000 (max. 8388607)
+ 727 compressed objects within 8 object streams
+ 154 named destinations out of 1000 (max. 500000)
+ 470 words of extra memory for PDF output out of 10000 (max. 10000000)
 

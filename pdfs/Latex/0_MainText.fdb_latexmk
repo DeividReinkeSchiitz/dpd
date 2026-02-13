@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex 0_MainText"] 1770246744.43237 "0_MainText.aux" "0_MainText.bbl" "0_MainText" 1770246746.55152 0
+["bibtex 0_MainText"] 1770942280.13731 "0_MainText.aux" "0_MainText.bbl" "0_MainText" 1770942282.59319 0
   "./Auxiliares/References.bib" 1769624167.86799 14618 22c9f82c1102d09b428963dd447181b1 ""
   "/usr/share/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1767555874 5396 4eb260dac60f150ae608d45252853090 ""
   "/usr/share/texmf-dist/bibtex/bst/abntex2/abntex2-alf.bst" 1767555874 60064 0819ac8568f9a482510a46e3a8a6f605 ""
-  "0_MainText.aux" 1770246746.28585 39907 1474534405475f113a10c312aaf6f245 "pdflatex"
+  "0_MainText.aux" 1770942282.3401 45875 dd353a6f5d89d12fd3747d1989e1b4a6 "pdflatex"
   (generated)
   "0_MainText.bbl"
   "0_MainText.blg"
   (rewritten before read)
-["makeindex 0_MainText.idx"] 1770175668.34238 "0_MainText.idx" "0_MainText.ind" "0_MainText" 1770246746.55138 0
-  "0_MainText.idx" 1770246745.33833 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex 0_MainText.idx"] 1770175668.34238 "0_MainText.idx" "0_MainText.ind" "0_MainText" 1770942282.59306 0
+  "0_MainText.idx" 1770942281.02858 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "0_MainText.ilg"
   "0_MainText.ind"
   (rewritten before read)
-["pdflatex"] 1770246744.49182 "/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex" "0_MainText.pdf" "0_MainText" 1770246746.55168 0
+["pdflatex"] 1770942280.19085 "/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex" "0_MainText.pdf" "0_MainText" 1770942282.59335 0
   "/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex" 1770245701.65254 14444 b00cab52e97a4177b9abaacb7c011e70 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1767555874 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1767555874 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
@@ -36,6 +36,7 @@
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1767555874 1288 655e228510b4c2a1abe905c368440826 ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx10.tfm" 1767555874 12076 b54175e02101bea1addf6b2d0197ed12 ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm" 1767555874 12088 d750ac78274fa7c9f73ba09914c04f8a ""
+  "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm" 1767555874 17180 a5723008921cdcb0c5f4ebe997919b73 ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr10.tfm" 1767555874 12056 7e13df7fe4cbce21b072ba7c4f4deb6e ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr12.tfm" 1767555874 12092 7b1546e2d096cfd5dcbd4049b0b1ec2e ""
   "/usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr17.tfm" 1767555874 12156 ca1ae6a3c8564e89597f1f993fba1608 ""
@@ -76,6 +77,7 @@
   "/usr/share/texmf-dist/fonts/tfm/public/rsfs/rsfs7.tfm" 1767555874 692 1b6510779f0f05e9cbf03e0f6c8361e6 ""
   "/usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb" 1767555874 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb" 1767555874 116908 1fca96723793882c2e0160350c192fc8 ""
+  "/usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb" 1767555874 112766 bdd4fa8b13a0d7dd137624085bd31d40 ""
   "/usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb" 1767555874 23055 2e5b42921de910eaa97b85df04ca4891 ""
   "/usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb" 1767555874 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
   "/usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb" 1767555874 30696 2654571912f9cd384da9f7cb8a60c568 ""
@@ -367,22 +369,28 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1767555874 42087 b0f9697c952c8f5a8eede4134282cb0d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1769037711 5311557 9da84c45f5b388655502706482323571 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1769037671 2009827 66539a22faeab19ea123d5858b580e5a ""
-  "0_MainText.aux" 1770246746.28585 39907 1474534405475f113a10c312aaf6f245 "pdflatex"
-  "0_MainText.bbl" 1770246744.48572 7127 08e6bfc7f9a22d647a2a77efc04d1074 "bibtex 0_MainText"
+  "0_MainText.aux" 1770942282.3401 45875 dd353a6f5d89d12fd3747d1989e1b4a6 "pdflatex"
+  "0_MainText.bbl" 1770942280.18458 7127 08e6bfc7f9a22d647a2a77efc04d1074 "bibtex 0_MainText"
   "0_MainText.ind" 1770175668.38436 0 d41d8cd98f00b204e9800998ecf8427e "makeindex 0_MainText.idx"
-  "0_MainText.lof" 1770246746.29133 984 701cdb9f9da84fcb92d089be157764e5 "pdflatex"
-  "0_MainText.lot" 1770246746.29133 2432 94d005863c60fd45862985081d690f26 "pdflatex"
+  "0_MainText.lof" 1770942282.34658 2559 13fe925205b4d7fba3da1f7b0d9ecedb "pdflatex"
+  "0_MainText.lot" 1770942282.34658 3327 6ddc680f041afb5ca8f90f8964f92432 "pdflatex"
   "0_MainText.tex" 1770245701.65254 14444 b00cab52e97a4177b9abaacb7c011e70 ""
-  "0_MainText.toc" 1770246746.29133 4800 9d5fc334c9073d2141b46b17e5e68211 "pdflatex"
+  "0_MainText.toc" 1770942282.34758 4990 bb552cd46fbf06b5a8dad73ae6b62812 "pdflatex"
   "1_Intro.tex" 1769610481.77813 5504 676c91b13a0b5395996e9742fb5f0146 ""
   "2_Revisao_biblio.tex" 1769894825.10881 6965 f78ae3158416ece8b5643455e069cab8 ""
   "3_Metodologia.tex" 1770175450.98628 8470 82636d75be5ec57375874af6ef9c2233 ""
-  "4_Resultados.tex" 1770246094.38326 9437 0f99ab1d65798c0a8b9a33e82023705a ""
+  "4_Resultados.tex" 1770942274.94157 18164 a0789201a0298fc976cbca47194a2a24 ""
   "5_Conclusao.tex" 1769550773.89136 119 94f7c3e6b3594dce9392773ce942a097 ""
+  "Auxiliares/fig_avg_nodes_cand.tex" 1770942115.74832 1169 12e0cca05f673d7f9101427cef4bacf1 ""
+  "Auxiliares/fig_avg_nodes_order.tex" 1770942117.76642 1113 a5be7e088bcf6eeec1021bfe24689076 ""
+  "Auxiliares/fig_avg_nodes_time.tex" 1770942119.82442 1210 ac2e76949bce09e62e501ba69d4017a6 ""
+  "Auxiliares/fig_geral_gap.tex" 1770942125.90143 1006 56bc7b41e98fb5035a785c501a72901f ""
+  "Auxiliares/fig_geral_nodes.tex" 1770942123.88743 1114 e55b000f79cb0e8e13631b4ea02baa18 ""
+  "Auxiliares/fig_geral_tempo.tex" 1770942121.84042 1090 d514e836076484b42f81d1f824f9b69c ""
   "Auxiliares/fig_nodes_cand.tex" 1770245700.32974 1006 10fd005f1b6b70d0eec66ed0ad40504d ""
   "Auxiliares/fig_nodes_order.tex" 1770245700.39759 994 aac71afebbbda2f1366d8cfb94270880 ""
   "Auxiliares/fig_nodes_time.tex" 1770245698.63141 1039 e99fdad169a8c3bcb0a1bcb59cf1f844 ""
-  "Auxiliares/tabelas.tex" 1770246741.70532 17462 92484fbe1dceb4f7b1debae0ab14a5a6 ""
+  "Auxiliares/tabelas.tex" 1770940140.53401 18065 be567d0753ccaa502e3ceb3933d7be39 ""
   "abntex2.cls" 1769039724 33170 f88e9cf0dcf878f09406a843bce7eeb1 ""
   "abntex2abrev.sty" 1769039724 5727 c33a43a7b3967d0498045b3dc997bc13 ""
   "abntex2cite.sty" 1769039724 44364 812f1fedbcbe1926b80a49a9583c675c ""

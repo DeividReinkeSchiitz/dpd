@@ -3,8 +3,14 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {1}{\ignorespaces Número total de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição do LNS. A configuração de 75\% apresentou o melhor desempenho com 58.921 nós restantes.}}{25}{figure.caption.20}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Comparação do número total de nós restantes entre ordenação crescente e decrescente. A ordenação crescente (priorizando professores versáteis) obteve melhor desempenho com 131.997 nós restantes.}}{27}{figure.caption.21}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Impacto do limite de tempo do sub-MIP no número de nós restantes. A configuração de 200s demonstrou o melhor desempenho com 33.539 nós, representando uma redução de 75,3\% em relação à relaxação pura.}}{28}{figure.caption.22}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Número total de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição do LNS. A configuração de 75\% apresentou o melhor desempenho com 58.921 nós restantes.}}{27}{figure.caption.20}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Média de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição do LNS. A configuração de 75\% apresentou a menor média, com 5.892 nós restantes por instância.}}{27}{figure.caption.21}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Comparação do número total de nós restantes entre ordenação crescente e decrescente. A ordenação crescente (priorizando professores versáteis) obteve melhor desempenho com 131.997 nós restantes.}}{28}{figure.caption.22}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Média de nós restantes por instância comparando ordenação crescente e decrescente. A ordenação crescente obteve a menor média, com 13.200 nós restantes.}}{29}{figure.caption.23}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Impacto do limite de tempo do sub-MIP no número de nós restantes. A configuração de 200s demonstrou o melhor desempenho com 33.539 nós, representando uma redução de 75,3\% em relação à relaxação pura.}}{30}{figure.caption.24}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Média de nós restantes por instância para diferentes limites de tempo do sub-MIP. A configuração de 200s alcançou a menor média, com 3.354 nós, representando uma redução de 75,3\% em relação à relaxação pura.}}{31}{figure.caption.25}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Tempo médio de execução (segundos) para cada configuração. O LNS obteve o menor tempo médio (22,44s), representando uma redução de 69,6\% em relação à relaxação pura e de 82,7\% em relação ao GRASP.}}{32}{figure.caption.27}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Gap de otimalidade total (\%) para cada configuração. O LNS atingiu gap zero, provando a otimalidade de todas as soluções encontradas.}}{33}{figure.caption.28}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Total de nós restantes na árvore de Branch-and-Bound para cada configuração. O LNS alcançou 0 nós restantes, resolvendo todas as instâncias até a otimalidade.}}{34}{figure.caption.29}%
 \addvspace {10pt}
 \addvspace {10pt}
