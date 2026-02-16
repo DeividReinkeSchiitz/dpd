@@ -1,0 +1,29 @@
+
+% ============================================
+% TABELA 8: Impacto do Tempo Máximo LNS - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
+\label{tab:lns_time_nodes}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 0      & 0      & 0      & 0      & 0      & -- \\
+input14 & 99  & 28 & 0      & 0      & 0      & 0      & 0      & -- \\
+input15 & 94  & 30 & 54.355 & 63.056 & 59.819 & 0      & 0      & 100s \\
+input21 & 104 & 31 & 0      & 0      & 0      & 0      & 0      & -- \\
+input22 & 133 & 41 & 21.528 & 29.161 & 25.100 & 50.411 & 33.000 & 50s \\
+input23 & 118 & 35 & 0      & 0      & 0      & 0      & 0      & -- \\
+input27 & 125 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input29 & 103 & 39 & 12.643 & 4.347  & 0      & 0      & 0      & 50s \\
+input33 & 104 & 36 & 47.460 & 48.110 & 45.505 & 1.524  & 539 & 200s \\
+input38 & 62  & 22 & 0      & 0      & 0      & 0      & 0      & -- \\
+\midrule
+% \textbf{Média} & 104 & 33 & 13.599 & 14.467 & 13.042 & 5.194 & \textbf{3.354} & \textbf{200s} \\
+\textbf{Total} & 1.021 & 325 & 135.986 & 144.674 & 130.424 & 51.935 & \textbf{33.539} & \textbf{200s} \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 5: Impacto da Ordenação - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes comparando ordenação crescente e decrescente. Configuração: 75\% de destruição, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_order_nodes}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{Crescente} & \textbf{Decrescente} & \textbf{Melhor} \\
+\midrule
+input4  & 123 & 46 & 19.797 & 19.541 & 19.507 & Decrescente \\
+input5  & 214 & 69 & 0      & 0      & 0      & -- \\
+input12 & 115 & 37 & 0      & 0      & 0      & -- \\
+input15 & 94  & 30 & 64.711 & 61.546 & 62.452 & Crescente \\
+input16 & 89  & 28 & 0      & 0      & 0      & -- \\
+input17 & 108 & 38 & 4.673  & 4.667  & 4.652  & Decrescente \\
+input20 & 104 & 37 & 0      & 0      & 0      & -- \\
+input33 & 104 & 36 & 50.279 & 46.243 & 47.063 & Crescente \\
+input37 & 152 & 53 & 0      & 0      & 0      & -- \\
+input38 & 62  & 22 & 0      & 0      & 0      & -- \\
+\midrule
+% \textbf{Média}  & 106 & 37 & 13.946 & \textbf{13.200} & 13.367 & \textbf{Crescente} \\
+\textbf{Total}  & 1.165 & 396 & 139.460 & \textbf{131.997} & 133.674 & \textbf{Crescente} \\
+\bottomrule
+\end{tabular}
+\end{table}

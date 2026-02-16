@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 11: Avaliação Geral - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
+\label{tab:geral_nodes}
+\small
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
+\midrule
+input5  & 214 & 69 & 0      & 0      & 8.037  & 0 & LNS \\
+input11 & 100 & 31 & 0      & 0      & 0      & 0 & LNS \\
+input15 & 94  & 30 & 64.364 & 0      & 7.526  & 2.324 & LNS \\
+input16 & 89  & 28 & 0      & 0      & 0      & 0 & LNS \\
+input19 & 95  & 29 & 0      & 0      & 0      & 0 & LNS \\
+input21 & 104 & 31 & 0      & 0      & 0      & 0 & LNS \\
+input25 & 107 & 34 & 0      & 0      & 0      & 0 & LNS \\
+input30 & 109 & 36 & 0      & 0      & 0      & 0 & LNS \\
+input35 & 169 & 53 & 0      & 0      & 20.740 & 0 & LNS \\
+input42 & 142 & 35 & 0      & 0      & 0      & 0 & LNS \\
+\midrule
+% \textbf{Média} & 106 &	33	& 6.436   &	\textbf{0}   &3.630	&232 & \textbf{LNS} \\
+\textbf{Total} & 1.223 & 376	& 64.364	& \textbf{0}	& 36.303	& 2.324 & \textbf{LNS} \\
+\bottomrule
+\end{tabular}
+\end{table}

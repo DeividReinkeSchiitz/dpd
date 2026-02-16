@@ -1,0 +1,25 @@
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
+\label{tab:geral_tempo}
+\small
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
+\midrule
+input5  & 214 & 69 & 112,63 & 54,46  & 400,12 & 83,09 & LNS \\
+input11 & 100 & 31 & 1,54   & 2,59   & 3,90   & 0,83 & GRASP|LNS \\
+input15 & 94  & 30 & 400,03 & 79,90  & 400,02 & 400,02 & LNS \\
+input16 & 89  & 28 & 3,07   & 0,75   & 8,38   & 0,36 & GRASP|LNS \\
+input19 & 95  & 29 & 2,03   & 1,45   & 5,74   & 2,73 & LNS \\
+input21 & 104 & 31 & 5,93   & 3,16   & 13,45  & 4,42 & LNS \\
+input25 & 107 & 34 & 15,63  & 9,27   & 37,64  & 9,54 & LNS \\
+input30 & 109 & 36 & 3,21   & 1,36   & 7,94   & 2,36 & LNS \\
+input35 & 169 & 53 & 186,72 & 63,27  & 400,07 & 71,20 & LNS \\
+input42 & 142 & 35 & 6,91   & 8,18   & 20,19  & 13,39 & Relax. \\
+\midrule
+% \textbf{Média} & 106 & 33 & 6,42 & \textbf{5,67} & 16,82 & 6,98 & \textbf{LNS} \\
+\textbf{Total} & 1.329 & 409 & 744,13 & \textbf{230,05} & 1.314,27 & 587,94 & \textbf{LNS} \\
+\bottomrule
+\end{tabular}
+\end{table}

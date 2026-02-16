@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 9: Impacto do Tempo Máximo LNS - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
+\label{tab:lns_time_gap}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input14 & 99  & 28 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input15 & 94  & 30 & 0,73 & 0,73 & 0,73 & 0,00 & 0,00 & 100s \\
+input21 & 104 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input22 & 133 & 41 & 0,32 & 0,32 & 0,32 & 0,48 & 0,48 & Relax. \\
+input23 & 118 & 35 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input27 & 125 & 39 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+input29 & 103 & 39 & 0,19 & 0,19 & 0,00 & 0,00 & 0,00 & 50s \\
+input33 & 104 & 36 & 0,49 & 0,49 & 0,49 & 0,24 & 0,24 & 100s \\
+input38 & 62  & 22 & 0,00 & 0,00 & 0,00 & 0,00 & 0,00 & Empate \\
+\midrule
+% \textbf{Média} & 104 & 33 & 0,17 & 0,17 & 0,15 & \textbf{0,07} & \textbf{0,07} & \textbf{Empate} \\
+\textbf{Total} & 1.021 & 325 & 1,73 & 1,73 & 1,54 & \textbf{0,72} & \textbf{0,72} & \textbf{Empate} \\
+\bottomrule
+\end{tabular}
+\end{table}

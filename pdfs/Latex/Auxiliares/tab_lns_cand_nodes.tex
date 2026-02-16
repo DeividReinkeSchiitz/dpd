@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 2: Impacto da Taxa de Destruição - Nodes Left
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Número de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_cand_nodes}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 0      & 0      & 0      & 0      & 0      & -- \\
+input5  & 84  & 29 & 0      & 0      & 0      & 0      & 0      & -- \\
+input6  & 113 & 31 & 0      & 0      & 0      & 0      & 0      & -- \\
+input7  & 99  & 28 & 66.230 & 62.628 & 60.540 & 61.056 & \textbf{58.921} & \textbf{75\%} \\
+input9  & 133 & 41 & 0      & 0      & 0      & 0      & 0      & -- \\
+input13 & 125 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input19 & 114 & 39 & 0      & 0      & 0      & 0      & 0      & -- \\
+input20 & 113 & 40 & 0      & 0      & 0      & 0      & 0      & -- \\
+input26 & 185 & 60 & 0      & 0      & 0      & 0      & 0      & -- \\
+input34 & 137 & 42 & 0      & 0      & 0      & 0      & 0      & -- \\
+\midrule
+% \textbf{Média}  & 114 & 39 & 6.623 & 6.263 & 6.054 & 6.106 & \textbf{5.892} & \textbf{LNS 75\%} \\
+\textbf{Total}  & 1.182 & 373 & 66.230 & 62.628 & 60.540 & 61.056 & \textbf{58.921} & \textbf{LNS 75\%} \\
+\bottomrule
+\end{tabular}
+\end{table}

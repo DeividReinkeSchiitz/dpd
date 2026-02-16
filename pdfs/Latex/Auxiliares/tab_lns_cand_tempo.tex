@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 1: Impacto da Taxa de Destruição - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) para diferentes taxas de destruição do LNS. Configuração: ordenação crescente, tempo LNS = 30s, limite global = 400s.}
+\label{tab:lns_cand_tempo}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{75\%} & \textbf{Melhor} \\
+\midrule
+input2  & 79  & 24 & 4,04    & 17,07  & 17,66  & 16,98  & 17,04  & Relax. \\
+input5  & 84  & 29 & 113,03  & 145,27 & 145,04 & 145,71 & 143,63 & Relax. \\
+input6  & 113 & 31 & 1,07    & 2,47   & 2,40   & 2,33   & 2,22   & Relax. \\
+input7  & 99  & 28 & 400,02  & 400,02 & 400,02 & 400,02 & 400,02 & Empate \\
+input9  & 133 & 41 & 17,06   & 72,52  & 72,33  & 72,57  & 73,48  & Relax. \\
+input13 & 125 & 39 & 29,13   & 60,21  & 59,56  & 59,04  & 59,43  & Relax. \\
+input19 & 114 & 39 & 2,11    & 1,39   & 1,44   & 1,42   & 1,47   & LNS 10\% \\
+input20 & 113 & 40 & 0,95    & 4,69   & 4,56   & 4,59   & 5,02   & Relax. \\
+input26 & 185 & 60 & 33,73   & 25,50  & 24,67  & 24,81  & 24,38  & LNS 75\% \\
+input34 & 137 & 42 & 21,92   & 26,68  & 26,08  & 26,38  & 26,41  & Relax. \\
+\midrule
+% \textbf{Média}  & 114 & 39 & \textbf{19,49} & 26,09 & 25,38 & 25,59 & 25,39 & \textbf{Relax.} \\
+\textbf{Total}  & 1,182 &373 & \textbf{623} & 756 & 754 & 754 & 753 & \textbf{Relax.} \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,29 @@
+
+% ============================================
+% TABELA 12: Avaliação Geral - GAP
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Gap de otimalidade (\%) comparando Relaxação, LNS, GRASP e GRASP|LNS. Configuração LNS: 75\% destruição, crescente, 200s. Configuração GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
+\label{tab:geral_gap}
+\small
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{Relax.} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
+\midrule
+input5  & 214 & 69 & 0,00 & 0,00 & 1,01 & 0,00 & LNS \\
+input11 & 100 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input15 & 94  & 30 & 0,73 & 0,00 & 0,24 & 0,24 & LNS \\
+input16 & 89  & 28 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input19 & 95  & 29 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input21 & 104 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input25 & 107 & 34 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input30 & 109 & 36 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+input35 & 169 & 53 & 0,00 & 0,00 & 2,21 & 0,00 & LNS \\
+input42 & 142 & 35 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+\midrule
+% \textbf{Média} & 106 & 33 & 0,07 & \textbf{0,00} & 0,35 & 0,02 & \textbf{LNS} \\
+\textbf{Total} & 1.223 & 376 & 0,73 & \textbf{0,00} & 3,46 & 0,24 & \textbf{LNS} \\
+\bottomrule
+\end{tabular}
+\end{table}

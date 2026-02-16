@@ -35,20 +35,19 @@
 \contentsline {section}{\numberline {4.1}Instâncias e Ambiente de Testes}{21}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Análise Interna das Configurações da LNS}{21}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Impacto da Taxa de Destruição (10\%, 25\%, 50\% e 75\%)}{21}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}{26}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}{29}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Resumo da Configuração Selecionada}{31}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Comparativo de Desempenho: LNS, GRASP e Modelo Exato}{31}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Análise do Tempo de Execução}{32}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Análise do Gap de Otimalidade}{33}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Análise dos Nós Restantes}{33}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Discussão dos Resultados}{34}{subsection.4.3.4}%
-\contentsline {chapter}{\chapternumberline {5}Conclusão}{36}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Considerações Finais}{36}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Limitações do Estudo}{36}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Trabalhos Futuros}{36}{section.5.3}%
-\contentsline {chapter}{Refer\^encias}{37}{chapter*.31}%
+\contentsline {subsection}{\numberline {4.2.2}Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}{23}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}{26}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Resumo da Configuração Selecionada}{29}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Comparativo de Desempenho: LNS, GRASP e Modelo Exato}{29}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Análise do Tempo de Execução}{29}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Análise do Gap de Otimalidade}{31}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Análise dos Nós Restantes}{32}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Discussão dos Resultados}{32}{subsection.4.3.4}%
+\contentsline {chapter}{\chapternumberline {5}Conclusão}{34}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Limitações}{34}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Trabalhos Futuros}{35}{section.5.2}%
+\contentsline {chapter}{Refer\^encias}{36}{chapter*.28}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
-\contentsline {part}{Ap\^endices}{39}{section*.32}%
-\contentsline {appendix}{\chapternumberline {A}Códigos}{40}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Apêndices - Materiais do autor}{40}{section.A.1}%
+\contentsline {part}{Ap\^endices}{38}{section*.29}%
+\contentsline {appendix}{\chapternumberline {A}Códigos}{39}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Apêndices - Materiais do autor}{39}{section.A.1}%

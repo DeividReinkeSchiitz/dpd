@@ -1,0 +1,28 @@
+% ============================================
+% TABELA 7: Impacto do Tempo Máximo LNS - Tempo
+% ============================================
+\begin{table}[htbp]
+\centering
+\caption{Tempo de execução (segundos) para diferentes limites de tempo do sub-MIP. Configuração: 75\% de destruição, ordenação crescente, limite global = 400s.}
+\label{tab:lns_time_tempo}
+\small
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+\textbf{Inst.} & \textbf{Disc.} & \textbf{Prof.} & \textbf{Relax.} & \textbf{10s} & \textbf{50s} & \textbf{100s} & \textbf{200s} & \textbf{Melhor} \\
+\midrule
+input6  & 79  & 24 & 1,19   & 2,40   & 2,14   & 2,15   & 2,14   & 200s \\
+input14 & 99  & 28 & 14,21  & 22,31  & 68,47  & 118,44 & 168,12 & Relax. \\
+input15 & 94  & 30 & 400,03 & 400,02 & 400,02 & 76,31 & 77,09 & 100s \\
+input21 & 104 & 31 & 6,98   & 3,02   & 3,04   & 3,05   & 3,10   & 10s \\
+input22 & 133 & 41 & 400,05 & 400,04 & 400,04 & 400,04 & 400,04 & 10s \\
+input23 & 118 & 35 & 1,55   & 11,41  & 12,80  & 12,66  & 12,50  & 10s \\
+input27 & 125 & 39 & 4,93   & 7,45   & 7,34   & 7,33   & 7,31   & 200s \\
+input29 & 103 & 39 & 400,03 & 400,03 & 19,42  & 19,40  & 19,39  & 200s \\
+input33 & 104 & 36 & 400,03 & 400,03 & 400,03 & 400,03 & 400,03 & 200s \\
+input38 & 62  & 22 & 0,16   & 0,28   & 0,28   & 0,28   & 0,28   & 100s \\
+\midrule
+% \textbf{Média} & 104 & 33 & 162,92 & 164,77 & 162,11 & 160,27 & \textbf{159,46} & \textbf{200s} \\
+\textbf{Total} & 1,021 & 325 & 1.629,17 & 1.647,01 & 1.313,60 & \textbf{1.039,68} & 1.090,00 & \textbf{100s} \\
+\bottomrule
+\end{tabular}
+\end{table}
