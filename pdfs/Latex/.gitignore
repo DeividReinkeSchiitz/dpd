@@ -1,0 +1,22 @@
+# Ignore LaTeX build artifacts in this folder; keep the build/ directory
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.toc
+pdflatex*.fls
+
+# Keep build/ directory tracked (where outputs should live)
+!build/
+
+# Keep source files and config
+*.tex
+!*.tex
+!.latexmkrc

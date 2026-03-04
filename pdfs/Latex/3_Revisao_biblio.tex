@@ -22,7 +22,7 @@ O Branch-and-Bound (B\&B) explora uma árvore de subproblemas: a cada nó, resol
 
 Embora métodos exatos forneçam garantias de otimalidade, instâncias reais podem apresentar grande dimensão e múltiplas restrições, tornando necessário recorrer a estratégias aproximadas. Heurísticas constroem boas soluções em tempo reduzido, enquanto metaheurísticas organizam mecanismos de exploração e intensificação para escapar de ótimos locais e melhorar soluções iterativamente.
 
-Para problemas de alocação docente, há abordagens heurísticas e metaheurísticas que exploram diferentes representações e movimentos de vizinhança, como algoritmos genéticos e buscas locais especializadas \cite{gunawan_ng_ong_2008,hosny_2012,szwarc_2018}. Esse corpo de técnicas é especialmente útil quando se deseja produzir soluções de boa qualidade sob limites de tempo, ou quando o modelo exato é utilizado como referência/validação.
+Para problemas de alocação docente, há abordagens heurísticas e metaheurísticas que exploram diferentes representações e movimentos de vizinhança, como algoritmos genéticos \cite{gunawan_ng_ong_2008} e heurísticas voltadas a contextos específicos de atribuição docente --- como a atribuição de assistentes de ensino a sessões de laboratório \cite{hosny_2013} e a incorporação de competências curriculares na alocação de professores \cite{szwarc_2018}. Esse corpo de técnicas é especialmente útil quando se deseja produzir soluções de boa qualidade sob limites de tempo, ou quando o modelo exato é utilizado como referência/validação.
 
 \subsection{Greedy Randomized Adaptive Search Procedure (GRASP)}
 
@@ -34,7 +34,11 @@ No contexto do Problema da Distribuição de Disciplinas (DPD), uma estratégia 
 
 Matheurísticas combinam programação matemática com componentes heurísticos/metaheurísticos, buscando aproveitar simultaneamente a força de modelagem e os limites fornecidos por modelos exatos, e a flexibilidade de estratégias de busca em grandes espaços combinatórios \cite{ball_2011,boschetti_letchford_maniezzo_2023,maniezzo_stutzle_voss_2021}. Em geral, a ideia é usar submodelos (ou modelos restritos) como operadores de melhoria, resolver subproblemas por MIP/CPLEX/SCIP, ou ainda usar informações do solucionador (limites, incumbentes, cortes) para orientar a busca.
 
-Em problemas do tipo mochila e variantes, por exemplo, há linhas de trabalho que empregam resoluções exatas em subestruturas, gerando melhorias sistemáticas em torno de incumbentes \cite{dambrosio_laureana_raiconi_vitale_2023,jovanovic_voss_2024}. Essa mesma filosofia se estende ao DPD: parte-se de um modelo de PLI e explora-se uma vizinhança definida sobre variáveis binárias, reotimizando subproblemas com tempo controlado.
+Em problemas do tipo mochila e variantes, como o Problema da 
+Mochila com Conjuntos de Penalidades \cite{dambrosio_laureana_raiconi_vitale_2023}, 
+há linhas de trabalho que empregam resoluções exatas em 
+subestruturas, gerando melhorias sistemáticas em torno de 
+incumbentes \cite{jovanovic_voss_2024,silva2024matheuristica_mochila}. Essa mesma filosofia se estende ao DPD: parte-se de um modelo de PLI e explora-se uma vizinhança definida sobre variáveis binárias, reotimizando subproblemas com tempo controlado.
 
 \subsection{Large Neighborhood Search (LNS) e Fix-and-Relax}
 

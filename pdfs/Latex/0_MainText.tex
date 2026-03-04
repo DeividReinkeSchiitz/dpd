@@ -138,7 +138,7 @@
 % ---
 % Pacotes de citações
 % ---
-%\usepackage[brazilian,hyperpageref]{backref}  % Paginas com as citações nas Biblio
+\usepackage[brazilian,hyperpageref]{backref}  % Paginas com as citações nas Biblio
 
 % Escolher um dos dois padrões a seguir:
 %\usepackage[num]{abntex2cite}	              % Citações numérica padrão ABNT
@@ -151,18 +151,18 @@
 % ---
 % Configurações do pacote backref
 % Usado sem a opção hyperpageref de backref
-%\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
 % Texto padrão antes do número das páginas
-%\renewcommand{\backref}{}
+\renewcommand{\backref}{}
 % Define os textos da citação
-%\renewcommand*{\backrefalt}[4]{
-	%\ifcase #1 %
-		%Nenhuma citação no texto.%
-	%\or
-		%Citado na página #2.%
-	%\else
-		%Citado #1 vezes nas páginas #2.%
-	%\fi}%
+\renewcommand*{\backrefalt}[4]{%
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
 % ---
 
 % ---
@@ -272,18 +272,7 @@ Trabalho de Conclusão de Curso apresentado como exigência para obtenção do g
 \end{agradecimentos}
 % ---
 
-% ---
-% RESUMO
-% ---
-% resumo na língua vernácula (obrigatório)
-\begin{resumo} %% AQUI COMEÇA A PÁGINA DE RESUMO
-	Este trabalho aborda o Problema da Distribuição de Disciplinas (DPD), que consiste em atribuir disciplinas a professores respeitando restrições de alocação e limites de carga horária, visando maximizar a qualidade da atribuição. O problema é modelado como um programa linear inteiro e resolvido no SCIP via Branch-and-Bound.
-
-	Como contribuição, propõe-se e avalia-se uma matheurística baseada em Large Neighborhood Search (LNS) no esquema fix-and-relax, que explora uma solução incumbente e define uma vizinhança ao fixar a maior parte das variáveis binárias $x_{p,c}$, liberando uma fração controlada para reotimização. A taxa de destruição (\texttt{lns\_perc}), a ordenação de candidatos (\texttt{avgPreferenceWeight}) e o tempo máximo do sub-MIP são analisados quanto ao impacto na qualidade da solução e nas métricas de desempenho observadas: tempo, gap e nós remanescentes (nodes-left).
-
-\noindent
-	{\sloppy \textbf{Palavras-chave}: Distribuição de Disciplinas, Programação Linear Inteira, Branch-and-Bound, Matheurística, Large Neighborhood Search, Fix-and-Relax, SCIP.\par}\fussy
-\end{resumo} %AQUI TERMINA A PÁGINA DE RESUMO
+\input{1_Resumo.tex}
 % ---
 
 \cleardoublepage %% Pula página
@@ -342,25 +331,25 @@ Trabalho de Conclusão de Curso apresentado como exigência para obtenção do g
 % ----------------------------------------------------------
 % Introdução
 % ----------------------------------------------------------
-\input{1_Intro.tex}
+\input{2_Intro.tex}
 
 % ----------------------------------------------------------
 % Embasamento Teórico
 % ----------------------------------------------------------
-\input{2_Revisao_biblio.tex}
+\input{3_Revisao_biblio.tex}
 
 % ----------------------------------------------------------
 % Desenvolvimento
 % ----------------------------------------------------------
 
-\input{3_Metodologia.tex}
+\input{4_Metodologia.tex}
 
-\input{4_Resultados.tex}
+\input{5_Resultados.tex}
 
 % ----------------------------------------------------------
 % Conclusão
 % ----------------------------------------------------------
-\input{5_Conclusao.tex}
+\input{6_Conclusao.tex}
 
 % ----------------------------------------------------------
 % Referências bibliográficas

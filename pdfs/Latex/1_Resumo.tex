@@ -1,0 +1,19 @@
+% ---
+% RESUMO
+% ---
+% resumo na língua vernácula (obrigatório)
+\begin{resumo} %% AQUI COMEÇA A PÁGINA DE RESUMO
+
+A atribuição de disciplinas a professores em instituições de ensino superior é um problema recorrente de natureza combinatória, cuja complexidade cresce com o número de docentes, disciplinas e restrições operacionais envolvidas. Embora métodos exatos baseados em Programação Linear Inteira (PLI) garantam a otimalidade da solução, instâncias de maior porte podem exigir tempo computacional proibitivo, e abordagens puramente heurísticas nem sempre oferecem garantias de qualidade. A integração de matheurísticas ao processo de resolução exata permanece pouco explorada para esse tipo de problema, configurando uma lacuna metodológica.
+
+Este trabalho propõe, implementa e avalia uma matheurística baseada em Large Neighborhood Search (LNS) no esquema fix-and-relax, integrada como heurística primal ao solver SCIP, para o Problema da Distribuição de Disciplinas (DPD). O objetivo é melhorar o desempenho do Branch-and-Bound por meio da geração de soluções incumbentes de alta qualidade em estágios iniciais da busca.
+
+O problema é modelado como um programa linear inteiro binário, no qual variáveis de decisão representam a atribuição de professores a disciplinas, e a função objetivo maximiza a qualidade da alocação com base em preferências e compatibilidade de área. A heurística LNS opera a partir de uma solução incumbente, fixando a maioria das variáveis e liberando uma fração controlada para reotimização em um subproblema auxiliar com limite de tempo. Três parâmetros internos --- taxa de destruição, sentido de ordenação dos candidatos e tempo máximo do subproblema --- foram calibrados por meio de uma abordagem incremental, utilizando 42 instâncias sintéticas com limite de tempo global de 400 segundos por instância. O desempenho da configuração selecionada foi comparado com o Branch-and-Bound puro, uma heurística construtiva do tipo Greedy Randomized Adaptive Search Procedure (GRASP) e uma variante híbrida que combina ambas as estratégias.
+
+A configuração final da LNS --- 75\% de destruição, ordenação crescente e 200 segundos de subproblema --- resolveu todas as 10 instâncias de teste até a otimalidade, com gap de 0,00\% e nenhum nó remanescente na árvore de busca. O tempo total de execução foi de 230 segundos, representando uma redução de 69\% em relação ao Branch-and-Bound puro e de 82\% em relação ao GRASP. A variante híbrida não apresentou ganhos adicionais frente ao LNS isolado.
+
+Os resultados demonstram que a matheurística LNS proposta constitui uma estratégia eficaz para o DPD, superando consistentemente as demais abordagens em tempo, gap e progresso na árvore de busca. A geração de incumbentes de alta qualidade viabiliza podas mais agressivas no Branch-and-Bound, acelerando a convergência para a solução ótima.
+
+\noindent
+    {\sloppy \textbf{Palavras-chave}: Distribuição de Disciplinas. Programação Linear Inteira. Branch-and-Bound. Matheurística. Large Neighborhood Search. Fix-and-Relax. SCIP.\par}\fussy
+\end{resumo} %AQUI TERMINA A PÁGINA DE RESUMO

@@ -23,3 +23,24 @@ src/*~
 
 #ignore .vs folder
 .vs/*
+
+# LaTeX build artifacts
+pdfs/Latex/*.aux
+pdfs/Latex/*.bbl
+pdfs/Latex/*.blg
+pdfs/Latex/*.brf
+pdfs/Latex/*.fdb_latexmk
+pdfs/Latex/*.fls
+pdfs/Latex/*.idx
+pdfs/Latex/*.ilg
+pdfs/Latex/*.ind
+pdfs/Latex/*.lof
+pdfs/Latex/*.log
+pdfs/Latex/*.lot
+pdfs/Latex/*.synctex.gz
+pdfs/Latex/*.toc
+pdfs/Latex/*.pdf
+pdfs/Latex/pdflatex*.fls
+
+# latex build output folder
+/build/latex/
