@@ -2,11 +2,11 @@
 
 \section{Instâncias e Ambiente de Testes}
 
-Os experimentos computacionais foram conduzidos utilizando um conjunto de 42 instâncias de teste geradas sinteticamente, abrangendo diferentes cenários do Problema da Distribuição de Disciplinas (DPD). As instâncias variam em tamanho (62 a 214 disciplinas), número de professores (22 a 69), complexidade das restrições de carga horária e distribuição de preferências entre áreas de conhecimento.
+Os experimentos computacionais foram conduzidos utilizando um conjunto de 42 instâncias de teste geradas sinteticamente, abrangendo diferentes cenários do Problema da Distribuição de Disciplinas (PDD). As instâncias variam em tamanho (62 a 214 disciplinas), número de professores (22 a 69), complexidade das restrições de carga horária e distribuição de preferências entre áreas de conhecimento.
 
 Para cada experimento, foram selecionadas aleatoriamente 10 instâncias dentre as 42 disponíveis, garantindo representatividade estatística e mantendo o tempo total de experimentação viável. As mesmas instâncias foram utilizadas em todas as configurações testadas de um mesmo parâmetro, assegurando comparabilidade direta dos resultados.
 
-Todas as execuções foram realizadas com limite de tempo global de 400 segundos por instância. O solver utilizado foi o SCIP 7.0 \cite{gamrath_2020_scip}, integrado com as heurísticas LNS e GRASP desenvolvidas neste trabalho. A calibração dos parâmetros da heurística LNS foi conduzida de forma incremental, conforme a abordagem \emph{one-factor-at-a-time}: primeiro determinou-se a melhor taxa de destruição, em seguida o melhor sentido de ordenação e, finalmente, o melhor limite de tempo para o sub-MIP. Essa estratégia permite isolar o efeito de cada parâmetro e identificar a configuração mais adequada de forma sistemática.
+Todas as execuções foram realizadas com limite de tempo global de 400 segundos por instância, em uma máquina equipada com processador AMD Ryzen 5 5600G, 64\,GB de memória RAM e sistema operacional Arch Linux. O solver utilizado foi o SCIP 7.0 \cite{gamrath_2020_scip}, integrado com as heurísticas LNS e GRASP desenvolvidas neste trabalho. A calibração dos parâmetros da heurística LNS foi conduzida de forma incremental, conforme a abordagem \emph{one-factor-at-a-time} (OFAT) \cite{montgomery_2017}: primeiro determinou-se a melhor taxa de destruição, em seguida o melhor sentido de ordenação e, finalmente, o melhor limite de tempo para o sub-MIP. Essa estratégia ajusta um parâmetro por vez, mantendo os demais fixados, o que permite isolar o efeito individual de cada fator e identificar a configuração mais adequada de forma sistemática. A escolha pelo OFAT foi motivada principalmente pelo custo computacional de uma calibração exaustiva: um projeto fatorial completo sobre os três parâmetros (4 níveis de taxa de destruição $\times$ 2 sentidos de ordenação $\times$ 4 níveis de tempo do sub-MIP = 32 combinações), com 10 instâncias e limite de 400 segundos cada, demandaria até $32 \times 10 \times 400 = 128.000$ segundos ($\approx 35{,}6$ horas) de execução, contra $10 \times 10 \times 400 = 40.000$ segundos ($\approx 11{,}1$ horas) da abordagem OFAT --- uma redução de aproximadamente 69\% no esforço experimental. Reconhece-se que o OFAT não captura possíveis interações entre parâmetros, limitação discutida na Seção de conclusões. Contudo, os três parâmetros da LNS governam aspectos distintos e relativamente independentes do algoritmo --- o tamanho da vizinhança (\texttt{lns\_perc}), a estratégia de seleção de candidatos (\texttt{lns\_order}) e o orçamento computacional por chamada (\texttt{lns\_time}) ---, o que reduz a probabilidade de interações fortes e torna a abordagem adequada para este contexto.
 
 Para a seleção do melhor valor de cada parâmetro, adotou-se a seguinte hierarquia de critérios de desempate: (i)~tempo de execução, (ii)~gap de otimalidade e (iii)~número de nós restantes na árvore de Branch-and-Bound (\emph{nodes left}). Quando os critérios de maior prioridade apresentaram empate entre as configurações, o critério subsequente foi utilizado como desempate.
 
@@ -34,7 +34,7 @@ A primeira análise experimental investigou o impacto da taxa de destruição (\
 
 \subsection{Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}
 
-Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight}. Conforme descrito no Capítulo~\ref{ch:dpd}, a ordenação crescente prioriza a liberação de professores mais versáteis (maior número de preferências declaradas), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
+Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight} (Equação~\eqref{eq:avg_pref_weight}). Conforme descrito no Capítulo~\ref{ch:pdd}, a ordenação crescente prioriza a liberação de professores mais versáteis (maior número de preferências declaradas), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
 
 \textbf{Tempo de Execução.} A Tabela~\ref{tab:lns_order_tempo} revela desempenho temporal praticamente idêntico entre as duas estratégias: 1.803,48 segundos (crescente) versus 1.804,48 segundos (decrescente) no tempo total, com diferença de apenas 1 segundo. A relaxação obteve o menor tempo total com \textbf{1.792,24 segundos}. Das 10 instâncias testadas, quatro atingiram o limite de tempo em ambas as configurações (input4, input15, input17 e input33), e as demais apresentaram variações inferiores a 1 segundo. O tempo, portanto, não permitiu diferenciar as estratégias de ordenação.
 
@@ -50,7 +50,7 @@ Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de
 
 \input{Auxiliares/fig_nodes_order.tex}
 
-\textbf{Interpretação.} A superioridade da ordenação \textbf{crescente} sugere que, para o DPD, priorizar a realocação de professores mais versáteis (generalistas) oferece maior flexibilidade para o sub-MIP encontrar rearranjos que melhorem a solução global. Professores generalistas possuem preferências por um maior número de disciplinas, o que amplia o espaço de busca do sub-MIP e facilita a satisfação simultânea de múltiplas restrições de carga horária. A ordenação crescente foi, portanto, adotada para as análises subsequentes.
+\textbf{Interpretação.} A superioridade da ordenação \textbf{crescente} sugere que, para o PDD, priorizar a realocação de professores mais versáteis (generalistas) oferece maior flexibilidade para o sub-MIP encontrar rearranjos que melhorem a solução global. Professores generalistas possuem preferências por um maior número de disciplinas, o que amplia o espaço de busca do sub-MIP e facilita a satisfação simultânea de múltiplas restrições de carga horária. A ordenação crescente foi, portanto, adotada para as análises subsequentes.
 
 \subsection{Impacto do Tempo Máximo do LNS (10s, 50s, 100s e 200s)}
 
@@ -72,7 +72,7 @@ Essa redução de tempo com limites maiores de LNS pode ser explicada pela capac
 
 \input{Auxiliares/fig_nodes_time.tex}
 
-\textbf{Conclusão Parcial.} O limite de \textbf{200 segundos} demonstrou o melhor desempenho global, reduzindo drasticamente a árvore de busca e resolvendo instâncias que outras configurações não conseguiram. Para problemas combinatórios como o DPD, investir mais tempo em cada chamada do LNS é compensado por soluções de maior qualidade, que aceleram a convergência do Branch-and-Bound. O \emph{trade-off} entre intensidade (tempo por chamada) e frequência (número de chamadas) favorece claramente a intensidade para este problema.
+\textbf{Conclusão Parcial.} O limite de \textbf{200 segundos} demonstrou o melhor desempenho global, reduzindo drasticamente a árvore de busca e resolvendo instâncias que outras configurações não conseguiram. Para problemas combinatórios como o PDD, investir mais tempo em cada chamada do LNS é compensado por soluções de maior qualidade, que aceleram a convergência do Branch-and-Bound. O \emph{trade-off} entre intensidade (tempo por chamada) e frequência (número de chamadas) favorece claramente a intensidade para este problema.
 
 \subsection{Resumo da Configuração Selecionada}
 
@@ -159,5 +159,5 @@ A análise revela três observações principais:
 
   \item \textbf{A combinação GRASP|LNS não supera o LNS isolado.} Embora a GRASP|LNS tenha apresentado desempenho superior à relaxação e ao GRASP, o \emph{overhead} da heurística construtiva GRASP não trouxe benefícios adicionais quando o LNS já estava ativo. Isso sugere que o LNS é capaz de encontrar incumbentes de qualidade suficiente sem a necessidade de uma solução inicial heurística dedicada.
 
-  \item \textbf{O GRASP isolado apresenta limitações para o DPD.} O GRASP atingiu o limite de tempo em 30\% das instâncias e não conseguiu provar a otimalidade em 3 delas. A heurística construtiva, embora gere soluções viáveis rapidamente, não contribui de forma significativa para a redução do espaço de busca, e o \emph{overhead} computacional de sua execução a cada nó penaliza o desempenho global.
+  \item \textbf{O GRASP isolado apresenta limitações para o PDD.} O GRASP atingiu o limite de tempo em 30\% das instâncias e não conseguiu provar a otimalidade em 3 delas. A heurística construtiva, embora gere soluções viáveis rapidamente, não contribui de forma significativa para a redução do espaço de busca, e o \emph{overhead} computacional de sua execução a cada nó penaliza o desempenho global.
 \end{enumerate}

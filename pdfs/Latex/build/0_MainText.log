@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  4 MAR 2026 20:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  4 MAR 2026 23:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1347,7 +1347,7 @@ LaTeX Info: Redefining \newblock on input line 646.
 LaTeX Info: Redefining \cite on input line 673.
 \ABCItoken=\toks66
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 213.
+Package hyperref Info: Option `colorlinks' set `true' on input line 214.
 \0_MainText@idxfile=\write5
 \openout5 = `0_MainText.idx'.
 
@@ -1377,31 +1377,31 @@ File: pppdftex.def 2025/01/30 v0.6e Pdfpages driver for pdfTeX (AM)
 ) (build/0_MainText.aux)
 \openout1 = `0_MainText.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 240.
-LaTeX Font Info:    ... okay on input line 240.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 240.
-LaTeX Font Info:    Trying to load font information for T3+cmr on input line 240.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 241.
+LaTeX Font Info:    ... okay on input line 241.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 241.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 241.
  (/usr/share/texmf-dist/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 240.
-Package hyperref Info: Link coloring ON on input line 240.
+LaTeX Font Info:    ... okay on input line 241.
+Package hyperref Info: Link coloring ON on input line 241.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count475
@@ -1423,23 +1423,23 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-brazil.trsl
 File: translations-basic-dictionary-brazil.trsl (brazil translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `brazil'. on input line 240.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `brazil'. on input line 241.
  (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 240.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 241.
 \c@lstlisting=\count481
 \symgns@font=\mathgroup8
 LaTeX Font Info:    Overwriting symbol font `gns@font' in version `bold'
-(Font)                  TS1/lmr/m/n --> TS1/lmr/b/n on input line 240.
-Package gensymb Info: Math companion symbols declared on input line 240.
-LaTeX Info: Redefining \degree on input line 240.
-LaTeX Info: Redefining \celsius on input line 240.
-Package gensymb Info: Using text companion symbols for \degree, \celsius and \perthousand on input line 240.
-LaTeX Info: Redefining \ohm on input line 240.
-Package gensymb Info: Using \textohm for \ohm on input line 240.
-LaTeX Info: Redefining \micro on input line 240.
-Package gensymb Info: Using \textmu for \micro on input line 240.
+(Font)                  TS1/lmr/m/n --> TS1/lmr/b/n on input line 241.
+Package gensymb Info: Math companion symbols declared on input line 241.
+LaTeX Info: Redefining \degree on input line 241.
+LaTeX Info: Redefining \celsius on input line 241.
+Package gensymb Info: Using text companion symbols for \degree, \celsius and \perthousand on input line 241.
+LaTeX Info: Redefining \ohm on input line 241.
+Package gensymb Info: Using \textohm for \ohm on input line 241.
+LaTeX Info: Redefining \micro on input line 241.
+Package gensymb Info: Using \textmu for \micro on input line 241.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
@@ -1457,7 +1457,7 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 <ufms_logo_negativo_sem_caixa_pb_rgb.png, id=8, 339.1872pt x 490.9542pt>
 File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
 <use ufms_logo_negativo_sem_caixa_pb_rgb.png>
-Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 253.
+Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 254.
 (pdftex.def)             Requested size: 85.35826pt x 123.5473pt.
 
 
@@ -1466,44 +1466,44 @@ Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <./ufms_logo_negativo_sem_caixa_pb_rgb.png>]
 File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
 <use ufms_logo_negativo_sem_caixa_pb_rgb.png>
-Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 260.
+Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 261.
 (pdftex.def)             Requested size: 71.13188pt x 102.96107pt.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 260.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 261.
  (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<ot1.cmap>>
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 260.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 261.
  (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<oml.cmap>>
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 260.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 261.
  (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<oms.cmap>>
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 260.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 261.
  (/usr/share/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 260.
+(Font)              <10.95> on input line 261.
 <<omx.cmap>>
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 260.
+(Font)              <8> on input line 261.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 260.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 260.
+(Font)              <6> on input line 261.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 261.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 260.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 261.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 260.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 261.
  (/usr/share/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 260.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 261.
  (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1512,14 +1512,14 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.260 
+l.261 
        [1
 
 
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 262.
+(Font)              <12> on input line 263.
 
 
 [2
@@ -1552,14 +1552,7 @@ Overfull \hbox (11.21103pt too wide) in paragraph at lines 16--16
 
 [8
 
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 45.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 45.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 45.
-) (./2_Intro.tex
+]) (./2_Intro.tex
 
 [9]
 
@@ -1578,79 +1571,87 @@ Overfull \hbox (0.91454pt too wide) in paragraph at lines 3--3
 
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
-[13]) (./4_Metodologia.tex
+[13]
 
-[14]
+[14]) (./4_Metodologia.tex
+
+[15]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5.
  (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
-[15
+[16
 
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+]
 
-[16]
+[17{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
 
-[17])
+[18]
 
-[18] (./5_Resultados.tex
+[19]) (./5_Resultados.tex
 
-[19]
+[20]
 
-[20
+[21
 
-] (./Auxiliares/tab_lns_cand_tempo.tex) (./Auxiliares/tab_lns_cand_gap.tex)
+] (./Auxiliares/tab_lns_cand_tempo.tex) (./Auxiliares/tab_lns_cand_gap.tex
 
-[21] (./Auxiliares/tab_lns_cand_nodes.tex) (./Auxiliares/fig_nodes_cand.tex
+[22]) (./Auxiliares/tab_lns_cand_nodes.tex) (./Auxiliares/fig_nodes_cand.tex
 Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 31.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 31.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 31.
 )
 
-[22] (./Auxiliares/tab_lns_order_tempo.tex) (./Auxiliares/tab_lns_order_gap.tex)
+[23] (./Auxiliares/tab_lns_order_tempo.tex) (./Auxiliares/tab_lns_order_gap.tex
 
-[23] (./Auxiliares/tab_lns_order_nodes.tex) (./Auxiliares/fig_nodes_order.tex
+[24]) (./Auxiliares/tab_lns_order_nodes.tex) (./Auxiliares/fig_nodes_order.tex
 Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[24] (./Auxiliares/tab_lns_time_tempo.tex) (./Auxiliares/tab_lns_time_gap.tex
+[25]
 
-[25]) (./Auxiliares/tab_lns_time_nodes.tex) (./Auxiliares/fig_nodes_time.tex
+[26] (./Auxiliares/tab_lns_time_tempo.tex) (./Auxiliares/tab_lns_time_gap.tex)
+
+[27] (./Auxiliares/tab_lns_time_nodes.tex) (./Auxiliares/fig_nodes_time.tex
 Package pgfplots info on input line 23: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[26]
+[28]
 
-[27] (./Auxiliares/tab_geral_tempo.tex
+[29] (./Auxiliares/tab_geral_tempo.tex
 Overfull \hbox (16.80363pt too wide) in paragraph at lines 6--25
  [][] 
  []
 
-)
-
-[28] (./Auxiliares/fig_geral_tempo.tex
+) (./Auxiliares/fig_geral_tempo.tex
 Package pgfplots info on input line 24: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[29] (./Auxiliares/tab_geral_gap.tex) (./Auxiliares/fig_geral_gap.tex
+[30] (./Auxiliares/tab_geral_gap.tex) (./Auxiliares/fig_geral_gap.tex
 Package pgfplots info on input line 24: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[30] (./Auxiliares/tab_geral_nodes.tex) (./Auxiliares/fig_geral_nodes.tex
+[31] (./Auxiliares/tab_geral_nodes.tex) (./Auxiliares/fig_geral_nodes.tex
 Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
 )
 
-[31]
+[32]
 Overfull \hbox (9.76993pt too wide) in paragraph at lines 160--161
 []\T1/lmr/bx/n/12 A com-bi-na-ção GRASP|LNS não su-pera o LNS iso-lado. \T1/lmr/m/n/12 Em-bora a GRASP|LNS
  []
 
-) (./6_Conclusao.tex
 
-[32]
 
-[33
+[33]) (./6_Conclusao.tex
+
+[34]
+
+[35
 
 ]) (build/0_MainText.bbl (build/0_MainText.brf)
 \tf@brf=\write6
@@ -1658,23 +1659,17 @@ Overfull \hbox (9.76993pt too wide) in paragraph at lines 160--161
 
 
 
-[34]
+[36]
 bibitemlist
 
 
-[35
-
-])
-
-[36]
-
 [37
 
+]
 
+[38])
 
-] (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2024/09/23 1.10c listings language file
-)
+[39]
 
 Package glossaries Warning: Glossary `main' has no entries.
 Remember to use package option `nomain' if you don't want to
@@ -1686,11 +1681,6 @@ Package glossaries Warning: Glossary `acronym' has no entries.
 
 Package glossaries Warning: Glossary `symbols' has no entries.
 
-
-
-[38
-
-]
 \tf@lof=\write7
 \openout7 = `0_MainText.lof'.
 
@@ -1700,7 +1690,7 @@ Package glossaries Warning: Glossary `symbols' has no entries.
 \tf@toc=\write9
 \openout9 = `0_MainText.toc'.
 
- (build/0_MainText.aux)
+(build/0_MainText.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
@@ -1710,21 +1700,21 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package rerunfilecheck Info: File `0_MainText.brf' has not changed.
-(rerunfilecheck)             Checksum: 6F4A7E0B1AD2C4D44903EF497948568E;2947.
+(rerunfilecheck)             Checksum: 0ED1B7E76A5DB839A345DAB20BFF644E;3769.
  ) 
 Here is how much of TeX's memory you used:
- 55355 strings out of 475151
- 1244104 string characters out of 5766386
- 2082470 words of memory out of 5000000
- 77204 multiletter control sequences out of 15000+600000
- 656518 words of font info for 123 fonts, out of 8000000 for 9000
+ 55364 strings out of 475151
+ 1244492 string characters out of 5766386
+ 1903485 words of memory out of 5000000
+ 77208 multiletter control sequences out of 15000+600000
+ 655941 words of font info for 116 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
- 99i,13n,131p,2442b,2345s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,13n,131p,2442b,2361s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on build/0_MainText.pdf (39 pages, 524504 bytes).
+Output written on build/0_MainText.pdf (40 pages, 534712 bytes).
 PDF statistics:
- 838 PDF objects out of 1000 (max. 8388607)
- 761 compressed objects within 8 object streams
- 152 named destinations out of 1000 (max. 500000)
- 414 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 886 PDF objects out of 1000 (max. 8388607)
+ 807 compressed objects within 9 object streams
+ 163 named destinations out of 1000 (max. 500000)
+ 390 words of extra memory for PDF output out of 10000 (max. 10000000)
 

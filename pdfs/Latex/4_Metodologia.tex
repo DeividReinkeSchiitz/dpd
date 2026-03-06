@@ -1,10 +1,10 @@
-\chapter{O Problema da Distribuição de Disciplinas (DPD)} \label{ch:dpd}
+\chapter{O Problema da Distribuição de Disciplinas (PDD)} \label{ch:pdd}
 
 \section{Definição do Problema}
 
-O Problema da Distribuição de Disciplinas (DPD) consiste em atribuir professores a disciplinas de modo a respeitar restrições operacionais (carga horária mínima anual e máximas por semestre para cada professor, cobertura obrigatória de todas as disciplinas) e, simultaneamente, maximizar a qualidade da alocação. A qualidade de cada atribuição é mensurada por um peso que combina a preferência do professor pela disciplina e a compatibilidade entre a área de atuação do professor e a área da disciplina. Quando um professor é designado a uma disciplina fora de suas áreas de especialização, o modelo aplica uma penalidade (\texttt{area\_penalty}), resultando em um coeficiente negativo na função objetivo.
+O Problema da Distribuição de Disciplinas (PDD) consiste em atribuir professores a disciplinas de modo a respeitar restrições operacionais (carga horária mínima anual e máximas por semestre para cada professor, cobertura obrigatória de todas as disciplinas) e, simultaneamente, maximizar a qualidade da alocação. A qualidade de cada atribuição é mensurada por um peso que combina a preferência do professor pela disciplina e a compatibilidade entre a área de atuação do professor e a área da disciplina. Quando um professor é designado a uma disciplina fora de suas áreas de especialização, o modelo aplica uma penalidade (\texttt{area\_penalty}), resultando em um coeficiente negativo na função objetivo.
 
-Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplinas. Cada disciplina $j\in C$ possui uma carga horária associada $ch_j$ (em horas/aula ou créditos) e deve ser atribuída a exatamente um professor. Cada professor $i\in P$ possui uma carga horária mínima anual $\text{min}_i$ e cargas horárias máximas $\text{max}_{i,1}$ e $\text{max}_{i,2}$ para o primeiro e segundo semestres, respectivamente. O problema é NP-difícil e sua modelagem como Programação Linear Inteira permite explorar tanto métodos exatos quanto heurísticos/matheurísticos para obtenção de soluções de boa qualidade.
+Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplinas. Cada disciplina $j\in C$ possui uma carga horária associada $ch_j$ (em horas/aula ou créditos) e deve ser atribuída a exatamente um professor. Cada professor $i\in P$ possui uma carga horária mínima anual $\text{min}_i$ e cargas horárias máximas $\text{max}_{i,1}$ e $\text{max}_{i,2}$ para o primeiro e segundo semestres, respectivamente. O problema é NP-difícil. O PDD pode ser visto como um caso especial do \textit{Generalized Assignment Problem} (GAP), no qual recursos (professores) devem ser atribuídos a tarefas (disciplinas) respeitando restrições de capacidade individuais \cite{garey_johnson_1979}. A NP-dificuldade do GAP é bem estabelecida: o problema contém o Problema da Mochila como caso particular, cujo caráter NP-difícil no sentido fraco é demonstrado em \citeonline{garey_johnson_1979}. Adicionalmente, problemas de escalonamento de aulas --- variantes estreitamente relacionadas ao PDD --- foram demonstrados NP-completos por \citeonline{even_itai_shamir_1976} por meio de redução a partir do problema de coloração de grafos. No contexto do PDD especificamente, \citeonline{silva2024abordagem_exata_dpd} observa que instâncias de médio porte já demandam tempo computacional expressivo para o Branch-and-Bound puro, evidenciando na prática o comportamento esperado de um problema NP-difícil. Esses resultados justificam a adoção de abordagens heurísticas e matheurísticas, onde a modelagem como Programação Linear Inteira possibilita o uso de solvers exatos de forma integrada à estratégia de busca.
 
 \section{Modelo Matemático Exato}
 
@@ -29,48 +29,48 @@ Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplin
 
 \subsection{Variáveis de Decisão}
 
-\[
+\begin{equation} \label{eq:var_decisao}
 x_{i,j} \in \{0,1\},\quad i\in P,\ j\in C,
-\]
-onde $x_{i,j}=1$ indica que o professor $i$ é designado à disciplina $j$, e $x_{i,j}=0$ caso contrário.
+\end{equation}
+em que $x_{i,j}=1$ indica que o professor $i$ é designado à disciplina $j$, e $x_{i,j}=0$ caso contrário.
 
 \subsection{Função Objetivo}
 
-O objetivo é maximizar a soma dos pesos das atribuições:
-\[
+O objetivo é maximizar a soma dos pesos das atribuições, conforme a Equação~\eqref{eq:func_obj}:
+\begin{equation} \label{eq:func_obj}
 \max\ Z = \sum_{i\in P}\sum_{j\in C} w_{i,j}\,x_{i,j}.
-\]
+\end{equation}
 Valores positivos de $w_{i,j}$ indicam preferência ou adequação, enquanto valores negativos (resultantes da penalidade por incompatibilidade de área) desencorajam atribuições inadequadas.
 
 \subsection{Restrições}
 
 \subsubsection{Cobertura Obrigatória de Disciplinas}
 
-Cada disciplina deve ser atribuída a exatamente um professor:
-\[
+Cada disciplina deve ser atribuída a exatamente um professor, conforme a Equação~\eqref{eq:cobertura}:
+\begin{equation} \label{eq:cobertura}
 \sum_{i\in P} x_{i,j} = 1,\quad \forall j\in C.
-\]
+\end{equation}
 
 \subsubsection{Carga Horária Mínima Anual}
 
-A soma das cargas horárias das disciplinas atribuídas ao professor $i$ deve ser pelo menos $\text{min}_i$:
-\[
+A soma das cargas horárias das disciplinas atribuídas ao professor $i$ deve ser pelo menos $\text{min}_i$, conforme a Equação~\eqref{eq:ch_min_anual}:
+\begin{equation} \label{eq:ch_min_anual}
 \sum_{j\in C} ch_j\,x_{i,j} \ge \text{min}_i,\quad \forall i\in P.
-\]
+\end{equation}
 
 \subsubsection{Carga Horária Máxima no Primeiro Semestre}
 
-A soma das cargas horárias das disciplinas do primeiro semestre atribuídas ao professor $i$ não pode exceder $\text{max}_{i,1}$:
-\[
+A soma das cargas horárias das disciplinas do primeiro semestre atribuídas ao professor $i$ não pode exceder $\text{max}_{i,1}$, conforme a Equação~\eqref{eq:ch_max_sem1}:
+\begin{equation} \label{eq:ch_max_sem1}
 \sum_{j\in C_1} ch_j\,x_{i,j} \le \text{max}_{i,1},\quad \forall i\in P.
-\]
+\end{equation}
 
 \subsubsection{Carga Horária Máxima no Segundo Semestre}
 
-Analogamente, para o segundo semestre:
-\[
+Analogamente, para o segundo semestre, conforme a Equação~\eqref{eq:ch_max_sem2}:
+\begin{equation} \label{eq:ch_max_sem2}
 \sum_{j\in C_2} ch_j\,x_{i,j} \le \text{max}_{i,2},\quad \forall i\in P.
-\]
+\end{equation}
 
 
 \section{Matheurística LNS Proposta}
@@ -79,11 +79,11 @@ A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Sea
 
 \subsection{Definição de Candidatos e Ordenação}
 
-A partir da solução incumbente $\bar{x}$, o algoritmo identifica todas as atribuições ativas (i.e., $\bar{x}_{i,j}=1$), formando um conjunto de candidatos. Cada candidato corresponde a um par (professor, disciplina) e possui associado o valor \texttt{avgPreferenceWeight} do professor, uma métrica calculada como:
-\[
+A partir da solução incumbente $\bar{x}$, o algoritmo identifica todas as atribuições ativas (i.e., $\bar{x}_{i,j}=1$), formando um conjunto de candidatos. Cada candidato corresponde a um par (professor, disciplina) e possui associado o valor \texttt{avgPreferenceWeight} do professor, uma métrica calculada conforme a Equação~\eqref{eq:avg_pref_weight}:
+\begin{equation} \label{eq:avg_pref_weight}
 \text{avgPreferenceWeight}_i = \frac{\sum_{j \in J_i} w_{i,j}}{|J_i|} + \frac{|C|}{|J_i|},
-\]
-onde $J_i$ é o conjunto de disciplinas para as quais o professor $i$ declarou preferência no arquivo de entrada, e $|C|$ é o número total de disciplinas. O primeiro termo representa a média aritmética dos pesos de preferência, enquanto o segundo termo ($|C|/|J_i|$) introduz um bônus inversamente proporcional ao grau de versatilidade do professor: professores mais especializados (com menos preferências declaradas) recebem valores maiores, indicando maior prioridade para reotimização devido às suas restrições de alocação.
+\end{equation}
+em que $J_i$ é o conjunto de disciplinas para as quais o professor $i$ declarou preferência no arquivo de entrada, e $|C|$ é o número total de disciplinas. O primeiro termo representa a média aritmética dos pesos de preferência, enquanto o segundo termo ($|C|/|J_i|$) introduz um bônus inversamente proporcional ao grau de versatilidade do professor: professores mais especializados (com menos preferências declaradas) recebem valores maiores, indicando maior prioridade para reotimização devido às suas restrições de alocação.
 
 O conjunto de candidatos é ordenado segundo o parâmetro \texttt{lns\_order}:
 \begin{itemize}

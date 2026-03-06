@@ -1,12 +1,12 @@
 \chapter{Conclusão}
 
-Este trabalho propôs, implementou e avaliou uma matheurística baseada em Large Neighborhood Search (LNS) no esquema fix-and-relax, integrada como heurística primal ao solver SCIP 7.0, para o Problema da Distribuição de Disciplinas (DPD). O problema foi modelado como um programa linear inteiro binário, cuja função objetivo maximiza a qualidade da atribuição de disciplinas a professores, respeitando restrições de carga horária mínima anual e máxima semestral.
+Este trabalho propôs, implementou e avaliou uma matheurística baseada em Large Neighborhood Search (LNS) no esquema fix-and-relax, integrada como heurística primal ao solver SCIP 7.0, para o Problema da Distribuição de Disciplinas (PDD). O problema foi modelado como um programa linear inteiro binário, cuja função objetivo maximiza a qualidade da atribuição de disciplinas a professores, respeitando restrições de carga horária mínima anual e máxima semestral.
 
 A calibração dos parâmetros internos da LNS foi conduzida via abordagem \emph{one-factor-at-a-time}, avaliando três parâmetros: taxa de destruição, sentido de ordenação dos candidatos e tempo máximo do sub-MIP. Em todas as etapas, a métrica de nós restantes na árvore de Branch-and-Bound foi o critério decisivo, uma vez que tempo de execução e gap de otimalidade não apresentaram diferenças significativas entre as configurações testadas. A configuração final selecionada --- 75\% de destruição, ordenação crescente por \texttt{avgPreferenceWeight} e 200 segundos de sub-MIP --- demonstrou que vizinhanças maiores e investimentos mais longos em cada chamada do LNS são compensados por incumbentes de melhor qualidade, que aceleram a convergência do Branch-and-Bound.
 
 No comparativo final entre quatro abordagens (relaxação pura, LNS, GRASP e GRASP|LNS), a matheurística LNS superou todas as demais em todas as métricas avaliadas: resolveu as 10 instâncias até a otimalidade (gap 0,00\%), com tempo total de 230,05 segundos --- 3,2 vezes menor que a relaxação e 5,7 vezes menor que o GRASP. A combinação GRASP|LNS não trouxe ganhos adicionais frente ao LNS isolado, indicando que a heurística LNS é capaz de gerar incumbentes de qualidade suficiente sem necessidade de uma solução inicial construtiva dedicada.
 
-Os resultados confirmam que a integração de uma matheurística LNS ao Branch-and-Bound é uma estratégia eficaz para o DPD, cumprindo todos os objetivos propostos: modelagem do problema como PLI, implementação da heurística fix-and-relax no SCIP, análise do impacto dos parâmetros internos e comparação com abordagens alternativas.
+Os resultados confirmam que a integração de uma matheurística LNS ao Branch-and-Bound é uma estratégia eficaz para o PDD, cumprindo todos os objetivos propostos: modelagem do problema como PLI, implementação da heurística fix-and-relax no SCIP, análise do impacto dos parâmetros internos e comparação com abordagens alternativas.
 
 \section{Limitações}
 
@@ -35,6 +35,6 @@ Como direções para trabalhos futuros, destacam-se:
 
   \item Comparar o desempenho com solvers comerciais (Gurobi, CPLEX) e com outras metaheurísticas, como Busca Tabu e Algoritmos Genéticos.
 
-  \item Estender o modelo para variantes multiobjetivo do DPD, considerando simultaneamente qualidade da atribuição, equilíbrio de carga entre professores e custos operacionais.
+  \item Estender o modelo para variantes multiobjetivo do PDD, considerando simultaneamente qualidade da atribuição, equilíbrio de carga entre professores e custos operacionais.
 \end{enumerate}
 
