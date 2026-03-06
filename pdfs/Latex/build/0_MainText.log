@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  4 MAR 2026 23:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.1.21)  6 MAR 2026 09:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1538,7 +1538,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 
 ] (build/0_MainText.lot
-Overfull \hbox (11.21103pt too wide) in paragraph at lines 16--16
+Overfull \hbox (11.21103pt too wide) in paragraph at lines 17--17
  [][] [][][]\T1/lmr/m/n/12 Tempo de exe-cu-ção (se-gun-dos) com-pa-rando Re-la-xa-ção, LNS, GRASP 
  []
 
@@ -1585,11 +1585,11 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 
 ]
 
-[17{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+[17]
 
 [18]
 
-[19]) (./5_Resultados.tex
+[19{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]) (./5_Resultados.tex
 
 [20]
 
@@ -1703,18 +1703,18 @@ Package rerunfilecheck Info: File `0_MainText.brf' has not changed.
 (rerunfilecheck)             Checksum: 0ED1B7E76A5DB839A345DAB20BFF644E;3769.
  ) 
 Here is how much of TeX's memory you used:
- 55364 strings out of 475151
- 1244492 string characters out of 5766386
- 1903485 words of memory out of 5000000
- 77208 multiletter control sequences out of 15000+600000
+ 55358 strings out of 475151
+ 1244493 string characters out of 5766386
+ 1904190 words of memory out of 5000000
+ 77207 multiletter control sequences out of 15000+600000
  655941 words of font info for 116 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
- 99i,13n,131p,2442b,2361s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,15n,131p,2442b,2361s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on build/0_MainText.pdf (40 pages, 534712 bytes).
+Output written on build/0_MainText.pdf (40 pages, 533866 bytes).
 PDF statistics:
- 886 PDF objects out of 1000 (max. 8388607)
- 807 compressed objects within 9 object streams
- 163 named destinations out of 1000 (max. 500000)
- 390 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 856 PDF objects out of 1000 (max. 8388607)
+ 778 compressed objects within 8 object streams
+ 158 named destinations out of 1000 (max. 500000)
+ 334 words of extra memory for PDF output out of 10000 (max. 10000000)
 

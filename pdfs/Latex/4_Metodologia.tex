@@ -8,69 +8,61 @@ Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplin
 
 \section{Modelo Matemático Exato}
 
-\subsection{Conjuntos e Índices}
+O PDD é formulado como um programa linear inteiro binário, instanciando a estrutura geral de PLI apresentada na Equação~\eqref{eq:pli_geral}. A notação adotada é definida a seguir, seguida da formulação completa do modelo.
 
-\begin{itemize}
-  \item $P = \{1,\ldots,|P|\}$: conjunto de professores, indexado por $i$;
-  \item $C = \{1,\ldots,|C|\}$: conjunto de disciplinas, indexado por $j$;
-  \item $C_1 \subseteq C$: disciplinas do primeiro semestre;
-  \item $C_2 \subseteq C$: disciplinas do segundo semestre.
-\end{itemize}
+\subsection{Notação}
 
-\subsection{Parâmetros e Constantes}
+A Tabela~\ref{tab:notacao} reúne os conjuntos, parâmetros e variável de decisão do modelo.
 
-\begin{itemize}
-  \item $w_{i,j}$: peso/preferência da atribuição do professor $i$ à disciplina $j$. Quando o professor possui competência na área da disciplina e alguma preferência, $w_{i,j}$ assume o valor da preferência; caso contrário, aplica-se $w_{i,j} = -\text{area\_penalty}$;
-  \item $ch_j$: carga horária (créditos) da disciplina $j$;
-  \item $\text{min}_i$: carga horária mínima anual do professor $i$;
-  \item $\text{max}_{i,1}$: carga horária máxima do professor $i$ no primeiro semestre;
-  \item $\text{max}_{i,2}$: carga horária máxima do professor $i$ no segundo semestre.
-\end{itemize}
+\begin{table}[H]
+\centering
+\caption{Notação do modelo matemático do PDD.}
+\label{tab:notacao}
+\begin{tabular}{p{4cm}p{10cm}}
+\hline
+\textbf{Símbolo} & \textbf{Descrição} \\
+\hline
+\multicolumn{2}{l}{\textit{Conjuntos e Índices}} \\
+\hline
+$P = \{1,\ldots,|P|\}$ & Conjunto de professores, indexado por $i$ \\
+$C = \{1,\ldots,|C|\}$ & Conjunto de disciplinas, indexado por $j$ \\
+$C_1 \subseteq C$       & Subconjunto de disciplinas do primeiro semestre \\
+$C_2 \subseteq C$       & Subconjunto de disciplinas do segundo semestre \\
+\hline
+\multicolumn{2}{l}{\textit{Parâmetros}} \\
+\hline
+$w_{i,j}$               & Peso da atribuição do professor $i$ à disciplina $j$: assume o valor da preferência declarada se o professor tem competência na área da disciplina; caso contrário, $w_{i,j} = -\text{area\_penalty} < 0$ \\
+$ch_j$                  & Carga horária (créditos) da disciplina $j$ \\
+$\text{min}_i$          & Carga horária mínima anual do professor $i$ \\
+$\text{max}_{i,1}$      & Carga horária máxima do professor $i$ no primeiro semestre \\
+$\text{max}_{i,2}$      & Carga horária máxima do professor $i$ no segundo semestre \\
+\hline
+\multicolumn{2}{l}{\textit{Variável de Decisão}} \\
+\hline
+$x_{i,j} \in \{0,1\}$  & 1 se o professor $i$ é designado à disciplina $j$; 0 caso contrário \\
+\hline
+\end{tabular}
+\end{table}
 
-\subsection{Variáveis de Decisão}
+\subsection{Formulação}
 
-\begin{equation} \label{eq:var_decisao}
-x_{i,j} \in \{0,1\},\quad i\in P,\ j\in C,
-\end{equation}
-em que $x_{i,j}=1$ indica que o professor $i$ é designado à disciplina $j$, e $x_{i,j}=0$ caso contrário.
+O modelo completo do PDD é apresentado no Programa~\eqref{eq:modelo_pdd}:
 
-\subsection{Função Objetivo}
+\begin{subequations} \label{eq:modelo_pdd}
+\begin{align}
+  \max\ Z \quad & = \sum_{i\in P}\sum_{j\in C} w_{i,j}\,x_{i,j} \label{eq:func_obj} \\[4pt]
+  \text{sujeito a:} \nonumber \\
+  & \sum_{i\in P} x_{i,j} = 1, && \forall\, j\in C, \label{eq:cobertura} \\
+  & \sum_{j\in C} ch_j\,x_{i,j} \ge \text{min}_i, && \forall\, i\in P, \label{eq:ch_min_anual} \\
+  & \sum_{j\in C_1} ch_j\,x_{i,j} \le \text{max}_{i,1}, && \forall\, i\in P, \label{eq:ch_max_sem1} \\
+  & \sum_{j\in C_2} ch_j\,x_{i,j} \le \text{max}_{i,2}, && \forall\, i\in P, \label{eq:ch_max_sem2} \\
+  & x_{i,j} \in \{0,1\}, && \forall\, i\in P,\ j\in C. \label{eq:var_decisao}
+\end{align}
+\end{subequations}
 
-O objetivo é maximizar a soma dos pesos das atribuições, conforme a Equação~\eqref{eq:func_obj}:
-\begin{equation} \label{eq:func_obj}
-\max\ Z = \sum_{i\in P}\sum_{j\in C} w_{i,j}\,x_{i,j}.
-\end{equation}
-Valores positivos de $w_{i,j}$ indicam preferência ou adequação, enquanto valores negativos (resultantes da penalidade por incompatibilidade de área) desencorajam atribuições inadequadas.
+A função objetivo~\eqref{eq:func_obj} maximiza a soma ponderada das atribuições: valores positivos de $w_{i,j}$ refletem compatibilidade de área e preferência declarada, enquanto o valor negativo $-\text{area\_penalty}$ penaliza atribuições fora das áreas de especialização do professor.
 
-\subsection{Restrições}
-
-\subsubsection{Cobertura Obrigatória de Disciplinas}
-
-Cada disciplina deve ser atribuída a exatamente um professor, conforme a Equação~\eqref{eq:cobertura}:
-\begin{equation} \label{eq:cobertura}
-\sum_{i\in P} x_{i,j} = 1,\quad \forall j\in C.
-\end{equation}
-
-\subsubsection{Carga Horária Mínima Anual}
-
-A soma das cargas horárias das disciplinas atribuídas ao professor $i$ deve ser pelo menos $\text{min}_i$, conforme a Equação~\eqref{eq:ch_min_anual}:
-\begin{equation} \label{eq:ch_min_anual}
-\sum_{j\in C} ch_j\,x_{i,j} \ge \text{min}_i,\quad \forall i\in P.
-\end{equation}
-
-\subsubsection{Carga Horária Máxima no Primeiro Semestre}
-
-A soma das cargas horárias das disciplinas do primeiro semestre atribuídas ao professor $i$ não pode exceder $\text{max}_{i,1}$, conforme a Equação~\eqref{eq:ch_max_sem1}:
-\begin{equation} \label{eq:ch_max_sem1}
-\sum_{j\in C_1} ch_j\,x_{i,j} \le \text{max}_{i,1},\quad \forall i\in P.
-\end{equation}
-
-\subsubsection{Carga Horária Máxima no Segundo Semestre}
-
-Analogamente, para o segundo semestre, conforme a Equação~\eqref{eq:ch_max_sem2}:
-\begin{equation} \label{eq:ch_max_sem2}
-\sum_{j\in C_2} ch_j\,x_{i,j} \le \text{max}_{i,2},\quad \forall i\in P.
-\end{equation}
+A restrição~\eqref{eq:cobertura} garante que cada disciplina seja atribuída a exatamente um professor. As restrições~\eqref{eq:ch_min_anual} asseguram que cada professor cumpra a carga horária mínima anual. As restrições~\eqref{eq:ch_max_sem1} e~\eqref{eq:ch_max_sem2} limitam, respectivamente, a carga semestral no primeiro e no segundo semestres. O domínio~\eqref{eq:var_decisao} restringe as variáveis ao conjunto binário.
 
 
 \section{Matheurística LNS Proposta}
