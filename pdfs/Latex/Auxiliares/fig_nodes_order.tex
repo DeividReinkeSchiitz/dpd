@@ -3,29 +3,34 @@
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    ybar,
-    bar width=25pt,
+    modernbar,
+    bar width=28pt,
     width=0.85\textwidth,
-    height=8cm,
     ylabel={Nós Restantes (Total)},
     xlabel={Sentido de Ordenação},
     symbolic x coords={Relaxação, Crescente, Decrescente},
     xtick=data,
-    nodes near coords,
-    nodes near coords align={vertical},
-    nodes near coords style={font=\normalsize},
+    nodes near coords style={
+        font=\footnotesize\bfseries,
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/1000 sep={.},
+    },
+    yticklabel style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/1000 sep={.},
+    },
     ymin=0,
-    ymax=150000,
+    ymax=155000,
     enlarge x limits=0.25,
-    ylabel style={font=\large},
-    xlabel style={font=\large},
-    tick label style={font=\normalsize},
 ]
-\addplot[fill=blue!70] coordinates {
-    (Relaxação,139460)
-    (Crescente,131997)
-    (Decrescente,133674)
-};
+\addplot[fill=chartGray, draw=chartGray!70!black, line width=0.3pt, forget plot]
+    coordinates {(Relaxação,139460)};
+\addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
+    coordinates {(Crescente,131997)};
+\addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt]
+    coordinates {(Decrescente,133674)};
 \end{axis}
 \end{tikzpicture}
 \caption{Comparação do número total de nós restantes entre ordenação crescente e decrescente. A ordenação crescente (priorizando professores versáteis) obteve melhor desempenho com 131.997 nós restantes.}

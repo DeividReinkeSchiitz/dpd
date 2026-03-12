@@ -3,31 +3,37 @@
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    ybar,
+    modernbar,
     bar width=20pt,
-    width=0.9\textwidth,
-    height=8cm,
     ylabel={Nós Restantes (Total)},
     xlabel={Taxa de Destruição},
     symbolic x coords={Relaxação, 10\%, 25\%, 50\%, 75\%},
     xtick=data,
-    nodes near coords,
-    nodes near coords align={vertical},
-    nodes near coords style={font=\footnotesize},
+    nodes near coords style={
+        font=\footnotesize\bfseries,
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/1000 sep={.},
+    },
+    yticklabel style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/1000 sep={.},
+    },
     ymin=0,
-    ymax=70000,
-    enlarge x limits=0.15,
-    ylabel style={font=\large},
-    xlabel style={font=\large},
-    tick label style={font=\normalsize},
+    ymax=75000,
+    enlarge x limits=0.13,
 ]
-\addplot[fill=blue!60] coordinates {
-    (Relaxação,66230)
-    (10\%,62628)
-    (25\%,60540)
-    (50\%,61056)
-    (75\%,58921)
-};
+\addplot[fill=chartGray, draw=chartGray!70!black, line width=0.3pt, forget plot]
+    coordinates {(Relaxação,66230)};
+\addplot[fill=shade1, draw=shade1!70!black, line width=0.3pt, forget plot]
+    coordinates {(10\%,62628)};
+\addplot[fill=shade2, draw=shade2!70!black, line width=0.3pt, forget plot]
+    coordinates {(25\%,60540)};
+\addplot[fill=shade3, draw=shade3!70!black, line width=0.3pt, forget plot]
+    coordinates {(50\%,61056)};
+\addplot[fill=shade4, draw=shade4!70!black, line width=0.3pt]
+    coordinates {(75\%,58921)};
 \end{axis}
 \end{tikzpicture}
 \caption{Número total de nós restantes na árvore de Branch-and-Bound para diferentes taxas de destruição do LNS. A configuração de 75\% apresentou o melhor desempenho com 58.921 nós restantes.}

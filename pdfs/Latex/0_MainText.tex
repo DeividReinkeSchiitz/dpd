@@ -111,6 +111,41 @@
 \pgfplotsset{compat=1.18}
 \usepackage{tikz}
 
+% --- Paleta de cores para gráficos ---
+\definecolor{chartSteel}{HTML}{4472C4}      % Azul aço - Relaxação (geral)
+\definecolor{chartGreen}{HTML}{70AD47}      % Verde - LNS
+\definecolor{chartOrange}{HTML}{ED7D31}     % Laranja - GRASP
+\definecolor{chartPurple}{HTML}{7B68AE}     % Roxo - GRASP|LNS
+\definecolor{chartGray}{HTML}{A0A0A0}       % Cinza - Baseline (parâmetros)
+\definecolor{shade1}{HTML}{9DC3E6}          % Azul claro
+\definecolor{shade2}{HTML}{5B9BD5}          % Azul médio
+\definecolor{shade3}{HTML}{2E75B6}          % Azul escuro
+\definecolor{shade4}{HTML}{1F4E79}          % Azul mais escuro
+\definecolor{gridLight}{HTML}{E8E8E8}       % Grade
+
+% --- Estilo moderno para gráficos de barras ---
+\pgfplotsset{
+    modernbar/.style={
+        ybar,
+        axis on top,
+        width=0.92\textwidth,
+        height=7.5cm,
+        ymajorgrids=true,
+        major grid style={line width=0.3pt, draw=gridLight},
+        axis line style={line width=0.5pt, draw=black!60},
+        axis x line*=bottom,
+        axis y line*=left,
+        bar shift=0pt,
+        nodes near coords,
+        nodes near coords align={vertical},
+        ylabel style={font=\normalsize},
+        xlabel style={font=\normalsize},
+        tick label style={font=\small},
+        xtick align=outside,
+        ytick align=outside,
+    },
+}
+
 % ---
 % Pasta de imagens
 % ---

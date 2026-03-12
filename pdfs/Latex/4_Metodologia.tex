@@ -8,11 +8,13 @@ Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplin
 
 \section{Modelo Matemático Exato}
 
-O PDD é formulado como um programa linear inteiro binário, instanciando a estrutura geral de PLI apresentada na Equação~\eqref{eq:pli_geral}. A notação adotada é definida a seguir, seguida da formulação completa do modelo.
+O PDD é formulado como um programa linear inteiro binário, instanciando a estrutura geral de PLI apresentada na Equação~\eqref{eq:pli_geral}. Os elementos do modelo são organizados em três categorias --- conjuntos e índices, parâmetros e variável de decisão --- todos reunidos na Tabela~\ref{tab:notacao}.
 
-\subsection{Notação}
+Os \textbf{conjuntos} $P = \{1,\ldots,|P|\}$ e $C = \{1,\ldots,|C|\}$ representam, respectivamente, o conjunto de professores (indexado por $i$) e o conjunto de disciplinas (indexado por $j$). O conjunto de disciplinas é ainda particionado em $C_1 \subseteq C$ (disciplinas ofertadas no primeiro semestre) e $C_2 \subseteq C$ (disciplinas ofertadas no segundo semestre), permitindo tratar separadamente as restrições de carga horária de cada período letivo.
 
-A Tabela~\ref{tab:notacao} reúne os conjuntos, parâmetros e variável de decisão do modelo.
+Os \textbf{parâmetros} do modelo são: $w_{i,j}$, o peso associado à atribuição do professor $i$ à disciplina $j$, que assume o valor da preferência declarada quando o professor possui competência na área da disciplina, ou $w_{i,j} = -\text{area\_penalty} < 0$ quando a disciplina está fora de suas áreas de especialização, penalizando alocações incompatíveis; $ch_j$, a carga horária em créditos da disciplina $j$; $\text{min}_i$, a carga horária mínima anual obrigatória do professor $i$; e $\text{max}_{i,1}$ e $\text{max}_{i,2}$, as cargas horárias máximas permitidas para o professor $i$ no primeiro e no segundo semestres, respectivamente.
+
+A \textbf{variável de decisão} $x_{i,j} \in \{0,1\}$ é binária: assume valor 1 se o professor $i$ é designado à disciplina $j$, e 0 caso contrário.
 
 \begin{table}[H]
 \centering
@@ -24,8 +26,8 @@ A Tabela~\ref{tab:notacao} reúne os conjuntos, parâmetros e variável de decis
 \hline
 \multicolumn{2}{l}{\textit{Conjuntos e Índices}} \\
 \hline
-$P = \{1,\ldots,|P|\}$ & Conjunto de professores, indexado por $i$ \\
-$C = \{1,\ldots,|C|\}$ & Conjunto de disciplinas, indexado por $j$ \\
+$P = \{1,\ldots,|P|\}$ & Conjunto de professores; $i \in P$ denota um professor genérico \\
+$C = \{1,\ldots,|C|\}$ & Conjunto de disciplinas; $j \in C$ denota uma disciplina genérica \\
 $C_1 \subseteq C$       & Subconjunto de disciplinas do primeiro semestre \\
 $C_2 \subseteq C$       & Subconjunto de disciplinas do segundo semestre \\
 \hline
@@ -44,8 +46,6 @@ $x_{i,j} \in \{0,1\}$  & 1 se o professor $i$ é designado à disciplina $j$; 0 
 \end{tabular}
 \end{table}
 
-\subsection{Formulação}
-
 O modelo completo do PDD é apresentado no Programa~\eqref{eq:modelo_pdd}:
 
 \begin{subequations} \label{eq:modelo_pdd}
@@ -60,9 +60,9 @@ O modelo completo do PDD é apresentado no Programa~\eqref{eq:modelo_pdd}:
 \end{align}
 \end{subequations}
 
-A função objetivo~\eqref{eq:func_obj} maximiza a soma ponderada das atribuições: valores positivos de $w_{i,j}$ refletem compatibilidade de área e preferência declarada, enquanto o valor negativo $-\text{area\_penalty}$ penaliza atribuições fora das áreas de especialização do professor.
+A função objetivo~\eqref{eq:func_obj} maximiza a soma ponderada de todas as atribuições realizadas. Quando o professor possui competência na área da disciplina, o coeficiente $w_{i,j}$ é positivo e reflete a preferência declarada, contribuindo para aumentar a qualidade da solução. Quando a atribuição ocorre fora da área de especialização, $w_{i,j} = -\text{area\_penalty}$ é negativo, penalizando explicitamente alocações incompatíveis e desincentivando sua ocorrência na solução final.
 
-A restrição~\eqref{eq:cobertura} garante que cada disciplina seja atribuída a exatamente um professor. As restrições~\eqref{eq:ch_min_anual} asseguram que cada professor cumpra a carga horária mínima anual. As restrições~\eqref{eq:ch_max_sem1} e~\eqref{eq:ch_max_sem2} limitam, respectivamente, a carga semestral no primeiro e no segundo semestres. O domínio~\eqref{eq:var_decisao} restringe as variáveis ao conjunto binário.
+A restrição~\eqref{eq:cobertura} é a restrição de cobertura: garante que cada disciplina $j$ seja atribuída a exatamente um professor, assegurando que nenhuma disciplina fique sem docente responsável. A restrição~\eqref{eq:ch_min_anual} impõe que a soma das cargas horárias das disciplinas atribuídas ao professor $i$ ao longo do ano seja pelo menos igual à sua carga mínima anual $\text{min}_i$, respeitando obrigações contratuais. As restrições~\eqref{eq:ch_max_sem1} e~\eqref{eq:ch_max_sem2} estabelecem limites superiores para a carga de cada professor em cada semestre, evitando sobrecarga em um único período letivo. Por fim, o domínio~\eqref{eq:var_decisao} restringe as variáveis ao conjunto binário $\{0,1\}$, garantindo que cada par professor--disciplina seja ou inteiramente atribuído ou não atribuído.
 
 
 \section{Matheurística LNS Proposta}

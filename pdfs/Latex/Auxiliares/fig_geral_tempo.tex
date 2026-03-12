@@ -3,31 +3,29 @@
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    ybar,
-    bar width=22pt,
-    width=0.9\textwidth,
-    height=8cm,
+    modernbar,
+    bar width=24pt,
     ylabel={Tempo Total de Execução (segundos)},
     xlabel={Configuração},
     symbolic x coords={Relaxação, LNS, GRASP, GRASP{|}LNS},
     xtick=data,
-    nodes near coords,
-    nodes near coords align={vertical},
-    nodes near coords style={font=\normalsize, /pgf/number format/fixed,
-        /pgf/number format/precision=2},
+    nodes near coords style={
+        font=\footnotesize\bfseries,
+        /pgf/number format/fixed,
+        /pgf/number format/precision=2,
+    },
     ymin=0,
     ymax=1600,
     enlarge x limits=0.2,
-    ylabel style={font=\large},
-    xlabel style={font=\large},
-    tick label style={font=\normalsize},
 ]
-\addplot[fill=blue!50] coordinates {
-    (Relaxação,744.13)
-    (LNS,230.05)
-    (GRASP,1314.27)
-    (GRASP{|}LNS,587.94)
-};
+\addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
+    coordinates {(Relaxação,744.13)};
+\addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
+    coordinates {(LNS,230.05)};
+\addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]
+    coordinates {(GRASP,1314.27)};
+\addplot[fill=chartPurple, draw=chartPurple!70!black, line width=0.3pt]
+    coordinates {(GRASP{|}LNS,587.94)};
 \end{axis}
 \end{tikzpicture}
 \caption{Tempo total de execução (segundos) para cada configuração. O LNS obteve o menor tempo total (230,05s), representando uma redução de 69,1\% em relação à relaxação pura e de 82,5\% em relação ao GRASP.}

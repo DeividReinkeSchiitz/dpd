@@ -3,33 +3,35 @@
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    ybar,
-    bar width=22pt,
-    width=0.9\textwidth,
-    height=8cm,
+    modernbar,
+    bar width=24pt,
     ylabel={Nós Restantes (Total)},
     xlabel={Configuração},
     symbolic x coords={Relaxação, LNS, GRASP, GRASP{|}LNS},
     xtick=data,
-    nodes near coords,
-    nodes near coords align={vertical},
-    nodes near coords style={font=\normalsize},
-    every node near coord/.append style={/pgf/number format/fixed,
+    nodes near coords style={
+        font=\footnotesize\bfseries,
+        /pgf/number format/fixed,
         /pgf/number format/precision=0,
-        /pgf/number format/use comma},
+        /pgf/number format/1000 sep={.},
+    },
+    yticklabel style={
+        /pgf/number format/fixed,
+        /pgf/number format/precision=0,
+        /pgf/number format/1000 sep={.},
+    },
     ymin=0,
     ymax=75000,
     enlarge x limits=0.2,
-    ylabel style={font=\large},
-    xlabel style={font=\large},
-    tick label style={font=\normalsize},
 ]
-\addplot[fill=blue!60] coordinates {
-    (Relaxação,64364)
-    (LNS,0)
-    (GRASP,36303)
-    (GRASP{|}LNS,2324)
-};
+\addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
+    coordinates {(Relaxação,64364)};
+\addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
+    coordinates {(LNS,0)};
+\addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]
+    coordinates {(GRASP,36303)};
+\addplot[fill=chartPurple, draw=chartPurple!70!black, line width=0.3pt]
+    coordinates {(GRASP{|}LNS,2324)};
 \end{axis}
 \end{tikzpicture}
 \caption{Total de nós restantes na árvore de Branch-and-Bound para cada configuração. O LNS alcançou 0 nós restantes, resolvendo todas as instâncias até a otimalidade.}

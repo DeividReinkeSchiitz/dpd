@@ -1,6 +1,8 @@
 \chapter{Resultados e Análise Computacional} \label{ch:resultados}
 
-\section{Instâncias e Ambiente de Testes}
+Este capítulo apresenta os experimentos computacionais realizados para calibrar e avaliar a matheurística LNS proposta. Inicialmente, a Seção~\ref{sec:instancias} descreve as instâncias de teste, o ambiente computacional e a metodologia de calibração adotada. Em seguida, a Seção~\ref{sec:analise_interna} detalha a análise incremental dos três parâmetros da LNS --- taxa de destruição, sentido de ordenação dos candidatos e tempo máximo do sub-MIP ---, conduzida conforme a abordagem \emph{one-factor-at-a-time}. Por fim, a Seção~\ref{sec:comparativo} apresenta o comparativo de desempenho entre a configuração selecionada da LNS, o Branch-and-Bound puro com relaxação linear, a heurística GRASP e a variante híbrida GRASP|LNS, avaliando tempo de execução, gap de otimalidade e número de nós restantes na árvore de busca.
+
+\section{Instâncias e Ambiente de Testes} \label{sec:instancias}
 
 Os experimentos computacionais foram conduzidos utilizando um conjunto de 42 instâncias de teste geradas sinteticamente, abrangendo diferentes cenários do Problema da Distribuição de Disciplinas (PDD). As instâncias variam em tamanho (62 a 214 disciplinas), número de professores (22 a 69), complexidade das restrições de carga horária e distribuição de preferências entre áreas de conhecimento.
 
@@ -10,7 +12,7 @@ Todas as execuções foram realizadas com limite de tempo global de 400 segundos
 
 Para a seleção do melhor valor de cada parâmetro, adotou-se a seguinte hierarquia de critérios de desempate: (i)~tempo de execução, (ii)~gap de otimalidade e (iii)~número de nós restantes na árvore de Branch-and-Bound (\emph{nodes left}). Quando os critérios de maior prioridade apresentaram empate entre as configurações, o critério subsequente foi utilizado como desempate.
 
-\section{Análise Interna das Configurações da LNS}
+\section{Análise Interna das Configurações da LNS} \label{sec:analise_interna}
 
 \subsection{Impacto da Taxa de Destruição (10\%, 25\%, 50\% e 75\%)}
 
@@ -34,7 +36,7 @@ A primeira análise experimental investigou o impacto da taxa de destruição (\
 
 \subsection{Impacto do Sentido de Ordenação (Crescente vs. Decrescente)}
 
-Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight} (Equação~\eqref{eq:avg_pref_weight}). Conforme descrito no Capítulo~\ref{ch:pdd}, a ordenação crescente prioriza a liberação de professores mais versáteis (maior número de preferências declaradas), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
+Com a taxa de destruição fixada em 75\%, investigou-se o impacto do sentido de ordenação dos candidatos pelo valor de \texttt{avgPreferenceWeight} (~\eqref{eq:avg_pref_weight}). Conforme descrito no Capítulo~\ref{ch:pdd}, a ordenação crescente prioriza a liberação de professores mais versáteis (maior número de preferências declaradas), enquanto a decrescente prioriza professores mais especializados (menor número de preferências).
 
 \textbf{Tempo de Execução.} A Tabela~\ref{tab:lns_order_tempo} revela desempenho temporal praticamente idêntico entre as duas estratégias: 1.803,48 segundos (crescente) versus 1.804,48 segundos (decrescente) no tempo total, com diferença de apenas 1 segundo. A relaxação obteve o menor tempo total com \textbf{1.792,24 segundos}. Das 10 instâncias testadas, quatro atingiram o limite de tempo em ambas as configurações (input4, input15, input17 e input33), e as demais apresentaram variações inferiores a 1 segundo. O tempo, portanto, não permitiu diferenciar as estratégias de ordenação.
 
@@ -96,7 +98,7 @@ Tempo do sub-MIP (\texttt{lns\_time})   & 10s, 50s, 100s, 200s   & 200s & Nós r
 
 Nota-se que, em todas as etapas, o tempo de execução não apresentou diferenças significativas entre as configurações LNS e o gap de otimalidade resultou em empate, sendo a métrica de nós restantes o critério de desempate definitivo. Esse padrão sugere que, para as instâncias avaliadas, o LNS atua predominantemente como acelerador da prova de otimalidade, reduzindo o esforço do Branch-and-Bound por meio de incumbentes de melhor qualidade.
 
-\section{Comparativo de Desempenho: LNS, GRASP e Modelo Exato}
+\section{Comparativo de Desempenho: LNS, GRASP e Modelo Exato} \label{sec:comparativo}
 
 Com os parâmetros da LNS calibrados (75\% de destruição, ordenação crescente e tempo de sub-MIP de 200s), realizou-se um comparativo final entre quatro configurações: (i)~\textbf{Relaxação} (Branch-and-Bound puro, sem heurísticas primais customizadas), (ii)~\textbf{LNS} (apenas a heurística LNS proposta), (iii)~\textbf{GRASP} (apenas a heurística GRASP, com \texttt{max\_iter=1}, $\alpha=0{,}8$ e sem busca local \cite{jhonatan_grasp_dpd}) e (iv)~\textbf{GRASP|LNS} (ambas as heurísticas ativadas simultaneamente). As mesmas 10 instâncias foram utilizadas em todas as configurações.
 
