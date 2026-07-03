@@ -67,7 +67,7 @@ A restrição~\eqref{eq:cobertura} é a restrição de cobertura: garante que ca
 
 \section{Matheurística LNS Proposta}
 
-A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Search (LNS) no esquema fix-and-relax. A cada iteração, a heurística parte de uma solução incumbente $\bar{x}$ e define uma vizinhança ao fixar a maior parte das variáveis binárias e liberar um subconjunto controlado de atribuições para reotimização. A estratégia é implementada no arquivo \texttt{heur\_lns.c} e integra-se ao framework de heurísticas primais do SCIP.
+A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Search (LNS) com reotimização por sub-MIP, em um esquema de fixação parcial de variáveis do tipo \textit{fix-and-optimize}. A cada iteração, a heurística parte de uma solução incumbente $\bar{x}$ e define uma vizinhança ao fixar a maior parte das variáveis binárias e liberar um subconjunto controlado de atribuições para reotimização. A estratégia é implementada no arquivo \texttt{heur\_lns.c} e integra-se ao framework de heurísticas primais do SCIP.
 
 \subsection{Definição de Candidatos e Ordenação}
 
@@ -92,7 +92,7 @@ Após a ordenação, o algoritmo seleciona os primeiros $\lfloor \text{nCands} \
 Com o subconjunto de variáveis liberado, o algoritmo resolve um sub-MIP no SCIP auxiliar (mantido em memória pela estrutura \texttt{heurdata->subscip}). O sub-MIP possui:
 \begin{itemize}
   \item Todas as restrições do problema original;
-  \item Variáveis fixadas conforme o vetor \texttt{fixed[]};
+  \item Todas as variáveis binárias do modelo original, com limites ajustados conforme o vetor \texttt{fixed[]};
   \item Limite de tempo configurado pelo parâmetro \texttt{lns\_time};
   \item Limite de função objetivo (\texttt{objlimit}) ajustado para parar assim que uma solução melhor que a incumbente for encontrada.
 \end{itemize}

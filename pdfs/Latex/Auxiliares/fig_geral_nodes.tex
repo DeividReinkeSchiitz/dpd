@@ -7,7 +7,7 @@
     bar width=24pt,
     ylabel={Nós Restantes (Total)},
     xlabel={Configuração},
-    symbolic x coords={Relaxação, LNS, GRASP, GRASP{|}LNS},
+    symbolic x coords={B\&B, LNS, GRASP, GRASP{|}LNS},
     xtick=data,
     nodes near coords style={
         font=\footnotesize\bfseries,
@@ -25,7 +25,7 @@
     enlarge x limits=0.2,
 ]
 \addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
-    coordinates {(Relaxação,64364)};
+    coordinates {(B\&B,64364)};
 \addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
     coordinates {(LNS,0)};
 \addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]

@@ -7,7 +7,7 @@
     bar width=20pt,
     ylabel={Nós Restantes (Total)},
     xlabel={Tempo Máximo do Sub-MIP (segundos)},
-    symbolic x coords={Relaxação, 10s, 50s, 100s, 200s},
+    symbolic x coords={B\&B, 10s, 50s, 100s, 200s},
     xtick=data,
     nodes near coords style={
         font=\footnotesize\bfseries,
@@ -25,7 +25,7 @@
     enlarge x limits=0.13,
 ]
 \addplot[fill=chartGray, draw=chartGray!70!black, line width=0.3pt, forget plot]
-    coordinates {(Relaxação,135986)};
+    coordinates {(B\&B,135986)};
 \addplot[fill=shade1, draw=shade1!70!black, line width=0.3pt, forget plot]
     coordinates {(10s,144674)};
 \addplot[fill=shade2, draw=shade2!70!black, line width=0.3pt, forget plot]
@@ -36,6 +36,6 @@
     coordinates {(200s,33539)};
 \end{axis}
 \end{tikzpicture}
-\caption{Impacto do limite de tempo do sub-MIP no número de nós restantes. A configuração de 200s demonstrou o melhor desempenho com 33.539 nós, representando uma redução de 75,3\% em relação à relaxação pura.}
+\caption{Impacto do limite de tempo do sub-MIP no número de nós restantes. A configuração de 200s demonstrou o melhor desempenho com 33.539 nós, representando uma redução de 75,3\% em relação ao B\&B puro.}
 \label{fig:nodes_time}
 \end{figure}

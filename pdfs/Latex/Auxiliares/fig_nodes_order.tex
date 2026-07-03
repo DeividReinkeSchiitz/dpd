@@ -8,7 +8,7 @@
     width=0.85\textwidth,
     ylabel={Nós Restantes (Total)},
     xlabel={Sentido de Ordenação},
-    symbolic x coords={Relaxação, Crescente, Decrescente},
+    symbolic x coords={B\&B, Crescente, Decrescente},
     xtick=data,
     nodes near coords style={
         font=\footnotesize\bfseries,
@@ -26,7 +26,7 @@
     enlarge x limits=0.25,
 ]
 \addplot[fill=chartGray, draw=chartGray!70!black, line width=0.3pt, forget plot]
-    coordinates {(Relaxação,139460)};
+    coordinates {(B\&B,139460)};
 \addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
     coordinates {(Crescente,131997)};
 \addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt]
