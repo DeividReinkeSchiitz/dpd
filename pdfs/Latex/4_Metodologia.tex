@@ -4,13 +4,15 @@
 
 O Problema da Distribuição de Disciplinas (PDD) consiste em atribuir professores a disciplinas de modo a respeitar restrições operacionais (carga horária mínima anual e máximas por semestre para cada professor, cobertura obrigatória de todas as disciplinas) e, simultaneamente, maximizar a qualidade da alocação. A qualidade de cada atribuição é mensurada por um peso que combina a preferência do professor pela disciplina e a compatibilidade entre a área de atuação do professor e a área da disciplina. Quando um professor é designado a uma disciplina fora de suas áreas de especialização, o modelo aplica uma penalidade (\texttt{area\_penalty}), resultando em um coeficiente negativo na função objetivo.
 
+Antes da resolução de cada instância, define-se \textit{a priori} um conjunto finito $\mathcal{A}$ de áreas de conhecimento. Cada professor $i\in P$ é associado a um subconjunto $\mathcal{A}_i \subseteq \mathcal{A}$, que pode conter uma ou mais áreas nas quais ele possui competência. De modo análogo, cada disciplina $j\in C$ é associada a um subconjunto $\mathcal{A}_j \subseteq \mathcal{A}$ que descreve as áreas de conhecimento por ela abrangidas. Uma atribuição entre o professor $i$ e a disciplina $j$ é considerada compatível quando $\mathcal{A}_i \cap \mathcal{A}_j \neq \emptyset$, isto é, quando ambos compartilham pelo menos uma área. Essa classificação é um dado fixo da instância e não é alterada durante a otimização.
+
 Formalmente, temos um conjunto de $P$ professores e um conjunto de $C$ disciplinas. Cada disciplina $j\in C$ possui uma carga horária associada $ch_j$ (em horas/aula ou créditos) e deve ser atribuída a exatamente um professor. Cada professor $i\in P$ possui uma carga horária mínima anual $\text{min}_i$ e cargas horárias máximas $\text{max}_{i,1}$ e $\text{max}_{i,2}$ para o primeiro e segundo semestres, respectivamente. O problema é NP-difícil. O PDD pode ser visto como um caso especial do \textit{Generalized Assignment Problem} (GAP), no qual recursos (professores) devem ser atribuídos a tarefas (disciplinas) respeitando restrições de capacidade individuais \cite{garey_johnson_1979}. A NP-dificuldade do GAP é bem estabelecida: o problema contém o Problema da Mochila como caso particular, cujo caráter NP-difícil no sentido fraco é demonstrado em \citeonline{garey_johnson_1979}. Adicionalmente, problemas de escalonamento de aulas --- variantes estreitamente relacionadas ao PDD --- foram demonstrados NP-completos por \citeonline{even_itai_shamir_1976} por meio de redução a partir do problema de coloração de grafos. No contexto do PDD especificamente, \citeonline{silva2024abordagem_exata_dpd} observa que instâncias de médio porte já demandam tempo computacional expressivo para o Branch-and-Bound puro, evidenciando na prática o comportamento esperado de um problema NP-difícil. Esses resultados justificam a adoção de abordagens heurísticas e matheurísticas, onde a modelagem como Programação Linear Inteira possibilita o uso de solvers exatos de forma integrada à estratégia de busca.
 
 \section{Modelo Matemático Exato}
 
 O PDD é formulado como um programa linear inteiro binário, instanciando a estrutura geral de PLI apresentada na Equação~\eqref{eq:pli_geral}. Os elementos do modelo são organizados em três categorias --- conjuntos e índices, parâmetros e variável de decisão --- todos reunidos na Tabela~\ref{tab:notacao}.
 
-Os \textbf{conjuntos} $P = \{1,\ldots,|P|\}$ e $C = \{1,\ldots,|C|\}$ representam, respectivamente, o conjunto de professores (indexado por $i$) e o conjunto de disciplinas (indexado por $j$). O conjunto de disciplinas é ainda particionado em $C_1 \subseteq C$ (disciplinas ofertadas no primeiro semestre) e $C_2 \subseteq C$ (disciplinas ofertadas no segundo semestre), permitindo tratar separadamente as restrições de carga horária de cada período letivo.
+Os \textbf{conjuntos} $P = \{1,\ldots,|P|\}$ e $C = \{1,\ldots,|C|\}$ representam, respectivamente, o conjunto de professores e o conjunto de disciplinas. Nas formulações a seguir, $i$ e $j$ são utilizados para representar, respectivamente, um professor e uma disciplina. O conjunto de disciplinas é ainda particionado em $C_1 \subseteq C$ (disciplinas ofertadas no primeiro semestre) e $C_2 \subseteq C$ (disciplinas ofertadas no segundo semestre), permitindo tratar separadamente as restrições de carga horária de cada período letivo.
 
 Os \textbf{parâmetros} do modelo são: $w_{i,j}$, o peso associado à atribuição do professor $i$ à disciplina $j$, que assume o valor da preferência declarada quando o professor possui competência na área da disciplina, ou $w_{i,j} = -\text{area\_penalty} < 0$ quando a disciplina está fora de suas áreas de especialização, penalizando alocações incompatíveis; $ch_j$, a carga horária em créditos da disciplina $j$; $\text{min}_i$, a carga horária mínima anual obrigatória do professor $i$; e $\text{max}_{i,1}$ e $\text{max}_{i,2}$, as cargas horárias máximas permitidas para o professor $i$ no primeiro e no segundo semestres, respectivamente.
 
@@ -28,6 +30,9 @@ A \textbf{variável de decisão} $x_{i,j} \in \{0,1\}$ é binária: assume valor
 \hline
 $P = \{1,\ldots,|P|\}$ & Conjunto de professores; $i \in P$ denota um professor genérico \\
 $C = \{1,\ldots,|C|\}$ & Conjunto de disciplinas; $j \in C$ denota uma disciplina genérica \\
+$\mathcal{A}$            & Conjunto de áreas de conhecimento definido \textit{a priori} para a instância \\
+$\mathcal{A}_i$          & Subconjunto de áreas de competência do professor $i$ \\
+$\mathcal{A}_j$          & Subconjunto de áreas de conhecimento abrangidas pela disciplina $j$ \\
 $C_1 \subseteq C$       & Subconjunto de disciplinas do primeiro semestre \\
 $C_2 \subseteq C$       & Subconjunto de disciplinas do segundo semestre \\
 \hline
@@ -67,7 +72,7 @@ A restrição~\eqref{eq:cobertura} é a restrição de cobertura: garante que ca
 
 \section{Matheurística LNS Proposta}
 
-A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Search (LNS) com reotimização por sub-MIP, em um esquema de fixação parcial de variáveis do tipo \textit{fix-and-optimize}. A cada iteração, a heurística parte de uma solução incumbente $\bar{x}$ e define uma vizinhança ao fixar a maior parte das variáveis binárias e liberar um subconjunto controlado de atribuições para reotimização. A estratégia é implementada no arquivo \texttt{heur\_lns.c} e integra-se ao framework de heurísticas primais do SCIP.
+A matheurística desenvolvida neste trabalho baseia-se no Large Neighborhood Search (LNS) com reotimização por sub-MIP, em um esquema de fixação parcial de variáveis do tipo \textit{fix-and-optimize}. A cada iteração, a heurística parte de uma solução incumbente $\bar{x}$ e define uma vizinhança ao fixar a maior parte das variáveis binárias e liberar um subconjunto controlado de atribuições para reotimização. A estratégia integra-se ao framework de heurísticas primais do SCIP.
 
 \subsection{Definição de Candidatos e Ordenação}
 
@@ -75,13 +80,15 @@ A partir da solução incumbente $\bar{x}$, o algoritmo identifica todas as atri
 \begin{equation} \label{eq:avg_pref_weight}
 \text{avgPreferenceWeight}_i = \frac{\sum_{j \in J_i} w_{i,j}}{|J_i|} + \frac{|C|}{|J_i|},
 \end{equation}
-em que $J_i$ é o conjunto de disciplinas para as quais o professor $i$ declarou preferência no arquivo de entrada, e $|C|$ é o número total de disciplinas. O primeiro termo representa a média aritmética dos pesos de preferência, enquanto o segundo termo ($|C|/|J_i|$) introduz um bônus inversamente proporcional ao grau de versatilidade do professor: professores mais especializados (com menos preferências declaradas) recebem valores maiores, indicando maior prioridade para reotimização devido às suas restrições de alocação.
+em que $C$ é o conjunto de todas as disciplinas da instância; portanto, $|C|$ representa a quantidade total de disciplinas. Já $J_i \subseteq C$ é o conjunto de disciplinas para as quais o professor $i$ declarou preferência, de modo que $|J_i|$ representa a quantidade de preferências desse professor. O primeiro termo representa a média aritmética dos pesos de preferência. O segundo termo ($|C|/|J_i|$) introduz um bônus inversamente proporcional à quantidade de preferências declaradas: para um mesmo conjunto de disciplinas, quanto menor for $|J_i|$, maior será o valor dessa fração. Assim, durante a construção do conjunto de candidatos, professores com menos preferências recebem maior prioridade para reotimização, pois dispõem de menos alternativas de atribuição.
 
 O conjunto de candidatos é ordenado segundo o parâmetro \texttt{lns\_order}:
 \begin{itemize}
   \item \texttt{"decrescente"} (padrão): candidatos com maior \texttt{avgPreferenceWeight} aparecem primeiro, priorizando professores mais especializados (menor número de preferências). Estes professores possuem menos opções alternativas de atribuição, sendo candidatos naturais para reotimização;
   \item \texttt{"crescente"}: ordena em ordem ascendente, priorizando professores mais versáteis (maior número de preferências). Esta estratégia busca explorar a flexibilidade de realocação dos professores generalistas.
 \end{itemize}
+
+Seja $K$ o número de candidatos identificados na solução incumbente. A construção dessa lista requer uma varredura dos pares professor--disciplina e possui custo $O(|P|\cdot|C|)$ no pior caso. Em seguida, a ordenação dos $K$ candidatos pelo valor de \texttt{avgPreferenceWeight} possui custo $O(K\log K)$. Esses custos referem-se apenas à construção e à ordenação da vizinhança; a resolução do sub-MIP é tratada separadamente e não possui limite polinomial geral.
 
 \subsection{Destruição (Destroy)}
 

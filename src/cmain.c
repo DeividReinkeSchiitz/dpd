@@ -102,7 +102,7 @@ SCIP_RETCODE printStatistic(SCIP *scip, double time, char *outputname)
     if (param.heur_lns)
     {
       heur_hdlr = SCIPfindHeur(scip, "lns");
-      fprintf(fout, ";%lf;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
+      fprintf(fout, ";%lf;%lld;%lld;%lld;%lld;%s", SCIPheurGetTime(heur_hdlr), SCIPheurGetNCalls(heur_hdlr), SCIPheurLnsGetNExecutions(heur_hdlr), SCIPheurGetNSolsFound(heur_hdlr), SCIPheurGetNBestSolsFound(heur_hdlr), SCIPheurGetName(heur_hdlr));
     }
     if (param.heur_bad_sol)
     {

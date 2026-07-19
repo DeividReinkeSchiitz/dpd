@@ -44,3 +44,5 @@ pdfs/Latex/pdflatex*.fls
 
 # latex build output folder
 /build/latex/
+
+tmp

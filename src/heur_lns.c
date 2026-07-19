@@ -70,6 +70,7 @@ struct SCIP_HeurData
   int arraySize;             /**< size of allocated arrays */
   SCIP_Bool initialized;     /**< whether the data structures are initialized */
   SCIP_Real lastSolValue;    /**< objective value of the last processed solution */
+  SCIP_Longint nExecutions;  /**< number of effective LNS executions */
 };
 SCIP_RETCODE configScip(SCIP **pscip, parametersT param);
 
@@ -200,6 +201,11 @@ static SCIP_DECL_HEUREXIT(heurExitLns)
 /** solving process initialization method of primal heuristic (called when branch and bound process is about to begin) */
 static SCIP_DECL_HEURINITSOL(heurInitsolLns)
 { /*lint --e{715}*/
+  SCIP_HEURDATA *heurdata;
+
+  heurdata = SCIPheurGetData(heur);
+  assert(heurdata != NULL);
+  heurdata->nExecutions = 0;
 
   return SCIP_OKAY;
 }
@@ -535,6 +541,7 @@ static SCIP_DECL_HEUREXEC(heurExecLns)
   /* update last solution value */
   heurdata->lastSolValue = currentSolValue;
   /* solve lns */
+  heurdata->nExecutions++;
   if (lns(scip, sol, heur))
   {
     *result = SCIP_FOUNDSOL;
@@ -553,6 +560,20 @@ static SCIP_DECL_HEUREXEC(heurExecLns)
  * primal heuristic specific intelnsace methods
  */
 
+/** returns the number of effective LNS executions */
+SCIP_Longint SCIPheurLnsGetNExecutions(
+        SCIP_HEUR *heur /**< LNS heuristic */
+)
+{
+  SCIP_HEURDATA *heurdata;
+
+  assert(heur != NULL);
+  heurdata = SCIPheurGetData(heur);
+  assert(heurdata != NULL);
+
+  return heurdata->nExecutions;
+}
+
 /** creates the lns_crtp primal heuristic and includes it in SCIP */
 SCIP_RETCODE SCIPincludeHeurLns(
         SCIP *scip /**< SCIP data structure */
@@ -570,6 +591,7 @@ SCIP_RETCODE SCIPincludeHeurLns(
   heurdata->arraySize    = 0;
   heurdata->initialized  = FALSE;
   heurdata->lastSolValue = -SCIPinfinity(scip); /* Initialize with -infinity */
+  heurdata->nExecutions  = 0;
 
   heur                   = NULL;
 

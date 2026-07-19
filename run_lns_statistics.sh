@@ -131,7 +131,7 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
     echo ""
     
     # Initialize CSV header with clean output
-    echo "Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Memory Used,LNS Time,LNS Sols Found,Best Sol At Node,Best Sol Found By" > "$RESULTS_FILE"
+    echo "Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,Best Sol At Node,Best Sol Found By" > "$RESULTS_FILE"
     
     # Initialize counters
     total_files=0
@@ -223,10 +223,11 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
                 # LNS heuristic info (if available)
                 lns_time="${FIELDS[18]:-0}"
                 lns_calls="${FIELDS[19]:-N/A}"
-                lns_sols="${FIELDS[20]:-0}"
-                lns_best="${FIELDS[21]:-N/A}"
-                heur_name="${FIELDS[22]:-N/A}"
-                config="${FIELDS[23]:-N/A}"
+                lns_executions="${FIELDS[20]:-N/A}"
+                lns_sols="${FIELDS[21]:-0}"
+                lns_best="${FIELDS[22]:-N/A}"
+                heur_name="${FIELDS[23]:-N/A}"
+                config="${FIELDS[24]:-N/A}"
                 
                 # Extract best sol node number from "bestsol in X" format
                 if [[ "$best_sol_node" =~ bestsol\ in\ ([0-9]+) ]]; then
@@ -256,7 +257,7 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
                 node_counts+=("$total_nodes_val")
                 
                 # Write to CSV - Clean output with only essential fields
-                echo "$filename,$num_classes,$num_professors,$LNS_PERC,$total_nodes_val,$nodes_left,$total_time_val,$memory,$lns_time,$lns_sols,$best_sol_node_num,$best_sol_finder" >> "$RESULTS_FILE"
+                echo "$filename,$num_classes,$num_professors,$LNS_PERC,$total_nodes_val,$nodes_left,$total_time_val,$memory,$lns_time,$lns_calls,$lns_executions,$lns_sols,$best_sol_node_num,$best_sol_finder" >> "$RESULTS_FILE"
                 
                 echo "    Time: ${total_time_val}s, Nodes: $total_nodes_val, Best Sol: Node $best_sol_node_num by '$best_sol_finder'"
             fi
