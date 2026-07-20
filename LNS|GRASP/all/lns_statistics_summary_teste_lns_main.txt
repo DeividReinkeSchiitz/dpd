@@ -1,7 +1,7 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_lns_main
-Completed at: Mon Jul 20 02:29:08 PM -04 2026
+Completed at: Mon Jul 20 12:33:13 AM -04 2026
 =========================================
 
 CONFIGURATION:
@@ -18,24 +18,24 @@ EXECUTION SUMMARY:
   Success rate: 100.00%
 
 LNS HEURISTIC PERFORMANCE:
-  SCIP callback calls: 92
-  Effective LNS executions: 92
+  SCIP callback calls: 88
+  Effective LNS executions: 88
   Solutions produced by LNS: 36
   Solutions found by LNS: 36
   LNS success rate: 85.71%
 
 TIME STATISTICS:
-  Total execution time: 5933.79s
-  Average time per instance: 141.28s
+  Total execution time: 5706.73s
+  Average time per instance: 135.88s
 
 NODE STATISTICS:
-  Total nodes explored: 1261365
-  Average nodes per instance: 30032
-  Total nodes left: 457055
-  Average nodes left per instance: 10882
+  Total nodes explored: 1217174
+  Average nodes per instance: 28980
+  Total nodes left: 465095
+  Average nodes left per instance: 11074
 
 GAP STATISTICS:
-  Sum of gaps: 0.202934
+  Sum of gaps: 0.201342
 
 FILES WHERE LNS FOUND SOLUTIONS:
   - input1.csv
