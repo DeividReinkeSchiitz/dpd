@@ -8,7 +8,7 @@ set -e
 # ============================================
 # Maximum number of input files to process
 # Set MAX_FILES in the environment to limit the run, or use -1 for all files
-MAX_FILES=3
+MAX_FILES=-1
 
 # Pre-define specific files to process (optional)
 # If set, these files will be used instead of searching/selecting randomly
