@@ -7,8 +7,8 @@ set -e
 # CONFIGURATION - Adjust as needed
 # ============================================
 # Maximum number of input files to process
-# Set to -1 to process all files, or a positive number to limit
-MAX_FILES=3  # Example: 5 will process input1.csv to input5.csv
+# Set MAX_FILES in the environment to limit the run, or use -1 for all files
+MAX_FILES="${MAX_FILES:--1}"
 
 # Pre-define specific files to process (optional)
 # If set, these files will be used instead of searching/selecting randomly
@@ -111,12 +111,28 @@ echo ""
 # Loop through each config file
 for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
     config_name=$(basename "$CONFIG_FILE" .config)
+
+    LNS_ENABLED=$(awk '$1 == "--heur_lns" { value = $2 } END { print value + 0 }' "$CONFIG_FILE")
+    GRASP_ENABLED=$(awk '$1 == "--heur_grasp" { value = $2 } END { print value + 0 }' "$CONFIG_FILE")
+    BAD_SOL_ENABLED=$(awk '$1 == "--heur_bad_sol" { value = $2 } END { print value + 0 }' "$CONFIG_FILE")
+
+    CONFIG_ARGUMENTS=()
+    while IFS= read -r config_line || [ -n "$config_line" ]; do
+        if [ -z "$config_line" ] || [[ "$config_line" =~ ^[[:space:]]*# ]]; then
+            continue
+        fi
+        read -ra config_line_arguments <<< "$config_line"
+        CONFIG_ARGUMENTS+=("${config_line_arguments[@]}")
+    done < "$CONFIG_FILE"
     
     # Extract lns_perc from config file
-    LNS_PERC=$(grep "lns_perc" "$CONFIG_FILE" | awk '{print $2}')
-    if [ -z "$LNS_PERC" ]; then
+    LNS_PERC=$(awk '$1 == "--lns_perc" { print $2; found = 1 } END { if (!found) print "" }' "$CONFIG_FILE")
+    if [ -z "$LNS_PERC" ] && [ "$LNS_ENABLED" -eq 1 ]; then
         echo "Warning: Could not find lns_perc in config file. Using default 0.2"
         LNS_PERC="0.2"
+    fi
+    if [ "$LNS_ENABLED" -eq 0 ]; then
+        LNS_PERC="0"
     fi
     
     # Define output files with config name
@@ -125,13 +141,15 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
     
     echo "========================================"
     echo "Processing Config: $config_name"
+    echo "LNS Enabled: $LNS_ENABLED"
+    echo "GRASP Enabled: $GRASP_ENABLED"
     echo "LNS Percentage: $LNS_PERC"
     echo "Output CSV: $RESULTS_FILE"
     echo "========================================"
     echo ""
     
     # Initialize CSV header with clean output
-    echo "Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,Best Sol At Node,Best Sol Found By" > "$RESULTS_FILE"
+    echo "Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Gap,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,LNS Best Sols Found,GRASP Time,GRASP Calls,GRASP Sols Found,GRASP Best Sols Found,Best Sol At Node,Best Sol Found By" > "$RESULTS_FILE"
     
     # Initialize counters
     total_files=0
@@ -139,11 +157,14 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
     failed_runs=0
     total_time=0
     total_nodes=0
+    total_nodes_left=0
+    total_gap=0
+    total_lns_calls=0
+    total_lns_executions=0
+    total_lns_sols=0
     lns_found_count=0
     
     # Arrays for statistics
-    declare -a execution_times=()
-    declare -a node_counts=()
     declare -a lns_success=()
     
     # Loop through selected input files
@@ -168,9 +189,8 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
         
         # Run the DPD solver - capture error output
         error_output=$(mktemp)
-        if xargs -a "$CONFIG_FILE" ./bin/dpd "$input_file" > /dev/null 2>"$error_output"; then
+        if ./bin/dpd "$input_file" "${CONFIG_ARGUMENTS[@]}" > /dev/null 2>"$error_output"; then
             echo "    ✓ Execution successful"
-            successful_runs=$((successful_runs + 1))
             rm -f "$error_output"
             
             # Find the most recent output directory
@@ -214,20 +234,81 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
                 lp_cols="${FIELDS[12]}"
                 status="${FIELDS[13]}"
                 
-                # Optional fields (best solution info)
-                best_sol_node="${FIELDS[14]:-N/A}"
-                best_sol_time="${FIELDS[15]:-N/A}"
-                best_sol_depth="${FIELDS[16]:-N/A}"
-                best_sol_heur="${FIELDS[17]:-N/A}"
-                
-                # LNS heuristic info (if available)
-                lns_time="${FIELDS[18]:-0}"
-                lns_calls="${FIELDS[19]:-N/A}"
-                lns_executions="${FIELDS[20]:-N/A}"
-                lns_sols="${FIELDS[21]:-0}"
-                lns_best="${FIELDS[22]:-N/A}"
-                heur_name="${FIELDS[23]:-N/A}"
-                config="${FIELDS[24]:-N/A}"
+                best_sol_node="N/A"
+                best_sol_time="N/A"
+                best_sol_depth="N/A"
+                best_sol_heur="N/A"
+                stats_index=14
+
+                if [[ "${FIELDS[14]:-}" =~ ^bestsol\ in\ ([0-9]+)$ ]]; then
+                    best_sol_node="${FIELDS[14]}"
+                    best_sol_time="${FIELDS[15]:-N/A}"
+                    best_sol_depth="${FIELDS[16]:-N/A}"
+                    best_sol_heur="${FIELDS[17]:-N/A}"
+                    stats_index=18
+                fi
+
+                lns_time=0
+                lns_calls=0
+                lns_executions=0
+                lns_sols=0
+                lns_best=0
+                lns_name="disabled"
+
+                if [ "$LNS_ENABLED" -eq 1 ]; then
+                    lns_time="${FIELDS[$stats_index]:-}"
+                    lns_calls="${FIELDS[$((stats_index + 1))]:-}"
+                    lns_executions="${FIELDS[$((stats_index + 2))]:-}"
+                    lns_sols="${FIELDS[$((stats_index + 3))]:-}"
+                    lns_best="${FIELDS[$((stats_index + 4))]:-}"
+                    lns_name="${FIELDS[$((stats_index + 5))]:-}"
+                    stats_index=$((stats_index + 6))
+
+                    if [ "$lns_name" != "lns" ]; then
+                        echo "    ✗ Error: Invalid LNS statistics block in $output_file"
+                        failed_runs=$((failed_runs + 1))
+                        continue
+                    fi
+                fi
+
+                if [ "$BAD_SOL_ENABLED" -eq 1 ]; then
+                    bad_sol_name="${FIELDS[$((stats_index + 4))]:-}"
+                    stats_index=$((stats_index + 5))
+
+                    if [ "$bad_sol_name" != "badFeasibleSolution" ]; then
+                        echo "    ✗ Error: Invalid bad-solution statistics block in $output_file"
+                        failed_runs=$((failed_runs + 1))
+                        continue
+                    fi
+                fi
+
+                grasp_time=0
+                grasp_calls=0
+                grasp_sols=0
+                grasp_best=0
+                grasp_name="disabled"
+
+                if [ "$GRASP_ENABLED" -eq 1 ]; then
+                    grasp_time="${FIELDS[$stats_index]:-}"
+                    grasp_calls="${FIELDS[$((stats_index + 1))]:-}"
+                    grasp_sols="${FIELDS[$((stats_index + 2))]:-}"
+                    grasp_best="${FIELDS[$((stats_index + 3))]:-}"
+                    grasp_name="${FIELDS[$((stats_index + 4))]:-}"
+                    stats_index=$((stats_index + 5))
+
+                    if [ "$grasp_name" != "grasp" ]; then
+                        echo "    ✗ Error: Invalid GRASP statistics block in $output_file"
+                        failed_runs=$((failed_runs + 1))
+                        continue
+                    fi
+                fi
+
+                config="${FIELDS[$stats_index]:-}"
+                if [ "$config" != "${config_name}.config" ]; then
+                    echo "    ✗ Error: Expected config '${config_name}.config', found '$config' in $output_file"
+                    failed_runs=$((failed_runs + 1))
+                    continue
+                fi
                 
                 # Extract best sol node number from "bestsol in X" format
                 if [[ "$best_sol_node" =~ bestsol\ in\ ([0-9]+) ]]; then
@@ -243,23 +324,27 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
                     best_sol_finder="$best_sol_heur"
                 fi
                 
-                # Check if LNS found a solution
-                if [ "$heur_name" = "lns" ] || echo "$line" | grep -q "lns"; then
+                # Check if LNS found at least one solution
+                if [[ "$lns_sols" =~ ^[0-9]+$ ]] && [ "$lns_sols" -gt 0 ]; then
                     lns_found_count=$((lns_found_count + 1))
                     lns_success+=("$filename")
                     echo "    ✓ LNS found solution!"
                 fi
                 
                 # Accumulate statistics
-                total_time=$(awk "BEGIN {print $total_time + $total_time_val}")
+                total_time=$(awk -v total="$total_time" -v value="$total_time_val" 'BEGIN { print total + value }')
                 total_nodes=$((total_nodes + total_nodes_val))
-                execution_times+=("$total_time_val")
-                node_counts+=("$total_nodes_val")
+                total_nodes_left=$((total_nodes_left + nodes_left))
+                total_gap=$(awk -v total="$total_gap" -v value="$gap" 'BEGIN { print total + value }')
+                total_lns_calls=$((total_lns_calls + lns_calls))
+                total_lns_executions=$((total_lns_executions + lns_executions))
+                total_lns_sols=$((total_lns_sols + lns_sols))
+                successful_runs=$((successful_runs + 1))
                 
                 # Write to CSV - Clean output with only essential fields
-                echo "$filename,$num_classes,$num_professors,$LNS_PERC,$total_nodes_val,$nodes_left,$total_time_val,$memory,$lns_time,$lns_calls,$lns_executions,$lns_sols,$best_sol_node_num,$best_sol_finder" >> "$RESULTS_FILE"
+                echo "$filename,$num_classes,$num_professors,$LNS_PERC,$total_nodes_val,$nodes_left,$total_time_val,$gap,$memory,$lns_time,$lns_calls,$lns_executions,$lns_sols,$lns_best,$grasp_time,$grasp_calls,$grasp_sols,$grasp_best,$best_sol_node_num,$best_sol_finder" >> "$RESULTS_FILE"
                 
-                echo "    Time: ${total_time_val}s, Nodes: $total_nodes_val, Best Sol: Node $best_sol_node_num by '$best_sol_finder'"
+                echo "    Time: ${total_time_val}s, Gap: $gap, Nodes: $total_nodes_val, Nodes left: $nodes_left, Best Sol: Node $best_sol_node_num by '$best_sol_finder'"
             fi
         else
             echo "    ✗ Execution failed"
@@ -276,12 +361,18 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
     done
     
     # Calculate statistics
-    if [ ${#execution_times[@]} -gt 0 ]; then
-        avg_time=$(awk 'BEGIN {sum=0; for(i=0; i<'${#execution_times[@]}'; i++) sum+='${execution_times[i]}'; print sum/'${#execution_times[@]}'}')
-        avg_nodes=$(awk 'BEGIN {sum=0; for(i=0; i<'${#node_counts[@]}'; i++) sum+='${node_counts[i]}'; print sum/'${#node_counts[@]}'}')
+    if [ "$successful_runs" -gt 0 ]; then
+        avg_time=$(awk -v total="$total_time" -v count="$successful_runs" 'BEGIN { print total / count }')
+        avg_nodes=$(awk -v total="$total_nodes" -v count="$successful_runs" 'BEGIN { print total / count }')
+        avg_nodes_left=$(awk -v total="$total_nodes_left" -v count="$successful_runs" 'BEGIN { print total / count }')
+        success_rate=$(awk -v successful="$successful_runs" -v total="$total_files" 'BEGIN { printf "%.2f", (successful / total) * 100 }')
+        lns_success_rate=$(awk -v found="$lns_found_count" -v total="$successful_runs" 'BEGIN { printf "%.2f", (found / total) * 100 }')
     else
         avg_time=0
         avg_nodes=0
+        avg_nodes_left=0
+        success_rate=0
+        lns_success_rate=0
     fi
     
     # Generate summary report
@@ -293,6 +384,8 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
         echo "========================================="
         echo ""
         echo "CONFIGURATION:"
+        echo "  LNS enabled: $LNS_ENABLED"
+        echo "  GRASP enabled: $GRASP_ENABLED"
         echo "  LNS Percentage: $LNS_PERC"
         echo "  Config File: $CONFIG_FILE"
         echo "  Input files processed: ${#files_to_process[@]}"
@@ -301,11 +394,14 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
         echo "  Total files processed: $total_files"
         echo "  Successful runs: $successful_runs"
         echo "  Failed runs: $failed_runs"
-        echo "  Success rate: $(awk "BEGIN {printf \"%.2f\", ($successful_runs/$total_files)*100}")%"
+        echo "  Success rate: ${success_rate}%"
         echo ""
         echo "LNS HEURISTIC PERFORMANCE:"
+        echo "  SCIP callback calls: $total_lns_calls"
+        echo "  Effective LNS executions: $total_lns_executions"
+        echo "  Solutions produced by LNS: $total_lns_sols"
         echo "  Solutions found by LNS: $lns_found_count"
-        echo "  LNS success rate: $(awk "BEGIN {printf \"%.2f\", ($lns_found_count/$total_files)*100}")%"
+        echo "  LNS success rate: ${lns_success_rate}%"
         echo ""
         echo "TIME STATISTICS:"
         echo "  Total execution time: $(printf "%.2f" $total_time)s"
@@ -314,6 +410,11 @@ for CONFIG_FILE in "${CONFIG_FILES[@]}"; do
         echo "NODE STATISTICS:"
         echo "  Total nodes explored: $total_nodes"
         echo "  Average nodes per instance: $(printf "%.0f" $avg_nodes)"
+        echo "  Total nodes left: $total_nodes_left"
+        echo "  Average nodes left per instance: $(printf "%.0f" $avg_nodes_left)"
+        echo ""
+        echo "GAP STATISTICS:"
+        echo "  Sum of gaps: $(printf "%.6f" $total_gap)"
         echo ""
         
         if [ ${#lns_success[@]} -gt 0 ]; then
