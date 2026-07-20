@@ -1,0 +1,275 @@
+=========================================
+LNS Statistics Collection Runner
+Started at: Mon Jul 20 05:32:38 PM -04 2026
+Config files to process: 4
+  - teste_relax.config
+  - teste_lns_main.config
+  - teste_grasp_main.config
+  - teste_lns_grasp_main.config
+Input files: 1 (pre-defined)
+=========================================
+
+Using pre-defined input files...
+Total input files to process: 1
+
+========================================
+Processing Config: teste_relax
+LNS Enabled: 0
+GRASP Enabled: 0
+LNS Percentage: 0
+Output CSV: lns_statistics_results_teste_relax.csv
+========================================
+
+  [1/1] Processing: entrada_real.csv
+    Classes: 224, Professors: 61
+    ✓ Execution successful
+    Time: 396.656516s, Gap: 0.000000, Nodes: 82086, Nodes left: 0, Best Sol: Node 81093 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_relax
+Completed at: Mon Jul 20 05:39:15 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS enabled: 0
+  GRASP enabled: 0
+  LNS Percentage: 0
+  Config File: ./configs/teste_relax.config
+  Input files processed: 1
+
+EXECUTION SUMMARY:
+  Total files processed: 1
+  Successful runs: 1
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  SCIP callback calls: 0
+  Effective LNS executions: 0
+  Solutions produced by LNS: 0
+  Solutions found by LNS: 0
+  LNS success rate: 0.00%
+
+TIME STATISTICS:
+  Total execution time: 396.66s
+  Average time per instance: 396.66s
+
+NODE STATISTICS:
+  Total nodes explored: 82086
+  Average nodes per instance: 82086
+  Total nodes left: 0
+  Average nodes left per instance: 0
+
+GAP STATISTICS:
+  Sum of gaps: 0.000000
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_relax.csv
+
+=========================================
+
+✓ Config 'teste_relax' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_relax.csv
+✓ Summary saved to: lns_statistics_summary_teste_relax.txt
+
+=========================================
+
+========================================
+Processing Config: teste_lns_main
+LNS Enabled: 1
+GRASP Enabled: 0
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_lns_main.csv
+========================================
+
+  [1/1] Processing: entrada_real.csv
+    Classes: 224, Professors: 61
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 392.275247s, Gap: 0.000000, Nodes: 36313, Nodes left: 0, Best Sol: Node 35452 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_main
+Completed at: Mon Jul 20 05:45:48 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS enabled: 1
+  GRASP enabled: 0
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_main.config
+  Input files processed: 1
+
+EXECUTION SUMMARY:
+  Total files processed: 1
+  Successful runs: 1
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  SCIP callback calls: 4
+  Effective LNS executions: 4
+  Solutions produced by LNS: 1
+  Solutions found by LNS: 1
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 392.27s
+  Average time per instance: 392.27s
+
+NODE STATISTICS:
+  Total nodes explored: 36313
+  Average nodes per instance: 36313
+  Total nodes left: 0
+  Average nodes left per instance: 0
+
+GAP STATISTICS:
+  Sum of gaps: 0.000000
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - entrada_real.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_main.csv
+
+=========================================
+
+✓ Config 'teste_lns_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_lns_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_lns_main.txt
+
+=========================================
+
+========================================
+Processing Config: teste_grasp_main
+LNS Enabled: 0
+GRASP Enabled: 1
+LNS Percentage: 0
+Output CSV: lns_statistics_results_teste_grasp_main.csv
+========================================
+
+  [1/1] Processing: entrada_real.csv
+    Classes: 224, Professors: 61
+    ✓ Execution successful
+    Time: 400.142203s, Gap: 0.033528, Nodes: 14460, Nodes left: 12534, Best Sol: Node 5573 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_grasp_main
+Completed at: Mon Jul 20 05:52:28 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS enabled: 0
+  GRASP enabled: 1
+  LNS Percentage: 0
+  Config File: ./configs/teste_grasp_main.config
+  Input files processed: 1
+
+EXECUTION SUMMARY:
+  Total files processed: 1
+  Successful runs: 1
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  SCIP callback calls: 0
+  Effective LNS executions: 0
+  Solutions produced by LNS: 0
+  Solutions found by LNS: 0
+  LNS success rate: 0.00%
+
+TIME STATISTICS:
+  Total execution time: 400.14s
+  Average time per instance: 400.14s
+
+NODE STATISTICS:
+  Total nodes explored: 14460
+  Average nodes per instance: 14460
+  Total nodes left: 12534
+  Average nodes left per instance: 12534
+
+GAP STATISTICS:
+  Sum of gaps: 0.033528
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_grasp_main.csv
+
+=========================================
+
+✓ Config 'teste_grasp_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_grasp_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_grasp_main.txt
+
+=========================================
+
+========================================
+Processing Config: teste_lns_grasp_main
+LNS Enabled: 1
+GRASP Enabled: 1
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_lns_grasp_main.csv
+========================================
+
+  [1/1] Processing: entrada_real.csv
+    Classes: 224, Professors: 61
+    ✓ Execution successful
+    Time: 400.120630s, Gap: 0.034147, Nodes: 7309, Nodes left: 5462, Best Sol: Node 5573 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_grasp_main
+Completed at: Mon Jul 20 05:59:08 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS enabled: 1
+  GRASP enabled: 1
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_grasp_main.config
+  Input files processed: 1
+
+EXECUTION SUMMARY:
+  Total files processed: 1
+  Successful runs: 1
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  SCIP callback calls: 10
+  Effective LNS executions: 10
+  Solutions produced by LNS: 0
+  Solutions found by LNS: 0
+  LNS success rate: 0.00%
+
+TIME STATISTICS:
+  Total execution time: 400.12s
+  Average time per instance: 400.12s
+
+NODE STATISTICS:
+  Total nodes explored: 7309
+  Average nodes per instance: 7309
+  Total nodes left: 5462
+  Average nodes left per instance: 5462
+
+GAP STATISTICS:
+  Sum of gaps: 0.034147
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_grasp_main.csv
+
+=========================================
+
+✓ Config 'teste_lns_grasp_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_lns_grasp_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_lns_grasp_main.txt
+
+=========================================
+
+
+=========================================
+ALL CONFIGURATIONS COMPLETED!
+Finished at: Mon Jul 20 05:59:08 PM -04 2026
+=========================================
