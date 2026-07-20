@@ -1,0 +1,2 @@
+Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Gap,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,LNS Best Sols Found,GRASP Time,GRASP Calls,GRASP Sols Found,GRASP Best Sols Found,Best Sol At Node,Best Sol Found By
+entrada_real.csv,224,61,0.75,36313,0,393.382643,0.000000,141606885,200.529542,4,4,1,1,0,0,0,0,35452,relaxation
