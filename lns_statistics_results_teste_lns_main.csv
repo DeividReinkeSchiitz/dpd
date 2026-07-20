@@ -1,0 +1,4 @@
+Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,Best Sol At Node,Best Sol Found By
+input2.csv,167,52,0.75,376,0,5.909807,145751125,3.992578,1,1,1,345,lns
+input8.csv,166,46,0.75,2851,0,208.593313,137744623,196.869326,1,1,1,2845,lns
+input14.csv,99,28,0.75,37174,0,66.259945,47891589,15.440369,1,1,1,37174,lns

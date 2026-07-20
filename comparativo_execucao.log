@@ -1,0 +1,296 @@
+=========================================
+LNS Statistics Collection Runner
+Started at: Sun Jul 19 07:56:03 PM -04 2026
+Config files to process: 4
+  - teste_relax.config
+  - teste_lns_main.config
+  - teste_grasp_main.config
+  - teste_lns_grasp_main.config
+Input files: 3 (randomly selected)
+=========================================
+
+Collecting input files...
+Randomly selected 3 files from 42 available files.
+Total input files to process: 3
+
+========================================
+Processing Config: teste_relax
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_relax.csv
+========================================
+
+  [1/3] Processing: input2.csv
+    Classes: 167, Professors: 52
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 5.163382s, Nodes: 1521, Best Sol: Node 1485 by 'relaxation'
+
+  [2/3] Processing: input8.csv
+    Classes: 166, Professors: 46
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 400.066107s, Nodes: 90234, Best Sol: Node 10932 by 'relaxation'
+
+  [3/3] Processing: input14.csv
+    Classes: 99, Professors: 28
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 54.630030s, Nodes: 39380, Best Sol: Node 39380 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_relax
+Completed at: Sun Jul 19 08:03:43 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_relax.config
+  Input files processed: 3
+
+EXECUTION SUMMARY:
+  Total files processed: 3
+  Successful runs: 3
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 3
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 459.86s
+  Average time per instance: 5.16s
+
+NODE STATISTICS:
+  Total nodes explored: 131135
+  Average nodes per instance: 1521
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input8.csv
+  - input14.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_relax.csv
+
+=========================================
+
+✓ Config 'teste_relax' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_relax.csv
+✓ Summary saved to: lns_statistics_summary_teste_relax.txt
+
+=========================================
+
+========================================
+Processing Config: teste_lns_main
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_lns_main.csv
+========================================
+
+  [1/3] Processing: input2.csv
+    Classes: 167, Professors: 52
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 5.909807s, Nodes: 376, Best Sol: Node 345 by 'lns'
+
+  [2/3] Processing: input8.csv
+    Classes: 166, Professors: 46
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 208.593313s, Nodes: 2851, Best Sol: Node 2845 by 'lns'
+
+  [3/3] Processing: input14.csv
+    Classes: 99, Professors: 28
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 66.259945s, Nodes: 37174, Best Sol: Node 37174 by 'lns'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_main
+Completed at: Sun Jul 19 08:08:24 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_main.config
+  Input files processed: 3
+
+EXECUTION SUMMARY:
+  Total files processed: 3
+  Successful runs: 3
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 3
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 280.76s
+  Average time per instance: 5.91s
+
+NODE STATISTICS:
+  Total nodes explored: 40401
+  Average nodes per instance: 376
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input8.csv
+  - input14.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_main.csv
+
+=========================================
+
+✓ Config 'teste_lns_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_lns_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_lns_main.txt
+
+=========================================
+
+========================================
+Processing Config: teste_grasp_main
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_grasp_main.csv
+========================================
+
+  [1/3] Processing: input2.csv
+    Classes: 167, Professors: 52
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 19.165099s, Nodes: 1521, Best Sol: Node 1485 by 'relaxation'
+
+  [2/3] Processing: input8.csv
+    Classes: 166, Professors: 46
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 400.066831s, Nodes: 42440, Best Sol: Node 10932 by 'relaxation'
+
+  [3/3] Processing: input14.csv
+    Classes: 99, Professors: 28
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 131.934108s, Nodes: 39380, Best Sol: Node 39380 by 'relaxation'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_grasp_main
+Completed at: Sun Jul 19 08:17:35 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_grasp_main.config
+  Input files processed: 3
+
+EXECUTION SUMMARY:
+  Total files processed: 3
+  Successful runs: 3
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 3
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 551.17s
+  Average time per instance: 19.17s
+
+NODE STATISTICS:
+  Total nodes explored: 83341
+  Average nodes per instance: 1521
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input8.csv
+  - input14.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_grasp_main.csv
+
+=========================================
+
+✓ Config 'teste_grasp_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_grasp_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_grasp_main.txt
+
+=========================================
+
+========================================
+Processing Config: teste_lns_grasp_main
+LNS Percentage: 0.75
+Output CSV: lns_statistics_results_teste_lns_grasp_main.csv
+========================================
+
+  [1/3] Processing: input2.csv
+    Classes: 167, Professors: 52
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 9.263101s, Nodes: 376, Best Sol: Node 345 by 'lns'
+
+  [2/3] Processing: input8.csv
+    Classes: 166, Professors: 46
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 235.366671s, Nodes: 2851, Best Sol: Node 2845 by 'lns'
+
+  [3/3] Processing: input14.csv
+    Classes: 99, Professors: 28
+    ✓ Execution successful
+    ✓ LNS found solution!
+    Time: 140.192959s, Nodes: 37174, Best Sol: Node 37174 by 'lns'
+
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_grasp_main
+Completed at: Sun Jul 19 08:24:00 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_grasp_main.config
+  Input files processed: 3
+
+EXECUTION SUMMARY:
+  Total files processed: 3
+  Successful runs: 3
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 3
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 384.82s
+  Average time per instance: 9.26s
+
+NODE STATISTICS:
+  Total nodes explored: 40401
+  Average nodes per instance: 376
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input8.csv
+  - input14.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_grasp_main.csv
+
+=========================================
+
+✓ Config 'teste_lns_grasp_main' complete!
+✓ Detailed results saved to: lns_statistics_results_teste_lns_grasp_main.csv
+✓ Summary saved to: lns_statistics_summary_teste_lns_grasp_main.txt
+
+=========================================
+
+
+=========================================
+ALL CONFIGURATIONS COMPLETED!
+Finished at: Sun Jul 19 08:24:00 PM -04 2026
+=========================================

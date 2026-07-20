@@ -1,0 +1,38 @@
+=========================================
+LNS STATISTICS SUMMARY REPORT
+Config: teste_lns_grasp_main
+Completed at: Sun Jul 19 08:24:00 PM -04 2026
+=========================================
+
+CONFIGURATION:
+  LNS Percentage: 0.75
+  Config File: ./configs/teste_lns_grasp_main.config
+  Input files processed: 3
+
+EXECUTION SUMMARY:
+  Total files processed: 3
+  Successful runs: 3
+  Failed runs: 0
+  Success rate: 100.00%
+
+LNS HEURISTIC PERFORMANCE:
+  Solutions found by LNS: 3
+  LNS success rate: 100.00%
+
+TIME STATISTICS:
+  Total execution time: 384.82s
+  Average time per instance: 9.26s
+
+NODE STATISTICS:
+  Total nodes explored: 40401
+  Average nodes per instance: 376
+
+FILES WHERE LNS FOUND SOLUTIONS:
+  - input2.csv
+  - input8.csv
+  - input14.csv
+
+DETAILED RESULTS:
+  CSV file: lns_statistics_results_teste_lns_grasp_main.csv
+
+=========================================

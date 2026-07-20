@@ -8,7 +8,7 @@ set -e
 # ============================================
 # Maximum number of input files to process
 # Set to -1 to process all files, or a positive number to limit
-MAX_FILES=1  # Example: 5 will process input1.csv to input5.csv
+MAX_FILES=3  # Example: 5 will process input1.csv to input5.csv
 
 # Pre-define specific files to process (optional)
 # If set, these files will be used instead of searching/selecting randomly
