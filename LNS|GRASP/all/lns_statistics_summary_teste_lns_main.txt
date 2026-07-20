@@ -1,7 +1,7 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_lns_main
-Completed at: Mon Jul 20 12:33:13 AM -04 2026
+Completed at: Mon Jul 20 04:16:58 PM -04 2026
 =========================================
 
 CONFIGURATION:
@@ -25,14 +25,14 @@ LNS HEURISTIC PERFORMANCE:
   LNS success rate: 85.71%
 
 TIME STATISTICS:
-  Total execution time: 5706.73s
-  Average time per instance: 135.88s
+  Total execution time: 5709.45s
+  Average time per instance: 135.94s
 
 NODE STATISTICS:
-  Total nodes explored: 1217174
-  Average nodes per instance: 28980
-  Total nodes left: 465095
-  Average nodes left per instance: 11074
+  Total nodes explored: 1216596
+  Average nodes per instance: 28967
+  Total nodes left: 462967
+  Average nodes left per instance: 11023
 
 GAP STATISTICS:
   Sum of gaps: 0.201342

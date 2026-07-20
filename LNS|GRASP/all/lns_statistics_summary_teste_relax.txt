@@ -1,7 +1,7 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_relax
-Completed at: Sun Jul 19 10:58:04 PM -04 2026
+Completed at: Mon Jul 20 01:26:11 PM -04 2026
 =========================================
 
 CONFIGURATION:
@@ -25,17 +25,17 @@ LNS HEURISTIC PERFORMANCE:
   LNS success rate: 0.00%
 
 TIME STATISTICS:
-  Total execution time: 5138.85s
-  Average time per instance: 122.35s
+  Total execution time: 4836.50s
+  Average time per instance: 115.15s
 
 NODE STATISTICS:
-  Total nodes explored: 2435590
-  Average nodes per instance: 57990
-  Total nodes left: 481981
-  Average nodes left per instance: 11476
+  Total nodes explored: 2157690
+  Average nodes per instance: 51374
+  Total nodes left: 416125
+  Average nodes left per instance: 9908
 
 GAP STATISTICS:
-  Sum of gaps: 0.106377
+  Sum of gaps: 0.149340
 
 DETAILED RESULTS:
   CSV file: lns_statistics_results_teste_relax.csv
