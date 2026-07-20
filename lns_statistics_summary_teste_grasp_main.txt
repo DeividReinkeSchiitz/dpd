@@ -1,11 +1,13 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_grasp_main
-Completed at: Sun Jul 19 08:17:35 PM -04 2026
+Completed at: Sun Jul 19 09:05:07 PM -04 2026
 =========================================
 
 CONFIGURATION:
-  LNS Percentage: 0.75
+  LNS enabled: 0
+  GRASP enabled: 1
+  LNS Percentage: 0
   Config File: ./configs/teste_grasp_main.config
   Input files processed: 3
 
@@ -16,21 +18,24 @@ EXECUTION SUMMARY:
   Success rate: 100.00%
 
 LNS HEURISTIC PERFORMANCE:
-  Solutions found by LNS: 3
-  LNS success rate: 100.00%
+  SCIP callback calls: 0
+  Effective LNS executions: 0
+  Solutions produced by LNS: 0
+  Solutions found by LNS: 0
+  LNS success rate: 0.00%
 
 TIME STATISTICS:
-  Total execution time: 551.17s
-  Average time per instance: 19.17s
+  Total execution time: 531.28s
+  Average time per instance: 177.09s
 
 NODE STATISTICS:
-  Total nodes explored: 83341
-  Average nodes per instance: 1521
+  Total nodes explored: 43943
+  Average nodes per instance: 14648
+  Total nodes left: 29921
+  Average nodes left per instance: 9974
 
-FILES WHERE LNS FOUND SOLUTIONS:
-  - input2.csv
-  - input8.csv
-  - input14.csv
+GAP STATISTICS:
+  Sum of gaps: 0.019820
 
 DETAILED RESULTS:
   CSV file: lns_statistics_results_teste_grasp_main.csv

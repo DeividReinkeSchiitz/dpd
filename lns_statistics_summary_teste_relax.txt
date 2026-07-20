@@ -1,11 +1,13 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_relax
-Completed at: Sun Jul 19 08:03:43 PM -04 2026
+Completed at: Sun Jul 19 08:51:24 PM -04 2026
 =========================================
 
 CONFIGURATION:
-  LNS Percentage: 0.75
+  LNS enabled: 0
+  GRASP enabled: 0
+  LNS Percentage: 0
   Config File: ./configs/teste_relax.config
   Input files processed: 3
 
@@ -16,21 +18,24 @@ EXECUTION SUMMARY:
   Success rate: 100.00%
 
 LNS HEURISTIC PERFORMANCE:
-  Solutions found by LNS: 3
-  LNS success rate: 100.00%
+  SCIP callback calls: 0
+  Effective LNS executions: 0
+  Solutions produced by LNS: 0
+  Solutions found by LNS: 0
+  LNS success rate: 0.00%
 
 TIME STATISTICS:
-  Total execution time: 459.86s
-  Average time per instance: 5.16s
+  Total execution time: 294.35s
+  Average time per instance: 98.12s
 
 NODE STATISTICS:
-  Total nodes explored: 131135
-  Average nodes per instance: 1521
+  Total nodes explored: 84281
+  Average nodes per instance: 28094
+  Total nodes left: 0
+  Average nodes left per instance: 0
 
-FILES WHERE LNS FOUND SOLUTIONS:
-  - input2.csv
-  - input8.csv
-  - input14.csv
+GAP STATISTICS:
+  Sum of gaps: 0.000000
 
 DETAILED RESULTS:
   CSV file: lns_statistics_results_teste_relax.csv

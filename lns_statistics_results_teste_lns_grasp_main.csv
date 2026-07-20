@@ -1,4 +1,4 @@
-Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,Best Sol At Node,Best Sol Found By
-input2.csv,167,52,0.75,376,0,9.263101,181643741,3.974861,1,1,1,345,lns
-input8.csv,166,46,0.75,2851,0,235.366671,436461471,200.067432,1,1,1,2845,lns
-input14.csv,99,28,0.75,37174,0,140.192959,1350235013,15.448932,1,1,1,37174,lns
+Input File,Classes,Professors,LNS Perc,Total Nodes,Nodes Left,Total Time,Gap,Memory Used,LNS Time,LNS Calls,LNS Executions,LNS Sols Found,LNS Best Sols Found,GRASP Time,GRASP Calls,GRASP Sols Found,GRASP Best Sols Found,Best Sol At Node,Best Sol Found By
+input5.csv,214,69,0.75,2115,0,253.281869,0.000000,636841991,200.296473,2,2,1,1,40.541497,2033,0,0,2111,relaxation
+input25.csv,107,34,0.75,92,0,39.499411,0.000000,56532882,38.849243,1,1,1,1,0.258104,91,0,0,92,lns
+input37.csv,152,53,0.75,11883,0,113.854638,0.000000,1092674644,14.475185,2,2,1,1,72.753248,9068,0,0,6332,lns
