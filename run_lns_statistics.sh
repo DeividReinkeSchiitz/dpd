@@ -8,13 +8,13 @@ set -e
 # ============================================
 # Maximum number of input files to process
 # Set MAX_FILES in the environment to limit the run, or use -1 for all files
-MAX_FILES=1
+MAX_FILES=-1
 
 # Pre-define specific files to process (optional)
 # If set, these files will be used instead of searching/selecting randomly
 # Leave empty to use automatic file selection
 # Example: FILES_TO_PROCESS=("input/lns/input1.csv" "input/lns/input5.csv" "input/lns/input10.csv")
-FILES_TO_PROCESS=(input/entrada_real.csv)
+FILES_TO_PROCESS=()
 # ============================================
 
 # Define directories and files

@@ -1,7 +1,7 @@
 =========================================
 LNS STATISTICS SUMMARY REPORT
 Config: teste_lns_main
-Completed at: Mon Jul 20 06:28:45 PM -04 2026
+Completed at: Wed Jul 22 12:25:05 PM -04 2026
 =========================================
 
 CONFIGURATION:
@@ -9,36 +9,71 @@ CONFIGURATION:
   GRASP enabled: 0
   LNS Percentage: 0.75
   Config File: ./configs/teste_lns_main.config
-  Input files processed: 1
+  Input files processed: 42
 
 EXECUTION SUMMARY:
-  Total files processed: 1
-  Successful runs: 1
+  Total files processed: 42
+  Successful runs: 42
   Failed runs: 0
   Success rate: 100.00%
 
 LNS HEURISTIC PERFORMANCE:
-  SCIP callback calls: 4
-  Effective LNS executions: 4
-  Solutions produced by LNS: 1
-  Solutions found by LNS: 1
-  LNS success rate: 100.00%
+  SCIP callback calls: 88
+  Effective LNS executions: 88
+  Solutions produced by LNS: 36
+  Solutions found by LNS: 36
+  LNS success rate: 85.71%
 
 TIME STATISTICS:
-  Total execution time: 393.38s
-  Average time per instance: 393.38s
+  Total execution time: 5697.88s
+  Average time per instance: 135.66s
 
 NODE STATISTICS:
-  Total nodes explored: 36313
-  Average nodes per instance: 36313
-  Total nodes left: 0
-  Average nodes left per instance: 0
+  Total nodes explored: 1219191
+  Average nodes per instance: 29028
+  Total nodes left: 463918
+  Average nodes left per instance: 11046
 
 GAP STATISTICS:
-  Sum of gaps: 0.000000
+  Sum of gaps: 0.201342
 
 FILES WHERE LNS FOUND SOLUTIONS:
-  - entrada_real.csv
+  - input1.csv
+  - input2.csv
+  - input4.csv
+  - input5.csv
+  - input6.csv
+  - input7.csv
+  - input8.csv
+  - input9.csv
+  - input10.csv
+  - input11.csv
+  - input12.csv
+  - input13.csv
+  - input14.csv
+  - input15.csv
+  - input16.csv
+  - input17.csv
+  - input18.csv
+  - input19.csv
+  - input20.csv
+  - input21.csv
+  - input23.csv
+  - input24.csv
+  - input25.csv
+  - input27.csv
+  - input28.csv
+  - input29.csv
+  - input30.csv
+  - input31.csv
+  - input33.csv
+  - input34.csv
+  - input35.csv
+  - input36.csv
+  - input37.csv
+  - input38.csv
+  - input39.csv
+  - input42.csv
 
 DETAILED RESULTS:
   CSV file: lns_statistics_results_teste_lns_main.csv

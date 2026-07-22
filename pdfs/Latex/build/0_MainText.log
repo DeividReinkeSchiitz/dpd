@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.4)  19 JUL 2026 19:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.4)  21 JUL 2026 22:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1175,29 +1175,52 @@ Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@cntb=\count447
 \multirow@dima=\skip278
 \bigstrutjot=\dimen368
+) (/usr/share/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
+\LTleft=\skip279
+\LTright=\skip280
+\LTpre=\skip281
+\LTpost=\skip282
+\LTchunksize=\count448
+\LTcapwidth=\dimen369
+\LT@head=\box140
+\LT@firsthead=\box141
+\LT@foot=\box142
+\LT@lastfoot=\box143
+\LT@gbox=\box144
+\LT@cols=\count449
+\LT@rows=\count450
+\c@LT@tables=\count451
+\c@LT@chunks=\count452
+\LT@p@ftn=\toks52
+) (/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
+\everycr=\toks53
+\minrowclearance=\skip283
+\rownum=\count453
 ) (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.sty (/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
 Package: l3keys2e 2025-10-09 LaTeX2e option processing using LaTeX3 keys
 )
 Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count448
-\l__lipsum_a_int=\count449
-\l__lipsum_b_int=\count450
+\g__lipsum_par_int=\count454
+\l__lipsum_a_int=\count455
+\l__lipsum_b_int=\count456
  (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex)) (/usr/share/texmf-dist/tex/latex/hyperref/backref.sty
 Package: backref 2025-06-21 v1.45 Bibliographical back referencing
 ) (./abntex2cite.sty (./abntex2abrev.sty)
-\minimumbiblabelwidth=\skip279
-\ABCIauxlen=\skip280
-\c@ABCIaux=\count451
-\c@ABCImax=\count452
+\minimumbiblabelwidth=\skip284
+\ABCIauxlen=\skip285
+\c@ABCIaux=\count457
+\c@ABCImax=\count458
  (/usr/share/texmf-dist/tex/latex/relsize/relsize.sty
 Package: relsize 2013/03/29 ver 4.1
 )
-\biblabelsep=\skip281
+\biblabelsep=\skip286
 LaTeX Info: Redefining \newblock on input line 646.
 LaTeX Info: Redefining \cite on input line 673.
-\ABCItoken=\toks52
+\ABCItoken=\toks54
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 240.
+Package hyperref Info: Option `colorlinks' set `true' on input line 244.
 \0_MainText@idxfile=\write5
 \openout5 = `0_MainText.idx'.
 
@@ -1207,66 +1230,67 @@ Writing index file 0_MainText.idx
 Package: pdfpages 2025/07/23 v0.6g Insert pages of external PDF documents (AM)
  (/usr/share/texmf-dist/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2025/12/10 v3.0d eso-pic (RN)
-\ESO@tempdima=\dimen369
-\ESO@tempdimb=\dimen370
+\ESO@tempdima=\dimen370
+\ESO@tempdimb=\dimen371
 )
-\AM@pagewidth=\dimen371
-\AM@pageheight=\dimen372
-\AM@fboxrule=\dimen373
+\AM@pagewidth=\dimen372
+\AM@pageheight=\dimen373
+\AM@fboxrule=\dimen374
  (/usr/share/texmf-dist/tex/latex/pdfpages/pppdftex.def
 File: pppdftex.def 2025/07/23 v0.6g Pdfpages driver for pdfTeX (AM)
 )
-\pdfpages@includegraphics@status=\count453
-\AM@pagebox=\box140
-\AM@global@opts=\toks53
-\AM@pagecnt=\count454
-\AM@toc@title=\toks54
-\AM@lof@heading=\toks55
-\c@AM@survey=\count455
-\AM@templatesizebox=\box141
-) (build/0_MainText.aux)
+\pdfpages@includegraphics@status=\count459
+\AM@pagebox=\box145
+\AM@global@opts=\toks55
+\AM@pagecnt=\count460
+\AM@toc@title=\toks56
+\AM@lof@heading=\toks57
+\c@AM@survey=\count461
+\AM@templatesizebox=\box146
+) (build/0_MainText.aux
+Package babel Info: 'brazilian' activates 'portuges' shorthands.
+(babel)             Reported on input line 12.
+)
 \openout1 = `0_MainText.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 267.
-LaTeX Font Info:    ... okay on input line 267.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 267.
-LaTeX Font Info:    Trying to load font information for T3+cmr on input line 267.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 271.
+LaTeX Font Info:    ... okay on input line 271.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 271.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 271.
  (/usr/share/texmf-dist/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 267.
-Package hyperref Info: Link coloring ON on input line 267.
-Package babel Info: 'brazilian' activates 'portuges' shorthands.
-(babel)             Reported on input line 267.
+LaTeX Font Info:    ... okay on input line 271.
+Package hyperref Info: Link coloring ON on input line 271.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count456
-\scratchdimen=\dimen374
-\scratchbox=\box142
-\nofMPsegments=\count457
-\nofMParguments=\count458
-\everyMPshowfont=\toks56
-\MPscratchCnt=\count459
-\MPscratchDim=\dimen375
-\MPnumerator=\count460
-\makeMPintoPDFobject=\count461
-\everyMPtoPDFconversion=\toks57
+\scratchcounter=\count462
+\scratchdimen=\dimen375
+\scratchbox=\box147
+\nofMPsegments=\count463
+\nofMParguments=\count464
+\everyMPshowfont=\toks58
+\MPscratchCnt=\count465
+\MPscratchDim=\dimen376
+\MPnumerator=\count466
+\makeMPintoPDFobject=\count467
+\everyMPtoPDFconversion=\toks59
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -1275,24 +1299,28 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-brazil.trsl
 File: translations-basic-dictionary-brazil.trsl (brazil translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `brazil'. on input line 267.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `brazil'. on input line 271.
  (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 267.
-\c@lstlisting=\count462
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 271.
+\c@lstlisting=\count468
 \symgns@font=\mathgroup8
 LaTeX Font Info:    Overwriting symbol font `gns@font' in version `bold'
-(Font)                  TS1/lmr/m/n --> TS1/lmr/b/n on input line 267.
-Package gensymb Info: Math companion symbols declared on input line 267.
-LaTeX Info: Redefining \degree on input line 267.
-LaTeX Info: Redefining \celsius on input line 267.
-Package gensymb Info: Using text companion symbols for \degree, \celsius and \perthousand on input line 267.
-LaTeX Info: Redefining \ohm on input line 267.
-Package gensymb Info: Using \textohm for \ohm on input line 267.
-LaTeX Info: Redefining \micro on input line 267.
-Package gensymb Info: Using \textmu for \micro on input line 267.
+(Font)                  TS1/lmr/m/n --> TS1/lmr/b/n on input line 271.
+Package gensymb Info: Math companion symbols declared on input line 271.
+LaTeX Info: Redefining \degree on input line 271.
+LaTeX Info: Redefining \celsius on input line 271.
+Package gensymb Info: Using text companion symbols for \degree, \celsius and \perthousand on input line 271.
+LaTeX Info: Redefining \ohm on input line 271.
+Package gensymb Info: Using \textohm for \ohm on input line 271.
+LaTeX Info: Redefining \micro on input line 271.
+Package gensymb Info: Using \textmu for \micro on input line 271.
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: longtable package is loaded.
+ (/usr/share/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)
 Package caption Info: End \AtBeginDocument code.
 
 Package pgfplots notification 'compat/show suggested version=true': document has been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
@@ -1306,456 +1334,110 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
+<ufms_logo_negativo_sem_caixa_pb_rgb.png, id=8, 339.1872pt x 490.9542pt>
+File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
+<use ufms_logo_negativo_sem_caixa_pb_rgb.png>
+Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 284.
+(pdftex.def)             Requested size: 85.35826pt x 123.5473pt.
+ [1
 
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:271: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.271 ...atheuristica_mochila}{SILVA, P. P. A. P.}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:271: Missing $ inserted.
-<inserted text> 
-                $
-l.271 ...atheuristica_mochila}{SILVA, P. P. A. P.}
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 271.
-(/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <./ufms_logo_negativo_sem_caixa_pb_rgb.png>]
+File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
+<use ufms_logo_negativo_sem_caixa_pb_rgb.png>
+Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 291.
+(pdftex.def)             Requested size: 71.13188pt x 102.96107pt.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 291.
+ (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<ot1.cmap>>
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 271.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 291.
  (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<oml.cmap>>
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 271.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 291.
  (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )<<oms.cmap>>
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 271.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 291.
  (/usr/share/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 271.
+(Font)              <10.95> on input line 291.
 <<omx.cmap>>
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 271.
+(Font)              <8> on input line 291.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 271.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 271.
+(Font)              <6> on input line 291.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 291.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 271.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 291.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 271.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 291.
  (/usr/share/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 271.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 291.
  (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:271: Extra }, or forgotten $.
-\bibciteEXPL #1#2->\@newl@bel {b}{#1++EXPL}
-                                           {\hyper@@link [cite]{}{cite.#1}{#2}}
-l.271 ...atheuristica_mochila}{SILVA, P. P. A. P.}
-                                                  
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:272: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.272 ...atheuristica_mochila}{Silva, P. P. A. P.}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:273: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.273 ...EAR{silva2024matheuristica_mochila}{2024}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:274: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.274 ...lva2024abordagem_exata_dpd}{SILVA, L. S.}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:275: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.275 ...lva2024abordagem_exata_dpd}{Silva, L. S.}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:276: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.276 ...eYEAR{silva2024abordagem_exata_dpd}{2024}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-/home/deivid/Source/pli/own-dpd/pdfs/Latex/0_MainText.tex:277: Missing $ inserted.
-<inserted text> 
-                $
-l.277 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (1240.38164pt too wide) in paragraph at lines 271--277
-[]\T1/lmr/m/n/12 bsilva2024matheuristica$[]\OML/lmm/m/it/12 ochila \OT1/lmr/m/n/12 + +\OML/lmm/m/it/12 EXPL[]b[][]b[][]b[][]b[][]b[][]$ 
- []
-
-<ufms_logo_negativo_sem_caixa_pb_rgb.png, id=18, 339.1872pt x 490.9542pt>
-File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
-<use ufms_logo_negativo_sem_caixa_pb_rgb.png>
-Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 289.
-(pdftex.def)             Requested size: 85.35826pt x 123.5473pt.
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./ufms_logo_negativo_sem_caixa_pb_rgb.png>]
-File: ufms_logo_negativo_sem_caixa_pb_rgb.png Graphic file (type png)
-<use ufms_logo_negativo_sem_caixa_pb_rgb.png>
-Package pdftex.def Info: ufms_logo_negativo_sem_caixa_pb_rgb.png  used on input line 296.
-(pdftex.def)             Requested size: 71.13188pt x 102.96107pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 296.
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.296 
+l.291 
        [1
 
 
 
-] [2
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 293.
+ [2
 
 ] [3
 
 ] (./1_Resumo.tex [4
 
-])
-No file 0_MainText.lof.
-[5
+]) (build/0_MainText.lof) [5
 
 
-]
-No file 0_MainText.lot.
-[6
+] (build/0_MainText.lot [6
+
+]) [7] (build/0_MainText.toc) (./2_Intro.tex [8
 
 ]
-No file 0_MainText.toc.
-(./2_Intro.tex [7
-
-]
-Cap\'{\i }tulo 1.
-
-LaTeX Warning: Citation `carter_laporte_1998' on page 8 undefined on input line 3.
-
-
-LaTeX Warning: Citation `gunawan_ng_ong_2008' on page 8 undefined on input line 3.
-
-
-LaTeX Warning: Citation `wolsey_2020' on page 8 undefined on input line 5.
-
-
-LaTeX Warning: Citation `al_yakoob_sherali_2006' on page 8 undefined on input line 5.
-
-
-LaTeX Warning: Citation `domenech_lusa_2016' on page 8 undefined on input line 5.
-
-
-LaTeX Warning: Citation `gamrath_2020_scip' on page 8 undefined on input line 5.
-
-
-LaTeX Warning: Citation `vanderbei_2014' on page 8 undefined on input line 5.
-
-
-LaTeX Warning: Citation `silva2024abordagem_exata_dpd' on page 8 undefined on input line 7.
-
-
-LaTeX Warning: Citation `jhonatan_grasp_dpd' on page 8 undefined on input line 7.
-
-
-LaTeX Warning: Citation `pisinger_ropke_2010' on page 8 undefined on input line 9.
-
-
-LaTeX Warning: Citation `jhonatan_grasp_dpd' on page 8 undefined on input line 9.
-
-
-LaTeX Warning: Citation `boschetti_letchford_maniezzo_2023' on page 8 undefined on input line 9.
-
-
-LaTeX Warning: Citation `maniezzo_stutzle_voss_2021' on page 8 undefined on input line 9.
-
-[8
-
-]
-
-LaTeX Warning: Citation `neto_hoshino_pedrotti_2023' on page 9 undefined on input line 11.
-
-) (./3_Revisao_biblio.tex
 Package babel Info: 'brazilian' activates 'portuges' shorthands.
 (babel)             Reported on input line 1.
  [9]
+Cap\'{\i }tulo 1.
+[10
+
+]) (./3_Revisao_biblio.tex [11]
 Cap\'{\i }tulo 2.
 
 Overfull \hbox (0.91454pt too wide) in paragraph at lines 3--3
 []\T1/lmr/m/n/17.28 Otimização Com-bi-na-tó-ria e Pro-gra-ma-ção Li-near In-teira (PLI) 
  []
 
+[12
 
-LaTeX Warning: Citation `al_yakoob_sherali_2006' on page 10 undefined on input line 7.
-
-
-LaTeX Warning: Citation `al_yakoob_sherali_2013' on page 10 undefined on input line 7.
-
-
-LaTeX Warning: Citation `domenech_lusa_2016' on page 10 undefined on input line 7.
-
-
-LaTeX Warning: Citation `carter_laporte_1998' on page 10 undefined on input line 7.
-
-
-LaTeX Warning: Citation `avella_vasilyev_2005' on page 10 undefined on input line 7.
-
-
-LaTeX Warning: Reference `eq:pli_geral' on page 10 undefined on input line 9.
-
-
-LaTeX Warning: Citation `vanderbei_2014' on page 10 undefined on input line 13.
-
-
-LaTeX Warning: Citation `wolsey_2020' on page 10 undefined on input line 13.
-
-
-LaTeX Warning: Citation `vanderbei_2014' on page 10 undefined on input line 17.
-
-
-LaTeX Warning: Citation `wolsey_2020' on page 10 undefined on input line 17.
-
-
-LaTeX Warning: Citation `wolsey_2020' on page 10 undefined on input line 19.
-
-
-LaTeX Warning: Citation `gamrath_2020_scip' on page 10 undefined on input line 19.
-
-[10
-
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
-
-LaTeX Warning: Citation `gunawan_ng_ong_2008' on page 11 undefined on input line 25.
-
-
-LaTeX Warning: Citation `hosny_2013' on page 11 undefined on input line 25.
-
-
-LaTeX Warning: Citation `szwarc_2018' on page 11 undefined on input line 25.
-
-
-LaTeX Warning: Citation `blum_roli_2003' on page 11 undefined on input line 27.
-
-
-LaTeX Warning: Citation `maniezzo_stutzle_voss_2021' on page 11 undefined on input line 27.
-
-
-LaTeX Warning: Citation `blum_roli_2003' on page 11 undefined on input line 27.
-
-
-LaTeX Warning: Citation `maniezzo_stutzle_voss_2021' on page 11 undefined on input line 27.
-
-
-LaTeX Warning: Citation `ball_2011' on page 11 undefined on input line 27.
-
-
-LaTeX Warning: Citation `jhonatan_grasp_dpd' on page 11 undefined on input line 33.
-
-[11]
-
-LaTeX Warning: Citation `ball_2011' on page 12 undefined on input line 37.
-
-
-LaTeX Warning: Citation `boschetti_letchford_maniezzo_2023' on page 12 undefined on input line 37.
-
-
-LaTeX Warning: Citation `maniezzo_stutzle_voss_2021' on page 12 undefined on input line 37.
-
-
-LaTeX Warning: Citation `dambrosio_laureana_raiconi_vitale_2023' on page 12 undefined on input line 40.
-
-
-LaTeX Warning: Citation `jovanovic_voss_2024' on page 12 undefined on input line 43.
-
-
-LaTeX Warning: Citation `silva2024matheuristica_mochila' on page 12 undefined on input line 43.
-
-
-LaTeX Warning: Citation `ropke_pisinger_2006' on page 12 undefined on input line 45.
-
-
-LaTeX Warning: Citation `maniezzo_stutzle_voss_2021' on page 12 undefined on input line 45.
-
-
-LaTeX Warning: Citation `ahuja_ergun_orlin_punnen_2002' on page 12 undefined on input line 49.
-
-
-LaTeX Warning: Citation `pisinger_ropke_2010' on page 12 undefined on input line 49.
-
-[12]
-
-LaTeX Warning: Citation `pisinger_ropke_2010' on page 13 undefined on input line 51.
-
-
-LaTeX Warning: Citation `gamrath_2020_scip' on page 13 undefined on input line 53.
-
-
-LaTeX Warning: Citation `silva2024abordagem_exata_dpd' on page 13 undefined on input line 55.
-
-
-LaTeX Warning: Citation `silva2024matheuristica_mochila' on page 13 undefined on input line 55.
-
-) (./4_Metodologia.tex [13]
+{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] [13] [14]) (./4_Metodologia.tex [15]
 Cap\'{\i }tulo 3.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5.
 (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
+) [16
 
-LaTeX Warning: Citation `garey_johnson_1979' on page 14 undefined on input line 9.
-
-
-LaTeX Warning: Citation `garey_johnson_1979' on page 14 undefined on input line 9.
-
-
-LaTeX Warning: Citation `even_itai_shamir_1976' on page 14 undefined on input line 9.
-
-
-LaTeX Warning: Citation `silva2024abordagem_exata_dpd' on page 14 undefined on input line 9.
-
-[14
-
-]
-
-LaTeX Warning: Reference `eq:pli_geral' on page 15 undefined on input line 13.
-
-
-LaTeX Warning: Reference `tab:notacao' on page 15 undefined on input line 13.
-
-[15]
-
-LaTeX Warning: Reference `eq:modelo_pdd' on page 16 undefined on input line 54.
-
-
-LaTeX Warning: Reference `eq:func_obj' on page 16 undefined on input line 68.
-
-[16]
-
-LaTeX Warning: Reference `eq:cobertura' on page 17 undefined on input line 70.
-
-
-LaTeX Warning: Reference `eq:ch_min_anual' on page 17 undefined on input line 70.
-
-
-LaTeX Warning: Reference `eq:ch_max_sem1' on page 17 undefined on input line 70.
-
-
-LaTeX Warning: Reference `eq:ch_max_sem2' on page 17 undefined on input line 70.
-
-
-LaTeX Warning: Reference `eq:var_decisao' on page 17 undefined on input line 70.
-
-
-LaTeX Warning: Reference `eq:avg_pref_weight' on page 17 undefined on input line 79.
-
-[17] [18{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]) (./5_Resultados.tex [19]
+] [17] [18] [19] [20{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]) (./5_Resultados.tex [21]
 Cap\'{\i }tulo 4.
-
-LaTeX Warning: Reference `sec:instancias' on page 20 undefined on input line 3.
-
-
-LaTeX Warning: Reference `sec:analise_interna' on page 20 undefined on input line 3.
-
-
-LaTeX Warning: Reference `sec:comparativo' on page 20 undefined on input line 3.
-
-
-LaTeX Warning: Reference `alg:geracao_instancias' on page 20 undefined on input line 9.
-
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 26.
+[22
 
-LaTeX Warning: Citation `gamrath_2020_scip' on page 20 undefined on input line 71.
-
-
-LaTeX Warning: Citation `montgomery_2017' on page 20 undefined on input line 71.
-
-[20
-
-] [21]
-
-LaTeX Warning: Reference `tab:lns_cand_tempo' on page 22 undefined on input line 81.
-
-[22] (./Auxiliares/tab_lns_cand_tempo.tex)
-
-LaTeX Warning: Reference `tab:lns_cand_gap' on page 23 undefined on input line 85.
-
-(./Auxiliares/tab_lns_cand_gap.tex)
-
-LaTeX Warning: Reference `tab:lns_cand_nodes' on page 23 undefined on input line 89.
-
-
-LaTeX Warning: Reference `fig:nodes_cand' on page 23 undefined on input line 89.
-
-[23] (./Auxiliares/tab_lns_cand_nodes.tex) (./Auxiliares/fig_nodes_cand.tex
+] [23] [24] (./Auxiliares/tab_lns_cand_tempo.tex) (./Auxiliares/tab_lns_cand_gap.tex) [25] (./Auxiliares/tab_lns_cand_nodes.tex) (./Auxiliares/fig_nodes_cand.tex
 Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 37.
@@ -1763,108 +1445,36 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 37.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 37.
-) [24]
-
-LaTeX Warning: Reference `eq:avg_pref_weight' on page 25 undefined on input line 99.
-
-
-LaTeX Warning: Reference `ch:pdd' on page 25 undefined on input line 99.
-
-
-LaTeX Warning: Reference `tab:lns_order_tempo' on page 25 undefined on input line 101.
-
-(./Auxiliares/tab_lns_order_tempo.tex)
-
-LaTeX Warning: Reference `tab:lns_order_gap' on page 25 undefined on input line 105.
-
-(./Auxiliares/tab_lns_order_gap.tex)
-
-LaTeX Warning: Reference `tab:lns_order_nodes' on page 25 undefined on input line 109.
-
-
-LaTeX Warning: Reference `fig:nodes_order' on page 25 undefined on input line 109.
-
-(./Auxiliares/tab_lns_order_nodes.tex [25]) (./Auxiliares/fig_nodes_order.tex
+) [26] (./Auxiliares/tab_lns_order_tempo.tex) (./Auxiliares/tab_lns_order_gap.tex) (./Auxiliares/tab_lns_order_nodes.tex) (./Auxiliares/fig_nodes_order.tex
 Package pgfplots info on input line 27: Using 'lua backend=false' for axis: x coord trafo unsupported.
-) [26]
-
-LaTeX Warning: Reference `tab:lns_time_tempo' on page 27 undefined on input line 121.
-
-(./Auxiliares/tab_lns_time_tempo.tex) [27]
-
-LaTeX Warning: Reference `tab:lns_time_gap' on page 28 undefined on input line 127.
-
-(./Auxiliares/tab_lns_time_gap.tex)
-
-LaTeX Warning: Reference `tab:lns_time_nodes' on page 28 undefined on input line 131.
-
-
-LaTeX Warning: Reference `fig:nodes_time' on page 28 undefined on input line 131.
-
-(./Auxiliares/tab_lns_time_nodes.tex) (./Auxiliares/fig_nodes_time.tex
+) [27] [28] (./Auxiliares/tab_lns_time_tempo.tex) [29] (./Auxiliares/tab_lns_time_gap.tex) [30] (./Auxiliares/tab_lns_time_nodes.tex) (./Auxiliares/fig_nodes_time.tex
 Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
-)
-
-LaTeX Warning: Reference `tab:config_final' on page 28 undefined on input line 141.
-
-[28] [29]
-
-LaTeX Warning: Citation `jhonatan_grasp_dpd' on page 30 undefined on input line 163.
-
-
-LaTeX Warning: Reference `tab:geral_tempo' on page 30 undefined on input line 167.
-
-(./Auxiliares/tab_geral_tempo.tex
-Overfull \hbox (12.24104pt too wide) in paragraph at lines 6--25
- [][] 
- []
-
-)
-
-LaTeX Warning: Reference `fig:geral_tempo' on page 30 undefined on input line 171.
-
-(./Auxiliares/fig_geral_tempo.tex
+) (./Auxiliares/tab_config_final.tex [31]) (./Auxiliares/tab_geral_tempo.tex [32]) [33] (./Auxiliares/fig_geral_tempo.tex
 Package pgfplots info on input line 20: Using 'lua backend=false' for axis: x coord trafo unsupported.
-) [30]
-
-LaTeX Warning: Reference `tab:geral_gap' on page 31 undefined on input line 179.
-
-
-LaTeX Warning: Reference `fig:geral_gap' on page 31 undefined on input line 179.
-
-(./Auxiliares/tab_geral_gap.tex) (./Auxiliares/fig_geral_gap.tex
+) (./Auxiliares/tab_geral_gap.tex
+ignored: Infinite glue shrinkage found in box being split [34]) (./Auxiliares/fig_geral_gap.tex
 Package pgfplots info on input line 20: Using 'lua backend=false' for axis: x coord trafo unsupported.
-)
-
-LaTeX Warning: Reference `tab:geral_nodes' on page 31 undefined on input line 190.
-
-
-LaTeX Warning: Reference `fig:geral_nodes' on page 31 undefined on input line 190.
-
-[31] (./Auxiliares/tab_geral_nodes.tex) (./Auxiliares/fig_geral_nodes.tex
+) [35] (./Auxiliares/tab_geral_nodes.tex
+ignored: Infinite glue shrinkage found in box being split [36]) (./Auxiliares/fig_geral_nodes.tex
 Package pgfplots info on input line 26: Using 'lua backend=false' for axis: x coord trafo unsupported.
-)
-
-LaTeX Warning: Reference `tab:resumo_comparativo' on page 32 undefined on input line 198.
-
-[32] [33]) (./6_Conclusao.tex [34]
+) (./Auxiliares/tab_geral_lns_executions.tex [37]) [38] (./Auxiliares/tab_resumo_comparativo.tex)) (./6_Conclusao.tex [39]
 Cap\'{\i }tulo 5.
 
-Overfull \hbox (32.6606pt too wide) in paragraph at lines 7--8
-[]\T1/lmr/m/n/12 No com-pa-ra-tivo fi-nal en-tre qua-tro abor-da-gens (B&B puro, LNS, GRASP e GRASP|LNS),
+Overfull \hbox (2.08228pt too wide) in paragraph at lines 7--8
+[]\T1/lmr/m/n/12 No com-pa-ra-tivo fi-nal, fo-ram ava-li-a-das qua-tro abor-da-gens: B&B puro, LNS, GRASP
  []
 
-[35
+[40
 
-]) (build/0_MainText.bbl (build/0_MainText.brf)
+] [41]) (build/0_MainText.bbl (build/0_MainText.brf)
 \tf@brf=\write6
 \openout6 = `0_MainText.brf'.
 
- [36]
+ [42]
 bibitemlist
-[37
+[43
 
-] [38]) [39]
+] [44]) [45]
 \tf@lof=\write7
 \openout7 = `0_MainText.lof'.
 
@@ -1881,36 +1491,24 @@ L3 programming layer <2020/03/25>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-Package rerunfilecheck Warning: File `0_MainText.brf' has changed.
-(rerunfilecheck)                Rerun to get bibliographical references right.
-
-Package rerunfilecheck Info: Checksums for `0_MainText.brf':
-(rerunfilecheck)             Before: 9C61EB1C2441AF68AEB18F36820F8964;3770
-(rerunfilecheck)             After:  C2EF6AD0B0D6355F5544FE7A42EF9598;3765.
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 271 ({)
-### bottom level 
+Package rerunfilecheck Info: File `0_MainText.brf' has not changed.
+(rerunfilecheck)             Checksum: 0F506267DE9F032FB91106858FF243BA;3779.
+ ) 
 Here is how much of TeX's memory you used:
- 48963 strings out of 469495
- 1096728 string characters out of 5470099
- 2010099 words of memory out of 5000000
- 76526 multiletter control sequences out of 15000+600000
- 728139 words of font info for 122 fonts, out of 8000000 for 9000
+ 49243 strings out of 469495
+ 1101555 string characters out of 5470099
+ 2032347 words of memory out of 5000000
+ 76769 multiletter control sequences out of 15000+600000
+ 734132 words of font info for 124 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
- 99i,15n,118p,3068b,2685s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on build/0_MainText.pdf (40 pages, 524897 bytes).
+ 99i,16n,118p,3043b,2485s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
+Output written on build/0_MainText.pdf (46 pages, 603610 bytes).
 PDF statistics:
- 656 PDF objects out of 1000 (max. 8388607)
- 581 compressed objects within 6 object streams
- 199 named destinations out of 1000 (max. 500000)
- 318 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 941 PDF objects out of 1000 (max. 8388607)
+ 855 compressed objects within 9 object streams
+ 208 named destinations out of 1000 (max. 500000)
+ 326 words of extra memory for PDF output out of 10000 (max. 10000000)
 

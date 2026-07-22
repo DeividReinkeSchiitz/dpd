@@ -30,7 +30,7 @@
 
 extern char output_path[512];
 
-#define DEBUG_LNS 1
+#define DEBUG_LNS 0
 #if DEBUG_LNS
 #define PRINTFLNS(...) printf("\nLNS: " __VA_ARGS__)
 #else
