@@ -1,29 +1,67 @@
-
-% ============================================
-% TABELA 12: Avaliação Geral - GAP
-% ============================================
-\begin{table}[htbp]
-\centering
-\caption{Gap de otimalidade (\%) comparando B\&B puro, LNS, GRASP e GRASP|LNS. Variante LNS: 75\% destruição, crescente, 200s. Variante GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
-\label{tab:geral_gap}
-\small
-\begin{tabular}{@{}lrrrrrrr@{}}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+\begin{longtable}{@{}lrrrrrrl@{}}
+\caption{Gap de otimalidade (\%) nas 42 instâncias sintéticas e na instância real, destacada em cinza.}\label{tab:geral_gap}\\
 \toprule
-\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
+\textbf{Instância} & \textbf{Disc.} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
 \midrule
-input5  & 214 & 69 & 0,00 & 0,00 & 1,01 & 0,00 & LNS \\
-input11 & 100 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input15 & 94  & 30 & 0,73 & 0,00 & 0,24 & 0,24 & LNS \\
-input16 & 89  & 28 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input19 & 95  & 29 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input21 & 104 & 31 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input25 & 107 & 34 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input30 & 109 & 36 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
-input35 & 169 & 53 & 0,00 & 0,00 & 2,21 & 0,00 & LNS \\
-input42 & 142 & 35 & 0,00 & 0,00 & 0,00 & 0,00 & LNS \\
+\endfirsthead
+\multicolumn{8}{c}{\tablename\ \thetable{} -- continuação}\\
+\toprule
+\textbf{Instância} & \textbf{Disc.} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
 \midrule
-% \textbf{Média} & 106 & 33 & 0,07 & \textbf{0,00} & 0,35 & 0,02 & \textbf{LNS} \\
-\textbf{Total} & 1.223 & 376 & 0,73 & \textbf{0,00} & 3,46 & 0,24 & \textbf{LNS} \\
+\endhead
+\midrule
+\multicolumn{8}{r}{Continua na próxima página.}\\
+\endfoot
 \bottomrule
-\end{tabular}
-\end{table}
+\endlastfoot
+input1 & 194 & 51 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input2 & 167 & 52 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input3 & 180 & 50 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input4 & 123 & 46 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input5 & 214 & 69 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input6 & 79 & 24 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input7 & 84 & 29 & 0,2994 & 1,8237 & 0,2994 & 1,8237 & Empate \\
+input8 & 166 & 46 & 0,1592 & 0,0000 & 0,1592 & 0,0000 & Empate \\
+input9 & 104 & 35 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input10 & 113 & 31 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input11 & 100 & 31 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input12 & 115 & 37 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input13 & 100 & 34 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input14 & 99 & 28 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input15 & 94 & 30 & 0,0000 & 0,0000 & 0,2410 & 0,0000 & Empate \\
+input16 & 89 & 28 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input17 & 108 & 38 & 0,3893 & 1,9923 & 2,1963 & 1,9923 & B\&B \\
+input18 & 121 & 38 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input19 & 95 & 29 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input20 & 104 & 37 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input21 & 104 & 31 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input22 & 133 & 41 & 4,8414 & 4,8414 & 4,8414 & 4,8414 & Empate \\
+input23 & 118 & 35 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input24 & 117 & 33 & 3,6163 & 0,2008 & 3,3769 & 0,2008 & Empate \\
+input25 & 107 & 34 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input26 & 114 & 38 & 0,2079 & 5,2402 & 5,2402 & 5,2402 & B\&B \\
+input27 & 125 & 39 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input28 & 114 & 39 & 0,0000 & 0,1805 & 0,1805 & 0,1805 & B\&B \\
+input29 & 103 & 39 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input30 & 109 & 36 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input31 & 113 & 40 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input32 & 97 & 36 & 0,2597 & 0,2597 & 1,8470 & 0,2597 & Empate \\
+input33 & 104 & 36 & 0,2427 & 0,4866 & 0,7317 & 0,2427 & Empate \\
+input34 & 161 & 54 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input35 & 169 & 53 & 0,7849 & 0,1560 & 1,1024 & 0,1560 & Empate \\
+input36 & 185 & 60 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input37 & 152 & 53 & 0,0000 & 0,0000 & 2,0043 & 0,0000 & Empate \\
+input38 & 62 & 22 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input39 & 130 & 43 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+input40 & 126 & 42 & 0,2193 & 0,2193 & 0,2193 & 0,2193 & Empate \\
+input41 & 137 & 42 & 3,9139 & 4,7337 & 4,7337 & 4,7337 & B\&B \\
+input42 & 142 & 35 & 0,0000 & 0,0000 & 0,0000 & 0,0000 & Empate \\
+\rowcolor{realrow} \textbf{entrada\_real (Real)} & 224 & 61 & 0,0000 & 0,0000 & 3,3528 & 3,4147 & Empate \\
+\midrule
+Média sintética & -- & -- & 0,3556 & 0,4794 & 0,6470 & 0,4736 & B\&B \\
+\textbf{Média geral} & -- & -- & \textbf{0,3473} & \textbf{0,4682} & \textbf{0,7099} & \textbf{0,5420} & \textbf{B\&B} \\
+\end{longtable}
+\endgroup

@@ -1,28 +1,67 @@
-% ============================================
-% TABELA 11: Avaliação Geral - Nodes Left
-% ============================================
-\begin{table}[htbp]
-\centering
-\caption{Número de nós restantes comparando B\&B puro, LNS, GRASP e GRASP|LNS. Variante LNS: 75\% destruição, crescente, 200s. Variante GRASP: max\_iter=1, alpha=0.8, local\_search=0.}
-\label{tab:geral_nodes}
-\small
-\begin{tabular}{@{}lrrrrrrr@{}}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+\begin{longtable}{@{}lrrrrrrl@{}}
+\caption{Número de nós restantes nas 42 instâncias sintéticas e na instância real, destacada em cinza.}\label{tab:geral_nodes}\\
 \toprule
-\textbf{Instância} & \textbf{Disciplinas} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
+\textbf{Instância} & \textbf{Disc.} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
 \midrule
-input5  & 214 & 69 & 0      & 0      & 8.037  & 0 & LNS \\
-input11 & 100 & 31 & 0      & 0      & 0      & 0 & LNS \\
-input15 & 94  & 30 & 64.364 & 0      & 7.526  & 2.324 & LNS \\
-input16 & 89  & 28 & 0      & 0      & 0      & 0 & LNS \\
-input19 & 95  & 29 & 0      & 0      & 0      & 0 & LNS \\
-input21 & 104 & 31 & 0      & 0      & 0      & 0 & LNS \\
-input25 & 107 & 34 & 0      & 0      & 0      & 0 & LNS \\
-input30 & 109 & 36 & 0      & 0      & 0      & 0 & LNS \\
-input35 & 169 & 53 & 0      & 0      & 20.740 & 0 & LNS \\
-input42 & 142 & 35 & 0      & 0      & 0      & 0 & LNS \\
+\endfirsthead
+\multicolumn{8}{c}{\tablename\ \thetable{} -- continuação}\\
+\toprule
+\textbf{Instância} & \textbf{Disc.} & \textbf{Profs} & \textbf{B\&B} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} & \textbf{Melhor} \\
 \midrule
-% \textbf{Média} & 106 &	33	& 6.436   &	\textbf{0}   &3.630	&232 & \textbf{LNS} \\
-\textbf{Total} & 1.223 & 376	& 64.364	& \textbf{0}	& 36.303	& 2.324 & \textbf{LNS} \\
+\endhead
+\midrule
+\multicolumn{8}{r}{Continua na próxima página.}\\
+\endfoot
 \bottomrule
-\end{tabular}
-\end{table}
+\endlastfoot
+input1 & 194 & 51 & 0 & 0 & 0 & 0 & Empate \\
+input2 & 167 & 52 & 0 & 0 & 0 & 0 & Empate \\
+input3 & 180 & 50 & 0 & 0 & 0 & 0 & Empate \\
+input4 & 123 & 46 & 0 & 0 & 0 & 0 & Empate \\
+input5 & 214 & 69 & 0 & 0 & 0 & 0 & Empate \\
+input6 & 79 & 24 & 0 & 0 & 0 & 0 & Empate \\
+input7 & 84 & 29 & 1.405 & 69.086 & 2.027 & 37.759 & B\&B \\
+input8 & 166 & 46 & 7.283 & 0 & 4.552 & 0 & Empate \\
+input9 & 104 & 35 & 0 & 0 & 0 & 0 & Empate \\
+input10 & 113 & 31 & 0 & 0 & 0 & 0 & Empate \\
+input11 & 100 & 31 & 0 & 0 & 0 & 0 & Empate \\
+input12 & 115 & 37 & 0 & 0 & 0 & 0 & Empate \\
+input13 & 100 & 34 & 0 & 0 & 0 & 0 & Empate \\
+input14 & 99 & 28 & 0 & 0 & 0 & 0 & Empate \\
+input15 & 94 & 30 & 0 & 0 & 2.843 & 0 & Empate \\
+input16 & 89 & 28 & 0 & 0 & 0 & 0 & Empate \\
+input17 & 108 & 38 & 34.042 & 64.524 & 52.649 & 31.854 & GRASP{|}LNS \\
+input18 & 121 & 38 & 0 & 0 & 0 & 0 & Empate \\
+input19 & 95 & 29 & 0 & 0 & 0 & 0 & Empate \\
+input20 & 104 & 37 & 0 & 0 & 0 & 0 & Empate \\
+input21 & 104 & 31 & 0 & 0 & 0 & 0 & Empate \\
+input22 & 133 & 41 & 152.910 & 91.398 & 56.289 & 28.601 & GRASP{|}LNS \\
+input23 & 118 & 35 & 0 & 0 & 0 & 0 & Empate \\
+input24 & 117 & 33 & 14.077 & 3.083 & 66.822 & 2.147 & GRASP{|}LNS \\
+input25 & 107 & 34 & 0 & 0 & 0 & 0 & Empate \\
+input26 & 114 & 38 & 3.853 & 79.390 & 64.343 & 33.110 & B\&B \\
+input27 & 125 & 39 & 0 & 0 & 0 & 0 & Empate \\
+input28 & 114 & 39 & 0 & 6.138 & 3.895 & 8.344 & B\&B \\
+input29 & 103 & 39 & 0 & 0 & 0 & 0 & Empate \\
+input30 & 109 & 36 & 0 & 0 & 0 & 0 & Empate \\
+input31 & 113 & 40 & 0 & 0 & 0 & 0 & Empate \\
+input32 & 97 & 36 & 2.327 & 1.797 & 74.630 & 3.380 & LNS \\
+input33 & 104 & 36 & 2.514 & 36.423 & 25.783 & 3.287 & B\&B \\
+input34 & 161 & 54 & 0 & 0 & 0 & 0 & Empate \\
+input35 & 169 & 53 & 21.909 & 5.593 & 12.876 & 4.965 & GRASP{|}LNS \\
+input36 & 185 & 60 & 0 & 0 & 0 & 0 & Empate \\
+input37 & 152 & 53 & 0 & 0 & 29.896 & 0 & Empate \\
+input38 & 62 & 22 & 0 & 0 & 0 & 0 & Empate \\
+input39 & 130 & 43 & 0 & 0 & 0 & 0 & Empate \\
+input40 & 126 & 42 & 1.453 & 1.267 & 1.118 & 775 & GRASP{|}LNS \\
+input41 & 137 & 42 & 174.352 & 104.268 & 57.079 & 27.989 & GRASP{|}LNS \\
+input42 & 142 & 35 & 0 & 0 & 0 & 0 & Empate \\
+\rowcolor{realrow} \textbf{entrada\_real (Real)} & 224 & 61 & 0 & 0 & 12.534 & 5.462 & Empate \\
+\midrule
+Total sintético & -- & -- & 416.125 & 462.967 & 454.802 & 182.211 & GRASP{|}LNS \\
+\textbf{Total geral} & -- & -- & \textbf{416.125} & \textbf{462.967} & \textbf{467.336} & \textbf{187.673} & \textbf{GRASP{|}LNS} \\
+\end{longtable}
+\endgroup

@@ -1,4 +1,7 @@
 =========================================
+ADDED RESULT (latest run: 20/07/2026 17:52:28 -04)
+  Input: entrada_real.csv | Total time: 400.142203s | Gap: 0.033528
+  Nodes: 14460 | Nodes left: 12534 | Best solution node: 5573
 LNS STATISTICS SUMMARY REPORT
 Config: teste_grasp_main
 Completed at: Mon Jul 20 02:23:07 AM -04 2026
@@ -25,7 +28,7 @@ LNS HEURISTIC PERFORMANCE:
   LNS success rate: 0.00%
 
 TIME STATISTICS:
-  Total execution time: 6589.39s
+  Total execution time: 6589.40s
   Average time per instance: 156.89s
 
 NODE STATISTICS:

@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering
+\caption{Resumo comparativo das quatro variantes nas 42 instâncias sintéticas e na instância real.}
+\label{tab:resumo_comparativo}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Métrica} & \textbf{B\&B puro} & \textbf{LNS} & \textbf{GRASP} & \textbf{GRASP|LNS} \\
+\midrule
+Tempo total (s)        & \textbf{5.232,81} & 6.102,82 & 6.989,55 & 6.176,44 \\
+Tempo médio (s)        & \textbf{121,69} & 141,93 & 162,55 & 143,64 \\
+Gap médio (\%)         & \textbf{0,3473} & 0,4682 & 0,7099 & 0,5420 \\
+Instâncias ótimas      & \textbf{32/43} & \textbf{32/43} & 28/43 & 31/43 \\
+Nós restantes (total)  & 416.125 & 462.967 & 467.336 & \textbf{187.673} \\
+Execuções LNS           & -- & 92 & -- & 90 \\
+\bottomrule
+\end{tabular}
+\end{table}

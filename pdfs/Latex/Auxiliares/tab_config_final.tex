@@ -1,0 +1,15 @@
+\begin{table}[htbp]
+\centering
+\caption{Combinação final de parâmetros da heurística LNS selecionada pela análise incremental.}
+\label{tab:config_final}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Parâmetro} & \textbf{Valores Testados} & \textbf{Selecionado} & \textbf{Critério Decisivo} \\
+\midrule
+Taxa de destruição (\texttt{lns\_perc}) & 10\%, 25\%, 50\%, 75\% & 75\% & Nós restantes \\
+Ordenação (\texttt{lns\_order})         & Crescente, Decrescente  & Crescente & Nós restantes \\
+Tempo do sub-MIP (\texttt{lns\_time})   & 10s, 50s, 100s, 200s   & 200s & Nós restantes \\
+\bottomrule
+\end{tabular}
+\end{table}

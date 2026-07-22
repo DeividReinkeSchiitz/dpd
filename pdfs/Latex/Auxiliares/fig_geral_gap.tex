@@ -5,7 +5,7 @@
 \begin{axis}[
     modernbar,
     bar width=24pt,
-    ylabel={Gap de Otimalidade Total (\%)},
+    ylabel={Gap Médio de Otimalidade (\%)},
     xlabel={Abordagem},
     symbolic x coords={B\&B, LNS, GRASP, GRASP{|}LNS},
     xtick=data,
@@ -15,19 +15,19 @@
         /pgf/number format/precision=2,
     },
     ymin=0,
-    ymax=4.5,
+    ymax=0.85,
     enlarge x limits=0.2,
 ]
 \addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
-    coordinates {(B\&B,0.73)};
+    coordinates {(B\&B,0.3473)};
 \addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
-    coordinates {(LNS,0.00)};
+    coordinates {(LNS,0.4682)};
 \addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]
-    coordinates {(GRASP,3.46)};
+    coordinates {(GRASP,0.7099)};
 \addplot[fill=chartPurple, draw=chartPurple!70!black, line width=0.3pt]
-    coordinates {(GRASP{|}LNS,0.24)};
+    coordinates {(GRASP{|}LNS,0.5420)};
 \end{axis}
 \end{tikzpicture}
-\caption{Gap de otimalidade total (\%) para cada abordagem. O LNS atingiu gap zero, provando a otimalidade de todas as soluções encontradas.}
+\caption{Gap médio de otimalidade nas 42 instâncias sintéticas e na instância real. O B\&B puro obteve o menor valor médio.}
 \label{fig:geral_gap}
 \end{figure}

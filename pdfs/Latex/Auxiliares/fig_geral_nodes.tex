@@ -21,19 +21,19 @@
         /pgf/number format/1000 sep={.},
     },
     ymin=0,
-    ymax=75000,
+    ymax=520000,
     enlarge x limits=0.2,
 ]
 \addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
-    coordinates {(B\&B,64364)};
+    coordinates {(B\&B,416125)};
 \addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
-    coordinates {(LNS,0)};
+    coordinates {(LNS,462967)};
 \addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]
-    coordinates {(GRASP,36303)};
+    coordinates {(GRASP,467336)};
 \addplot[fill=chartPurple, draw=chartPurple!70!black, line width=0.3pt]
-    coordinates {(GRASP{|}LNS,2324)};
+    coordinates {(GRASP{|}LNS,187673)};
 \end{axis}
 \end{tikzpicture}
-\caption{Total de nós restantes na árvore de Branch-and-Bound para cada abordagem. O LNS alcançou 0 nós restantes, resolvendo todas as instâncias até a otimalidade.}
+\caption{Total de nós restantes nas 42 instâncias sintéticas e na instância real. A variante GRASP|LNS apresentou o menor total.}
 \label{fig:geral_nodes}
 \end{figure}

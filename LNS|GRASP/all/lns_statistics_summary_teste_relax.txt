@@ -1,4 +1,7 @@
 =========================================
+ADDED RESULT (latest run: 20/07/2026 18:22:11 -04)
+  Input: entrada_real.csv | Total time: 396.306243s | Gap: 0.000000
+  Nodes: 82086 | Nodes left: 0 | Best solution node: 81093
 LNS STATISTICS SUMMARY REPORT
 Config: teste_relax
 Completed at: Mon Jul 20 01:26:11 PM -04 2026

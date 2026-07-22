@@ -15,19 +15,19 @@
         /pgf/number format/precision=2,
     },
     ymin=0,
-    ymax=1600,
+    ymax=7600,
     enlarge x limits=0.2,
 ]
 \addplot[fill=chartSteel, draw=chartSteel!70!black, line width=0.3pt, forget plot]
-    coordinates {(B\&B,744.13)};
+    coordinates {(B\&B,5232.81)};
 \addplot[fill=chartGreen, draw=chartGreen!70!black, line width=0.3pt, forget plot]
-    coordinates {(LNS,230.05)};
+    coordinates {(LNS,6102.82)};
 \addplot[fill=chartOrange, draw=chartOrange!70!black, line width=0.3pt, forget plot]
-    coordinates {(GRASP,1314.27)};
+    coordinates {(GRASP,6989.55)};
 \addplot[fill=chartPurple, draw=chartPurple!70!black, line width=0.3pt]
-    coordinates {(GRASP{|}LNS,587.94)};
+    coordinates {(GRASP{|}LNS,6176.44)};
 \end{axis}
 \end{tikzpicture}
-\caption{Tempo total de execução (segundos) para cada abordagem. O LNS obteve o menor tempo total (230,05s), representando uma redução de 69,1\% em relação ao B\&B puro e de 82,5\% em relação ao GRASP.}
+\caption{Tempo total de execução nas 42 instâncias sintéticas e na instância real. O B\&B puro apresentou o menor total.}
 \label{fig:geral_tempo}
 \end{figure}
