@@ -8,7 +8,7 @@ No comparativo final, foram avaliadas quatro abordagens: B\&B puro, LNS, GRASP e
 
 Na instância real, composta por 224 disciplinas e 61 professores, LNS e B\&B puro provaram a otimalidade e encerraram a árvore de busca. O LNS foi 2,93s mais rápido, enquanto GRASP e a variante híbrida GRASP|LNS atingiram o limite temporal com gaps positivos. Esse resultado demonstra desempenho competitivo do LNS no caso real avaliado, mas uma única instância não permite generalizar essa vantagem para outras instituições ou configurações do PDD.
 
-Os resultados obtidos mostram que a integração de heurísticas ao Branch-and-Bound produz efeitos distintos conforme a métrica observada. A LNS não superou globalmente o método exato, mas permaneceu competitiva na quantidade de soluções ótimas e na instância real. A variante híbrida mostrou capacidade de reduzir a árvore remanescente, embora essa redução não tenha resultado no menor tempo ou gap médio. O trabalho cumpriu os objetivos propostos: modelagem do problema como PLI, implementação de uma heurística LNS do tipo \textit{fix-and-optimize} no SCIP, análise do impacto dos parâmetros internos e comparação abrangente com abordagens alternativas.
+Os resultados obtidos mostram que a integração de heurísticas ao Branch-and-Bound produz efeitos distintos conforme a métrica observada. A LNS não superou globalmente o método exato, mas permaneceu competitiva na quantidade de soluções ótimas e na instância real. O GRASP mostrou-se especialmente relevante como mecanismo complementar à LNS: enquanto sua construção aleatorizada favorece a diversificação e a geração de incumbentes em diferentes regiões do espaço de busca, a LNS realiza a intensificação por meio da reotimização de grandes vizinhanças. Essa complementaridade apareceu nos resultados. Em relação ao GRASP isolado, a variante GRASP|LNS reduziu o tempo total em 11,6\%, diminuiu o gap médio de 0,7099\% para 0,5420\%, aumentou de 28 para 31 o número de instâncias ótimas e reduziu em 59,8\% os nós restantes. Na instância real, a combinação também reduziu os nós remanescentes do GRASP de 12.534 para 5.462. Por outro lado, a variante híbrida não superou a LNS isolada em tempo, gap médio ou quantidade de ótimos; portanto, os resultados evidenciam um potencial de cooperação ainda não plenamente explorado, e não uma superioridade global da combinação. O trabalho cumpriu os objetivos propostos: modelagem do problema como PLI, implementação de uma heurística LNS do tipo \textit{fix-and-optimize} no SCIP, análise do impacto dos parâmetros internos e comparação abrangente com abordagens alternativas.
 
 \section{Limitações}
 
@@ -19,7 +19,7 @@ As principais limitações deste trabalho são:
 
   \item A avaliação incluiu apenas uma instância real. Embora ela complemente as 42 instâncias sintéticas e permita observar o comportamento das abordagens em um caso aplicado, não representa a diversidade de regras, preferências e dimensões encontrada entre instituições de ensino.
 
-  \item A variante do GRASP utilizada na comparação (\texttt{max\_iter=1}, sem busca local) representa uma versão simplificada da heurística. Uma parametrização mais elaborada poderia alterar o desempenho relativo.
+  \item A variante do GRASP utilizada na comparação (\texttt{max\_iter=1}, sem busca local) representa uma versão simplificada da heurística. Embora a combinação GRASP|LNS tenha melhorado todas as métricas agregadas em relação ao GRASP isolado, essa configuração limitada pode ter impedido que a variante híbrida explorasse plenamente a complementaridade entre diversificação e intensificação.
 
   \item O limite de tempo global fixo de 400 segundos por instância não permite avaliar o comportamento das abordagens sob restrições temporais mais rígidas ou mais flexíveis.
 \end{enumerate}
@@ -36,6 +36,8 @@ Como direções para trabalhos futuros, destacam-se:
   \item Explorar critérios alternativos de seleção de candidatos à destruição, como métricas baseadas na contribuição marginal de cada atribuição à função objetivo.
 
   \item Investigar mecanismos de equidade e de resistência à declaração estratégica de preferências. Como a maximização da qualidade total pode concentrar ganhos em parte dos professores, um docente poderia declarar preferência por poucas disciplinas para tentar aumentar a prioridade de suas escolhas. Formulações multiobjetivo ou do tipo max-min, combinadas com informações como qualificação, histórico de atribuições ou limites mínimos de opções aceitáveis, podem reduzir essa vantagem e equilibrar a satisfação entre os professores.
+
+  \item Aprimorar e calibrar o GRASP antes de uma nova avaliação da variante híbrida, considerando um número maior de iterações, diferentes valores de $\alpha$, busca local, múltiplas construções com sementes controladas e estratégias reativas. A redução de tempo, gap e nós restantes observada em relação ao GRASP isolado indica que essa integração é uma direção promissora.
 
   \item Comparar o desempenho com solvers comerciais (Gurobi, CPLEX) e com outras metaheurísticas, como Busca Tabu e Algoritmos Genéticos.
 
